@@ -9,6 +9,8 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.Callback;
 
+import us.zoom.sdk.ZoomSDK;
+
 public class RNZoomUsModule extends ReactContextBaseJavaModule {
 
   private final ReactApplicationContext reactContext;
