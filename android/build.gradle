@@ -30,6 +30,14 @@ android {
     }
 }
 
+allprojects {
+    repositories {
+        flatDir {
+            dirs "$rootDir/../react-native-zoom-us/android/libs"
+        }
+    }
+}
+
 
 dependencies {
     compile 'com.facebook.react:react-native:+' // From node_modules
