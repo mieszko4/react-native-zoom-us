@@ -9,6 +9,16 @@
 
 `$ react-native link react-native-zoom-us`
 
+#### Android
+
+Since Zoom SDK `*.aar` libraries are not distributed it is also required to manually go to your project's `android/build.gradle`
+and under `allprojects.repositories` add the following:
+```gradle
+flatDir {
+    dirs "$rootDir/../node_modules/react-native-zoom-us/android/libs"
+}
+```
+
 ### Manual installation
 
 
@@ -42,4 +52,3 @@ import RNZoomUs from 'react-native-zoom-us';
 // TODO: What to do with the module?
 RNZoomUs;
 ```
-  

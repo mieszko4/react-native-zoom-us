@@ -30,16 +30,9 @@ android {
     }
 }
 
-allprojects {
-    repositories {
-        flatDir {
-            dirs 'libs'
-        }
-    }
-}
 
 dependencies {
     compile 'com.facebook.react:react-native:+' // From node_modules
-    compile(name:'commonlib', ext:'aar')
-    compile(name:'mobilertc', ext:'aar')
+    compile 'us.zoom.sdk:commonlib@aar'
+    compile 'us.zoom.sdk:mobilertc@aar'
 }
