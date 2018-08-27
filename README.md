@@ -12,15 +12,10 @@
 #### Android
 
 Since Zoom SDK `*.aar` libraries are not globally distributed
-it is also required to manually go to your project's `android/build.gradle` and under `dependencies` replace the following:
+it is also required to manually go to your project's `android/build.gradle` and under `allprojects.repositories` add the following:
 ```gradle
-compile (project(':react-native-zoom-us'))
-```
-with`
-```gradle
-compile (project(':react-native-zoom-us')) {
-    transitive = false
-}
+flatDir {
+    dirs "$rootDir/../node_modules/react-native-zoom-us/android/libs"
 ```
 
 ### Manual installation
