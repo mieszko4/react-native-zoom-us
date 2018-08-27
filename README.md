@@ -65,10 +65,13 @@ await ZoomUs.initialize(
 await ZoomUs.startMeeting(
   displayName,
   meetingNo,
-  userId,
-  userType,
-  zoomAccessToken,
-  zoomToken
+  userId, // can be 'null'?
+  userType, // for pro user use 2
+  zoomAccessToken, // zak token
+  zoomToken // can be 'null'?
+
+  // NOTE: userId, userType, zoomToken should be taken from user hosting this meeting (not sure why it is required)
+  // But it works with putting only zoomAccessToken
 );
 
 // OR Join Meeting
