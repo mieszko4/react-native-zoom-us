@@ -14,8 +14,12 @@ import us.zoom.sdk.ZoomError;
 import us.zoom.sdk.ZoomSDKInitializeListener;
 
 import us.zoom.sdk.MeetingStatus;
+import us.zoom.sdk.MeetingError;
 import us.zoom.sdk.MeetingService;
 import us.zoom.sdk.MeetingServiceListener;
+
+import us.zoom.sdk.StartMeetingOptions;
+import us.zoom.sdk.StartMeetingParamsWithoutLogin;
 
 public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSDKInitializeListener, MeetingServiceListener, LifecycleEventListener {
 
@@ -56,6 +60,62 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
             zoomSDK.initialize(reactContext.getCurrentActivity(), appKey, appSecret, webDomain, RNZoomUsModule.this);
           }
       });
+    } catch (Exception ex) {
+      promise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
+    }
+  }
+
+  @ReactMethod
+  public void startMeeting(
+    final String displayName,
+    final String meetingNo,
+    final String userId,
+    final int userType,
+    final String zoomAccessToken,
+    final String zoomToken,
+    Promise promise
+  ) {
+    try {
+      meetingPromise = promise;
+
+      ZoomSDK zoomSDK = ZoomSDK.getInstance();
+      if(!zoomSDK.isInitialized()) {
+        promise.reject("ERR_ZOOM_START", "ZoomSDK has not been initialized successfully");
+        return;
+      }
+
+      final MeetingService meetingService = zoomSDK.getMeetingService();
+      if(meetingService.getMeetingStatus() != MeetingStatus.MEETING_STATUS_IDLE) {
+        long lMeetingNo = 0;
+        try {
+          lMeetingNo = Long.parseLong(meetingNo);
+        } catch (NumberFormatException e) {
+          promise.reject("ERR_ZOOM_START", "Invalid meeting number: " + meetingNo);
+          return;
+        }
+
+        if(meetingService.getCurrentRtcMeetingNumber() == lMeetingNo) {
+          meetingService.returnToMeeting(reactContext.getCurrentActivity());
+          promise.resolve("Already joined zoom meeting");
+          return;
+        }
+      }
+
+      StartMeetingOptions opts = new StartMeetingOptions();
+      StartMeetingParamsWithoutLogin params = new StartMeetingParamsWithoutLogin();
+      params.displayName = displayName;
+      params.meetingNo = meetingNo;
+      params.userId = userId;
+      params.userType = userType;
+      params.zoomAccessToken = zoomAccessToken;
+      params.zoomToken = zoomToken;
+
+      int startMeetingResult = meetingService.startMeetingWithParams(reactContext.getCurrentActivity(), params, opts);
+      Log.i(TAG, "startMeeting, startMeetingResult=" + startMeetingResult);
+
+      if (startMeetingResult != MeetingError.MEETING_ERROR_SUCCESS) {
+        promise.reject("ERR_ZOOM_START", "startMeeting, errorCode=" + startMeetingResult);
+      }
     } catch (Exception ex) {
       promise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
     }
