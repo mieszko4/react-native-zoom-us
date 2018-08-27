@@ -21,6 +21,9 @@ import us.zoom.sdk.MeetingServiceListener;
 import us.zoom.sdk.StartMeetingOptions;
 import us.zoom.sdk.StartMeetingParamsWithoutLogin;
 
+import us.zoom.sdk.JoinMeetingOptions;
+import us.zoom.sdk.JoinMeetingParams;
+
 public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSDKInitializeListener, MeetingServiceListener, LifecycleEventListener {
 
   private final static String TAG = "RNZoomUs";
@@ -115,6 +118,39 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
       if (startMeetingResult != MeetingError.MEETING_ERROR_SUCCESS) {
         promise.reject("ERR_ZOOM_START", "startMeeting, errorCode=" + startMeetingResult);
+      }
+    } catch (Exception ex) {
+      promise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
+    }
+  }
+
+  @ReactMethod
+  public void joinMeeting(
+    final String displayName,
+    final String meetingNo,
+    Promise promise
+  ) {
+    try {
+      meetingPromise = promise;
+
+      ZoomSDK zoomSDK = ZoomSDK.getInstance();
+      if(!zoomSDK.isInitialized()) {
+        promise.reject("ERR_ZOOM_JOIN", "ZoomSDK has not been initialized successfully");
+        return;
+      }
+
+      final MeetingService meetingService = zoomSDK.getMeetingService();
+
+      JoinMeetingOptions opts = new JoinMeetingOptions();
+      JoinMeetingParams params = new JoinMeetingParams();
+      params.displayName = displayName;
+      params.meetingNo = meetingNo;
+
+      int joinMeetingResult = meetingService.joinMeetingWithParams(reactContext.getCurrentActivity(), params, opts);
+      Log.i(TAG, "joinMeeting, joinMeetingResult=" + joinMeetingResult);
+
+      if (joinMeetingResult != MeetingError.MEETING_ERROR_SUCCESS) {
+        promise.reject("ERR_ZOOM_JOIN", "joinMeeting, errorCode=" + joinMeetingResult);
       }
     } catch (Exception ex) {
       promise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
