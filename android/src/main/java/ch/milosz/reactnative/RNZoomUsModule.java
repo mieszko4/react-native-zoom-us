@@ -24,6 +24,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
   private Boolean isInitialized = false;
   private Promise initializePromise;
+  private Promise meetingPromise;
 
   public RNZoomUsModule(ReactApplicationContext reactContext) {
     super(reactContext);
@@ -76,18 +77,16 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
   @Override
   public void onMeetingStatusChanged(MeetingStatus meetingStatus, int errorCode, int internalErrorCode) {
-  Log.i(TAG, "onMeetingStatusChanged, meetingStatus=" + meetingStatus + ", errorCode=" + errorCode + ", internalErrorCode=" + internalErrorCode);
+    Log.i(TAG, "onMeetingStatusChanged, meetingStatus=" + meetingStatus + ", errorCode=" + errorCode + ", internalErrorCode=" + internalErrorCode);
 
-  /*
-  if(meetingStatus == MeetingStatus.MEETING_STATUS_FAILED && errorCode == MeetingError.MEETING_ERROR_CLIENT_INCOMPATIBLE) {
-  Toast.makeText(this, "Version of ZoomSDK is too low!", Toast.LENGTH_LONG).show();
-  }
-
-  if(mbPendingStartMeeting && meetingStatus == MeetingStatus.MEETING_STATUS_IDLE) {
-  mbPendingStartMeeting = false;
-  onClickBtnStartMeeting(null);
-  }
-  */
+    if(meetingStatus == MeetingStatus.MEETING_STATUS_FAILED) {
+      meetingPromise.reject(
+              "ERR_ZOOM_MEETING",
+              "Error: " + errorCode + ", internalErrorCode=" + internalErrorCode
+      );
+    } else if (meetingStatus == MeetingStatus.MEETING_STATUS_INMEETING) {
+      meetingPromise.resolve("Connected to zoom meeting");
+    }
   }
 
   private void registerListener() {
