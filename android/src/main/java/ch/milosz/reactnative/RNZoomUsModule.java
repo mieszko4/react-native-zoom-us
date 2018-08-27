@@ -7,23 +7,28 @@ import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.LifecycleEventListener;
 
 import us.zoom.sdk.ZoomSDK;
 import us.zoom.sdk.ZoomError;
 import us.zoom.sdk.ZoomSDKInitializeListener;
 
-public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSDKInitializeListener {
+import us.zoom.sdk.MeetingStatus;
+import us.zoom.sdk.MeetingService;
+import us.zoom.sdk.MeetingServiceListener;
+
+public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSDKInitializeListener, MeetingServiceListener, LifecycleEventListener {
 
   private final static String TAG = "RNZoomUs";
   private final ReactApplicationContext reactContext;
 
-  private ZoomSDK mZoomSDK;
   private Boolean isInitialized = false;
   private Promise initializePromise;
 
   public RNZoomUsModule(ReactApplicationContext reactContext) {
     super(reactContext);
     this.reactContext = reactContext;
+    reactContext.addLifecycleEventListener(this);
   }
 
   @Override
@@ -46,8 +51,8 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
       reactContext.getCurrentActivity().runOnUiThread(new Runnable() {
           @Override
           public void run() {
-            mZoomSDK = ZoomSDK.getInstance();
-            mZoomSDK.initialize(reactContext.getCurrentActivity(), appKey, appSecret, webDomain, RNZoomUsModule.this);
+            ZoomSDK zoomSDK = ZoomSDK.getInstance();
+            zoomSDK.initialize(reactContext.getCurrentActivity(), appKey, appSecret, webDomain, RNZoomUsModule.this);
           }
       });
     } catch (Exception ex) {
@@ -61,10 +66,53 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     if(errorCode != ZoomError.ZOOM_ERROR_SUCCESS) {
       initializePromise.reject(
               "ERR_ZOOM_INITIALIZATION",
-              "Failed to initialize Zoom SDK. Error: " + errorCode + ", internalErrorCode=" + internalErrorCode
+              "Error: " + errorCode + ", internalErrorCode=" + internalErrorCode
       );
     } else {
+      registerListener();
       initializePromise.resolve("Initialize Zoom SDK successfully.");
     }
   }
+
+  @Override
+  public void onMeetingStatusChanged(MeetingStatus meetingStatus, int errorCode, int internalErrorCode) {
+  Log.i(TAG, "onMeetingStatusChanged, meetingStatus=" + meetingStatus + ", errorCode=" + errorCode + ", internalErrorCode=" + internalErrorCode);
+
+  /*
+  if(meetingStatus == MeetingStatus.MEETING_STATUS_FAILED && errorCode == MeetingError.MEETING_ERROR_CLIENT_INCOMPATIBLE) {
+  Toast.makeText(this, "Version of ZoomSDK is too low!", Toast.LENGTH_LONG).show();
+  }
+
+  if(mbPendingStartMeeting && meetingStatus == MeetingStatus.MEETING_STATUS_IDLE) {
+  mbPendingStartMeeting = false;
+  onClickBtnStartMeeting(null);
+  }
+  */
+  }
+
+  private void registerListener() {
+    ZoomSDK zoomSDK = ZoomSDK.getInstance();
+    MeetingService meetingService = zoomSDK.getMeetingService();
+    if(meetingService != null) {
+      meetingService.addListener(this);
+    }
+  }
+
+  private void unregisterListener() {
+    ZoomSDK zoomSDK = ZoomSDK.getInstance();
+    if(zoomSDK.isInitialized()) {
+      MeetingService meetingService = zoomSDK.getMeetingService();
+      meetingService.removeListener(this);
+    }
+  }
+
+  // React LifeCycle
+  @Override
+  public void onHostDestroy() {
+    unregisterListener();
+  }
+  @Override
+  public void onHostPause() {}
+  @Override
+  public void onHostResume() {}
 }
