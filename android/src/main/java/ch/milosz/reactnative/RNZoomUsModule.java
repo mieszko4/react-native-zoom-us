@@ -150,6 +150,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   }
 
   private void registerListener() {
+    Log.i(TAG, "registerListener");
     ZoomSDK zoomSDK = ZoomSDK.getInstance();
     MeetingService meetingService = zoomSDK.getMeetingService();
     if(meetingService != null) {
@@ -158,11 +159,17 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   }
 
   private void unregisterListener() {
+    Log.i(TAG, "unregisterListener");
     ZoomSDK zoomSDK = ZoomSDK.getInstance();
     if(zoomSDK.isInitialized()) {
       MeetingService meetingService = zoomSDK.getMeetingService();
       meetingService.removeListener(this);
     }
+  }
+
+  @Override
+  public void onCatalystInstanceDestroy() {
+    unregisterListener();
   }
 
   // React LifeCycle
