@@ -25,6 +25,11 @@ allprojects {
 }
 ```
 
+Note: In `android/app/build.gradle` I tried to set up `compile project(':react-native-zoom-us')` with `transitive=false`
+and it compiled well, but the app then crashes after running with initialize/meeting listener.
+So the above solution seems to be the best for now.
+
+
 ### Manual installation
 
 
