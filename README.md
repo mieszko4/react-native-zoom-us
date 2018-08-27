@@ -53,8 +53,27 @@ allprojects {
 
 ## Usage
 ```javascript
-import RNZoomUs from 'react-native-zoom-us';
+import ZoomUs from 'react-native-zoom-us';
 
-// TODO: What to do with the module?
-RNZoomUs;
+await ZoomUs.initialize(
+  config.zoom.appKey,
+  config.zoom.appSecret,
+  config.zoom.domain
+);
+
+// Start Meeting
+await ZoomUs.startMeeting(
+  displayName,
+  meetingNo,
+  userId,
+  userType,
+  zoomAccessToken,
+  zoomToken
+);
+
+// OR Join Meeting
+await ZoomUs.joinMeeting(
+  displayName,
+  meetingNo
+);
 ```
