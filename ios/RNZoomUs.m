@@ -3,9 +3,9 @@
 
 @implementation RNZoomUs
 {
+  BOOL isInitialized;
   RCTPromiseResolveBlock initializePromiseResolve;
   RCTPromiseRejectBlock initializePromiseReject;
-  BOOL isInitialized;
 }
 
 - (instancetype)init {
@@ -17,7 +17,7 @@
   return self;
 }
 
-+ requiresMainQueueSetup
++ (BOOL)requiresMainQueueSetup
 {
   return NO;
 }
@@ -27,12 +27,14 @@
   return dispatch_get_main_queue();
 }
 
-RCT_EXPORT_MODULE(
-  NSString *appKey,
-  NSString *appSecret,
-  NSString *webDomain,
-  RCTPromiseResolveBlock resolve,
-  RCTPromiseRejectBlock reject
+RCT_EXPORT_MODULE()
+
+RCT_EXPORT_METHOD(
+  initialize: (NSString *)appKey
+  withAppSecret: (NSString *)appSecret
+  withWebDomain: (NSString *)webDomain
+  withResolve: (RCTPromiseResolveBlock)resolve
+  withReject: (RCTPromiseRejectBlock)reject
 )
 {
   if (isInitialized) {
@@ -49,4 +51,5 @@ RCT_EXPORT_MODULE(
 
   resolve(@"DOING IT!");
 }
+
 @end
