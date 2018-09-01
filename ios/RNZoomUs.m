@@ -142,6 +142,17 @@ RCT_EXPORT_METHOD(
 
 - (void)onMeetingStateChange:(MobileRTCMeetingState)state {
   NSLog(@"onMeetingStatusChanged, meetingState=%d", state);
+
+  if (state == MobileRTCMeetingState_InMeeting || state == MobileRTCMeetingState_Idle) {
+    if (!meetingPromiseResolve) {
+      return;
+    }
+
+    meetingPromiseResolve(@"Connected to zoom meeting");
+
+    meetingPromiseResolve = nil;
+    meetingPromiseReject = nil;
+  }
 }
 
 - (void)onMeetingError:(MobileRTCMeetError)errorCode message:(NSString *)message {
@@ -156,7 +167,7 @@ RCT_EXPORT_METHOD(
     [NSString stringWithFormat:@"Error: %d, internalErrorCode=%@", errorCode, message],
     [NSError errorWithDomain:@"us.zoom.sdk" code:errorCode userInfo:nil]
   );
-    
+
   meetingPromiseResolve = nil;
   meetingPromiseReject = nil;
 }
