@@ -71,6 +71,41 @@ RCT_EXPORT_METHOD(
   }
 }
 
+RCT_EXPORT_METHOD(
+  startMeeting: (NSString *)displayName
+  withMeetingNo: (NSString *)meetingNo
+  withUserId: (NSString *)userId
+  withUserType: (NSInteger)userType
+  withZoomAccessToken: (NSString *)zoomAccessToken
+  withZoomToken: (NSString *)zoomToken
+  withResolve: (RCTPromiseResolveBlock)resolve
+  withReject: (RCTPromiseRejectBlock)reject
+)
+{
+  @try {
+    meetingPromiseResolve = resolve;
+    meetingPromiseReject = reject;
+
+    MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
+    if (ms) {
+      ms.delegate = self;
+
+      MobileRTCMeetingStartParam4WithoutLoginUser * params = [[MobileRTCMeetingStartParam4WithoutLoginUser alloc]init];
+      params.userName = displayName;
+      params.meetingNumber = meetingNo;
+      params.userID = userId;
+      params.userType = (MobileRTCUserType)userType;
+      params.zak = zoomAccessToken;
+      params.userToken = zoomToken;
+
+      MobileRTCMeetError startMeetingResult = [ms startMeetingWithStartParam:params];
+      NSLog(@"startMeeting, startMeetingResult=%d", startMeetingResult);
+    }
+  } @catch (NSError *ex) {
+      reject(@"ERR_UNEXPECTED_EXCEPTION", @"Executing startMeeting", ex);
+  }
+}
+
 - (void)onMobileRTCAuthReturn:(MobileRTCAuthError)returnValue {
   NSLog(@"nZoomSDKInitializeResult, errorCode=%d", returnValue);
   if(returnValue != MobileRTCAuthError_Success) {
@@ -92,7 +127,7 @@ RCT_EXPORT_METHOD(
   }
 
   if (errorCode != MobileRTCMeetError_Success) {
-    initializePromiseReject(
+    meetingPromiseReject(
       @"ERR_ZOOM_MEETING",
       [NSString stringWithFormat:@"Error: %d, internalErrorCode=%zd", errorCode, internalErrorCode],
       [NSError errorWithDomain:@"us.zoom.sdk" code:errorCode userInfo:nil]
@@ -107,6 +142,23 @@ RCT_EXPORT_METHOD(
 
 - (void)onMeetingStateChange:(MobileRTCMeetingState)state {
   NSLog(@"onMeetingStatusChanged, meetingState=%d", state);
+}
+
+- (void)onMeetingError:(MobileRTCMeetError)errorCode message:(NSString *)message {
+  NSLog(@"onMeetingError, errorCode=%d, message=%@", errorCode, message);
+
+  if (!meetingPromiseResolve) {
+    return;
+  }
+
+  meetingPromiseReject(
+    @"ERR_ZOOM_MEETING",
+    [NSString stringWithFormat:@"Error: %d, internalErrorCode=%@", errorCode, message],
+    [NSError errorWithDomain:@"us.zoom.sdk" code:errorCode userInfo:nil]
+  );
+    
+  meetingPromiseResolve = nil;
+  meetingPromiseReject = nil;
 }
 
 @end
