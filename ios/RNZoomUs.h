@@ -7,7 +7,7 @@
 
 #import <MobileRTC/MobileRTC.h>
 
-@interface RNZoomUs : NSObject <RCTBridgeModule>
+@interface RNZoomUs : NSObject <RCTBridgeModule, MobileRTCAuthDelegate>
 
 @end
   

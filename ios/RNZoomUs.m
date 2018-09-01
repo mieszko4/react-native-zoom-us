@@ -44,13 +44,40 @@ RCT_EXPORT_METHOD(
 
   isInitialized = true;
 
-  // TODO: try catch with reject("ERR_UNEXPECTED_EXCEPTION", ex);
-  // TODO: zoomsdk init code
-  initializePromiseResolve = resolve;
-  initializePromiseReject = reject;
+  @try {
+    initializePromiseResolve = resolve;
+    initializePromiseReject = reject;
 
-  [[MobileRTC sharedRTC] setMobileRTCDomain:webDomain];
-  resolve(@"DOING IT222!");
+    [[MobileRTC sharedRTC] setMobileRTCDomain:webDomain];
+
+    MobileRTCAuthService *authService = [[MobileRTC sharedRTC] getAuthService];
+    if (authService)
+    {
+      authService.delegate = self;
+
+      authService.clientKey = appKey;
+      authService.clientSecret = appSecret;
+
+      [authService sdkAuth];
+    } else {
+      NSLog(@"onZoomSDKInitializeResult, no authService");
+    }
+  } @catch (NSError *ex) {
+      reject(@"ERR_UNEXPECTED_EXCEPTION", @"Executing initialize", ex);
+  }
+}
+
+- (void)onMobileRTCAuthReturn:( MobileRTCAuthError)returnValue {
+  NSLog(@"nZoomSDKInitializeResult, errorCode=%d", returnValue);
+  if(returnValue != MobileRTCAuthError_Success) {
+    initializePromiseReject(
+      @"ERR_ZOOM_INITIALIZATION",
+      [NSString stringWithFormat:@"Error: %d", returnValue],
+      [NSError errorWithDomain:@"us.zoom.sdk" code:returnValue userInfo:nil]
+    );
+  } else {
+    initializePromiseResolve(@"Initialize Zoom SDK successfully.");
+  }
 }
 
 @end
