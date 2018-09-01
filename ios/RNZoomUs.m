@@ -49,7 +49,8 @@ RCT_EXPORT_METHOD(
   initializePromiseResolve = resolve;
   initializePromiseReject = reject;
 
-  resolve(@"DOING IT!");
+  [[MobileRTC sharedRTC] setMobileRTCDomain:webDomain];
+  resolve(@"DOING IT222!");
 }
 
 @end

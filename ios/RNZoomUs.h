@@ -5,6 +5,8 @@
 #import <React/RCTBridgeModule.h>
 #endif
 
+#import <MobileRTC/MobileRTC.h>
+
 @interface RNZoomUs : NSObject <RCTBridgeModule>
 
 @end
