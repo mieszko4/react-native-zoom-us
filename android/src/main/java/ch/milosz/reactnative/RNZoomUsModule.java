@@ -1,4 +1,3 @@
-// TODO shareing, TODO android check wating for and leave (promise)
 package ch.milosz.reactnative;
 
 import android.util.Log;
@@ -184,11 +183,11 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
               "ERR_ZOOM_MEETING",
               "Error: " + errorCode + ", internalErrorCode=" + internalErrorCode
       );
+      meetingPromise = null;
     } else if (meetingStatus == MeetingStatus.MEETING_STATUS_INMEETING) {
       meetingPromise.resolve("Connected to zoom meeting");
+      meetingPromise = null;
     }
-
-    meetingPromise = null;
   }
 
   private void registerListener() {

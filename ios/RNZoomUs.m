@@ -200,24 +200,4 @@ RCT_EXPORT_METHOD(
   meetingPromiseReject = nil;
 }
 
-/*
-- (BOOL)onClickedShareButton {
-  MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
-  if (ms && [ms isDirectAppShareMeeting]) {
-    if ([ms isStartingShare] || [ms isViewingShare]) {
-      NSLog(@"There exist an ongoing share");
-      return YES;
-    }
-
-    [ms hideMobileRTCMeeting:^(void) {
-      [ms startAppShare];
-    }];
-
-    return YES;
-  }
-
-  return NO;
-}
-*/
-
 @end
