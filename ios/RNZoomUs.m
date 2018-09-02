@@ -107,7 +107,7 @@ RCT_EXPORT_METHOD(
 }
 
 RCT_EXPORT_METHOD(
-  startMeeting: (NSString *)displayName
+  joinMeeting: (NSString *)displayName
   withMeetingNo: (NSString *)meetingNo
   withResolve: (RCTPromiseResolveBlock)resolve
   withReject: (RCTPromiseRejectBlock)reject
