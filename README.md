@@ -1,6 +1,10 @@
 
 # react-native-zoom-us
 
+This is a minimum bridge of https://github.com/zoom/zoom-sdk-android and https://github.com/zoom/zoom-sdk-ios
+Tested on XCode 9.4.1.
+Pull requests are welcome.
+
 ## Getting started
 
 `$ npm install react-native-zoom-us --save`
@@ -31,10 +35,32 @@ So the above solution seems to be the best for now.
 
 #### After iOS
 
-TODO
+1. In XCode, in your main project go to `Build Phases` tab, expand `Link Binary With Libraries` and add the following libraries:
+* `libsqlite3.tbd`
+* `libstdc++.6.0.9.tbd`
+* `libz.1.2.5.tbd`
+Note: if you do not have `Link Binary With Libraries` you can add it by clicking on top-left `+` sign
+
+2. In XCode, in your main project go to `Build Phases` tab, expand `Link Binary With Libraries` and add `MobileRTC.framework`:
+* choose `Add other...`
+* navigate to `../node_modules/react-native-zoom-us/ios/libs`
+* choose `MobileRTC.framework`
+Note: if you do not have `Link Binary With Libraries` you can add it by clicking on top-left `+` sign
+
+3. In XCode, in your main project go to `Build Phases` tab, expand `Embed Frameworks` and add `MobileRTC.framework` from the list - should be at `Frameworks`.
+Note: if you do not have `Embed Frameworks` you can add it by clicking on top-left `+` sign
+
+4. In XCode, in your main project go to `Build Phases` tab, expand `Copy Bundle Resources` and add `MobileRTCResources.bundle`:
+* choose `Add other...`
+* navigate to `../node_modules/react-native-zoom-us/ios/libs`
+* choose `MobileRTCResources.bundle`
+Note: if you do not have `Copy Bundle Resources` you can add it by clicking on top-left `+` sign
+
+5. In XCode, in your main project go to `Build Settings`
+* search for `Enable Bitcode` and make sure it is set to `NO`
+* search for `Framework Search Paths` and add `$(SRCROOT)/../node_modules/react-native-zoom-us/ios/libs`
 
 ### Manual installation
-
 
 #### iOS
 
@@ -42,7 +68,7 @@ TODO
 2. Go to `node_modules` ➜ `react-native-zoom-us` and add `RNZoomUs.xcodeproj`
 3. In XCode, in the project navigator, select your project. Add `libRNZoomUs.a` to your project's `Build Phases` ➜ `Link Binary With Libraries`
 4. Run your project (`Cmd+R`)<
-5. Link `MobileRTC` required libraries as described above at [Mostly automatic installation-> After iOS](#after-ios)
+5. Follow [Mostly automatic installation-> After iOS](#after-ios)
 
 #### Android
 
@@ -58,7 +84,7 @@ TODO
   	```
       compile project(':react-native-zoom-us')
   	```
-4. Link `*.aar` libraries as described above at [Mostly automatic installation-> After Android](#after-android)
+4. Follow [Mostly automatic installation-> After Android](#after-android)
 
 
 ## Usage
