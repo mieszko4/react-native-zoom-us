@@ -39,30 +39,28 @@ So the above solution seems to be the best for now.
 
 #### After iOS
 
-1. In XCode, in your main project go to `Build Phases` tab, expand `Link Binary With Libraries` and add the following libraries:
+1. In XCode, in your main project go to `General` tab, expand `Linked Frameworks and Libraries` and add the following libraries:
 * `libsqlite3.tbd`
 * `libstdc++.6.0.9.tbd`
 * `libz.1.2.5.tbd`
-Note: if you do not have `Link Binary With Libraries` you can add it by clicking on top-left `+` sign
 
-2. In XCode, in your main project go to `Build Phases` tab, expand `Link Binary With Libraries` and add `MobileRTC.framework`:
+2. In XCode, in your main project go to `General` tab, expand `Linked Frameworks and Libraries` and add `MobileRTC.framework`:
 * choose `Add other...`
 * navigate to `../node_modules/react-native-zoom-us/ios/libs`
 * choose `MobileRTC.framework`
-Note: if you do not have `Link Binary With Libraries` you can add it by clicking on top-left `+` sign
 
-3. In XCode, in your main project go to `Build Phases` tab, expand `Embed Frameworks` and add `MobileRTC.framework` from the list - should be at `Frameworks`.
-Note: if you do not have `Embed Frameworks` you can add it by clicking on top-left `+` sign
+3. In XCode, in your main project go to `General` tab, expand `Embedded Binaries` and add `MobileRTC.framework` from the list - should be at `Frameworks`.
 
 4. In XCode, in your main project go to `Build Phases` tab, expand `Copy Bundle Resources` and add `MobileRTCResources.bundle`:
 * choose `Add other...`
 * navigate to `../node_modules/react-native-zoom-us/ios/libs`
 * choose `MobileRTCResources.bundle`
+* choose `Create folder references` and uncheck `Copy files if needed`
 Note: if you do not have `Copy Bundle Resources` you can add it by clicking on top-left `+` sign
 
 5. In XCode, in your main project go to `Build Settings`
 * search for `Enable Bitcode` and make sure it is set to `NO`
-* search for `Framework Search Paths` and add `$(SRCROOT)/../node_modules/react-native-zoom-us/ios/libs`
+* search for `Framework Search Paths` and add `$(SRCROOT)/../node_modules/react-native-zoom-us/ios/libs` with `non-recursive`
 
 ### Manual installation
 
