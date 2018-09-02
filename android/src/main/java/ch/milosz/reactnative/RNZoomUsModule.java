@@ -1,4 +1,4 @@
-
+// TODO shareing, TODO android check wating for and leave (promise)
 package ch.milosz.reactnative;
 
 import android.util.Log;
