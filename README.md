@@ -56,9 +56,14 @@ So the above solution seems to be the best for now.
 * choose `Create folder references` and uncheck `Copy files if needed`
 Note: if you do not have `Copy Bundle Resources` you can add it by clicking on top-left `+` sign
 
-5. In XCode, in your main project go to `Build Settings`
+5. In XCode, in your main project go to `Build Settings` tab:
 * search for `Enable Bitcode` and make sure it is set to `NO`
 * search for `Framework Search Paths` and add `$(SRCROOT)/../node_modules/react-native-zoom-us/ios/libs` with `non-recursive`
+
+6. In XCode, in your main project go to `Info` tab and add the following keys with appropriate description:
+* `NSCameraUsageDescription`
+* `NSMicrophoneUsageDescription`
+* `NSPhotoLibraryUsageDescription`
 
 ### Manual installation
 
