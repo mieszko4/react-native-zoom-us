@@ -9,7 +9,7 @@
 
 `$ react-native link react-native-zoom-us`
 
-#### Android
+#### After Android
 
 Since Zoom SDK `*.aar` libraries are not globally distributed
 it is also required to manually go to your project's `android/build.gradle` and under `allprojects.repositories` add the following:
@@ -29,6 +29,9 @@ Note: In `android/app/build.gradle` I tried to set up `compile project(':react-n
 and it compiled well, but the app then crashes after running with initialize/meeting listener.
 So the above solution seems to be the best for now.
 
+#### After iOS
+
+TODO
 
 ### Manual installation
 
@@ -39,6 +42,7 @@ So the above solution seems to be the best for now.
 2. Go to `node_modules` ➜ `react-native-zoom-us` and add `RNZoomUs.xcodeproj`
 3. In XCode, in the project navigator, select your project. Add `libRNZoomUs.a` to your project's `Build Phases` ➜ `Link Binary With Libraries`
 4. Run your project (`Cmd+R`)<
+5. Link `MobileRTC` required libraries as described above at [Mostly automatic installation-> After iOS](#after-ios)
 
 #### Android
 
@@ -54,6 +58,7 @@ So the above solution seems to be the best for now.
   	```
       compile project(':react-native-zoom-us')
   	```
+4. Link `*.aar` libraries as described above at [Mostly automatic installation-> After Android](#after-android)
 
 
 ## Usage
