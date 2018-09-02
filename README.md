@@ -2,7 +2,9 @@
 # react-native-zoom-us
 
 This is a minimum bridge of https://github.com/zoom/zoom-sdk-android and https://github.com/zoom/zoom-sdk-ios
+
 Tested on XCode 9.4.1.
+
 Pull requests are welcome.
 
 ## Getting started
