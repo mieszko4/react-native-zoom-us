@@ -7,6 +7,8 @@ Tested on XCode 9.4.1.
 
 Pull requests are welcome.
 
+See demo usage of this library: https://github.com/mieszko4/zoom-us-test
+
 ## Getting started
 
 `$ npm install react-native-zoom-us --save`
