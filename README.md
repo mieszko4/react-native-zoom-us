@@ -7,7 +7,7 @@ Tested on XCode 9.4.1.
 
 Pull requests are welcome.
 
-See demo usage of this library: https://github.com/mieszko4/zoom-us-test
+See demo usage of this library: https://github.com/mieszko4/react-native-zoom-us-test
 
 ## Getting started
 
