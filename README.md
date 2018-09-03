@@ -65,6 +65,8 @@ Note: if you do not have `Copy Bundle Resources` you can add it by clicking on t
 * `NSMicrophoneUsageDescription`
 * `NSPhotoLibraryUsageDescription`
 
+6. Because this package includes Zoom SDK that works for both simulator and real device, when releasing to app store you may encounter problem with unsupported architecure. Please follow this answer to add script in `Build Phases` that filters out unsupported architectures: https://stackoverflow.com/questions/30547283/submit-to-app-store-issues-unsupported-architecture-x86. You may want to modify the script to be more specific, i.e. replace `'*.framework'` with `'MobileRTC.framework'`.
+
 ### Manual installation
 
 #### iOS
