@@ -3,7 +3,7 @@
 
 This is a minimum bridge of https://github.com/zoom/zoom-sdk-android and https://github.com/zoom/zoom-sdk-ios
 
-Tested on XCode 9.4.1 and node 8.9.3.
+Tested on XCode 9.4.1 and node 8.11.3.
 
 Pull requests are welcome.
 
