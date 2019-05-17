@@ -31,6 +31,17 @@ allprojects {
 }
 ```
 
+If you have problem with multiDex go to your project's `android/app/build.gradle` and under `android.defaultSettings` add the following:
+```gradle
+android {
+    defaultConfig {
+        multiDexEnabled true
+        ...
+    }
+    ...
+}
+```
+
 Note: In `android/app/build.gradle` I tried to set up `compile project(':react-native-zoom-us')` with `transitive=false`
 and it compiled well, but the app then crashes after running with initialize/meeting listener.
 So the above solution seems to be the best for now.
