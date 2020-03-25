@@ -1,8 +1,8 @@
 {
-  "name": "@fireflyhealth/zoom",
+  "name": "@fireflyhealth/react-native-zoom",
   "version": "2.0.0",
   "description": "React-native bridge for ZoomUs SDK",
-  "homepage": "https://github.com/fireflyhealth/zoom",
+  "homepage": "https://github.com/fireflyhealth/react-native-zoom",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
