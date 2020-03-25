@@ -1,17 +1,13 @@
 {
-  "name": "react-native-zoom-us",
+  "name": "@fireflyhealth/zoom",
   "version": "2.0.0",
   "description": "React-native bridge for ZoomUs SDK",
-  "homepage": "https://github.com/mieszko4/react-native-zoom-us",
+  "homepage": "https://github.com/fireflyhealth/zoom",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [
-    "react-native",
-    "zoom.us"
-  ],
-  "author": "mieszko4",
+  "author": "",
   "license": "MIT",
   "peerDependencies": {
     "react-native": ">0.41.2"

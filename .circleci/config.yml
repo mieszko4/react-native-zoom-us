@@ -1,0 +1,69 @@
+version: 2.1
+
+executors:
+  node:
+    docker:
+      - image: circleci/node:10.15.3
+    working_directory: ~/repo
+
+jobs:
+  test:
+    executor: node
+
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      - run: npm install
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+
+      # run tests!
+      - run: npm test
+
+  publish:
+    executor: node
+
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      - run: npm install
+      - run: npm run build
+      - run:
+          name: Auth with registry
+          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/repo/.npmrc
+      - run: npm publish
+
+
+workflows:
+  version: 2
+  test-publish:
+    jobs:
+      - test:
+          filters:  # required since `publish` has tag filters AND requires `test`
+            tags:
+              only: /.*/
+      - publish:
+          requires:
+            - test
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
