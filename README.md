@@ -106,7 +106,7 @@ Note: if you do not have `Copy Bundle Resources` you can add it by clicking on t
 
 
 ## Usage
-```javascript
+```ts
 import ZoomUs from 'react-native-zoom-us';
 
 await ZoomUs.initialize(
@@ -133,6 +133,12 @@ await ZoomUs.joinMeeting(
   displayName,
   meetingNo
 );
-```
 
+// OR Join Meeting with password
+await ZoomUs.joinMeetingWithPassword(
+  displayName,
+  meetingNo,
+  'Enter password here'
+);
+```
 See demo usage of this library: https://github.com/mieszko4/react-native-zoom-us-test
