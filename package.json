@@ -5,7 +5,8 @@
   "homepage": "https://github.com/mieszko4/react-native-zoom-us",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postversion": "git push && git push --tags"
   },
   "keywords": [
     "react-native",
