@@ -1,20 +1,46 @@
 {
-  "name": "react-native-zoom-us",
-  "version": "2.0.3",
+  "_from": "git+https://github.com/Yatanvesh/react-native-zoom-us.git",
+  "_id": "react-native-zoom-us@2.0.3",
+  "_inBundle": false,
+  "_integrity": "",
+  "_location": "/react-native-zoom-us",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "git",
+    "raw": "react-native-zoom-us@git+https://github.com/Yatanvesh/react-native-zoom-us.git",
+    "name": "react-native-zoom-us",
+    "escapedName": "react-native-zoom-us",
+    "rawSpec": "git+https://github.com/Yatanvesh/react-native-zoom-us.git",
+    "saveSpec": "git+https://github.com/Yatanvesh/react-native-zoom-us.git",
+    "fetchSpec": "https://github.com/Yatanvesh/react-native-zoom-us.git",
+    "gitCommittish": null
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "git+https://github.com/Yatanvesh/react-native-zoom-us.git#08e0701d8a1a9d5b6fa613455dfd9b3dd0e3e75e",
+  "_spec": "react-native-zoom-us@git+https://github.com/Yatanvesh/react-native-zoom-us.git",
+  "_where": "/home/master/Projects/te/gymapp-1",
+  "author": {
+    "name": "mieszko4"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
   "description": "React-native bridge for ZoomUs SDK",
   "homepage": "https://github.com/mieszko4/react-native-zoom-us",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "postversion": "git push && git push --tags"
-  },
   "keywords": [
     "react-native",
     "zoom.us"
   ],
-  "author": "mieszko4",
   "license": "MIT",
+  "main": "index.js",
+  "name": "react-native-zoom-us",
   "peerDependencies": {
     "react-native": ">0.41.2"
-  }
+  },
+  "scripts": {
+    "postversion": "git push && git push --tags",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "2.0.3"
 }
