@@ -46,6 +46,8 @@ Note: In `android/app/build.gradle` I tried to set up `compile project(':react-n
 and it compiled well, but the app then crashes after running with initialize/meeting listener.
 So the above solution seems to be the best for now.
 
+Note: If you're using proguard copy the contents of this module's android/proguard.cfg and append them to your project's android/app/proguard-rules.pro otherwise the release build will crash
+
 #### Extra steps for iOS
 
 1. In XCode, in your main project go to `General` tab, expand `Linked Frameworks and Libraries` and add the following libraries:

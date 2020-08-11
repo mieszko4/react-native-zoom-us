@@ -110,7 +110,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
       params.userId = userId;
       params.userType = userType;
       params.zoomAccessToken = zoomAccessToken;
-      params.zoomToken = zoomToken;
+//       params.zoomToken = zoomToken;
 
       int startMeetingResult = meetingService.startMeetingWithParams(reactContext.getCurrentActivity(), params, opts);
       Log.i(TAG, "startMeeting, startMeetingResult=" + startMeetingResult);
@@ -203,6 +203,10 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
       registerListener();
       initializePromise.resolve("Initialize Zoom SDK successfully.");
     }
+  }
+
+  @Override
+  public void onZoomAuthIdentityExpired(){
   }
 
   @Override
