@@ -52,7 +52,14 @@ RCT_EXPORT_METHOD(
     initializePromiseResolve = resolve;
     initializePromiseReject = reject;
 
-    [[MobileRTC sharedRTC] setMobileRTCDomain:webDomain];
+    MobileRTCSDKInitContext *context = [[MobileRTCSDKInitContext alloc] init];
+    context.domain = webDomain;
+    context.enableLog = YES;
+    context.locale = MobileRTC_ZoomLocale_Default;
+
+    //Note: This step is optional, Method is uesd for iOS Replaykit Screen share integration,if not,just ignore this step.
+    // context.appGroupId = @"group.zoom.us.MobileRTCSampleExtensionReplayKit";
+    BOOL initializeSuc = [[MobileRTC sharedRTC] initialize:context];
 
     MobileRTCAuthService *authService = [[MobileRTC sharedRTC] getAuthService];
     if (authService)
@@ -94,9 +101,9 @@ RCT_EXPORT_METHOD(
       params.userName = displayName;
       params.meetingNumber = meetingNo;
       params.userID = userId;
-      params.userType = (MobileRTCUserType)userType;
+      params.userType = MobileRTCUserType_APIUser;
       params.zak = zoomAccessToken;
-      params.userToken = zoomToken;
+//       params.userToken = zoomToken;
 
       MobileRTCMeetError startMeetingResult = [ms startMeetingWithStartParam:params];
       NSLog(@"startMeeting, startMeetingResult=%d", startMeetingResult);
@@ -121,12 +128,13 @@ RCT_EXPORT_METHOD(
     if (ms) {
       ms.delegate = self;
 
-      NSDictionary *paramDict = @{
-        kMeetingParam_Username: displayName,
-        kMeetingParam_MeetingNumber: meetingNo
-      };
+      MobileRTCMeetingJoinParam * joinParam = [[MobileRTCMeetingJoinParam alloc]init];
+      joinParam.userName = displayName;
+      joinParam.meetingNumber = meetingNo;
+//       joinParam.password = pwd;
 
-      MobileRTCMeetError joinMeetingResult = [ms joinMeetingWithDictionary:paramDict];
+      MobileRTCMeetError joinMeetingResult = [ms joinMeetingWithJoinParam:joinParam];
+
       NSLog(@"joinMeeting, joinMeetingResult=%d", joinMeetingResult);
     }
   } @catch (NSError *ex) {
@@ -150,13 +158,12 @@ RCT_EXPORT_METHOD(
     if (ms) {
       ms.delegate = self;
 
-      NSDictionary *paramDict = @{
-        kMeetingParam_Username: displayName,
-        kMeetingParam_MeetingNumber: meetingNo,
-        kMeetingParam_MeetingPassword: password
-      };
+      MobileRTCMeetingJoinParam * joinParam = [[MobileRTCMeetingJoinParam alloc]init];
+      joinParam.userName = displayName;
+      joinParam.meetingNumber = meetingNo;
+      joinParam.password = password;
 
-      MobileRTCMeetError joinMeetingResult = [ms joinMeetingWithDictionary:paramDict];
+      MobileRTCMeetError joinMeetingResult = [ms joinMeetingWithJoinParam:joinParam];
       NSLog(@"joinMeeting, joinMeetingResult=%d", joinMeetingResult);
     }
   } @catch (NSError *ex) {
