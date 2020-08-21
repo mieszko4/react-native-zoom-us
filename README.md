@@ -7,6 +7,7 @@ Tested on XCode 9.4.1 and node 10.14.1.
 
 Pull requests are welcome.
 
+- [Upgrading Guide](https://github.com/mieszko4/react-native-zoom-us/tree/master/docs/UPGRADING.md)
 ## Getting started
 
 `$ npm install react-native-zoom-us`
