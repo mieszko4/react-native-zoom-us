@@ -39,9 +39,11 @@ async function joinMeeting(params: {
   zak?: string
   webinarToken?: string
 }) {
-  if (!params.meetingNumber) throw new Error('ZoomUs.joinMeeting requires meetingNumber')
+  let { meetingNumber } = params
+  if (!meetingNumber) throw new Error('ZoomUs.joinMeeting requires meetingNumber')
+  if (typeof meetingNumber !== 'string') meetingNumber = meetingNumber.toString()
 
-  return RNZoomUs.joinMeeting(params)
+  return RNZoomUs.joinMeeting({ ...params, meetingNumber })
 }
 
 async function joinMeetingWithPassword(...params) {
@@ -49,9 +51,25 @@ async function joinMeetingWithPassword(...params) {
   return RNZoomUs.joinMeetingWithPassword(...params)
 }
 
+async function startMeeting(params: {
+  userName: string
+  meetingNumber: string | number
+  userId: string
+  userType?: number // looks like can be different for IOS and Android
+  zoomAccessToken: string
+}) {
+  let { meetingNumber } = params
+
+  if (!meetingNumber) throw new Error('ZoomUs.startMeeting requires meetingNumber')
+  if (typeof meetingNumber !== 'string') meetingNumber = meetingNumber.toString()
+
+  return RNZoomUs.startMeeting({ userType: 2, ...params, meetingNumber })
+}
+
 export default {
   ...RNZoomUs,
   initialize,
   joinMeeting,
   joinMeetingWithPassword,
+  startMeeting,
 }
