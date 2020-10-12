@@ -44,4 +44,5 @@ buck-out/
 \.buckd/
 *.keystore
 
-.vscode      
+.vscode
+.npmrc
