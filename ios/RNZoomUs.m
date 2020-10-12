@@ -51,8 +51,7 @@ RCT_EXPORT_METHOD(
     initializePromiseResolve = resolve;
     initializePromiseReject = reject;
 
-    [[[MobileRTC sharedRTC] getMeetingSettings]
-      disableShowVideoPreviewWhenJoinMeeting:settings[@"disableShowVideoPreviewWhenJoinMeeting"]];
+
 
     MobileRTCSDKInitContext *context = [[MobileRTCSDKInitContext alloc] init];
     context.domain = data[@"domain"];;
@@ -62,6 +61,8 @@ RCT_EXPORT_METHOD(
     //Note: This step is optional, Method is uesd for iOS Replaykit Screen share integration,if not,just ignore this step.
     // context.appGroupId = @"group.zoom.us.MobileRTCSampleExtensionReplayKit";
     BOOL initializeSuc = [[MobileRTC sharedRTC] initialize:context];
+    [[[MobileRTC sharedRTC] getMeetingSettings]
+      disableShowVideoPreviewWhenJoinMeeting:settings[@"disableShowVideoPreviewWhenJoinMeeting"]];
 
     MobileRTCAuthService *authService = [[MobileRTC sharedRTC] getAuthService];
     if (authService)

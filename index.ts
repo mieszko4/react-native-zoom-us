@@ -39,11 +39,17 @@ async function joinMeeting(params: {
   zak?: string
   webinarToken?: string
 }) {
-  let { meetingNumber } = params
+  let { meetingNumber, noAudio = false, noVideo = false } = params
   if (!meetingNumber) throw new Error('ZoomUs.joinMeeting requires meetingNumber')
   if (typeof meetingNumber !== 'string') meetingNumber = meetingNumber.toString()
 
-  return RNZoomUs.joinMeeting({ ...params, meetingNumber })
+  // without noAudio, noVideo fields SDK can stack on joining meeting room for release build
+  return RNZoomUs.joinMeeting({
+    ...params,
+    meetingNumber,
+    noAudio: !!noAudio, // required
+    noVideo: !!noVideo, // required
+  })
 }
 
 async function joinMeetingWithPassword(...params) {
