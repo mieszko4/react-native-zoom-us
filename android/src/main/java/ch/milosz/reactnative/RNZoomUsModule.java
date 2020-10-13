@@ -113,9 +113,6 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
       params.userId = paramMap.getString("userId");
       params.userType = paramMap.getInt("userType");
       params.zoomAccessToken = paramMap.getString("zoomAccessToken");
-      Log.i(TAG, "startMeeting, params=" + params.displayName);
-      Log.i(TAG, "startMeeting, params=" + params.meetingNo);
-      Log.i(TAG, "startMeeting, params=" + params.userType);
 
       int startMeetingResult = meetingService.startMeetingWithParams(reactContext.getCurrentActivity(), params, opts);
       Log.i(TAG, "startMeeting, startMeetingResult=" + startMeetingResult);

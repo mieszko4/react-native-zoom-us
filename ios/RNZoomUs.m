@@ -129,7 +129,7 @@ RCT_EXPORT_METHOD(
       joinParam.meetingNumber = data[@"meetingNumber"];
       joinParam.password =  data[@"password"];
       joinParam.participantID = data[@"participantID"];
-      joinParam.zak =  data[@"zak"];
+      joinParam.zak = data[@"zoomAccessToken"];
       joinParam.webinarToken =  data[@"webinarToken"];
       joinParam.noAudio = data[@"noAudio"];
       joinParam.noVideo = data[@"noVideo"];

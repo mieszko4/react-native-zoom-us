@@ -4,6 +4,8 @@ const { RNZoomUs } = NativeModules
 
 if (!RNZoomUs) console.error('RNZoomUs native module is not linked.')
 
+const DEFAULT_USER_TYPE = 2
+
 export interface RNZoomUsInitializeParams {
   clientKey: string;
   clientSecret: string;
@@ -40,7 +42,7 @@ export interface RNZoomUsJoinMeetingParams {
   noVideo?: boolean
 
   // ios only fields:
-  zak?: string
+  zoomAccessToken?: string
   webinarToken?: string
 }
 async function joinMeeting(params: RNZoomUsJoinMeetingParams) {
@@ -70,12 +72,12 @@ export interface RNZoomUsStartMeetingParams {
   zoomAccessToken: string
 }
 async function startMeeting(params: RNZoomUsStartMeetingParams) {
-  let { meetingNumber } = params
+  let { userType = DEFAULT_USER_TYPE, meetingNumber } = params
 
   if (!meetingNumber) throw new Error('ZoomUs.startMeeting requires meetingNumber')
   if (typeof meetingNumber !== 'string') meetingNumber = meetingNumber.toString()
 
-  return RNZoomUs.startMeeting({ userType: 2, ...params, meetingNumber })
+  return RNZoomUs.startMeeting({ userType, ...params, meetingNumber })
 }
 
 export default {
