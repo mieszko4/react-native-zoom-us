@@ -5,6 +5,8 @@ This is a bridge for ZoomUS SDK:
 - android: https://github.com/zoom/zoom-sdk-android
 - ios: https://github.com/zoom/zoom-sdk-ios
 
+Tested on XCode 11.5 and node 12.18.1.
+
 Pull requests are welcome.
 
 - [Example](https://github.com/mieszko4/react-native-zoom-us-test)
@@ -30,10 +32,21 @@ Make sure you have appropriate description in Info.plist:
 ```typescript
 import ZoomUs from 'react-native-zoom-us';
 
+// initialize minimal
 await ZoomUs.initialize({
   clientKey: '...',
   clientSecret: '...',
 })
+
+// initialize with extra config
+await ZoomUs.initialize({
+  clientKey: '...',
+  clientSecret: '...',
+  domain: 'zoom.us'
+}, {
+  disableShowVideoPreviewWhenJoinMeeting: true
+})
+
 
 // Start Meeting
 await ZoomUs.startMeeting({
@@ -43,6 +56,7 @@ await ZoomUs.startMeeting({
   zoomAccessToken: zak,
   userType: 2, // optional
 })
+
 
 // Join Meeting
 await ZoomUs.joinMeeting({
