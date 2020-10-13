@@ -4,30 +4,34 @@ const { RNZoomUs } = NativeModules
 
 if (!RNZoomUs) console.error('RNZoomUs native module is not linked.')
 
+export interface RNZoomUsInitializeParams {
+  clientKey: string;
+  clientSecret: string;
+  domain?: string
+}
 async function initialize(
-  params: { clientKey: string; clientSecret: string; domain?: string },
-  settings?: {
+  params: RNZoomUsInitializeParams,
+  settings: {
     // ios only
     disableShowVideoPreviewWhenJoinMeeting?: boolean
+  } = {
+    // more details inside: https://github.com/mieszko4/react-native-zoom-us/issues/28
+    disableShowVideoPreviewWhenJoinMeeting: true,
   },
 ) {
   if (typeof params !== 'object') {
     throw new Error(
-      'ZoomUs.initialize expect object param. Consider to check migration docs. ' +
+      'ZoomUs.initialize expects object param. Consider to check migration docs. ' +
         'Check Link: https://github.com/mieszko4/react-native-zoom-us/blob/master/docs/UPGRADING.md',
     )
   }
 
   if (!params.domain) params.domain = 'zoom.us'
 
-  return RNZoomUs.initialize(params, {
-    // more details inside: https://github.com/mieszko4/react-native-zoom-us/issues/28
-    disableShowVideoPreviewWhenJoinMeeting: true,
-    ...settings,
-  })
+  return RNZoomUs.initialize(params, settings)
 }
 
-async function joinMeeting(params: {
+export interface RNZoomUsJoinMeetingParams {
   userName: string
   meetingNumber: string | number
   password?: string
@@ -35,10 +39,11 @@ async function joinMeeting(params: {
   noAudio?: boolean
   noVideo?: boolean
 
-  // IOS only fields:
+  // ios only fields:
   zak?: string
   webinarToken?: string
-}) {
+}
+async function joinMeeting(params: RNZoomUsJoinMeetingParams) {
   let { meetingNumber, noAudio = false, noVideo = false } = params
   if (!meetingNumber) throw new Error('ZoomUs.joinMeeting requires meetingNumber')
   if (typeof meetingNumber !== 'string') meetingNumber = meetingNumber.toString()
@@ -57,13 +62,14 @@ async function joinMeetingWithPassword(...params) {
   return RNZoomUs.joinMeetingWithPassword(...params)
 }
 
-async function startMeeting(params: {
+export interface RNZoomUsStartMeetingParams {
   userName: string
   meetingNumber: string | number
   userId: string
   userType?: number // looks like can be different for IOS and Android
   zoomAccessToken: string
-}) {
+}
+async function startMeeting(params: RNZoomUsStartMeetingParams) {
   let { meetingNumber } = params
 
   if (!meetingNumber) throw new Error('ZoomUs.startMeeting requires meetingNumber')
