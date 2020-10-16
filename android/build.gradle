@@ -24,7 +24,7 @@ android {
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
-                vectorDrawables.useSupportLibrary = true
+        vectorDrawables.useSupportLibrary = true
     }
     lintOptions {
         abortOnError false
@@ -33,19 +33,18 @@ android {
 
 allprojects {
     repositories {
-        flatDir {
-            dirs "$rootDir/../react-native-zoom-us/android/libs"
-        }
+//        flatDir { dirs "$rootDir/../node_modules/react-native-zoom-us/android/libs" }
     }
 }
 
 
 dependencies {
+    implementation fileTree(dir: "libs", include: ["*.aar"])
     implementation 'com.facebook.react:react-native:+' // From node_modules
-    implementation 'us.zoom.sdk:commonlib@aar'
-    implementation 'us.zoom.sdk:mobilertc@aar'
+//    implementation 'us.zoom.sdk:commonlib@aar'
+//    implementation 'us.zoom.sdk:mobilertc@aar'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
-        implementation 'androidx.appcompat:appcompat:1.0.0'
-        implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-        implementation 'com.google.android.material:material:1.0.0-rc01'
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'com.google.android.material:material:1.0.0-rc01'
 }
