@@ -214,7 +214,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
   @ReactMethod
   public void connectAudio() {
-    connectAudioWithVoIP()
+    connectAudioWithVoIP();
   }
 
   @Override
