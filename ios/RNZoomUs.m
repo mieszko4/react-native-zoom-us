@@ -173,6 +173,32 @@ RCT_EXPORT_METHOD(
   }
 }
 
+RCT_EXPORT_METHOD(leaveMeeting: (RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+  @try {
+    MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
+    if (!ms) return;
+    [ms leaveMeetingWithCmd:LeaveMeetingCmd_Leave];
+  } @catch (NSError *ex) {
+    reject(@"ERR_UNEXPECTED_EXCEPTION", @"Executing leaveMeeting", ex);
+  }
+}
+
+RCT_EXPORT_METHOD(connectAudio: (RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+  @try {
+    [self connectAudio];
+  } @catch (NSError *ex) {
+    reject(@"ERR_UNEXPECTED_EXCEPTION", @"Executing connectAudio", ex);
+  }
+}
+
+- (void)connectAudio {
+  MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
+  if (!ms) return;
+  [ms connectMyAudio: YES];
+  [ms muteMyAudio: NO];
+  NSLog(@"connectAudio");
+}
+
 - (void)onMobileRTCAuthReturn:(MobileRTCAuthError)returnValue {
   NSLog(@"nZoomSDKInitializeResult, errorCode=%d", returnValue);
   if(returnValue != MobileRTCAuthError_Success) {
@@ -209,6 +235,10 @@ RCT_EXPORT_METHOD(
 
 - (void)onMeetingStateChange:(MobileRTCMeetingState)state {
   NSLog(@"onMeetingStatusChanged, meetingState=%d", state);
+
+  if (state == MobileRTCMeetingState_InMeeting) {
+    [self connectAudio];
+  }
 
   if (state == MobileRTCMeetingState_InMeeting || state == MobileRTCMeetingState_Idle) {
     if (!meetingPromiseResolve) {
