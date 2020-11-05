@@ -10,7 +10,7 @@ import com.facebook.react.modules.core.DeviceEventManagerModule;
 
 import java.util.List;
 
-import us.zoom.sdk.FreeMeetingNeedUpgradeType;
+// import us.zoom.sdk.FreeMeetingNeedUpgradeType;
 import us.zoom.sdk.InMeetingAudioController;
 import us.zoom.sdk.InMeetingChatMessage;
 import us.zoom.sdk.InMeetingEventHandler;
@@ -41,7 +41,7 @@ public class RNZoomUsInMeetingServiceListener implements InMeetingServiceListene
         WritableMap map = Arguments.createMap();
         map.putString("name", userInfo.getUserName());
         map.putString("userId", "" + userId);
-        map.putString("participantId", userInfo.getParticipantID());
+        // map.putString("participantId", userInfo.getParticipantID());
         return map;
     }
 
@@ -206,82 +206,82 @@ public class RNZoomUsInMeetingServiceListener implements InMeetingServiceListene
 
     }
 
-    @Override
-    public void onUserVideoStatusChanged(long l, VideoStatus videoStatus) {
-        WritableMap params = extractUserInfoFromUserId(l);
-        String status;
-        switch (videoStatus) {
-            case Video_ON:
-                status = "on";
-                break;
-            case Video_OFF:
-                status = "off";
-                break;
-            case Video_Mute_ByHost:
-                status = "muteByHost";
-                break;
-            default:
-                status = "undefined";
-        }
-        params.putString("status", status);
-        notifyEvent("meeting.user.video.status", params);
-    }
+//    @Override
+//    public void onUserVideoStatusChanged(long l, VideoStatus videoStatus) {
+//        WritableMap params = extractUserInfoFromUserId(l);
+//        String status;
+//        switch (videoStatus) {
+//            case Video_ON:
+//                status = "on";
+//                break;
+//            case Video_OFF:
+//                status = "off";
+//                break;
+//            case Video_Mute_ByHost:
+//                status = "muteByHost";
+//                break;
+//            default:
+//                status = "undefined";
+//        }
+//        params.putString("status", status);
+//        notifyEvent("meeting.user.video.status", params);
+//    }
 
     @Override
     public void onUserVideoStatusChanged(long l) {
 
     }
-
-    @Override
-    public void onUserAudioStatusChanged(long l, AudioStatus audioStatus) {
-        WritableMap params = extractUserInfoFromUserId(l);
-        String status;
-        switch (audioStatus) {
-            case Audio_None:
-                status = "none";
-                break;
-            case Audio_Muted:
-                status = "muted";
-                break;
-            case Audio_Muted_ByHost:
-                status = "muteByHost";
-                break;
-            case Audio_UnMuted:
-                status = "unmute";
-                break;
-            case Audio_UnMuted_ByHost:
-                status = "unmuteByHost";
-                break;
-            case Audio_MutedAll_ByHost:
-                status = "mutedAllByHost";
-                break;
-            case Audio_UnMutedAll_ByHost:
-                status = "unmutedAllByHost";
-                break;
-            default:
-                status = "undefined";
-        }
-        params.putString("status", status);
-        notifyEvent("meeting.user.audio.status", params);
-    }
-
-    @Override
-    public void onFreeMeetingNeedToUpgrade(FreeMeetingNeedUpgradeType freeMeetingNeedUpgradeType, String s) {
-
-    }
-
-    @Override
-    public void onFreeMeetingUpgradeToGiftFreeTrialStart() {
-
-    }
-
-    @Override
-    public void onFreeMeetingUpgradeToGiftFreeTrialStop() {
-
-    }
-
-    @Override
-    public void onFreeMeetingUpgradeToProMeeting() {
-
-    }
+//
+//    @Override
+//    public void onUserAudioStatusChanged(long l, AudioStatus audioStatus) {
+//        WritableMap params = extractUserInfoFromUserId(l);
+//        String status;
+//        switch (audioStatus) {
+//            case Audio_None:
+//                status = "none";
+//                break;
+//            case Audio_Muted:
+//                status = "muted";
+//                break;
+//            case Audio_Muted_ByHost:
+//                status = "muteByHost";
+//                break;
+//            case Audio_UnMuted:
+//                status = "unmute";
+//                break;
+//            case Audio_UnMuted_ByHost:
+//                status = "unmuteByHost";
+//                break;
+//            case Audio_MutedAll_ByHost:
+//                status = "mutedAllByHost";
+//                break;
+//            case Audio_UnMutedAll_ByHost:
+//                status = "unmutedAllByHost";
+//                break;
+//            default:
+//                status = "undefined";
+//        }
+//        params.putString("status", status);
+//        notifyEvent("meeting.user.audio.status", params);
+//    }
+//
+//    @Override
+//    public void onFreeMeetingNeedToUpgrade(FreeMeetingNeedUpgradeType freeMeetingNeedUpgradeType, String s) {
+//
+//    }
+//
+//    @Override
+//    public void onFreeMeetingUpgradeToGiftFreeTrialStart() {
+//
+//    }
+//
+//    @Override
+//    public void onFreeMeetingUpgradeToGiftFreeTrialStop() {
+//
+//    }
+//
+//    @Override
+//    public void onFreeMeetingUpgradeToProMeeting() {
+//
+//    }
 }
