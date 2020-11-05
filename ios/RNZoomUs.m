@@ -52,7 +52,6 @@ RCT_EXPORT_METHOD(
     initializePromiseReject = reject;
 
 
-
     MobileRTCSDKInitContext *context = [[MobileRTCSDKInitContext alloc] init];
     context.domain = data[@"domain"];;
     context.enableLog = YES;
@@ -126,13 +125,18 @@ RCT_EXPORT_METHOD(
 
       MobileRTCMeetingJoinParam * joinParam = [[MobileRTCMeetingJoinParam alloc]init];
       joinParam.userName = data[@"userName"];
-      joinParam.meetingNumber = data[@"meetingNumber"];
       joinParam.password =  data[@"password"];
       joinParam.participantID = data[@"participantID"];
       joinParam.zak = data[@"zoomAccessToken"];
       joinParam.webinarToken =  data[@"webinarToken"];
       joinParam.noAudio = data[@"noAudio"];
       joinParam.noVideo = data[@"noVideo"];
+        
+        if (data[@"vanityID"]) {
+            joinParam.vanityID = data[@"vanityID"];
+        } else {
+            joinParam.meetingNumber = data[@"meetingNumber"];
+        }
 
       MobileRTCMeetError joinMeetingResult = [ms joinMeetingWithJoinParam:joinParam];
 
@@ -237,6 +241,49 @@ RCT_EXPORT_METHOD(
 
   meetingPromiseResolve = nil;
   meetingPromiseReject = nil;
+}
+
+- (NSArray<NSString *> *)supportedEvents
+{
+  return @[@"InMeetingEvent"];
+}
+
+- (void) notifyInMeetingEvent:(NSString *)event params:(NSDictionary *)params {
+    NSDictionary *body = @{
+        @"event": event,
+        @"payload": params
+    };
+    [self sendEventWithName:@"InMeetingEvent" body:body];
+}
+
+- (NSDictionary *)getUSerInfoByUserId:(NSUInteger)userID {
+    MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
+    MobileRTCMeetingUserInfo *userInfo = [ms userInfoByID:userID];
+    return @{
+        @"userId": [NSString stringWithFormat:@"%li",  userID],
+        @"name": userInfo.userName
+        // @"participantId": userInfo.participantID
+    };
+}
+
+- (void)onSinkMeetingActiveVideo:(NSUInteger)userID {
+    [self notifyInMeetingEvent:@"meeting.user.video.active" params:[self getUSerInfoByUserId:userID]];
+}
+
+- (void)onSinkMeetingVideoStatusChange:(NSUInteger)userID {
+    
+}
+
+- (void)onSinkMeetingActiveVideoForDeck:(NSUInteger)userID {
+    [self notifyInMeetingEvent:@"meeting.user.video.speaker" params:[self getUSerInfoByUserId:userID]];
+}
+
+- (void)onSinkMeetingUserJoin:(NSUInteger)userID {
+    [self notifyInMeetingEvent:@"meeting.user.joined" params:[self getUSerInfoByUserId:userID]];
+}
+
+- (void)onSinkMeetingUserLeft:(NSUInteger)userID {
+    [self notifyInMeetingEvent:@"meeting.user.left" params:[self getUSerInfoByUserId:userID]];
 }
 
 @end

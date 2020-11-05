@@ -9,8 +9,10 @@ import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.bridge.ReadableMap;
 
+import us.zoom.sdk.InMeetingService;
 import us.zoom.sdk.ZoomSDK;
 import us.zoom.sdk.ZoomError;
+import us.zoom.sdk.ZoomSDKInitParams;
 import us.zoom.sdk.ZoomSDKInitializeListener;
 
 import us.zoom.sdk.MeetingStatus;
@@ -57,17 +59,15 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
       initializePromise = promise;
 
       reactContext.getCurrentActivity().runOnUiThread(new Runnable() {
-          @Override
-          public void run() {
-            ZoomSDK zoomSDK = ZoomSDK.getInstance();
-            zoomSDK.initialize(
-              reactContext.getCurrentActivity(),
-              params.getString("clientKey"),
-              params.getString("clientSecret"),
-              params.getString("domain"),
-              RNZoomUsModule.this
-            );
-          }
+        @Override
+        public void run() {
+          ZoomSDK zoomSDK = ZoomSDK.getInstance();
+          ZoomSDKInitParams initParams = new ZoomSDKInitParams();
+          initParams.appKey = params.getString("clientKey");
+          initParams.appSecret = params.getString("clientSecret");
+          initParams.domain = params.getString("domain");
+          zoomSDK.initialize(reactContext.getCurrentActivity(), RNZoomUsModule.this, initParams);
+        }
       });
     } catch (Exception ex) {
       promise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
@@ -76,8 +76,8 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
   @ReactMethod
   public void startMeeting(
-    final ReadableMap paramMap,
-    Promise promise
+          final ReadableMap paramMap,
+          Promise promise
   ) {
     try {
       meetingPromise = promise;
@@ -127,8 +127,8 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
   @ReactMethod
   public void joinMeeting(
-    final ReadableMap paramMap,
-    Promise promise
+          final ReadableMap paramMap,
+          Promise promise
   ) {
     try {
       meetingPromise = promise;
@@ -147,8 +147,12 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
       if(paramMap.hasKey("noVideo")) opts.no_video = paramMap.getBoolean("noVideo");
 
       JoinMeetingParams params = new JoinMeetingParams();
+      if(paramMap.hasKey("vanityID")) {
+        params.vanityID = paramMap.getString("vanityID");
+      } else {
+        params.meetingNo = paramMap.getString("meetingNumber");
+      }
       params.displayName = paramMap.getString("userName");
-      params.meetingNo = paramMap.getString("meetingNumber");
       if(paramMap.hasKey("password")) params.password = paramMap.getString("password");
 
       int joinMeetingResult = meetingService.joinMeetingWithParams(reactContext.getCurrentActivity(), params, opts);
@@ -164,10 +168,10 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
   @ReactMethod
   public void joinMeetingWithPassword(
-    final String displayName,
-    final String meetingNo,
-    final String password,
-    Promise promise
+          final String displayName,
+          final String meetingNo,
+          final String password,
+          Promise promise
   ) {
     try {
       meetingPromise = promise;
@@ -235,12 +239,19 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     }
   }
 
+
   private void registerListener() {
     Log.i(TAG, "registerListener");
     ZoomSDK zoomSDK = ZoomSDK.getInstance();
     MeetingService meetingService = zoomSDK.getMeetingService();
     if(meetingService != null) {
+      Log.i(TAG, "registerListener meetingService");
       meetingService.addListener(this);
+    }
+    InMeetingService inMeetingService = zoomSDK.getInMeetingService();
+    if (inMeetingService != null) {
+      Log.i(TAG, "registerListener inMeetingService");
+      inMeetingService.addListener(new RNZoomUsInMeetingServiceListener(reactContext, inMeetingService));
     }
   }
 
