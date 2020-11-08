@@ -207,25 +207,30 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   @ReactMethod
   public void joinMeetingWithWebUrl(
           final String url,
-          Promise promise
+          final Promise promise
   )
   {
     try {
       meetingPromise = promise;
 
-      ZoomSDK zoomSDK = ZoomSDK.getInstance();
+      final ZoomSDK zoomSDK = ZoomSDK.getInstance();
       if(!zoomSDK.isInitialized()) {
         promise.reject("ERR_ZOOM_JOIN", "ZoomSDK has not been initialized successfully");
         return;
       }
 
-      final MeetingService meetingService = zoomSDK.getMeetingService();
-      boolean joinMeetingResult = meetingService.handZoomWebUrl(url);
-      Log.i(TAG, "joinMeetingWithWebUrl, joinMeetingResult=" + joinMeetingResult);
+      reactContext.getCurrentActivity().runOnUiThread(new Runnable() {
+        @Override
+        public void run() {
+          final MeetingService meetingService = zoomSDK.getMeetingService();
+          boolean joinMeetingResult = meetingService.handZoomWebUrl(url);
+          Log.i(TAG, "joinMeetingWithWebUrl, joinMeetingResult=" + joinMeetingResult);
 
-      if (!joinMeetingResult) {
-        promise.reject("ERR_ZOOM_JOIN", "joinMeetingWithWebUrl, result=" + joinMeetingResult);
-      }
+          if (!joinMeetingResult) {
+            promise.reject("ERR_ZOOM_JOIN", "joinMeetingWithWebUrl, result=" + joinMeetingResult);
+          }
+        }
+      });
     } catch (Exception ex) {
       promise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
     }
