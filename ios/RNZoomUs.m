@@ -178,7 +178,7 @@ RCT_REMAP_METHOD(getMyUserMeetingInfo,
   @try {
       MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
       if (!ms) {
-          return reject(@"No meeting service", @"could not approach zoom meeting", nil);
+          return reject(@"ERR_MEETING_SERVICE", @"could not approach zoom meeting", nil);
       }
       
       MobileRTCMeetingState meetingState = ms.getMeetingState;
@@ -186,7 +186,7 @@ RCT_REMAP_METHOD(getMyUserMeetingInfo,
           return resolve([self getUSerInfoByUserId:[ms myselfUserID]]);
       }
       
-      reject(@"Not in meeting", @"user has not joined meeting", nil);
+      reject(@"ERR_MEETING_SERVICE", @"user has not joined meeting", nil);
       
   } @catch (NSError *ex) {
       reject(@"ERR_UNEXPECTED_EXCEPTION", @"Executing getMyUserMeetingInfo", ex);

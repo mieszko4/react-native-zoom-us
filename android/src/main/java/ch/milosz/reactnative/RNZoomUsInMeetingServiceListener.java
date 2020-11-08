@@ -139,7 +139,12 @@ public class RNZoomUsInMeetingServiceListener implements InMeetingServiceListene
 
     @Override
     public void onUserAudioStatusChanged(long l) {
-
+        InMeetingUserInfo userInfo = inMeetingService.getUserInfoById(l);
+        WritableMap map = Arguments.createMap();
+        map.putString("name", userInfo.getUserName());
+        map.putString("userId", "" + userInfo.getUserId());
+        map.putBoolean("muted", userInfo.getAudioStatus().isMuted());
+        notifyEvent("meeting.user.audio.status", map);
     }
 
     @Override
@@ -229,7 +234,12 @@ public class RNZoomUsInMeetingServiceListener implements InMeetingServiceListene
 
     @Override
     public void onUserVideoStatusChanged(long l) {
-
+        InMeetingUserInfo userInfo = inMeetingService.getUserInfoById(l);
+        WritableMap map = Arguments.createMap();
+        map.putString("name", userInfo.getUserName());
+        map.putString("userId", "" + userInfo.getUserId());
+        map.putBoolean("active", userInfo.getVideoStatus().isSending());
+        notifyEvent("meeting.user.video.status", map);
     }
 //
 //    @Override

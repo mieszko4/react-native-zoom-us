@@ -2,14 +2,17 @@ package ch.milosz.reactnative;
 
 import android.util.Log;
 
+import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.bridge.WritableMap;
 
 import us.zoom.sdk.InMeetingService;
+import us.zoom.sdk.InMeetingUserInfo;
 import us.zoom.sdk.ZoomSDK;
 import us.zoom.sdk.ZoomError;
 import us.zoom.sdk.ZoomSDKInitParams;
@@ -66,7 +69,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
           initParams.appKey = params.getString("clientKey");
           initParams.appSecret = params.getString("clientSecret");
           initParams.domain = params.getString("domain");
-          zoomSDK.initialize(reactContext.getCurrentActivity(), RNZoomUsModule.this, initParams);
+          zoomSDK.initialize(getReactApplicationContext(), RNZoomUsModule.this, initParams);
         }
       });
     } catch (Exception ex) {
@@ -196,6 +199,65 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
       if (joinMeetingResult != MeetingError.MEETING_ERROR_SUCCESS) {
         promise.reject("ERR_ZOOM_JOIN", "joinMeeting, errorCode=" + joinMeetingResult);
       }
+    } catch (Exception ex) {
+      promise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
+    }
+  }
+
+  @ReactMethod
+  public void joinMeetingWithWebUrl(
+          final String url,
+          Promise promise
+  )
+  {
+    try {
+      meetingPromise = promise;
+
+      ZoomSDK zoomSDK = ZoomSDK.getInstance();
+      if(!zoomSDK.isInitialized()) {
+        promise.reject("ERR_ZOOM_JOIN", "ZoomSDK has not been initialized successfully");
+        return;
+      }
+
+      final MeetingService meetingService = zoomSDK.getMeetingService();
+      boolean joinMeetingResult = meetingService.handZoomWebUrl(url);
+      Log.i(TAG, "joinMeetingWithWebUrl, joinMeetingResult=" + joinMeetingResult);
+
+      if (!joinMeetingResult) {
+        promise.reject("ERR_ZOOM_JOIN", "joinMeetingWithWebUrl, result=" + joinMeetingResult);
+      }
+    } catch (Exception ex) {
+      promise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
+    }
+  }
+
+  @ReactMethod
+  public void getMyUserMeetingInfo(Promise promise) {
+    try {
+      ZoomSDK zoomSDK = ZoomSDK.getInstance();
+      if(!zoomSDK.isInitialized()) {
+        promise.reject("ERR_ZOOM_JOIN", "ZoomSDK has not been initialized successfully");
+        return;
+      }
+
+      final MeetingService meetingService = zoomSDK.getMeetingService();
+      final InMeetingService inMeetingService = zoomSDK.getInMeetingService();
+
+      if (meetingService == null || inMeetingService == null) {
+        promise.reject("ERR_MEETING_SERVICE", "could not approach zoom meeting");
+        return;
+      }
+
+      if (meetingService.getMeetingStatus() == MeetingStatus.MEETING_STATUS_CONNECTING) {
+        InMeetingUserInfo userInfo = inMeetingService.getUserInfoById(inMeetingService.getMyUserID());
+        WritableMap map = Arguments.createMap();
+        map.putString("name", userInfo.getUserName());
+        map.putString("userId", "" + userInfo.getUserId());
+        promise.resolve(map);
+        return;
+      }
+
+      promise.reject("ERR_MEETING_SERVICE", "user has not joined meeting");
     } catch (Exception ex) {
       promise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
     }
