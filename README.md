@@ -101,12 +101,14 @@ ZoomUs.removeMeetingEventListener();
 
 ### events could be: [See iOS/Android SDK for more details]
 
-"meeting.user.video.active"
-"meeting.user.video.speaker"
-"meeting.user.video.status"
-"meeting.user.audio.status"
-"meeting.user.joined"
-"meeting.user.left"
+```typescript
+"meeting.user.video.active";
+"meeting.user.video.speaker";
+"meeting.user.video.status";
+"meeting.user.audio.status";
+"meeting.user.joined";
+"meeting.user.left";
+```
 
 ## FAQ
 
