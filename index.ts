@@ -97,6 +97,18 @@ async function startMeeting(params: RNZoomUsStartMeetingParams) {
   return RNZoomUs.startMeeting({ userType, ...params, meetingNumber });
 }
 
+async function joinMeetingWithWebUrl(url: string) {
+  return RNZoomUs.joinMeetingWithWebUrl(url);
+}
+
+export interface RNZoomMyselfMeetingInfo {
+  name: string;
+  userId: string;
+}
+async function getMyUserMeetingInfo(): Promise<RNZoomMyselfMeetingInfo> {
+  return RNZoomUs.getMyUserMeetingInfo();
+}
+
 export interface RNZoomUsEventCallback {
   (event: string, payload: any | null): void;
 }
@@ -130,6 +142,8 @@ export default {
   joinMeeting,
   joinMeetingWithPassword,
   startMeeting,
+  joinMeetingWithWebUrl,
+  getMyUserMeetingInfo,
   addMeetingEventListener,
   removeMeetingEventListener,
 };

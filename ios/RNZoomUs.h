@@ -15,7 +15,7 @@
 #import "RCTEventEmitter.h"
 #endif
 
-@interface RNZoomUs : RCTEventEmitter <RCTBridgeModule, MobileRTCAuthDelegate, MobileRTCMeetingServiceDelegate, MobileRTCVideoServiceDelegate, MobileRTCUserServiceDelegate >
+@interface RNZoomUs : RCTEventEmitter <RCTBridgeModule, MobileRTCAuthDelegate, MobileRTCMeetingServiceDelegate, MobileRTCVideoServiceDelegate, MobileRTCAudioServiceDelegate, MobileRTCUserServiceDelegate >
 
 @end
 

@@ -147,6 +147,54 @@ RCT_EXPORT_METHOD(
   }
 }
 
+RCT_EXPORT_METHOD(
+  joinMeetingWithWebUrl: (NSString *)url
+  withResolve: (RCTPromiseResolveBlock)resolve
+  withReject: (RCTPromiseRejectBlock)reject
+)
+{
+  @try {
+    meetingPromiseResolve = resolve;
+    meetingPromiseReject = reject;
+
+    MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
+    if (ms) {
+      ms.delegate = self;
+
+      MobileRTCMeetError joinMeetingResult = [ms handZoomWebUrl:url];
+
+      NSLog(@"joinMeetingWithWebUrl, joinMeetingResult=%d", joinMeetingResult);
+    }
+  } @catch (NSError *ex) {
+      reject(@"ERR_UNEXPECTED_EXCEPTION", @"Executing joinMeetingWithWebUrl", ex);
+  }
+}
+
+RCT_REMAP_METHOD(getMyUserMeetingInfo,
+                 withResolve:(RCTPromiseResolveBlock)resolve
+                 withReject:(RCTPromiseRejectBlock)reject
+)
+{
+  @try {
+      MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
+      if (!ms) {
+          return reject(@"No meeting service", @"could not approach zoom meeting", nil);
+      }
+      
+      MobileRTCMeetingState meetingState = ms.getMeetingState;
+      if (meetingState == MobileRTCMeetingState_InMeeting) {
+          return resolve([self getUSerInfoByUserId:[ms myselfUserID]]);
+      }
+      
+      reject(@"Not in meeting", @"user has not joined meeting", nil);
+      
+  } @catch (NSError *ex) {
+      reject(@"ERR_UNEXPECTED_EXCEPTION", @"Executing getMyUserMeetingInfo", ex);
+  }
+}
+
+
+
 // todo should be deleted
 RCT_EXPORT_METHOD(
   joinMeetingWithPassword: (NSString *)displayName
@@ -271,7 +319,25 @@ RCT_EXPORT_METHOD(
 }
 
 - (void)onSinkMeetingVideoStatusChange:(NSUInteger)userID {
-    
+    MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
+    MobileRTCMeetingUserInfo *userInfo = [ms userInfoByID:userID];
+    BOOL active = [[userInfo videoStatus] isSending];
+    [self notifyInMeetingEvent:@"meeting.user.video.status" params:@{
+        @"userId": [NSString stringWithFormat:@"%li",  userID],
+        @"name": userInfo.userName,
+        @"active": [NSNumber numberWithBool:active]
+    }];
+}
+
+- (void)onSinkMeetingAudioStatusChange:(NSUInteger)userID {
+    MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
+    MobileRTCMeetingUserInfo *userInfo = [ms userInfoByID:userID];
+    BOOL muted = [[userInfo audioStatus] isMuted];
+    [self notifyInMeetingEvent:@"meeting.user.audio.status" params:@{
+        @"userId": [NSString stringWithFormat:@"%li",  userID],
+        @"name": userInfo.userName,
+        @"muted": [NSNumber numberWithBool:muted]
+    }];
 }
 
 - (void)onSinkMeetingActiveVideoForDeck:(NSUInteger)userID {
