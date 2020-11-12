@@ -8,7 +8,8 @@
 node_modules/
 npm-debug.log
 yarn-error.log
-  
+package-lock.json
+yarn.lock
 
 # Xcode
 #
@@ -29,7 +30,7 @@ DerivedData
 *.ipa
 *.xcuserstate
 project.xcworkspace
-      
+
 
 # Android/IntelliJ
 #
@@ -46,3 +47,8 @@ buck-out/
 
 .vscode
 .npmrc
+
+# ignore compiled
+**/*.js
+**/*.d.ts
+!typings/*

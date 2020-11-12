@@ -1,0 +1,22 @@
+{
+  "ts-node": {
+    "transpileOnly": true
+  },
+  "compilerOptions": {
+    "noEmit": true,
+    "module": "CommonJS",
+    "target": "ES2019",
+    "moduleResolution": "node",
+    "lib": ["esnext", "es2018"],
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "strictNullChecks": true,
+    "experimentalDecorators": true,
+    "skipDefaultLibCheck": true,
+    "noEmitOnError": false,
+    "declaration": true,
+    "allowJs": true,
+    "esModuleInterop": true
+  }
+}

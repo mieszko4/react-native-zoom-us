@@ -81,7 +81,7 @@ async function startMeeting(params: RNZoomUsStartMeetingParams) {
 }
 
 export default {
-  ...RNZoomUs,
+  ...RNZoomUs as {},
   initialize,
   joinMeeting,
   joinMeetingWithPassword,
