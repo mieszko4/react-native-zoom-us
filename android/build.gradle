@@ -33,7 +33,11 @@ android {
 
 
 dependencies {
-    implementation fileTree(dir: "libs", include: ["*.aar"])
+    // fileTree works for dev, but produces conflict crash (duplicated assets) on release build
+    // implementation fileTree(dir: "libs", include: ["*.aar"])
+
+    implementation 'us.zoom.sdk:commonlib@aar'
+    implementation 'us.zoom.sdk:mobilertc@aar'
     implementation 'com.facebook.react:react-native:+' // From node_modules
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'androidx.appcompat:appcompat:1.0.0'

@@ -18,9 +18,20 @@ Pull requests are welcome.
 
 ### Installation
 
-Library will be linked automatically. 
+If you have `react-native < 0.60`, check [Full Linking Guide](https://github.com/mieszko4/react-native-zoom-us/tree/master/docs/LINKING.md)
 
-If you have `react-native < 0.60`, check [Linking Guide](https://github.com/mieszko4/react-native-zoom-us/tree/master/docs/LINKING.md)
+#### Android
+
+Add repository to `android/build.gradle`:
+```gradle
+allprojects {
+    repositories {
+        flatDir {
+            dirs "$rootDir/../node_modules/react-native-zoom-us/android/libs"
+        }
+    }
+}   
+```
 
 #### iOS
 Make sure you have appropriate description in Info.plist:
