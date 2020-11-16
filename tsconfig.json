@@ -1,7 +1,4 @@
 {
-  "ts-node": {
-    "transpileOnly": true
-  },
   "compilerOptions": {
     "noEmit": true,
     "module": "CommonJS",
@@ -12,11 +9,7 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "strictNullChecks": true,
-    "experimentalDecorators": true,
-    "skipDefaultLibCheck": true,
     "noEmitOnError": false,
-    "declaration": true,
-    "allowJs": true,
-    "esModuleInterop": true
+    "declaration": true
   }
 }
