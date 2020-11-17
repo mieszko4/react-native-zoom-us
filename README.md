@@ -45,10 +45,20 @@ buildscript {
 See [diff](https://github.com/mieszko4/react-native-zoom-us-test/pull/10/commits/cabdb876cc40f78f0a6d977d38377497be5e0726) for reference.
 
 #### iOS
-1. Make sure you have appropriate description in Info.plist:
-* `NSCameraUsageDescription`
-* `NSMicrophoneUsageDescription`
-* `NSPhotoLibraryUsageDescription`
+1. Make sure you have appropriate description in `Info.plist`:
+```xml
+<key>NSBluetoothPeripheralUsageDescription</key>
+<string>We will use your Bluetooth to access your Bluetooth headphones.</string>
+	
+<key>NSCameraUsageDescription</key>
+<string>For people to see you during meetings, we need access to your camera.</string>
+	
+<key>NSMicrophoneUsageDescription</key>
+<string>For people to hear you during meetings, we need access to your microphone.</string>
+	
+<key>NSPhotoLibraryUsageDescription</key>
+<string>For people to share, we need access to your photos</string>
+```
 
 2. Update pods using `cd ios/ && pod install && cd ..`
 
