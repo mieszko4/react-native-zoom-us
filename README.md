@@ -45,10 +45,12 @@ buildscript {
 See [diff](https://github.com/mieszko4/react-native-zoom-us-test/pull/10/commits/cabdb876cc40f78f0a6d977d38377497be5e0726) for reference.
 
 #### iOS
-Make sure you have appropriate description in Info.plist:
+1. Make sure you have appropriate description in Info.plist:
 * `NSCameraUsageDescription`
 * `NSMicrophoneUsageDescription`
 * `NSPhotoLibraryUsageDescription`
+
+2. Update pods using `cd ios/ && pod install && cd ..`
 
 ## Usage
 ```typescript
