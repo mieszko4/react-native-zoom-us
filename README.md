@@ -57,7 +57,7 @@ See [diff](https://github.com/mieszko4/react-native-zoom-us-test/pull/10/commits
 <string>For people to hear you during meetings, we need access to your microphone.</string>
 	
 <key>NSPhotoLibraryUsageDescription</key>
-<string>For people to share, we need access to your photos</string>
+<string>For people to share, we need access to your photos.</string>
 ```
 
 2. Update pods using `cd ios/ && pod install && cd ..`
