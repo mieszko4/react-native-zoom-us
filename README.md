@@ -62,6 +62,8 @@ See [diff](https://github.com/mieszko4/react-native-zoom-us-test/pull/10/commits
 
 2. Update pods using `cd ios/ && pod install && cd ..`
 
+3. Make sure to set `ENABLE_BITCODE = NO;` for both Debug and Release because bitcode is not supported by Zoom iOS SDK 
+
 ## Usage
 ```typescript
 import ZoomUs from 'react-native-zoom-us';
