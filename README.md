@@ -111,6 +111,16 @@ await ZoomUs.joinMeeting({
 })
 ```
 
+## Testing
+
+The plugin has been tested for `joinMeeting` using [smoke test procedure]https://github.com/mieszko4/react-native-zoom-us-test#smoke-test-procedure:
+* react-native-zoom-us: 5.3.0
+* react-native: 0.63.3
+* node: 12.6.3
+* macOS: 10.15.5
+* XCode: 12.2
+* android minSdkVersion: 21
+
 
 ## FAQ
 
