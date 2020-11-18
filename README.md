@@ -5,8 +5,7 @@ This is a bridge for ZoomUS SDK:
 - android: https://github.com/zoom/zoom-sdk-android
 - ios: https://github.com/zoom/zoom-sdk-ios
 
-Tested on XCode 11.5 and node 12.18.1.
-
+Tested on XCode 12.2 and react-native 0.63.3. [See details](https://github.com/mieszko4/react-native-zoom-us#testing)
 Pull requests are welcome.
 
 - [Example](https://github.com/mieszko4/react-native-zoom-us-test)
