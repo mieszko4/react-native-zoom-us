@@ -10,6 +10,7 @@
     "resolveJsonModule": true,
     "strictNullChecks": true,
     "noEmitOnError": false,
-    "declaration": true
+    "declaration": true,
+    "esModuleInterop": true
   }
 }
