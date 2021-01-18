@@ -67,6 +67,10 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
               params.getString("domain"),
               RNZoomUsModule.this
             );
+
+            if (settings && params.getBoolean("disableShowVideoPreviewWhenJoinMeeting")) {
+              zoomSDK.getMeetingSettingsHelper().disableShowVideoPreviewWhenJoinMeeting(true);
+            }
           }
       });
     } catch (Exception ex) {
