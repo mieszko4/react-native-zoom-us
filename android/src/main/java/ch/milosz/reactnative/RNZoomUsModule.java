@@ -197,6 +197,40 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     }
   }
 
+  @ReactMethod
+  public void minimizeMeeting() {
+    try {
+      ZoomSDK zoomSDK = ZoomSDK.getInstance();
+      if(!zoomSDK.isInitialized()) {
+        Log.i(TAG, "minimizeMeeting, ZoomSDK not initialized");
+        return;
+      }
+
+      final ZoomUIService uiService = zoomSDK.getZoomUIService();
+      uiService.enableMinimizeMeeting(true);
+    } catch (Exception ex) {
+      Log.i(TAG, "enableMinimizeMeeting, error restoring meeting");
+      return;
+    }
+  }
+
+  @ReactMethod
+  public void restoreMeeting() {
+    try {
+      ZoomSDK zoomSDK = ZoomSDK.getInstance();
+      if(!zoomSDK.isInitialized()) {
+        Log.i(TAG, "restoreMeeting, ZoomSDK not initialized");
+        return;
+      }
+
+      final ZoomUIService uiService = zoomSDK.getZoomUIService();
+      uiService.enableMinimizeMeeting(false);
+    } catch (Exception ex) {
+      Log.i(TAG, "restoreMeeting, error restoring meeting");
+      return;
+    }
+  }
+
   @Override
   public void onZoomSDKInitializeResult(int errorCode, int internalErrorCode) {
     Log.i(TAG, "onZoomSDKInitializeResult, errorCode=" + errorCode + ", internalErrorCode=" + internalErrorCode);

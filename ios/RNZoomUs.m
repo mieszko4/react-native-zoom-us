@@ -173,6 +173,31 @@ RCT_EXPORT_METHOD(
   }
 }
 
+RCT_EXPORT_METHOD(minimizeMeeting)
+{
+  NSLog(@"minimizeMeeting");
+
+  MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
+  if (ms) {
+    [ms showMinimizeMeetingFromZoomUIMeeting];
+  } else {
+    NSLog(@"meetingService was nil");
+  }
+}
+
+RCT_EXPORT_METHOD(restoreMeeting)
+{
+  NSLog(@"restoreMeeting");
+
+  MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
+  if (ms) {
+    NSLog(@"restore");
+    [ms backZoomUIMeetingFromMinimizeMeeting];
+  } else {
+    NSLog(@"meetingService was nil");
+  }
+}
+
 - (void)onMobileRTCAuthReturn:(MobileRTCAuthError)returnValue {
   NSLog(@"nZoomSDKInitializeResult, errorCode=%d", returnValue);
   if(returnValue != MobileRTCAuthError_Success) {

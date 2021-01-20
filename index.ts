@@ -18,9 +18,9 @@ async function initialize(
     // ios only
     disableShowVideoPreviewWhenJoinMeeting?: boolean
   } = {
-    // more details inside: https://github.com/mieszko4/react-native-zoom-us/issues/28
-    disableShowVideoPreviewWhenJoinMeeting: true,
-  },
+      // more details inside: https://github.com/mieszko4/react-native-zoom-us/issues/28
+      disableShowVideoPreviewWhenJoinMeeting: true,
+    },
 ) {
   invariant(typeof params === 'object',
     'ZoomUs.initialize expects object param. Consider to check migration docs. ' +
@@ -82,9 +82,18 @@ async function startMeeting(params: RNZoomUsStartMeetingParams) {
   return RNZoomUs.startMeeting({ userType, ...params, meetingNumber })
 }
 
+function minimizeMeeting() {
+  RNZoomUs.minimizeMeeting();
+}
+function restoreMeeting() {
+  RNZoomUs.restoreMeeting();
+}
+
 export default {
   initialize,
   joinMeeting,
   joinMeetingWithPassword,
   startMeeting,
+  minimizeMeeting,
+  restoreMeeting,
 }
