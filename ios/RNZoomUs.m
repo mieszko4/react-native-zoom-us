@@ -8,6 +8,8 @@
   RCTPromiseRejectBlock initializePromiseReject;
   RCTPromiseResolveBlock meetingPromiseResolve;
   RCTPromiseRejectBlock meetingPromiseReject;
+  // If screenShareExtension is set, the Share Content > Screen option will automatically be
+  // enabled in the UI
   NSString *screenShareExtension;
 }
 
