@@ -33,6 +33,8 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   private Promise initializePromise;
   private Promise meetingPromise;
 
+  private Boolean shouldDisablePreview = false;
+
   public RNZoomUsModule(ReactApplicationContext reactContext) {
     super(reactContext);
     this.reactContext = reactContext;
@@ -55,6 +57,10 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
     try {
       initializePromise = promise;
+
+      if (settings.hasKey("disableShowVideoPreviewWhenJoinMeeting")) {
+        shouldDisablePreview = settings.getBoolean("disableShowVideoPreviewWhenJoinMeeting");
+      }
 
       reactContext.getCurrentActivity().runOnUiThread(new Runnable() {
           @Override
@@ -208,6 +214,8 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     } else {
       registerListener();
       initializePromise.resolve("Initialize Zoom SDK successfully.");
+
+      ZoomSDK.getInstance().getMeetingSettingsHelper().disableShowVideoPreviewWhenJoinMeeting(shouldDisablePreview);
     }
   }
 
