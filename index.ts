@@ -10,7 +10,9 @@ const DEFAULT_USER_TYPE = 2
 export interface RNZoomUsInitializeParams {
   clientKey: string;
   clientSecret: string;
-  domain?: string
+  domain?: string;
+  appGroupId?: string;
+  screenShareExtension?: string;
 }
 async function initialize(
   params: RNZoomUsInitializeParams,

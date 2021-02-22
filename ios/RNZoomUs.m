@@ -1,4 +1,4 @@
-
+#import <ReplayKit/ReplayKit.h>
 #import "RNZoomUs.h"
 
 @implementation RNZoomUs
@@ -8,6 +8,7 @@
   RCTPromiseRejectBlock initializePromiseReject;
   RCTPromiseResolveBlock meetingPromiseResolve;
   RCTPromiseRejectBlock meetingPromiseReject;
+  NSString *screenShareExtension;
 }
 
 - (instancetype)init {
@@ -17,6 +18,7 @@
     initializePromiseReject = nil;
     meetingPromiseResolve = nil;
     meetingPromiseReject = nil;
+    screenShareExtension = nil;
   }
   return self;
 }
@@ -51,15 +53,15 @@ RCT_EXPORT_METHOD(
     initializePromiseResolve = resolve;
     initializePromiseReject = reject;
 
-
+    screenShareExtension = data[@"screenShareExtension"];
 
     MobileRTCSDKInitContext *context = [[MobileRTCSDKInitContext alloc] init];
-    context.domain = data[@"domain"];;
+    context.domain = data[@"domain"];
     context.enableLog = YES;
     context.locale = MobileRTC_ZoomLocale_Default;
 
     //Note: This step is optional, Method is uesd for iOS Replaykit Screen share integration,if not,just ignore this step.
-    // context.appGroupId = @"group.zoom.us.MobileRTCSampleExtensionReplayKit";
+    context.appGroupId = data[@"appGroupId"];
     BOOL initializeSuc = [[MobileRTC sharedRTC] initialize:context];
     [[[MobileRTC sharedRTC] getMeetingSettings]
       disableShowVideoPreviewWhenJoinMeeting:settings[@"disableShowVideoPreviewWhenJoinMeeting"]];
@@ -237,6 +239,26 @@ RCT_EXPORT_METHOD(
 
   meetingPromiseResolve = nil;
   meetingPromiseReject = nil;
+}
+
+- (void)onClickShareScreen:(UIViewController *)parentVC {
+  if (@available(iOS 12.0, *)) {
+    CGRect frame = parentVC.view.bounds;
+    RPSystemBroadcastPickerView *pickerView = [[RPSystemBroadcastPickerView alloc] initWithFrame:frame];
+    pickerView.preferredExtension = screenShareExtension;
+    SEL buttonPressed = NSSelectorFromString(@"buttonPressed:");
+    if ([pickerView respondsToSelector:buttonPressed]) {
+      [pickerView performSelector:buttonPressed withObject:nil];
+    }
+  }
+}
+
+- (BOOL)respondsToSelector:(SEL)aSelector
+{
+    if (aSelector == @selector(onClickShareScreen:)) {
+        return screenShareExtension != nil;
+    }
+    return [super respondsToSelector:aSelector];
 }
 
 @end
