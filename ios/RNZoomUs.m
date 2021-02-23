@@ -55,7 +55,7 @@ RCT_EXPORT_METHOD(
     initializePromiseResolve = resolve;
     initializePromiseReject = reject;
 
-    screenShareExtension = data[@"screenShareExtension"];
+    screenShareExtension = data[@"iosScreenShareExtension"];
 
     MobileRTCSDKInitContext *context = [[MobileRTCSDKInitContext alloc] init];
     context.domain = data[@"domain"];
@@ -63,7 +63,7 @@ RCT_EXPORT_METHOD(
     context.locale = MobileRTC_ZoomLocale_Default;
 
     //Note: This step is optional, Method is uesd for iOS Replaykit Screen share integration,if not,just ignore this step.
-    context.appGroupId = data[@"appGroupId"];
+    context.appGroupId = data[@"iosAppGroupId"];
     BOOL initializeSuc = [[MobileRTC sharedRTC] initialize:context];
     [[[MobileRTC sharedRTC] getMeetingSettings]
       disableShowVideoPreviewWhenJoinMeeting:settings[@"disableShowVideoPreviewWhenJoinMeeting"]];

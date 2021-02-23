@@ -11,8 +11,8 @@ export interface RNZoomUsInitializeParams {
   clientKey: string;
   clientSecret: string;
   domain?: string;
-  appGroupId?: string;
-  screenShareExtension?: string;
+  iosAppGroupId?: string;
+  iosScreenShareExtension?: string;
 }
 async function initialize(
   params: RNZoomUsInitializeParams,
