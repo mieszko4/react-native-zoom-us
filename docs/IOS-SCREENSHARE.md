@@ -6,7 +6,7 @@ following:
 1. Follow the instructions from Zoom for setting up (Screen Broadcast with
 ReplayKit)[https://marketplace.zoom.us/docs/sdk/native-sdks/iOS/mastering-zoom-sdk/in-meeting-function/screen-share#broadcast-device-screen]
 (make sure to add the `MobileRTCScreenShare.framework` from the ZoomSDK pod in step 3)
-2. Pass the Bundle ID you configured in step 3 of the Zoom instructions as `iosScreenShareExtension`
+2. Pass the Bundle ID you configured in step 3 of the Zoom instructions as `iosScreenShareExtensionId`
 to `ZoomUs.initialize`
 3. Pass the App Group ID you configured in step 6 of the Zoom instructions as `iosAppGroupId` to
 `ZoomUs.initialize`
@@ -17,6 +17,6 @@ await ZoomUs.initialize({
   clientKey: '...',
   cientSecret: '...',
   iosAppGroupId: 'group.com.your.Bundle',
-  iosScreenShareExtension: 'com.your.Bundle.ScreenShare'
+  iosScreenShareExtensionId: 'com.your.Bundle.ScreenShare'
 });
 ```

@@ -55,7 +55,7 @@ RCT_EXPORT_METHOD(
     initializePromiseResolve = resolve;
     initializePromiseReject = reject;
 
-    screenShareExtension = data[@"iosScreenShareExtension"];
+    screenShareExtension = data[@"iosScreenShareExtensionId"];
 
     MobileRTCSDKInitContext *context = [[MobileRTCSDKInitContext alloc] init];
     context.domain = data[@"domain"];

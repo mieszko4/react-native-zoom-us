@@ -12,7 +12,7 @@ export interface RNZoomUsInitializeParams {
   clientSecret: string;
   domain?: string;
   iosAppGroupId?: string;
-  iosScreenShareExtension?: string;
+  iosScreenShareExtensionId?: string;
 }
 async function initialize(
   params: RNZoomUsInitializeParams,
