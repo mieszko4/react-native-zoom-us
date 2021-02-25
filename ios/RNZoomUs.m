@@ -250,11 +250,14 @@ RCT_EXPORT_METHOD(
 #pragma mark - Screen share functionality
 
 - (void)onSinkMeetingActiveShare:(NSUInteger)userID {
+  MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
+  if (ms) {
     if (userID == 0) {
-        [self sendEventWithName:@"MeetingEvent" event:@"screenShareStopped"];
-    } else {
-        [self sendEventWithName:@"MeetingEvent" event:@"screenShareStarted"];
+      [self sendEventWithName:@"MeetingEvent" event:@"screenShareStopped"];
+    } else if (userID == [ms myselfUserID]){
+      [self sendEventWithName:@"MeetingEvent" event:@"screenShareStarted"];
     }
+  }
 }
 
 - (void)onClickShareScreen:(UIViewController *)parentVC {
