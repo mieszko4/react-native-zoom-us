@@ -278,20 +278,20 @@ RCT_EXPORT_METHOD(
 
 - (BOOL)respondsToSelector:(SEL)aSelector
 {
-    if (aSelector == @selector(onClickShareScreen:)) {
-        return screenShareExtension != nil;
-    }
-    return [super respondsToSelector:aSelector];
+  if (aSelector == @selector(onClickShareScreen:)) {
+    return screenShareExtension != nil;
+  }
+  return [super respondsToSelector:aSelector];
 }
 
 #pragma mark - React Native event emitters and event handling
 
 - (void)startObserving {
-    hasObservers = YES;
+  hasObservers = YES;
 }
 
 - (void)stopObserving {
-    hasObservers = NO;
+  hasObservers = NO;
 }
 
 - (NSArray<NSString *> *)supportedEvents {
@@ -299,9 +299,9 @@ RCT_EXPORT_METHOD(
 }
 
 - (void)sendEventWithName:(NSString *)name event:(NSString *)event {
-    if (hasObservers) {
-        [self sendEventWithName:name body:@{@"event": event}];
-    }
+  if (hasObservers) {
+    [self sendEventWithName:name body:@{@"event": event}];
+  }
 }
 
 - (NSString *)authErrorName:(MobileRTCAuthError)error {
