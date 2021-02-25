@@ -247,6 +247,10 @@ RCT_EXPORT_METHOD(
   meetingPromiseReject = nil;
 }
 
+- (void)onMeetingEndedReason:(MobileRTCMeetingEndReason)reason {
+  [self sendEventWithName:@"MeetingEvent" event:[self meetingEndReasonName:reason]];
+}
+
 #pragma mark - Screen share functionality
 
 - (void)onSinkMeetingActiveShare:(NSUInteger)userID {
@@ -357,6 +361,19 @@ RCT_EXPORT_METHOD(
     case MobileRTCMeetError_VBRemoveNone: return @"vbRemoveNone"; // iOS only
     case MobileRTCMeetError_VBNoSupport: return @"vbNoSupport"; // iOS only
     default: return @"unknown";
+  }
+}
+
+- (NSString *)meetingEndReasonName:(MobileRTCMeetingEndReason)reason {
+  switch (reason) {
+    case MobileRTCMeetingEndReason_SelfLeave: return @"endedBySelf";
+    case MobileRTCMeetingEndReason_RemovedByHost: return @"endedRemovedByHost";
+    case MobileRTCMeetingEndReason_EndByHost: return @"endedByHost";
+    case MobileRTCMeetingEndReason_JBHTimeout: return @"endedJBHTimeout";
+    case MobileRTCMeetingEndReason_FreeMeetingTimeout: return @"endedFreeMeetingTimeout";
+    case MobileRTCMeetingEndReason_HostEndForAnotherMeeting: return @"endedByHostForAnotherMeeting";
+    case MobileRTCMeetingEndReason_ConnectBroken: return @"endedConnectBroken";
+    default: return @"endedUnknownReason";
   }
 }
 

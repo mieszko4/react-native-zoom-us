@@ -12,8 +12,15 @@ import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 
+import java.util.List;
+
+import us.zoom.sdk.InMeetingAudioController;
+import us.zoom.sdk.InMeetingChatMessage;
+import us.zoom.sdk.InMeetingEventHandler;
 import us.zoom.sdk.InMeetingService;
+import us.zoom.sdk.InMeetingServiceListener;
 import us.zoom.sdk.InMeetingShareController;
+import us.zoom.sdk.MeetingEndReason;
 import us.zoom.sdk.ZoomSDK;
 import us.zoom.sdk.ZoomError;
 import us.zoom.sdk.ZoomSDKInitializeListener;
@@ -29,7 +36,7 @@ import us.zoom.sdk.StartMeetingParamsWithoutLogin;
 import us.zoom.sdk.JoinMeetingOptions;
 import us.zoom.sdk.JoinMeetingParams;
 
-public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSDKInitializeListener, MeetingServiceListener, InMeetingShareController.InMeetingShareListener, LifecycleEventListener {
+public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSDKInitializeListener, InMeetingServiceListener, MeetingServiceListener, InMeetingShareController.InMeetingShareListener, LifecycleEventListener {
 
   private final static String TAG = "RNZoomUs";
   private final ReactApplicationContext reactContext;
@@ -260,6 +267,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     }
     InMeetingService inMeetingService = zoomSDK.getInMeetingService();
     if (inMeetingService != null) {
+      inMeetingService.addListener(this);
       InMeetingShareController inMeetingShareController = inMeetingService.getInMeetingShareController();
       if (inMeetingShareController != null) {
         inMeetingShareController.addListener(this);
@@ -273,7 +281,9 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     if(zoomSDK.isInitialized()) {
       MeetingService meetingService = zoomSDK.getMeetingService();
       meetingService.removeListener(this);
-      InMeetingShareController inMeetingShareController = zoomSDK.getInMeetingService().getInMeetingShareController();
+      InMeetingService inMeetingService = zoomSDK.getInMeetingService();
+      inMeetingService.removeListener(this);
+      InMeetingShareController inMeetingShareController = inMeetingService.getInMeetingShareController();
       inMeetingShareController.removeListener(this);
     }
   }
@@ -295,6 +305,73 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   public void onCatalystInstanceDestroy() {
     unregisterListener();
   }
+
+  @Override
+  public void onMeetingLeaveComplete(long ret) {
+    sendEvent("MeetingEvent", getMeetingEndReasonName((int)ret));
+  }
+
+  // Required methods for InMeetingServiceListener
+  @Override
+  public void onMeetingNeedPasswordOrDisplayName(boolean b, boolean b1, InMeetingEventHandler inMeetingEventHandler) {}
+  @Override
+  public void onWebinarNeedRegister() {}
+  @Override
+  public void onJoinWebinarNeedUserNameAndEmail(InMeetingEventHandler inMeetingEventHandler) {}
+  @Override
+  public void onMeetingNeedColseOtherMeeting(InMeetingEventHandler inMeetingEventHandler) {}
+  @Override
+  public void onMeetingFail(int i, int i1) {}
+  @Override
+  public void onMeetingUserJoin(List<Long> list) {}
+  @Override
+  public void onMeetingUserLeave(List<Long> list) {}
+  @Override
+  public void onMeetingUserUpdated(long l) {}
+  @Override
+  public void onMeetingHostChanged(long l) {}
+  @Override
+  public void onMeetingCoHostChanged(long l) {}
+  @Override
+  public void onActiveVideoUserChanged(long l) {}
+  @Override
+  public void onActiveSpeakerVideoUserChanged(long l) {}
+  @Override
+  public void onSpotlightVideoChanged(boolean b) {}
+  @Override
+  public void onUserVideoStatusChanged(long l) {}
+  @Override
+  public void onUserNetworkQualityChanged(long l) {}
+  @Override
+  public void onMicrophoneStatusError(InMeetingAudioController.MobileRTCMicrophoneError mobileRTCMicrophoneError) {}
+  @Override
+  public void onUserAudioStatusChanged(long l) {}
+  @Override
+  public void onHostAskUnMute(long l) {}
+  @Override
+  public void onHostAskStartVideo(long l) {}
+  @Override
+  public void onUserAudioTypeChanged(long l) {}
+  @Override
+  public void onMyAudioSourceTypeChanged(int i) {}
+  @Override
+  public void onLowOrRaiseHandStatusChanged(long l, boolean b) {}
+  @Override
+  public void onMeetingSecureKeyNotification(byte[] bytes) {}
+  @Override
+  public void onChatMessageReceived(InMeetingChatMessage inMeetingChatMessage) {}
+  @Override
+  public void onSilentModeChanged(boolean b) {}
+  @Override
+  public void onFreeMeetingReminder(boolean b, boolean b1, boolean b2) {}
+  @Override
+  public void onMeetingActiveVideo(long l) {}
+  @Override
+  public void onSinkAttendeeChatPriviledgeChanged(int i) {}
+  @Override
+  public void onSinkAllowAttendeeChatNotification(int i) {}
+  @Override
+  public void onUserNameChanged(long l, String s) {}
 
   // React LifeCycle
   @Override
@@ -357,6 +434,20 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
       case MeetingError.MEETING_ERROR_INVALID_ARGUMENTS: return "invalidArguments";
       case MeetingError.MEETING_ERROR_INVALID_STATUS: return "invalidStatus"; // Android only
       default: return "unknown";
+    }
+  }
+
+  private String getMeetingEndReasonName(final int reason) {
+    switch (reason) {
+      case MeetingEndReason.END_BY_HOST: return "endedByHost";
+      case MeetingEndReason.END_BY_HOST_START_ANOTHERMEETING: return "endedByHostForAnotherMeeting";
+      case MeetingEndReason.END_BY_SDK_CONNECTION_BROKEN: return "endedConnectBroken";
+      case MeetingEndReason.END_BY_SELF: return "endedBySelf";
+      case MeetingEndReason.END_FOR_FREEMEET_TIMEOUT: return "endedFreeMeetingTimeout";
+      case MeetingEndReason.END_FOR_JBHTIMEOUT: return "endedJBHTimeout";
+      case MeetingEndReason.END_FOR_NOATEENDEE: return "endedNoAttendee";
+      case MeetingEndReason.KICK_BY_HOST: return "endedRemovedByHost";
+      default: return "endedUnknownReason";
     }
   }
 }
