@@ -1,4 +1,4 @@
-import { NativeModules } from 'react-native'
+import { NativeEventEmitter, NativeModules } from 'react-native'
 import invariant from 'invariant'
 
 const { RNZoomUs } = NativeModules
@@ -83,6 +83,8 @@ async function startMeeting(params: RNZoomUsStartMeetingParams) {
 
   return RNZoomUs.startMeeting({ userType, ...params, meetingNumber })
 }
+
+export const ZoomEmitter = RNZoomUs as NativeEventEmitter;
 
 export default {
   initialize,
