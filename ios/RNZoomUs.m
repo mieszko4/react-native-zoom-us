@@ -306,73 +306,73 @@ RCT_EXPORT_METHOD(
 
 - (NSString *)authErrorName:(MobileRTCAuthError)error {
   switch (error) {
+    case MobileRTCAuthError_ClientIncompatible: return @"clientIncompatible";
     case MobileRTCAuthError_Success: return @"success";
+    case MobileRTCAuthError_AccountNotEnableSDK: return @"accountNotEnableSDK"; // iOS only
+    case MobileRTCAuthError_AccountNotSupport: return @"accountNotSupport"; // iOS only
     case MobileRTCAuthError_KeyOrSecretEmpty: return @"keyOrSecretEmpty"; // iOS only
     case MobileRTCAuthError_KeyOrSecretWrong: return @"keyOrSecretWrong"; // iOS only
-    case MobileRTCAuthError_AccountNotSupport: return @"accountNotSupport"; // iOS only
-    case MobileRTCAuthError_AccountNotEnableSDK: return @"accountNotEnableSDK"; // iOS only
-    case MobileRTCAuthError_ServiceBusy: return @"serviceBusy"; // iOS only
+    case MobileRTCAuthError_NetworkIssue: return @"networkIssue"; // iOS only
     case MobileRTCAuthError_None: return @"none"; // iOS only
     case MobileRTCAuthError_OverTime: return @"overTime"; // iOS only
-    case MobileRTCAuthError_NetworkIssue: return @"networkIssue"; // iOS only
-    case MobileRTCAuthError_ClientIncompatible: return @"clientIncompatible";
+    case MobileRTCAuthError_ServiceBusy: return @"serviceBusy"; // iOS only
     default: return @"unknown";
   }
 }
 
 - (NSString *)meetErrorName:(MobileRTCMeetError)error {
   switch (error) {
-    case MobileRTCMeetError_Success: return @"success";
-    case MobileRTCMeetError_NetworkError: return @"networkError";
-    case MobileRTCMeetError_ReconnectError: return @"reconnectError"; // iOS only
-    case MobileRTCMeetError_MMRError: return @"mmrError";
-    case MobileRTCMeetError_PasswordError: return @"passwordError"; // iOS only
-    case MobileRTCMeetError_SessionError: return @"sessionError";
-    case MobileRTCMeetError_MeetingOver: return @"meetingOver";
-    case MobileRTCMeetError_MeetingNotStart: return @"meetingNotStart"; // iOS only
-    case MobileRTCMeetError_MeetingNotExist: return @"meetingNotExist";
-    case MobileRTCMeetError_MeetingUserFull: return @"meetingUserFull";
+    case MobileRTCMeetError_InvalidArguments: return @"invalidArguments";
     case MobileRTCMeetError_MeetingClientIncompatible: return @"meetingClientIncompatible";
-    case MobileRTCMeetError_NoMMR: return @"noMMR";
     case MobileRTCMeetError_MeetingLocked: return @"meetingLocked";
+    case MobileRTCMeetError_MeetingNotExist: return @"meetingNotExist";
+    case MobileRTCMeetError_MeetingOver: return @"meetingOver";
     case MobileRTCMeetError_MeetingRestricted: return @"meetingRestricted";
     case MobileRTCMeetError_MeetingRestrictedJBH: return @"meetingRestrictedJBH";
-    case MobileRTCMeetError_CannotEmitWebRequest: return @"cannotEmitWebRequest"; // iOS only
-    case MobileRTCMeetError_CannotStartTokenExpire: return @"cannotStartTokenExpire"; // iOS only
-    case MobileRTCMeetError_VideoError: return @"videoError"; // iOS only
-    case MobileRTCMeetError_AudioAutoStartError: return @"audioAutoStartError"; // iOS only
+    case MobileRTCMeetError_MeetingUserFull: return @"meetingUserFull";
+    case MobileRTCMeetError_MMRError: return @"mmrError";
+    case MobileRTCMeetError_NetworkError: return @"networkError";
+    case MobileRTCMeetError_NoMMR: return @"noMMR";
+    case MobileRTCMeetError_RegisterWebinarDeniedEmail: return @"registerWebinarDeniedEmail";
+    case MobileRTCMeetError_RegisterWebinarEnforceLogin: return @"registerWebinarEnforceLogin";
     case MobileRTCMeetError_RegisterWebinarFull: return @"registerWebinarFull";
     case MobileRTCMeetError_RegisterWebinarHostRegister: return @"registerWebinarHostRegister";
     case MobileRTCMeetError_RegisterWebinarPanelistRegister: return @"registerWebinarPanelistRegister";
-    case MobileRTCMeetError_RegisterWebinarDeniedEmail: return @"registerWebinarDeniedEmail";
-    case MobileRTCMeetError_RegisterWebinarEnforceLogin: return @"registerWebinarEnforceLogin";
-    case MobileRTCMeetError_ZCCertificateChanged: return @"zcCertificateChanged"; // iOS only
-    case MobileRTCMeetError_VanityNotExist: return @"vanityNotExist"; // iOS only
-    case MobileRTCMeetError_JoinWebinarWithSameEmail: return @"joinWebinarWithSameEmail"; // iOS only
-    case MobileRTCMeetError_WriteConfigFile: return @"writeConfigFile"; // iOS only
     case MobileRTCMeetError_RemovedByHost: return @"removedByHost";
-    case MobileRTCMeetError_InvalidArguments: return @"invalidArguments";
-    case MobileRTCMeetError_InvalidUserType: return @"invalidUserType"; // iOS only
+    case MobileRTCMeetError_SessionError: return @"sessionError";
+    case MobileRTCMeetError_Success: return @"success";
+    case MobileRTCMeetError_AudioAutoStartError: return @"audioAutoStartError"; // iOS only
+    case MobileRTCMeetError_CannotEmitWebRequest: return @"cannotEmitWebRequest"; // iOS only
+    case MobileRTCMeetError_CannotStartTokenExpire: return @"cannotStartTokenExpire"; // iOS only
     case MobileRTCMeetError_InAnotherMeeting: return @"inAnotherMeeting"; // iOS only
+    case MobileRTCMeetError_InvalidUserType: return @"invalidUserType"; // iOS only
+    case MobileRTCMeetError_JoinWebinarWithSameEmail: return @"joinWebinarWithSameEmail"; // iOS only
+    case MobileRTCMeetError_MeetingNotStart: return @"meetingNotStart"; // iOS only
+    case MobileRTCMeetError_PasswordError: return @"passwordError"; // iOS only
+    case MobileRTCMeetError_ReconnectError: return @"reconnectError"; // iOS only
+    case MobileRTCMeetError_VanityNotExist: return @"vanityNotExist"; // iOS only
+    case MobileRTCMeetError_VBMaximumNum: return @"vbMaximumNum"; // iOS only
+    case MobileRTCMeetError_VBNoSupport: return @"vbNoSupport"; // iOS only
+    case MobileRTCMeetError_VBRemoveNone: return @"vbRemoveNone"; // iOS only
+    case MobileRTCMeetError_VBSaveImage: return @"vbSaveImage"; // iOS only
     // _VBSetError has the same value as _VBBase so we are excluding _VBBase
     case MobileRTCMeetError_VBSetError: return @"vbSetError"; // iOS only
-    case MobileRTCMeetError_VBMaximumNum: return @"vbMaximumNum"; // iOS only
-    case MobileRTCMeetError_VBSaveImage: return @"vbSaveImage"; // iOS only
-    case MobileRTCMeetError_VBRemoveNone: return @"vbRemoveNone"; // iOS only
-    case MobileRTCMeetError_VBNoSupport: return @"vbNoSupport"; // iOS only
+    case MobileRTCMeetError_VideoError: return @"videoError"; // iOS only
+    case MobileRTCMeetError_WriteConfigFile: return @"writeConfigFile"; // iOS only
+    case MobileRTCMeetError_ZCCertificateChanged: return @"zcCertificateChanged"; // iOS only
     default: return @"unknown";
   }
 }
 
 - (NSString *)meetingEndReasonName:(MobileRTCMeetingEndReason)reason {
   switch (reason) {
-    case MobileRTCMeetingEndReason_SelfLeave: return @"endedBySelf";
-    case MobileRTCMeetingEndReason_RemovedByHost: return @"endedRemovedByHost";
     case MobileRTCMeetingEndReason_EndByHost: return @"endedByHost";
-    case MobileRTCMeetingEndReason_JBHTimeout: return @"endedJBHTimeout";
-    case MobileRTCMeetingEndReason_FreeMeetingTimeout: return @"endedFreeMeetingTimeout";
     case MobileRTCMeetingEndReason_HostEndForAnotherMeeting: return @"endedByHostForAnotherMeeting";
+    case MobileRTCMeetingEndReason_SelfLeave: return @"endedBySelf";
     case MobileRTCMeetingEndReason_ConnectBroken: return @"endedConnectBroken";
+    case MobileRTCMeetingEndReason_FreeMeetingTimeout: return @"endedFreeMeetingTimeout";
+    case MobileRTCMeetingEndReason_JBHTimeout: return @"endedJBHTimeout";
+    case MobileRTCMeetingEndReason_RemovedByHost: return @"endedRemovedByHost";
     default: return @"endedUnknownReason";
   }
 }

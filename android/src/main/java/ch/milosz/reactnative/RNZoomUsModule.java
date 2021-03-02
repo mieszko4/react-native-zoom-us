@@ -396,43 +396,43 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
   private String getAuthErrorName(final int errorCode) {
     switch (errorCode) {
-      case ZoomError.ZOOM_ERROR_SUCCESS: return "success";
-      case ZoomError.ZOOM_ERROR_INVALID_ARGUMENTS: return "invalidArguments"; // Android only
-      case ZoomError.ZOOM_ERROR_ILLEGAL_APP_KEY_OR_SECRET: return "illegalAppKeyOrSecret"; // Android only
-      case ZoomError.ZOOM_ERROR_NETWORK_UNAVAILABLE: return "networkUnavailable"; // Android only
       case ZoomError.ZOOM_ERROR_AUTHRET_CLIENT_INCOMPATIBLEE: return "clientIncompatible";
+      case ZoomError.ZOOM_ERROR_SUCCESS: return "success";
       case ZoomError.ZOOM_ERROR_DEVICE_NOT_SUPPORTED: return "deviceNotSupported"; // Android only
+      case ZoomError.ZOOM_ERROR_ILLEGAL_APP_KEY_OR_SECRET: return "illegalAppKeyOrSecret"; // Android only
+      case ZoomError.ZOOM_ERROR_INVALID_ARGUMENTS: return "invalidArguments"; // Android only
+      case ZoomError.ZOOM_ERROR_NETWORK_UNAVAILABLE: return "networkUnavailable"; // Android only
       default: return "unknown";
     }
   }
 
   private String getMeetErrorName(final int errorCode) {
     switch (errorCode) {
-      case MeetingError.MEETING_ERROR_SUCCESS: return "success";
-      case MeetingError.MEETING_ERROR_INCORRECT_MEETING_NUMBER: return "incorrectMeetingNumber"; // Android only
-      case MeetingError.MEETING_ERROR_TIMEOUT: return "timeout"; // Android only
-      case MeetingError.MEETING_ERROR_NETWORK_UNAVAILABLE: return "networkUnavailable"; // Android only
+      case MeetingError.MEETING_ERROR_INVALID_ARGUMENTS: return "invalidArguments";
       case MeetingError.MEETING_ERROR_CLIENT_INCOMPATIBLE: return "meetingClientIncompatible";
-      case MeetingError.MEETING_ERROR_NETWORK_ERROR: return "networkError";
-      case MeetingError.MEETING_ERROR_MMR_ERROR: return "mmrError";
-      case MeetingError.MEETING_ERROR_SESSION_ERROR: return "sessionError";
-      case MeetingError.MEETING_ERROR_MEETING_OVER: return "meetingOver";
-      case MeetingError.MEETING_ERROR_MEETING_NOT_EXIST: return "meetingNotExist";
-      case MeetingError.MEETING_ERROR_USER_FULL: return "meetingUserFull";
-      case MeetingError.MEETING_ERROR_NO_MMR: return "noMMR";
       case MeetingError.MEETING_ERROR_LOCKED: return "meetingLocked";
+      case MeetingError.MEETING_ERROR_MEETING_NOT_EXIST: return "meetingNotExist";
+      case MeetingError.MEETING_ERROR_MEETING_OVER: return "meetingOver";
       case MeetingError.MEETING_ERROR_RESTRICTED: return "meetingRestricted";
       case MeetingError.MEETING_ERROR_RESTRICTED_JBH: return "meetingRestrictedJBH";
-      case MeetingError.MEETING_ERROR_WEB_SERVICE_FAILED: return "webServiceFailed"; // Android only
+      case MeetingError.MEETING_ERROR_USER_FULL: return "meetingUserFull";
+      case MeetingError.MEETING_ERROR_MMR_ERROR: return "mmrError";
+      case MeetingError.MEETING_ERROR_NETWORK_ERROR: return "networkError";
+      case MeetingError.MEETING_ERROR_NO_MMR: return "noMMR";
+      case MeetingError.MEETING_ERROR_HOST_DENY_EMAIL_REGISTER_WEBINAR: return "registerWebinarDeniedEmail";
+      case MeetingError.MEETING_ERROR_WEBINAR_ENFORCE_LOGIN: return "registerWebinarEnforceLogin";
       case MeetingError.MEETING_ERROR_REGISTER_WEBINAR_FULL: return "registerWebinarFull";
       case MeetingError.MEETING_ERROR_DISALLOW_HOST_RESGISTER_WEBINAR: return "registerWebinarHostRegister";
       case MeetingError.MEETING_ERROR_DISALLOW_PANELIST_REGISTER_WEBINAR: return "registerWebinarPanelistRegister";
-      case MeetingError.MEETING_ERROR_HOST_DENY_EMAIL_REGISTER_WEBINAR: return "registerWebinarDeniedEmail";
-      case MeetingError.MEETING_ERROR_WEBINAR_ENFORCE_LOGIN: return "registerWebinarEnforceLogin";
-      case MeetingError.MEETING_ERROR_EXIT_WHEN_WAITING_HOST_START: return "exitWhenWaitingHostStart"; // Android only
       case MeetingError.MEETING_ERROR_REMOVED_BY_HOST: return "removedByHost";
-      case MeetingError.MEETING_ERROR_INVALID_ARGUMENTS: return "invalidArguments";
+      case MeetingError.MEETING_ERROR_SESSION_ERROR: return "sessionError";
+      case MeetingError.MEETING_ERROR_SUCCESS: return "success";
+      case MeetingError.MEETING_ERROR_EXIT_WHEN_WAITING_HOST_START: return "exitWhenWaitingHostStart"; // Android only
+      case MeetingError.MEETING_ERROR_INCORRECT_MEETING_NUMBER: return "incorrectMeetingNumber"; // Android only
       case MeetingError.MEETING_ERROR_INVALID_STATUS: return "invalidStatus"; // Android only
+      case MeetingError.MEETING_ERROR_NETWORK_UNAVAILABLE: return "networkUnavailable"; // Android only
+      case MeetingError.MEETING_ERROR_TIMEOUT: return "timeout"; // Android only
+      case MeetingError.MEETING_ERROR_WEB_SERVICE_FAILED: return "webServiceFailed"; // Android only
       default: return "unknown";
     }
   }
@@ -441,8 +441,8 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     switch (reason) {
       case MeetingEndReason.END_BY_HOST: return "endedByHost";
       case MeetingEndReason.END_BY_HOST_START_ANOTHERMEETING: return "endedByHostForAnotherMeeting";
-      case MeetingEndReason.END_BY_SDK_CONNECTION_BROKEN: return "endedConnectBroken";
       case MeetingEndReason.END_BY_SELF: return "endedBySelf";
+      case MeetingEndReason.END_BY_SDK_CONNECTION_BROKEN: return "endedConnectBroken";
       case MeetingEndReason.END_FOR_FREEMEET_TIMEOUT: return "endedFreeMeetingTimeout";
       case MeetingEndReason.END_FOR_JBHTIMEOUT: return "endedJBHTimeout";
       case MeetingEndReason.END_FOR_NOATEENDEE: return "endedNoAttendee";
