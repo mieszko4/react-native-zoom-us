@@ -21,6 +21,7 @@ import us.zoom.sdk.InMeetingService;
 import us.zoom.sdk.InMeetingServiceListener;
 import us.zoom.sdk.InMeetingShareController;
 import us.zoom.sdk.MeetingEndReason;
+import us.zoom.sdk.MeetingSettingsHelper;
 import us.zoom.sdk.ZoomSDK;
 import us.zoom.sdk.ZoomError;
 import us.zoom.sdk.ZoomSDKInitializeListener;
@@ -228,7 +229,10 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
       registerListener();
       initializePromise.resolve("Initialize Zoom SDK successfully.");
 
-      ZoomSDK.getInstance().getMeetingSettingsHelper().disableShowVideoPreviewWhenJoinMeeting(shouldDisablePreview);
+      final MeetingSettingsHelper meetingSettingsHelper = ZoomSDK.getInstance().getMeetingSettingsHelper();
+      if (meetingSettingsHelper != null) {
+        meetingSettingsHelper.disableShowVideoPreviewWhenJoinMeeting(shouldDisablePreview);
+      }
     }
   }
 
@@ -279,12 +283,18 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     Log.i(TAG, "unregisterListener");
     ZoomSDK zoomSDK = ZoomSDK.getInstance();
     if(zoomSDK.isInitialized()) {
-      MeetingService meetingService = zoomSDK.getMeetingService();
-      meetingService.removeListener(this);
-      InMeetingService inMeetingService = zoomSDK.getInMeetingService();
-      inMeetingService.removeListener(this);
-      InMeetingShareController inMeetingShareController = inMeetingService.getInMeetingShareController();
-      inMeetingShareController.removeListener(this);
+      final MeetingService meetingService = zoomSDK.getMeetingService();
+      if (meetingService != null) {
+        meetingService.removeListener(this);
+      }
+      final InMeetingService inMeetingService = zoomSDK.getInMeetingService();
+      if (inMeetingService != null) {
+        inMeetingService.removeListener(this);
+        final InMeetingShareController inMeetingShareController = inMeetingService.getInMeetingShareController();
+        if (inMeetingShareController != null) {
+          inMeetingShareController.removeListener(this);
+        }
+      }
     }
   }
 
