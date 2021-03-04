@@ -2,13 +2,26 @@ package ch.milosz.reactnative;
 
 import android.util.Log;
 
+import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.modules.core.DeviceEventManagerModule;
 
+import java.util.List;
+
+import us.zoom.sdk.InMeetingAudioController;
+import us.zoom.sdk.InMeetingChatMessage;
+import us.zoom.sdk.InMeetingEventHandler;
+import us.zoom.sdk.InMeetingService;
+import us.zoom.sdk.InMeetingServiceListener;
+import us.zoom.sdk.InMeetingShareController;
+import us.zoom.sdk.MeetingEndReason;
+import us.zoom.sdk.MeetingSettingsHelper;
 import us.zoom.sdk.ZoomSDK;
 import us.zoom.sdk.ZoomError;
 import us.zoom.sdk.ZoomSDKInitializeListener;
@@ -24,7 +37,7 @@ import us.zoom.sdk.StartMeetingParamsWithoutLogin;
 import us.zoom.sdk.JoinMeetingOptions;
 import us.zoom.sdk.JoinMeetingParams;
 
-public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSDKInitializeListener, MeetingServiceListener, LifecycleEventListener {
+public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSDKInitializeListener, InMeetingServiceListener, MeetingServiceListener, InMeetingShareController.InMeetingShareListener, LifecycleEventListener {
 
   private final static String TAG = "RNZoomUs";
   private final ReactApplicationContext reactContext;
@@ -206,6 +219,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   @Override
   public void onZoomSDKInitializeResult(int errorCode, int internalErrorCode) {
     Log.i(TAG, "onZoomSDKInitializeResult, errorCode=" + errorCode + ", internalErrorCode=" + internalErrorCode);
+    sendEvent("AuthEvent", getAuthErrorName(errorCode));
     if(errorCode != ZoomError.ZOOM_ERROR_SUCCESS) {
       initializePromise.reject(
               "ERR_ZOOM_INITIALIZATION",
@@ -215,7 +229,10 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
       registerListener();
       initializePromise.resolve("Initialize Zoom SDK successfully.");
 
-      ZoomSDK.getInstance().getMeetingSettingsHelper().disableShowVideoPreviewWhenJoinMeeting(shouldDisablePreview);
+      final MeetingSettingsHelper meetingSettingsHelper = ZoomSDK.getInstance().getMeetingSettingsHelper();
+      if (meetingSettingsHelper != null) {
+        meetingSettingsHelper.disableShowVideoPreviewWhenJoinMeeting(shouldDisablePreview);
+      }
     }
   }
 
@@ -226,6 +243,8 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   @Override
   public void onMeetingStatusChanged(MeetingStatus meetingStatus, int errorCode, int internalErrorCode) {
     Log.i(TAG, "onMeetingStatusChanged, meetingStatus=" + meetingStatus + ", errorCode=" + errorCode + ", internalErrorCode=" + internalErrorCode);
+
+    sendEvent("MeetingEvent", getMeetErrorName(errorCode));
 
     if (meetingPromise == null) {
       return;
@@ -250,21 +269,119 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     if(meetingService != null) {
       meetingService.addListener(this);
     }
+    InMeetingService inMeetingService = zoomSDK.getInMeetingService();
+    if (inMeetingService != null) {
+      inMeetingService.addListener(this);
+      InMeetingShareController inMeetingShareController = inMeetingService.getInMeetingShareController();
+      if (inMeetingShareController != null) {
+        inMeetingShareController.addListener(this);
+      }
+    }
   }
 
   private void unregisterListener() {
     Log.i(TAG, "unregisterListener");
     ZoomSDK zoomSDK = ZoomSDK.getInstance();
     if(zoomSDK.isInitialized()) {
-      MeetingService meetingService = zoomSDK.getMeetingService();
-      meetingService.removeListener(this);
+      final MeetingService meetingService = zoomSDK.getMeetingService();
+      if (meetingService != null) {
+        meetingService.removeListener(this);
+      }
+      final InMeetingService inMeetingService = zoomSDK.getInMeetingService();
+      if (inMeetingService != null) {
+        inMeetingService.removeListener(this);
+        final InMeetingShareController inMeetingShareController = inMeetingService.getInMeetingShareController();
+        if (inMeetingShareController != null) {
+          inMeetingShareController.removeListener(this);
+        }
+      }
     }
   }
+
+  @Override
+  public void onShareActiveUser(long userId) {
+    if (userId == ZoomSDK.getInstance().getInMeetingService().getMyUserID()) {
+      sendEvent("MeetingEvent", "screenShareStarted");
+    } else {
+      sendEvent("MeetingEvent", "screenShareStopped");
+    }
+  }
+
+  @Override
+  public void onShareUserReceivingStatus(long l) {}
+
 
   @Override
   public void onCatalystInstanceDestroy() {
     unregisterListener();
   }
+
+  @Override
+  public void onMeetingLeaveComplete(long ret) {
+    sendEvent("MeetingEvent", getMeetingEndReasonName((int)ret));
+  }
+
+  // Required methods for InMeetingServiceListener
+  @Override
+  public void onMeetingNeedPasswordOrDisplayName(boolean b, boolean b1, InMeetingEventHandler inMeetingEventHandler) {}
+  @Override
+  public void onWebinarNeedRegister() {}
+  @Override
+  public void onJoinWebinarNeedUserNameAndEmail(InMeetingEventHandler inMeetingEventHandler) {}
+  @Override
+  public void onMeetingNeedColseOtherMeeting(InMeetingEventHandler inMeetingEventHandler) {}
+  @Override
+  public void onMeetingFail(int i, int i1) {}
+  @Override
+  public void onMeetingUserJoin(List<Long> list) {}
+  @Override
+  public void onMeetingUserLeave(List<Long> list) {}
+  @Override
+  public void onMeetingUserUpdated(long l) {}
+  @Override
+  public void onMeetingHostChanged(long l) {}
+  @Override
+  public void onMeetingCoHostChanged(long l) {}
+  @Override
+  public void onActiveVideoUserChanged(long l) {}
+  @Override
+  public void onActiveSpeakerVideoUserChanged(long l) {}
+  @Override
+  public void onSpotlightVideoChanged(boolean b) {}
+  @Override
+  public void onUserVideoStatusChanged(long l) {}
+  @Override
+  public void onUserNetworkQualityChanged(long l) {}
+  @Override
+  public void onMicrophoneStatusError(InMeetingAudioController.MobileRTCMicrophoneError mobileRTCMicrophoneError) {}
+  @Override
+  public void onUserAudioStatusChanged(long l) {}
+  @Override
+  public void onHostAskUnMute(long l) {}
+  @Override
+  public void onHostAskStartVideo(long l) {}
+  @Override
+  public void onUserAudioTypeChanged(long l) {}
+  @Override
+  public void onMyAudioSourceTypeChanged(int i) {}
+  @Override
+  public void onLowOrRaiseHandStatusChanged(long l, boolean b) {}
+  @Override
+  public void onMeetingSecureKeyNotification(byte[] bytes) {}
+  @Override
+  public void onChatMessageReceived(InMeetingChatMessage inMeetingChatMessage) {}
+  @Override
+  public void onSilentModeChanged(boolean b) {}
+  @Override
+  public void onFreeMeetingReminder(boolean b, boolean b1, boolean b2) {}
+  @Override
+  public void onMeetingActiveVideo(long l) {}
+  @Override
+  public void onSinkAttendeeChatPriviledgeChanged(int i) {}
+  @Override
+  public void onSinkAllowAttendeeChatNotification(int i) {}
+  @Override
+  public void onUserNameChanged(long l, String s) {}
 
   // React LifeCycle
   @Override
@@ -275,4 +392,72 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   public void onHostPause() {}
   @Override
   public void onHostResume() {}
+
+  // React Native event emitters and event handling
+
+  private void sendEvent(String name, String event) {
+    WritableMap params = Arguments.createMap();
+    params.putString("event", event);
+
+    reactContext
+        .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+        .emit(name, params);
+  }
+
+  private String getAuthErrorName(final int errorCode) {
+    switch (errorCode) {
+      case ZoomError.ZOOM_ERROR_AUTHRET_CLIENT_INCOMPATIBLEE: return "clientIncompatible";
+      case ZoomError.ZOOM_ERROR_SUCCESS: return "success";
+      case ZoomError.ZOOM_ERROR_DEVICE_NOT_SUPPORTED: return "deviceNotSupported"; // Android only
+      case ZoomError.ZOOM_ERROR_ILLEGAL_APP_KEY_OR_SECRET: return "illegalAppKeyOrSecret"; // Android only
+      case ZoomError.ZOOM_ERROR_INVALID_ARGUMENTS: return "invalidArguments"; // Android only
+      case ZoomError.ZOOM_ERROR_NETWORK_UNAVAILABLE: return "networkUnavailable"; // Android only
+      default: return "unknown";
+    }
+  }
+
+  private String getMeetErrorName(final int errorCode) {
+    switch (errorCode) {
+      case MeetingError.MEETING_ERROR_INVALID_ARGUMENTS: return "invalidArguments";
+      case MeetingError.MEETING_ERROR_CLIENT_INCOMPATIBLE: return "meetingClientIncompatible";
+      case MeetingError.MEETING_ERROR_LOCKED: return "meetingLocked";
+      case MeetingError.MEETING_ERROR_MEETING_NOT_EXIST: return "meetingNotExist";
+      case MeetingError.MEETING_ERROR_MEETING_OVER: return "meetingOver";
+      case MeetingError.MEETING_ERROR_RESTRICTED: return "meetingRestricted";
+      case MeetingError.MEETING_ERROR_RESTRICTED_JBH: return "meetingRestrictedJBH";
+      case MeetingError.MEETING_ERROR_USER_FULL: return "meetingUserFull";
+      case MeetingError.MEETING_ERROR_MMR_ERROR: return "mmrError";
+      case MeetingError.MEETING_ERROR_NETWORK_ERROR: return "networkError";
+      case MeetingError.MEETING_ERROR_NO_MMR: return "noMMR";
+      case MeetingError.MEETING_ERROR_HOST_DENY_EMAIL_REGISTER_WEBINAR: return "registerWebinarDeniedEmail";
+      case MeetingError.MEETING_ERROR_WEBINAR_ENFORCE_LOGIN: return "registerWebinarEnforceLogin";
+      case MeetingError.MEETING_ERROR_REGISTER_WEBINAR_FULL: return "registerWebinarFull";
+      case MeetingError.MEETING_ERROR_DISALLOW_HOST_RESGISTER_WEBINAR: return "registerWebinarHostRegister";
+      case MeetingError.MEETING_ERROR_DISALLOW_PANELIST_REGISTER_WEBINAR: return "registerWebinarPanelistRegister";
+      case MeetingError.MEETING_ERROR_REMOVED_BY_HOST: return "removedByHost";
+      case MeetingError.MEETING_ERROR_SESSION_ERROR: return "sessionError";
+      case MeetingError.MEETING_ERROR_SUCCESS: return "success";
+      case MeetingError.MEETING_ERROR_EXIT_WHEN_WAITING_HOST_START: return "exitWhenWaitingHostStart"; // Android only
+      case MeetingError.MEETING_ERROR_INCORRECT_MEETING_NUMBER: return "incorrectMeetingNumber"; // Android only
+      case MeetingError.MEETING_ERROR_INVALID_STATUS: return "invalidStatus"; // Android only
+      case MeetingError.MEETING_ERROR_NETWORK_UNAVAILABLE: return "networkUnavailable"; // Android only
+      case MeetingError.MEETING_ERROR_TIMEOUT: return "timeout"; // Android only
+      case MeetingError.MEETING_ERROR_WEB_SERVICE_FAILED: return "webServiceFailed"; // Android only
+      default: return "unknown";
+    }
+  }
+
+  private String getMeetingEndReasonName(final int reason) {
+    switch (reason) {
+      case MeetingEndReason.END_BY_HOST: return "endedByHost";
+      case MeetingEndReason.END_BY_HOST_START_ANOTHERMEETING: return "endedByHostForAnotherMeeting";
+      case MeetingEndReason.END_BY_SELF: return "endedBySelf";
+      case MeetingEndReason.END_BY_SDK_CONNECTION_BROKEN: return "endedConnectBroken";
+      case MeetingEndReason.END_FOR_FREEMEET_TIMEOUT: return "endedFreeMeetingTimeout";
+      case MeetingEndReason.END_FOR_JBHTIMEOUT: return "endedJBHTimeout";
+      case MeetingEndReason.END_FOR_NOATEENDEE: return "endedNoAttendee";
+      case MeetingEndReason.KICK_BY_HOST: return "endedRemovedByHost";
+      default: return "endedUnknownReason";
+    }
+  }
 }
