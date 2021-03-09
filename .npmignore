@@ -1,1 +1,8 @@
+**/*.ts
+!**/*.d.ts
+scripts
+**/tests
+**/test
+
 docs
+.github

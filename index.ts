@@ -1,4 +1,5 @@
-import { NativeModules } from 'react-native'
+import { EventSubscriptionVendor, NativeModules } from 'react-native'
+import invariant from 'invariant'
 
 const { RNZoomUs } = NativeModules
 
@@ -9,7 +10,9 @@ const DEFAULT_USER_TYPE = 2
 export interface RNZoomUsInitializeParams {
   clientKey: string;
   clientSecret: string;
-  domain?: string
+  domain?: string;
+  iosAppGroupId?: string;
+  iosScreenShareExtensionId?: string;
 }
 async function initialize(
   params: RNZoomUsInitializeParams,
@@ -21,12 +24,13 @@ async function initialize(
     disableShowVideoPreviewWhenJoinMeeting: true,
   },
 ) {
-  if (typeof params !== 'object') {
-    throw new Error(
-      'ZoomUs.initialize expects object param. Consider to check migration docs. ' +
-        'Check Link: https://github.com/mieszko4/react-native-zoom-us/blob/master/docs/UPGRADING.md',
-    )
-  }
+  invariant(typeof params === 'object',
+    'ZoomUs.initialize expects object param. Consider to check migration docs. ' +
+    'Check Link: https://github.com/mieszko4/react-native-zoom-us/blob/master/docs/UPGRADING.md',
+  )
+
+  invariant(params.clientKey, 'ZoomUs.initialize requires clientKey')
+  invariant(params.clientSecret, 'ZoomUs.initialize requires clientSecret')
 
   if (!params.domain) params.domain = 'zoom.us'
 
@@ -48,7 +52,7 @@ export interface RNZoomUsJoinMeetingParams {
 }
 async function joinMeeting(params: RNZoomUsJoinMeetingParams) {
   let { meetingNumber, noAudio = false, noVideo = false, autoConnectAudio = false } = params
-  if (!meetingNumber) throw new Error('ZoomUs.joinMeeting requires meetingNumber')
+  invariant(meetingNumber, 'ZoomUs.joinMeeting requires meetingNumber')
   if (typeof meetingNumber !== 'string') meetingNumber = meetingNumber.toString()
 
   // without noAudio, noVideo fields SDK can stack on joining meeting room for release build
@@ -76,14 +80,15 @@ export interface RNZoomUsStartMeetingParams {
 async function startMeeting(params: RNZoomUsStartMeetingParams) {
   let { userType = DEFAULT_USER_TYPE, meetingNumber } = params
 
-  if (!meetingNumber) throw new Error('ZoomUs.startMeeting requires meetingNumber')
+  invariant(meetingNumber, 'ZoomUs.startMeeting requires meetingNumber')
   if (typeof meetingNumber !== 'string') meetingNumber = meetingNumber.toString()
 
   return RNZoomUs.startMeeting({ userType, ...params, meetingNumber })
 }
 
+export const ZoomEmitter = RNZoomUs as EventSubscriptionVendor;
+
 export default {
-  ...RNZoomUs,
   initialize,
   joinMeeting,
   joinMeetingWithPassword,
