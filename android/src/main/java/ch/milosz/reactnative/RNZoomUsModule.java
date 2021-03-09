@@ -135,7 +135,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   ) {
     try {
       meetingPromise = promise;
-      shouldAutoConnectAudio = paramMap.getBoolean("autoConnectAudio")
+      shouldAutoConnectAudio = paramMap.getBoolean("autoConnectAudio");
 
       ZoomSDK zoomSDK = ZoomSDK.getInstance();
       if(!zoomSDK.isInitialized()) {
