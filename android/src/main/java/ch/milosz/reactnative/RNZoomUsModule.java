@@ -32,6 +32,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   private final ReactApplicationContext reactContext;
 
   private Boolean isInitialized = false;
+  private Boolean shouldAutoConnectAudio = false;
   private Promise initializePromise;
   private Promise meetingPromise;
 
@@ -134,6 +135,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   ) {
     try {
       meetingPromise = promise;
+      shouldAutoConnectAudio = paramMap.getBoolean("autoConnectAudio")
 
       ZoomSDK zoomSDK = ZoomSDK.getInstance();
       if(!zoomSDK.isInitialized()) {
@@ -249,11 +251,14 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
               "Error: " + errorCode + ", internalErrorCode=" + internalErrorCode
       );
       meetingPromise = null;
+      shouldAutoConnectAudio = null;
     } else if (meetingStatus == MeetingStatus.MEETING_STATUS_INMEETING) {
       meetingPromise.resolve("Connected to zoom meeting");
       meetingPromise = null;
 
-      connectAudioWithVoIP();
+      if (shouldAutoConnectAudio == true) {
+        connectAudioWithVoIP();
+      }
     }
   }
 

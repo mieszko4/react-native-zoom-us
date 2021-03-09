@@ -4,6 +4,7 @@
 @implementation RNZoomUs
 {
   BOOL isInitialized;
+  BOOL shouldAutoConnectAudio;
   RCTPromiseResolveBlock initializePromiseResolve;
   RCTPromiseRejectBlock initializePromiseReject;
   RCTPromiseResolveBlock meetingPromiseResolve;
@@ -15,6 +16,7 @@
     isInitialized = NO;
     initializePromiseResolve = nil;
     initializePromiseReject = nil;
+    shouldAutoConnectAudio = nil;
     meetingPromiseResolve = nil;
     meetingPromiseReject = nil;
   }
@@ -117,6 +119,7 @@ RCT_EXPORT_METHOD(
 )
 {
   @try {
+    shouldAutoConnectAudio = data[@"autoConnectAudio"];
     meetingPromiseResolve = resolve;
     meetingPromiseReject = reject;
 
@@ -236,7 +239,7 @@ RCT_EXPORT_METHOD(connectAudio: (RCTPromiseResolveBlock)resolve rejecter:(RCTPro
 - (void)onMeetingStateChange:(MobileRTCMeetingState)state {
   NSLog(@"onMeetingStatusChanged, meetingState=%d", state);
 
-  if (state == MobileRTCMeetingState_InMeeting) {
+  if (state == MobileRTCMeetingState_InMeeting && shouldAutoConnectAudio == YES) {
     [self connectAudio];
   }
 
@@ -265,6 +268,7 @@ RCT_EXPORT_METHOD(connectAudio: (RCTPromiseResolveBlock)resolve rejecter:(RCTPro
     [NSError errorWithDomain:@"us.zoom.sdk" code:errorCode userInfo:nil]
   );
 
+  shouldAutoConnectAudio = nil;
   meetingPromiseResolve = nil;
   meetingPromiseReject = nil;
 }
