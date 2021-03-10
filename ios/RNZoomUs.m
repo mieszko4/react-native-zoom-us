@@ -4,6 +4,7 @@
 @implementation RNZoomUs
 {
   BOOL isInitialized;
+  BOOL shouldAutoConnectAudio;
   BOOL hasObservers;
   RCTPromiseResolveBlock initializePromiseResolve;
   RCTPromiseRejectBlock initializePromiseReject;
@@ -19,6 +20,7 @@
     isInitialized = NO;
     initializePromiseResolve = nil;
     initializePromiseReject = nil;
+    shouldAutoConnectAudio = nil;
     meetingPromiseResolve = nil;
     meetingPromiseReject = nil;
     screenShareExtension = nil;
@@ -122,6 +124,7 @@ RCT_EXPORT_METHOD(
 )
 {
   @try {
+    shouldAutoConnectAudio = data[@"autoConnectAudio"];
     meetingPromiseResolve = resolve;
     meetingPromiseReject = reject;
 
@@ -178,6 +181,32 @@ RCT_EXPORT_METHOD(
   }
 }
 
+RCT_EXPORT_METHOD(leaveMeeting: (RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+  @try {
+    MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
+    if (!ms) return;
+    [ms leaveMeetingWithCmd:LeaveMeetingCmd_Leave];
+  } @catch (NSError *ex) {
+    reject(@"ERR_UNEXPECTED_EXCEPTION", @"Executing leaveMeeting", ex);
+  }
+}
+
+RCT_EXPORT_METHOD(connectAudio: (RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+  @try {
+    [self connectAudio];
+  } @catch (NSError *ex) {
+    reject(@"ERR_UNEXPECTED_EXCEPTION", @"Executing connectAudio", ex);
+  }
+}
+
+- (void)connectAudio {
+  MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
+  if (!ms) return;
+  [ms connectMyAudio: YES];
+  [ms muteMyAudio: NO];
+  NSLog(@"connectAudio");
+}
+
 - (void)onMobileRTCAuthReturn:(MobileRTCAuthError)returnValue {
   NSLog(@"nZoomSDKInitializeResult, errorCode=%d", returnValue);
   [self sendEventWithName:@"AuthEvent" event:[self authErrorName:returnValue]];
@@ -217,6 +246,10 @@ RCT_EXPORT_METHOD(
 - (void)onMeetingStateChange:(MobileRTCMeetingState)state {
   NSLog(@"onMeetingStatusChanged, meetingState=%d", state);
 
+  if (state == MobileRTCMeetingState_InMeeting && shouldAutoConnectAudio == YES) {
+    [self connectAudio];
+  }
+
   if (state == MobileRTCMeetingState_InMeeting || state == MobileRTCMeetingState_Idle) {
     if (!meetingPromiseResolve) {
       return;
@@ -243,6 +276,7 @@ RCT_EXPORT_METHOD(
     [NSError errorWithDomain:@"us.zoom.sdk" code:errorCode userInfo:nil]
   );
 
+  shouldAutoConnectAudio = nil;
   meetingPromiseResolve = nil;
   meetingPromiseReject = nil;
 }

@@ -42,6 +42,7 @@ export interface RNZoomUsJoinMeetingParams {
   meetingNumber: string | number
   password?: string
   participantID?: string
+  autoConnectAudio?: boolean
   noAudio?: boolean
   noVideo?: boolean
 
@@ -50,7 +51,7 @@ export interface RNZoomUsJoinMeetingParams {
   webinarToken?: string
 }
 async function joinMeeting(params: RNZoomUsJoinMeetingParams) {
-  let { meetingNumber, noAudio = false, noVideo = false } = params
+  let { meetingNumber, noAudio = false, noVideo = false, autoConnectAudio = false } = params
   invariant(meetingNumber, 'ZoomUs.joinMeeting requires meetingNumber')
   if (typeof meetingNumber !== 'string') meetingNumber = meetingNumber.toString()
 
@@ -60,6 +61,7 @@ async function joinMeeting(params: RNZoomUsJoinMeetingParams) {
     meetingNumber,
     noAudio: !!noAudio, // required
     noVideo: !!noVideo, // required
+    autoConnectAudio,   // required
   })
 }
 

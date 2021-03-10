@@ -29,7 +29,9 @@ import us.zoom.sdk.ZoomSDKInitializeListener;
 import us.zoom.sdk.MeetingStatus;
 import us.zoom.sdk.MeetingError;
 import us.zoom.sdk.MeetingService;
+import us.zoom.sdk.InMeetingService;
 import us.zoom.sdk.MeetingServiceListener;
+import us.zoom.sdk.InMeetingAudioController;
 
 import us.zoom.sdk.StartMeetingOptions;
 import us.zoom.sdk.StartMeetingParamsWithoutLogin;
@@ -43,6 +45,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   private final ReactApplicationContext reactContext;
 
   private Boolean isInitialized = false;
+  private Boolean shouldAutoConnectAudio = false;
   private Promise initializePromise;
   private Promise meetingPromise;
 
@@ -151,6 +154,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   ) {
     try {
       meetingPromise = promise;
+      shouldAutoConnectAudio = paramMap.getBoolean("autoConnectAudio");
 
       ZoomSDK zoomSDK = ZoomSDK.getInstance();
       if(!zoomSDK.isInitialized()) {
@@ -216,6 +220,24 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     }
   }
 
+  @ReactMethod
+  public void leaveMeeting() {
+    ZoomSDK zoomSDK = ZoomSDK.getInstance();
+
+    if (!zoomSDK.isInitialized()) {
+      return;
+    }
+
+    final MeetingService meetingService = zoomSDK.getMeetingService();
+
+    meetingService.leaveCurrentMeeting(false);
+  }
+
+  @ReactMethod
+  public void connectAudio() {
+    connectAudioWithVoIP();
+  }
+
   @Override
   public void onZoomSDKInitializeResult(int errorCode, int internalErrorCode) {
     Log.i(TAG, "onZoomSDKInitializeResult, errorCode=" + errorCode + ", internalErrorCode=" + internalErrorCode);
@@ -256,10 +278,30 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
               "Error: " + errorCode + ", internalErrorCode=" + internalErrorCode
       );
       meetingPromise = null;
+      shouldAutoConnectAudio = null;
     } else if (meetingStatus == MeetingStatus.MEETING_STATUS_INMEETING) {
       meetingPromise.resolve("Connected to zoom meeting");
       meetingPromise = null;
+
+      if (shouldAutoConnectAudio == true) {
+        connectAudioWithVoIP();
+      }
     }
+  }
+
+  private void connectAudioWithVoIP() {
+    ZoomSDK zoomSDK = ZoomSDK.getInstance();
+
+    if (!zoomSDK.isInitialized()) {
+      return;
+    }
+
+    final InMeetingService inMeetingService = zoomSDK.getInMeetingService();
+
+    final InMeetingAudioController audioController = inMeetingService.getInMeetingAudioController();
+
+    audioController.connectAudioWithVoIP();
+    audioController.muteMyAudio(false);
   }
 
   private void registerListener() {
