@@ -168,6 +168,15 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
       if(paramMap.hasKey("participantID")) opts.participant_id = paramMap.getString("participantID");
       if(paramMap.hasKey("noAudio")) opts.no_audio = paramMap.getBoolean("noAudio");
       if(paramMap.hasKey("noVideo")) opts.no_video = paramMap.getBoolean("noVideo");
+      if(paramMap.hasKey("noInvite")) opts.no_invite = paramMap.getBoolean("noInvite");
+      if(paramMap.hasKey("noBottomToolbar")) opts.no_bottom_toolbar = paramMap.getBoolean("noBottomToolbar");
+      if(paramMap.hasKey("noPhoneDialIn")) opts.no_dial_in_via_phone = paramMap.getBoolean("noPhoneDialIn");
+      if(paramMap.hasKey("noPhoneDialOut")) opts.no_dial_out_to_phone = paramMap.getBoolean("noPhoneDialOut");
+      if(paramMap.hasKey("noMeetingEndMessage")) opts.no_meeting_end_message = paramMap.getBoolean("noMeetingEndMessage");
+      if(paramMap.hasKey("noMeetingErrorMessage")) opts.no_meeting_error_message = paramMap.getBoolean("noMeetingErrorMessage");
+      if(paramMap.hasKey("noShare")) opts.no_share = paramMap.getBoolean("noShare");
+      if(paramMap.hasKey("noTitlebar")) opts.no_titlebar = paramMap.getBoolean("noTitlebar");
+      if(paramMap.hasKey("noTitlebar")) opts.no_titlebar = paramMap.getBoolean("noTitlebar");
 
       JoinMeetingParams params = new JoinMeetingParams();
       params.displayName = paramMap.getString("userName");
