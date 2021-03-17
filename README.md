@@ -5,7 +5,7 @@ This is a bridge for ZoomUS SDK:
 - android: https://github.com/zoom/zoom-sdk-android
 - ios: https://github.com/zoom/zoom-sdk-ios
 
-Tested on XCode 11.5 and node 12.18.1.
+Tested on XCode 12.2 and react-native 0.63.3. ([See details](https://github.com/mieszko4/react-native-zoom-us#testing))
 
 Pull requests are welcome.
 
@@ -18,15 +18,51 @@ Pull requests are welcome.
 
 ### Installation
 
-Library will be linked automatically. 
+If you have `react-native < 0.60`, check [Full Linking Guide](https://github.com/mieszko4/react-native-zoom-us/tree/master/docs/LINKING.md)
 
-If you have `react-native < 0.60`, check [Linking Guide](https://github.com/mieszko4/react-native-zoom-us/tree/master/docs/LINKING.md)
+#### Android
+
+1. Add repository to `android/build.gradle`:
+```gradle
+allprojects {
+    repositories {
+        flatDir {
+            dirs "$rootDir/../node_modules/react-native-zoom-us/android/libs"
+        }
+    }
+}   
+```
+
+2. Set `minSdkVersion` to `21`
+```gradle
+buildscript {
+    ext {
+        minSdkVersion = 21
+    }
+}
+```
+
+See [diff](https://github.com/mieszko4/react-native-zoom-us-test/pull/10/commits/cabdb876cc40f78f0a6d977d38377497be5e0726) for reference.
 
 #### iOS
-Make sure you have appropriate description in Info.plist:
-* `NSCameraUsageDescription`
-* `NSMicrophoneUsageDescription`
-* `NSPhotoLibraryUsageDescription`
+1. Make sure you have appropriate description in `Info.plist`:
+```xml
+<key>NSBluetoothPeripheralUsageDescription</key>
+<string>We will use your Bluetooth to access your Bluetooth headphones.</string>
+	
+<key>NSCameraUsageDescription</key>
+<string>For people to see you during meetings, we need access to your camera.</string>
+	
+<key>NSMicrophoneUsageDescription</key>
+<string>For people to hear you during meetings, we need access to your microphone.</string>
+	
+<key>NSPhotoLibraryUsageDescription</key>
+<string>For people to share, we need access to your photos.</string>
+```
+
+2. Update pods using `cd ios/ && pod install && cd ..`
+
+3. Make sure to set `ENABLE_BITCODE = NO;` for both Debug and Release because bitcode is not supported by Zoom iOS SDK 
 
 ## Usage
 ```typescript
@@ -74,6 +110,16 @@ await ZoomUs.joinMeeting({
   noVideo: true,
 })
 ```
+
+## Testing
+
+The plugin has been tested for `joinMeeting` using [smoke test procedure]https://github.com/mieszko4/react-native-zoom-us-test#smoke-test-procedure:
+* react-native-zoom-us: 5.3.0
+* react-native: 0.63.3
+* node: 12.6.3
+* macOS: 10.15.5
+* XCode: 12.2
+* android minSdkVersion: 21
 
 
 ## FAQ
