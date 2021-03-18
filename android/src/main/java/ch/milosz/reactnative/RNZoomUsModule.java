@@ -176,7 +176,6 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
       if(paramMap.hasKey("noMeetingErrorMessage")) opts.no_meeting_error_message = paramMap.getBoolean("noMeetingErrorMessage");
       if(paramMap.hasKey("noShare")) opts.no_share = paramMap.getBoolean("noShare");
       if(paramMap.hasKey("noTitlebar")) opts.no_titlebar = paramMap.getBoolean("noTitlebar");
-      if(paramMap.hasKey("noTitlebar")) opts.no_titlebar = paramMap.getBoolean("noTitlebar");
 
       JoinMeetingParams params = new JoinMeetingParams();
       params.displayName = paramMap.getString("userName");

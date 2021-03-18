@@ -46,6 +46,16 @@ export interface RNZoomUsJoinMeetingParams {
   noAudio?: boolean
   noVideo?: boolean
 
+  // android only fields:
+  noInvite?: boolean
+  noBottomToolbar?: boolean
+  noPhoneDialIn?: boolean
+  noPhoneDialOut?: boolean
+  noMeetingEndMessage?: boolean
+  noMeetingErrorMessage?: boolean
+  noShare?: boolean
+  noTitlebar?: boolean
+
   // ios only fields:
   zoomAccessToken?: string
   webinarToken?: string
