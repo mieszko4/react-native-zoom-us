@@ -86,6 +86,14 @@ async function startMeeting(params: RNZoomUsStartMeetingParams) {
   return RNZoomUs.startMeeting({ userType, ...params, meetingNumber })
 }
 
+async function leaveMeeting() {
+  return RNZoomUs.leaveMeeting()
+}
+
+async function connectAudio() {
+  return RNZoomUs.connectAudio()
+}
+
 export const ZoomEmitter = RNZoomUs as EventSubscriptionVendor;
 
 export default {
