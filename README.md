@@ -111,6 +111,12 @@ await ZoomUs.joinMeeting({
 })
 ```
 
+## Docs
+
+- [Screenshare on iOS](https://github.com/mieszko4/react-native-zoom-us/tree/master/docs/IOS-SCREENSHARE.md)
+- [Events](https://github.com/mieszko4/react-native-zoom-us/tree/master/docs/EVENTS.md)
+
+
 ## Testing
 
 The plugin has been tested for `joinMeeting` using [smoke test procedure]https://github.com/mieszko4/react-native-zoom-us-test#smoke-test-procedure:
