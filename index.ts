@@ -101,4 +101,6 @@ export default {
   joinMeeting,
   joinMeetingWithPassword,
   startMeeting,
+  connectAudio,
+  leaveMeeting
 }
