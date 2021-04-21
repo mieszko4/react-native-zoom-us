@@ -25,6 +25,7 @@ import us.zoom.sdk.MeetingSettingsHelper;
 import us.zoom.sdk.ZoomSDK;
 import us.zoom.sdk.ZoomError;
 import us.zoom.sdk.ZoomSDKInitializeListener;
+import us.zoom.sdk.ZoomSDKInitParams;
 
 import us.zoom.sdk.MeetingStatus;
 import us.zoom.sdk.MeetingError;
@@ -82,13 +83,26 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
           @Override
           public void run() {
             ZoomSDK zoomSDK = ZoomSDK.getInstance();
-            zoomSDK.initialize(
-              reactContext.getCurrentActivity(),
-              params.getString("clientKey"),
-              params.getString("clientSecret"),
-              params.getString("domain"),
-              RNZoomUsModule.this
-            );
+
+            if (params.hasKey("jwtToken")) {
+                ZoomSDKInitParams initParams = new ZoomSDKInitParams();
+                initParams.jwtToken = params.getString("jwtToken");
+                initParams.domain = params.getString("domain");
+
+                zoomSDK.initialize(
+                  reactContext.getCurrentActivity(),
+                  RNZoomUsModule.this,
+                  initParams
+                );
+            } else {
+              zoomSDK.initialize(
+                reactContext.getCurrentActivity(),
+                params.getString("clientKey"),
+                params.getString("clientSecret"),
+                params.getString("domain"),
+                RNZoomUsModule.this
+              );
+            }
           }
       });
     } catch (Exception ex) {

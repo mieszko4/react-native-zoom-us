@@ -7,15 +7,23 @@ if (!RNZoomUs) console.error('RNZoomUs native module is not linked.')
 
 const DEFAULT_USER_TYPE = 2
 
-export interface RNZoomUsInitializeParams {
-  clientKey: string;
-  clientSecret: string;
+interface RNZoomUsInitializeCommonParams {
   domain?: string;
   iosAppGroupId?: string;
   iosScreenShareExtensionId?: string;
 }
+export interface RNZoomUsInitializeParams extends RNZoomUsInitializeCommonParams {
+  clientKey: string;
+  clientSecret: string;
+}
+
+export interface RNZoomUsSDKInitParams extends RNZoomUsInitializeCommonParams {
+  jwtToken: string;
+  // we don't care for the rest, for now
+}
+
 async function initialize(
-  params: RNZoomUsInitializeParams,
+  params: RNZoomUsInitializeParams|RNZoomUsSDKInitParams,
   settings: {
     // ios only
     disableShowVideoPreviewWhenJoinMeeting?: boolean
@@ -29,8 +37,12 @@ async function initialize(
     'Check Link: https://github.com/mieszko4/react-native-zoom-us/blob/master/docs/UPGRADING.md',
   )
 
-  invariant(params.clientKey, 'ZoomUs.initialize requires clientKey')
-  invariant(params.clientSecret, 'ZoomUs.initialize requires clientSecret')
+  if ('jwtToken' in params) {
+    invariant(params.jwtToken, 'ZoomUs.initialize requires jwtToken')
+  } else {
+    invariant(params.clientKey, 'ZoomUs.initialize requires clientKey')
+    invariant(params.clientSecret, 'ZoomUs.initialize requires clientSecret')
+  }
 
   if (!params.domain) params.domain = 'zoom.us'
 
