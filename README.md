@@ -77,6 +77,11 @@ await ZoomUs.initialize({
   clientSecret: '...',
 })
 
+// initialize using JWT
+await ZoomUs.initialize({
+  jwtToken: '...',
+})
+
 // initialize with extra config
 await ZoomUs.initialize({
   clientKey: '...',

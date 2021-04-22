@@ -13,6 +13,8 @@
   // If screenShareExtension is set, the Share Content > Screen option will automatically be
   // enabled in the UI
   NSString *screenShareExtension;
+
+  NSString *jwtToken;
 }
 
 - (instancetype)init {
@@ -24,6 +26,7 @@
     meetingPromiseResolve = nil;
     meetingPromiseReject = nil;
     screenShareExtension = nil;
+    jwtToken = nil;
   }
   return self;
 }
@@ -59,6 +62,7 @@ RCT_EXPORT_METHOD(
     initializePromiseReject = reject;
 
     screenShareExtension = data[@"iosScreenShareExtensionId"];
+    jwtToken = data[@"jwtToken"];
 
     MobileRTCSDKInitContext *context = [[MobileRTCSDKInitContext alloc] init];
     context.domain = data[@"domain"];
@@ -75,9 +79,12 @@ RCT_EXPORT_METHOD(
     if (authService)
     {
       authService.delegate = self;
-
-      authService.clientKey = data[@"clientKey"];
-      authService.clientSecret = data[@"clientSecret"];
+      if (jwtToken != nil) {
+        authService.jwtToken = data[@"jwtToken"];
+      } else {
+        authService.clientKey = data[@"clientKey"];
+        authService.clientSecret = data[@"clientSecret"];
+      }
 
       [authService sdkAuth];
     } else {
