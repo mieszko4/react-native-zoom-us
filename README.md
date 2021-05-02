@@ -3,10 +3,10 @@
 
 This is a bridge for ZoomUS SDK:
 
-| Platform      | Version           | Url  |
-| :-----------: |:---------------:| :----------------------------------------|
-| IOS	        | 5.4.54802.0124  | https://github.com/zoom/zoom-sdk-ios     |
-| Android       | 5.0.24433.0616  | https://github.com/zoom/zoom-sdk-android |
+| Platform      | Version           | Url                                      | Changelog                                                            |
+| :-----------: | :---------------: | :--------------------------------------: | :------------------------------------------------------------------: |
+| iOS	          | 5.4.54802.0124    | https://github.com/zoom/zoom-sdk-ios     | https://marketplace.zoom.us/docs/changelog#labels/client-sdk-i-os    |
+| Android       | 5.0.24433.0616    | https://github.com/zoom/zoom-sdk-android | https://marketplace.zoom.us/docs/changelog#labels/client-sdk-android |
 
 Tested on XCode 12.2 and react-native 0.63.3. ([See details](https://github.com/mieszko4/react-native-zoom-us#testing))
 
@@ -128,11 +128,11 @@ await ZoomUs.joinMeeting({
 ## Testing
 
 The plugin has been tested for `joinMeeting` using [smoke test procedure]https://github.com/mieszko4/react-native-zoom-us-test#smoke-test-procedure:
-* react-native-zoom-us: 5.3.0
-* react-native: 0.63.3
-* node: 12.6.3
+* react-native-zoom-us: 5.8.1
+* react-native: 0.64.0
+* node: 14.16.0
 * macOS: 10.15.5
-* XCode: 12.2
+* XCode: 12.4
 * android minSdkVersion: 21
 
 
