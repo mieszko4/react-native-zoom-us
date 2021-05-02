@@ -1,4 +1,4 @@
-import { EventSubscriptionVendor, NativeModules } from 'react-native'
+import { NativeModule, NativeModules } from 'react-native'
 import invariant from 'invariant'
 
 const { RNZoomUs } = NativeModules
@@ -116,7 +116,7 @@ async function connectAudio() {
   return RNZoomUs.connectAudio()
 }
 
-export const ZoomEmitter = RNZoomUs as EventSubscriptionVendor;
+export const ZoomEmitter = RNZoomUs as NativeModule;
 
 export default {
   initialize,
