@@ -117,6 +117,13 @@ await ZoomUs.joinMeeting({
   noAudio: true,
   noVideo: true,
 })
+
+// Leave Meeting
+await ZoomUs.leaveMeeting()
+
+// Connect Audio
+await ZoomUs.connectAudio()
+// you can also use autoConnectAudio: true in `ZoomUs.joinMeeting`
 ```
 
 ## Docs
