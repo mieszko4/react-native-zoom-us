@@ -277,11 +277,15 @@ RCT_EXPORT_METHOD(connectAudio: (RCTPromiseResolveBlock)resolve rejecter:(RCTPro
     return;
   }
 
-  meetingPromiseReject(
-    @"ERR_ZOOM_MEETING",
-    [NSString stringWithFormat:@"Error: %d, internalErrorCode=%@", errorCode, message],
-    [NSError errorWithDomain:@"us.zoom.sdk" code:errorCode userInfo:nil]
-  );
+  if (errorCode != MobileRTCMeetError_Success) {
+    meetingPromiseReject(
+      @"ERR_ZOOM_MEETING",
+      [NSString stringWithFormat:@"Error: %d, internalErrorCode=%@", errorCode, message],
+      [NSError errorWithDomain:@"us.zoom.sdk" code:errorCode userInfo:nil]
+    );
+  } else {
+    meetingPromiseResolve(@"Connected to zoom meeting");
+  }
 
   shouldAutoConnectAudio = nil;
   meetingPromiseResolve = nil;
