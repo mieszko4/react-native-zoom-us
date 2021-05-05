@@ -288,7 +288,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   public void onMeetingStatusChanged(MeetingStatus meetingStatus, int errorCode, int internalErrorCode) {
     Log.i(TAG, "onMeetingStatusChanged, meetingStatus=" + meetingStatus + ", errorCode=" + errorCode + ", internalErrorCode=" + internalErrorCode);
 
-    sendEvent("MeetingEvent", getMeetErrorName(errorCode));
+    sendEvent("MeetingEvent", getMeetErrorName(errorCode), meetingStatus);
 
     if (meetingPromise == null) {
       return;
@@ -462,6 +462,15 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   private void sendEvent(String name, String event) {
     WritableMap params = Arguments.createMap();
     params.putString("event", event);
+
+    reactContext
+        .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+        .emit(name, params);
+  }
+  private void sendEvent(String name, String event, MeetingStatus status) {
+    WritableMap params = Arguments.createMap();
+    params.putString("event", event);
+    params.putString("status", status.name());
 
     reactContext
         .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
