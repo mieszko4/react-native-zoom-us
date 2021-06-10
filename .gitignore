@@ -47,6 +47,4 @@ buck-out/
 .npmrc
 
 # ignore compiled
-**/*.js
-**/*.d.ts
 !typings/*
