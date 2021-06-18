@@ -105,6 +105,16 @@ export interface RNZoomUsStartMeetingParams {
   userId: string
   userType?: number // looks like can be different for IOS and Android
   zoomAccessToken: string
+
+  // android only fields:
+  noInvite?: boolean
+
+  noButtonLeave?: boolean
+  noButtonMore?: boolean
+  noButtonParticipants?: boolean
+  noButtonShare?: boolean
+  noTextMeetingId?: boolean
+  noTextPassword?: boolean
 }
 async function startMeeting(params: RNZoomUsStartMeetingParams) {
   let { userType = DEFAULT_USER_TYPE, meetingNumber } = params
