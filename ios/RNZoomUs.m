@@ -72,8 +72,9 @@ RCT_EXPORT_METHOD(
     //Note: This step is optional, Method is uesd for iOS Replaykit Screen share integration,if not,just ignore this step.
     context.appGroupId = data[@"iosAppGroupId"];
     BOOL initializeSuc = [[MobileRTC sharedRTC] initialize:context];
-    [[[MobileRTC sharedRTC] getMeetingSettings]
-      disableShowVideoPreviewWhenJoinMeeting:settings[@"disableShowVideoPreviewWhenJoinMeeting"]];
+    MobileRTCMeetingSettings zoomSettings = [[MobileRTC sharedRTC] getMeetingSettings];
+    [zoomSettings disableShowVideoPreviewWhenJoinMeeting:settings[@"disableShowVideoPreviewWhenJoinMeeting"]];
+    zoomSettings.enableCustomMeeting = settings[@"enableCustomizedMeetingUI"];
 
     MobileRTCAuthService *authService = [[MobileRTC sharedRTC] getAuthService];
     if (authService)

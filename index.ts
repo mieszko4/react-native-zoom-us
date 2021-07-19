@@ -25,14 +25,13 @@ export interface RNZoomUsSDKInitParams extends RNZoomUsInitializeCommonParams {
 async function initialize(
   params: RNZoomUsInitializeParams|RNZoomUsSDKInitParams,
   settings: {
+    enableCustomizedMeetingUI?: boolean,
     // ios only
     disableShowVideoPreviewWhenJoinMeeting?: boolean
-    // android only
-    enableCustomizedMeetingUI?: boolean
   } = {
+    enableCustomizedMeetingUI: false,
     // more details inside: https://github.com/mieszko4/react-native-zoom-us/issues/28
     disableShowVideoPreviewWhenJoinMeeting: true,
-    enableCustomizedMeetingUI: false,
   },
 ) {
   invariant(typeof params === 'object',
