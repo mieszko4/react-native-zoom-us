@@ -27,9 +27,12 @@ async function initialize(
   settings: {
     // ios only
     disableShowVideoPreviewWhenJoinMeeting?: boolean
+    // android only
+    enableCustomizedMeetingUI?: boolean
   } = {
     // more details inside: https://github.com/mieszko4/react-native-zoom-us/issues/28
     disableShowVideoPreviewWhenJoinMeeting: true,
+    enableCustomizedMeetingUI: false,
   },
 ) {
   invariant(typeof params === 'object',
