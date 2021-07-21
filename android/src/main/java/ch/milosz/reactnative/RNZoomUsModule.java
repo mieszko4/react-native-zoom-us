@@ -721,6 +721,16 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     sendEvent("MeetingEvent", getMeetingEndReasonName((int)ret));
   }
 
+  @Override
+  public void onMeetingUserJoin(List<Long> list) {
+    sendEvent("MeetingEvent", "userJoin", list);
+  }
+
+  @Override
+  public void onMeetingUserLeave(List<Long> list) {
+    sendEvent("MeetingEvent", "userLeave", list);
+  }
+
   // Required methods for InMeetingServiceListener
   @Override
   public void onMeetingNeedPasswordOrDisplayName(boolean b, boolean b1, InMeetingEventHandler inMeetingEventHandler) {}
@@ -732,10 +742,6 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   public void onMeetingNeedColseOtherMeeting(InMeetingEventHandler inMeetingEventHandler) {}
   @Override
   public void onMeetingFail(int i, int i1) {}
-  @Override
-  public void onMeetingUserJoin(List<Long> list) {}
-  @Override
-  public void onMeetingUserLeave(List<Long> list) {}
   @Override
   public void onMeetingUserUpdated(long l) {}
   @Override
@@ -807,6 +813,22 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     WritableMap params = Arguments.createMap();
     params.putString("event", event);
     params.putString("status", status.name());
+
+    reactContext
+        .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+        .emit(name, params);
+  }
+
+  private void sendEvent(String name, String event, List<Long> userList) {
+    WritableMap params = Arguments.createMap();
+    WritableArray users = Arguments.createArray();
+
+    for (final Long userId : userList) {
+      users.pushString(userId.toString());
+    }
+
+    params.putString("event", event);
+    params.putString("user_list", users);
 
     reactContext
         .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)

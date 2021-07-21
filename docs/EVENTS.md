@@ -89,6 +89,8 @@ zoomEmitter.addListener('Meeting', (meetingEvent) => {
   //   Event: "endedRemovedByHost"
   //   Event: "endedUnknownReason"
   //   Event: "endedNoAttendee"
+  //   Event: "userJoin"
+  //   Event: "userLeave"
 });
 
 ```
