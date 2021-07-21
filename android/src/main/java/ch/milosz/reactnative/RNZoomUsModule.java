@@ -150,7 +150,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
         try {
           ZoomSDK zoomSDK = ZoomSDK.getInstance();
           if(!zoomSDK.isInitialized()) {
-            promise.reject("ERR_ZOOM_START", "ZoomSDK has not been initialized successfully");
+            meetingPromise.reject("ERR_ZOOM_START", "ZoomSDK has not been initialized successfully");
             return;
           }
 
@@ -161,13 +161,13 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
             try {
               lMeetingNo = Long.parseLong(meetingNo);
             } catch (NumberFormatException e) {
-              promise.reject("ERR_ZOOM_START", "Invalid meeting number: " + meetingNo);
+              meetingPromise.reject("ERR_ZOOM_START", "Invalid meeting number: " + meetingNo);
               return;
             }
 
             if(meetingService.getCurrentRtcMeetingNumber() == lMeetingNo) {
               meetingService.returnToMeeting(reactContext.getCurrentActivity());
-              promise.resolve("Already joined zoom meeting");
+              meetingPromise.resolve("Already joined zoom meeting");
               return;
             }
           }
@@ -195,7 +195,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
           Log.i(TAG, "startMeeting, startMeetingResult=" + startMeetingResult);
 
           if (startMeetingResult != MeetingError.MEETING_ERROR_SUCCESS) {
-            promise.reject("ERR_ZOOM_START", "startMeeting, errorCode=" + startMeetingResult);
+            meetingPromise.reject("ERR_ZOOM_START", "startMeeting, errorCode=" + startMeetingResult);
           }
         } catch (Exception ex) {
           meetingPromise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
