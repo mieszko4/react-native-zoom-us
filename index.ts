@@ -146,8 +146,16 @@ async function getInMeetingUserList() {
   return RNZoomUs.getInMeetingUserList()
 }
 
-async function muteMyself(muted: boolean) {
-  return RNZoomUs.muteMyself(muted)
+async function rotateMyVideo(rotation: number) {
+  return RNZoomUs.rotateMyVideo(rotation)
+}
+
+async function muteMyVideo(muted: boolean) {
+  return RNZoomUs.muteMyVideo(muted)
+}
+
+async function muteMyAudio(muted: boolean) {
+  return RNZoomUs.muteMyAudio(muted)
 }
 
 async function muteAttendee(userId: string, muted: boolean) {
@@ -192,7 +200,9 @@ export default {
   isMeetingHost,
   isUnmuteSelfAllowed,
   getInMeetingUserList,
-  muteMyself,
+  rotateMyVideo,
+  muteMyVideo,
+  muteMyAudio,
   muteAttendee,
   muteAllAttendee,
   startShareScreen,

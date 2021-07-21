@@ -374,7 +374,47 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   }
 
   @ReactMethod
-  public void muteMyself(final boolean muted, Promise promise) {
+  public void muteMyVideo(final boolean muted, Promise promise) {
+    ZoomSDK zoomSDK = ZoomSDK.getInstance();
+
+    if (!zoomSDK.isInitialized()) {
+      return;
+    }
+
+    final InMeetingService inMeetingService = zoomSDK.getInMeetingService();
+
+    final InMeetingVideoController videoController = inMeetingService.getInMeetingVideoController();
+
+    MobileRTCSDKError result = videoController.muteMyVideo(muted);
+
+    if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
+      promise.resolve(null);
+    } else {
+      promise.reject("ERR_ZOOM_MEETING", "Error: Operation error " + result.name());
+    }
+  }
+
+  @ReactMethod
+  public void rotateMyVideo(final int rotation, Promise promise) {
+    ZoomSDK zoomSDK = ZoomSDK.getInstance();
+
+    if (!zoomSDK.isInitialized()) {
+      return;
+    }
+
+    final InMeetingService inMeetingService = zoomSDK.getInMeetingService();
+
+    final InMeetingVideoController videoController = inMeetingService.getInMeetingVideoController();
+
+    if (videoController.rotateMyVideo(rotation)) {
+      promise.resolve(null);
+    } else {
+      promise.reject("ERR_ZOOM_MEETING", "Error: Rotate video failed");
+    }
+  }
+
+  @ReactMethod
+  public void muteMyAudio(final boolean muted, Promise promise) {
     ZoomSDK zoomSDK = ZoomSDK.getInstance();
 
     if (!zoomSDK.isInitialized()) {
