@@ -144,6 +144,7 @@ await ZoomUs.connectAudio()
 
 - [Screenshare on iOS](https://github.com/mieszko4/react-native-zoom-us/tree/master/docs/IOS-SCREENSHARE.md)
 - [Events](https://github.com/mieszko4/react-native-zoom-us/tree/master/docs/EVENTS.md)
+- [Video View Component](docs/VIDEO-VIEW.md)
 
 
 ## Testing
