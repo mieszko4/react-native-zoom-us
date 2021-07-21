@@ -12,11 +12,14 @@ import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.uimanager.UIManagerModule;
+import com.facebook.react.uimanager.NativeViewHierarchyManager;
+import com.facebook.react.uimanager.UIBlock;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 
 import java.util.List;
 import java.util.Collections;
 
+import us.zoom.sdk.InMeetingVideoController;
 import us.zoom.sdk.InMeetingAudioController;
 import us.zoom.sdk.InMeetingChatMessage;
 import us.zoom.sdk.InMeetingEventHandler;
@@ -35,9 +38,6 @@ import us.zoom.sdk.MeetingError;
 import us.zoom.sdk.MeetingService;
 import us.zoom.sdk.InMeetingService;
 import us.zoom.sdk.MeetingServiceListener;
-import us.zoom.sdk.InMeetingAudioController;
-import us.zoom.sdk.InMeetingShareController;
-import us.zoom.sdk.InMeetingVideoController;
 
 import us.zoom.sdk.MobileRTCSDKError;
 
@@ -61,7 +61,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   private Boolean shouldDisablePreview = false;
   private Boolean customizedMeetingUIEnabled = false;
 
-  private List<int> videoViews = Collections.emptyList();
+  private List<Integer> videoViews = Collections.emptyList();
 
   public RNZoomUsModule(ReactApplicationContext reactContext) {
     super(reactContext);
@@ -121,7 +121,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
           }
       });
     } catch (Exception ex) {
-      promise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
+      meetingPromise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
     }
   }
 
@@ -198,7 +198,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
             promise.reject("ERR_ZOOM_START", "startMeeting, errorCode=" + startMeetingResult);
           }
         } catch (Exception ex) {
-          promise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
+          meetingPromise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
         }
       }
     });
@@ -258,7 +258,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
             promise.reject("ERR_ZOOM_JOIN", "joinMeeting, errorCode=" + joinMeetingResult);
           }
         } catch (Exception ex) {
-          promise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
+          meetingPromise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
         }
       }
     });
@@ -298,7 +298,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
             promise.reject("ERR_ZOOM_JOIN", "joinMeeting, errorCode=" + joinMeetingResult);
           }
         } catch (Exception ex) {
-          promise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
+          meetingPromise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
         }
       }
     });
@@ -350,21 +350,6 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     final InMeetingService inMeetingService = zoomSDK.getInMeetingService();
 
     promise.resolve(inMeetingService.isMeetingHost());
-  }
-
-  @ReactMethod
-  public void isUnmuteSelfAllowed(Promise promise) {
-    WritableArray rnUserList = Arguments.createArray();
-    ZoomSDK zoomSDK = ZoomSDK.getInstance();
-
-    if (!zoomSDK.isInitialized()) {
-      promise.resolve(false);
-      return;
-    }
-
-    final InMeetingService inMeetingService = zoomSDK.getInMeetingService();
-
-    promise.resolve(inMeetingService.isParticipantsUnmuteSelfAllowed());
   }
 
   @ReactMethod
@@ -545,7 +530,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
     final InMeetingVideoController videoController = inMeetingService.getInMeetingVideoController();
 
-    if (shareController.switchToNextCamera()) {
+    if (videoController.switchToNextCamera()) {
       promise.resolve(null);
     } else {
       promise.reject("ERR_ZOOM_MEETING", "Error: Switch camera failed");
@@ -599,9 +584,9 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
             for (final int tagId : videoViews) {
               try {
                   final RNZoomUsVideoView view = (RNZoomUsVideoView) nativeViewHierarchyManager.resolveView(tagId);
-                  if (view) view.update();
+                  if (view != null) view.update();
               } catch (Exception e) {
-                  Loe.e(TAG, e.getMessage());
+                  Log.e(TAG, e.getMessage());
               }
             }
         }
@@ -843,7 +828,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     }
 
     params.putString("event", event);
-    params.putString("user_list", users);
+    params.putArray("user_list", users);
 
     reactContext
         .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)

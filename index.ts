@@ -142,10 +142,6 @@ async function isMeetingHost() {
   return RNZoomUs.isMeetingHost()
 }
 
-async function isUnmuteSelfAllowed() {
-  return RNZoomUs.isUnmuteSelfAllowed()
-}
-
 async function getInMeetingUserList() {
   return RNZoomUs.getInMeetingUserList()
 }

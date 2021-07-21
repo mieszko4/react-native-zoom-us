@@ -15,7 +15,7 @@ import us.zoom.sdk.MobileRTCVideoViewManager;
 import us.zoom.sdk.MeetingStatus;
 import us.zoom.sdk.MeetingError;
 import us.zoom.sdk.MeetingService;
-import us.zoom.sdk.MeetingServiceListener;
+import us.zoom.sdk.InMeetingService;
 
 import java.util.Collections;
 import java.util.List;
@@ -30,11 +30,6 @@ class RNZoomUsVideoView extends MobileRTCVideoView {
 
   public RNZoomUsVideoView(Context context) {
     super(context);
-    init();
-  }
-
-  private void init() {
-    //
   }
 
   public void setZoomLayout(ReadableArray layout) {
@@ -59,11 +54,12 @@ class RNZoomUsVideoView extends MobileRTCVideoView {
   }
 
   public void update() {
-    if (layoutUnits == null) {
+    if (currentLayout == null) {
       return;
     }
-    MobileRTCVideoViewManager manager = getVideoViewMgr();
+    MobileRTCVideoViewManager manager = getVideoViewManager();
     if (manager == null) {
+      Log.e(TAG, "The video view is not initialized complately");
       return;
     }
     manager.removeAllVideoUnits();
@@ -81,9 +77,15 @@ class RNZoomUsVideoView extends MobileRTCVideoView {
       int userIndex = unit.hasKey("user_index") ? unit.getInt("user_index") : 0;
       int background = unit.getInt("background");
       MobileRTCVideoUnitRenderInfo renderInfo = new MobileRTCVideoUnitRenderInfo(x, y, width, height);
-      renderInfo.is_border_visible = border;
-      renderInfo.is_username_visible = showUsername;
-      renderInfo.is_show_audio_off = showAudioOff;
+      if (border) {
+        renderInfo.is_border_visible = border;
+      }
+      if (showUsername) {
+        renderInfo.is_username_visible = showUsername;
+      }
+      if (showAudioOff) {
+        renderInfo.is_show_audio_off = showAudioOff;
+      }
       renderInfo.backgroud_color = background;
       switch (kind) {
         case "active":

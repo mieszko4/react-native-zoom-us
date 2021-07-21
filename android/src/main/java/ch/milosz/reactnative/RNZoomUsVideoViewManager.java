@@ -6,14 +6,14 @@ import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.uimanager.annotations.ReactProp;
 import com.facebook.react.uimanager.SimpleViewManager;
-import com.facebook.react.uimanager.GroupViewManager;
+import com.facebook.react.uimanager.ViewGroupManager;
 import com.facebook.react.uimanager.ThemedReactContext;
 import android.view.ViewGroup;
 import android.view.LayoutInflater;
 import androidx.annotation.Nullable;
 import java.util.Map;
 
-public class RNZoomUsVideoViewManager extends GroupViewManager<RNZoomUsVideoView> {
+public class RNZoomUsVideoViewManager extends ViewGroupManager<RNZoomUsVideoView> {
 
   public static final String REACT_CLASS = "RNZoomUsVideoView";
 
