@@ -10,9 +10,12 @@ import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.bridge.WritableArray;
+import com.facebook.react.uimanager.UIManagerModule;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 
 import java.util.List;
+import java.util.Collections;
 
 import us.zoom.sdk.InMeetingAudioController;
 import us.zoom.sdk.InMeetingChatMessage;
@@ -33,6 +36,10 @@ import us.zoom.sdk.MeetingService;
 import us.zoom.sdk.InMeetingService;
 import us.zoom.sdk.MeetingServiceListener;
 import us.zoom.sdk.InMeetingAudioController;
+import us.zoom.sdk.InMeetingShareController;
+import us.zoom.sdk.InMeetingVideoController;
+
+import us.zoom.sdk.MobileRTCSDKError;
 
 import us.zoom.sdk.StartMeetingOptions;
 import us.zoom.sdk.StartMeetingParamsWithoutLogin;
@@ -53,6 +60,8 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
   private Boolean shouldDisablePreview = false;
   private Boolean customizedMeetingUIEnabled = false;
+
+  private List<int> videoViews = Collections.emptyList();
 
   public RNZoomUsModule(ReactApplicationContext reactContext) {
     super(reactContext);
@@ -114,6 +123,18 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     } catch (Exception ex) {
       promise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
     }
+  }
+
+  @ReactMethod
+  public void addVideoView(final int tagId, final Promise promise) {
+    videoViews.add(tagId);
+    promise.resolve(null);
+  }
+
+  @ReactMethod
+  public void removeVideoView(final int tagId, final Promise promise) {
+    videoViews.remove(videoViews.indexOf(tagId));
+    promise.resolve(null);
   }
 
   @ReactMethod
@@ -301,6 +322,237 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     connectAudioWithVoIP();
   }
 
+  @ReactMethod
+  public void isMeetingHost(Promise promise) {
+    WritableArray rnUserList = Arguments.createArray();
+    ZoomSDK zoomSDK = ZoomSDK.getInstance();
+
+    if (!zoomSDK.isInitialized()) {
+      promise.resolve(false);
+      return;
+    }
+
+    final InMeetingService inMeetingService = zoomSDK.getInMeetingService();
+
+    promise.resolve(inMeetingService.isMeetingHost());
+  }
+
+  @ReactMethod
+  public void isUnmuteSelfAllowed(Promise promise) {
+    WritableArray rnUserList = Arguments.createArray();
+    ZoomSDK zoomSDK = ZoomSDK.getInstance();
+
+    if (!zoomSDK.isInitialized()) {
+      promise.resolve(false);
+      return;
+    }
+
+    final InMeetingService inMeetingService = zoomSDK.getInMeetingService();
+
+    promise.resolve(inMeetingService.isParticipantsUnmuteSelfAllowed());
+  }
+
+  @ReactMethod
+  public void getInMeetingUserList(Promise promise) {
+    WritableArray rnUserList = Arguments.createArray();
+    ZoomSDK zoomSDK = ZoomSDK.getInstance();
+
+    if (!zoomSDK.isInitialized()) {
+      promise.resolve(rnUserList);
+      return;
+    }
+
+    final InMeetingService inMeetingService = zoomSDK.getInMeetingService();
+
+    final List<Long> userList = inMeetingService.getInMeetingUserList();
+
+    for (final Long userId : userList) {
+      rnUserList.pushString(userId.toString());
+    }
+
+    promise.resolve(rnUserList);
+  }
+
+  @ReactMethod
+  public void muteMyself(final boolean muted, Promise promise) {
+    ZoomSDK zoomSDK = ZoomSDK.getInstance();
+
+    if (!zoomSDK.isInitialized()) {
+      return;
+    }
+
+    final InMeetingService inMeetingService = zoomSDK.getInMeetingService();
+
+    final InMeetingAudioController audioController = inMeetingService.getInMeetingAudioController();
+
+    MobileRTCSDKError result = audioController.muteMyAudio(muted);
+
+    if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
+      promise.resolve(null);
+    } else {
+      promise.reject("ERR_ZOOM_MEETING", "Error: Operation error " + result.name());
+    }
+  }
+
+  @ReactMethod
+  public void muteAttendee(final String userId, final boolean muted, Promise promise) {
+    ZoomSDK zoomSDK = ZoomSDK.getInstance();
+
+    if (!zoomSDK.isInitialized()) {
+      return;
+    }
+
+    final InMeetingService inMeetingService = zoomSDK.getInMeetingService();
+
+    final InMeetingAudioController audioController = inMeetingService.getInMeetingAudioController();
+
+    MobileRTCSDKError result = audioController.muteAttendeeAudio(muted, Long.parseLong(userId));
+
+    if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
+      promise.resolve(null);
+    } else {
+      promise.reject("ERR_ZOOM_MEETING", "Error: Operation error " + result.name());
+    }
+  }
+
+  @ReactMethod
+  public void muteAllAttendee(final boolean allowUnmuteSelf, Promise promise) {
+    ZoomSDK zoomSDK = ZoomSDK.getInstance();
+
+    if (!zoomSDK.isInitialized()) {
+      return;
+    }
+
+    final InMeetingService inMeetingService = zoomSDK.getInMeetingService();
+
+    final InMeetingAudioController audioController = inMeetingService.getInMeetingAudioController();
+
+    MobileRTCSDKError result = audioController.muteAllAttendeeAudio(allowUnmuteSelf);
+
+    if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
+      promise.resolve(null);
+    } else {
+      promise.reject("ERR_ZOOM_MEETING", "Error: Operation error " + result.name());
+    }
+  }
+
+  @ReactMethod
+  public void startShareScreen(Promise promise) {
+    ZoomSDK zoomSDK = ZoomSDK.getInstance();
+
+    if (!zoomSDK.isInitialized()) {
+      return;
+    }
+
+    final InMeetingService inMeetingService = zoomSDK.getInMeetingService();
+
+    final InMeetingShareController shareController = inMeetingService.getInMeetingShareController();
+
+    MobileRTCSDKError result = shareController.startShareScreenContent();
+
+    if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
+      promise.resolve(null);
+    } else {
+      promise.reject("ERR_ZOOM_MEETING", "Error: Operation error " + result.name());
+    }
+  }
+
+  @ReactMethod
+  public void stopShareScreen(Promise promise) {
+    ZoomSDK zoomSDK = ZoomSDK.getInstance();
+
+    if (!zoomSDK.isInitialized()) {
+      return;
+    }
+
+    final InMeetingService inMeetingService = zoomSDK.getInMeetingService();
+
+    final InMeetingShareController shareController = inMeetingService.getInMeetingShareController();
+
+    MobileRTCSDKError result = shareController.stopShareScreen();
+
+    if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
+      promise.resolve(null);
+    } else {
+      promise.reject("ERR_ZOOM_MEETING", "Error: Operation error " + result.name());
+    }
+  }
+
+  @ReactMethod
+  public void switchCamera(Promise promise) {
+    ZoomSDK zoomSDK = ZoomSDK.getInstance();
+
+    if (!zoomSDK.isInitialized()) {
+      return;
+    }
+
+    final InMeetingService inMeetingService = zoomSDK.getInMeetingService();
+
+    final InMeetingVideoController videoController = inMeetingService.getInMeetingVideoController();
+
+    if (shareController.switchToNextCamera()) {
+      promise.resolve(null);
+    } else {
+      promise.reject("ERR_ZOOM_MEETING", "Error: Switch camera failed");
+    }
+  }
+
+  @ReactMethod
+  public void raiseMyHand(Promise promise) {
+    ZoomSDK zoomSDK = ZoomSDK.getInstance();
+
+    if (!zoomSDK.isInitialized()) {
+      return;
+    }
+
+    final InMeetingService inMeetingService = zoomSDK.getInMeetingService();
+
+    MobileRTCSDKError result = inMeetingService.raiseMyHand();
+
+    if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
+      promise.resolve(null);
+    } else {
+      promise.reject("ERR_ZOOM_MEETING", result.name());
+    }
+  }
+
+  @ReactMethod
+  public void lowerMyHand(Promise promise) {
+    ZoomSDK zoomSDK = ZoomSDK.getInstance();
+
+    if (!zoomSDK.isInitialized()) {
+      return;
+    }
+
+    final InMeetingService inMeetingService = zoomSDK.getInMeetingService();
+
+    MobileRTCSDKError result = inMeetingService.lowerHand(inMeetingService.getMyUserID());
+
+    if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
+      promise.resolve(null);
+    } else {
+      promise.reject("ERR_ZOOM_MEETING", "Error: Operation error " + result.name());
+    }
+  }
+
+  private void updateVideoView() {
+    UIManagerModule uiManager = reactContext.getNativeModule(UIManagerModule.class);
+
+    uiManager.addUIBlock(new UIBlock() {
+        @Override
+        public void execute(NativeViewHierarchyManager nativeViewHierarchyManager) {
+            for (final int tagId : videoViews) {
+              try {
+                  final RNZoomUsVideoView view = (RNZoomUsVideoView) nativeViewHierarchyManager.resolveView(tagId);
+                  if (view) view.update();
+              } catch (Exception e) {
+                  Loe.e(TAG, e.getMessage());
+              }
+            }
+        }
+    });
+  }
+
   @Override
   public void onZoomSDKInitializeResult(int errorCode, int internalErrorCode) {
     Log.i(TAG, "onZoomSDKInitializeResult, errorCode=" + errorCode + ", internalErrorCode=" + internalErrorCode);
@@ -331,6 +583,8 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     Log.i(TAG, "onMeetingStatusChanged, meetingStatus=" + meetingStatus + ", errorCode=" + errorCode + ", internalErrorCode=" + internalErrorCode);
 
     sendEvent("MeetingEvent", getMeetErrorName(errorCode), meetingStatus);
+
+    updateVideoView();
 
     if (meetingPromise == null) {
       return;

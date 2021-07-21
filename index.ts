@@ -1,7 +1,6 @@
-import { NativeModule, NativeModules } from 'react-native'
+import { NativeModule } from 'react-native'
 import invariant from 'invariant'
-
-const { RNZoomUs } = NativeModules
+import { RNZoomUs } from './native'
 
 if (!RNZoomUs) console.error('RNZoomUs native module is not linked.')
 
@@ -135,7 +134,53 @@ async function connectAudio() {
   return RNZoomUs.connectAudio()
 }
 
+async function isMeetingHost() {
+  return RNZoomUs.isMeetingHost()
+}
+
+async function isUnmuteSelfAllowed() {
+  return RNZoomUs.isUnmuteSelfAllowed()
+}
+
+async function getInMeetingUserList() {
+  return RNZoomUs.getInMeetingUserList()
+}
+
+async function muteMyself(muted: boolean) {
+  return RNZoomUs.muteMyself(muted)
+}
+
+async function muteAttendee(userId: string, muted: boolean) {
+  return RNZoomUs.muteAttendee(userId, muted)
+}
+
+async function muteAllAttendee(allowUnmuteSelf: boolean) {
+  return RNZoomUs.muteAllAttendee(allowUnmuteSelf)
+}
+
+async function startShareScreen() {
+  return RNZoomUs.startShareScreen()
+}
+
+async function stopShareScreen() {
+  return RNZoomUs.stopShareScreen()
+}
+
+async function switchCamera() {
+  return RNZoomUs.switchCamera()
+}
+
+async function raiseMyHand() {
+  return RNZoomUs.raiseMyHand()
+}
+
+async function lowerMyHand() {
+  return RNZoomUs.lowerMyHand()
+}
+
 export const ZoomEmitter = RNZoomUs as NativeModule;
+
+export { default as ZoomVideoView } from './video-view'
 
 export default {
   initialize,
