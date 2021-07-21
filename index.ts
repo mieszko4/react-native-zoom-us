@@ -134,6 +134,10 @@ async function connectAudio() {
   return RNZoomUs.connectAudio()
 }
 
+async function isMeetingConnected() {
+  return RNZoomUs.isMeetingConnected()
+}
+
 async function isMeetingHost() {
   return RNZoomUs.isMeetingHost()
 }

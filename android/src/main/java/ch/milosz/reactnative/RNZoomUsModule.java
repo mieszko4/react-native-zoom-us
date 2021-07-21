@@ -323,6 +323,21 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   }
 
   @ReactMethod
+  public void isMeetingConnected(Promise promise) {
+    WritableArray rnUserList = Arguments.createArray();
+    ZoomSDK zoomSDK = ZoomSDK.getInstance();
+
+    if (!zoomSDK.isInitialized()) {
+      promise.resolve(false);
+      return;
+    }
+
+    final InMeetingService inMeetingService = zoomSDK.getInMeetingService();
+
+    promise.resolve(inMeetingService.isMeetingConnected());
+  }
+
+  @ReactMethod
   public void isMeetingHost(Promise promise) {
     WritableArray rnUserList = Arguments.createArray();
     ZoomSDK zoomSDK = ZoomSDK.getInstance();
