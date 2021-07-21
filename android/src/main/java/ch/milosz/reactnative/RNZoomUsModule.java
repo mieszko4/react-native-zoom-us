@@ -218,7 +218,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
         try {
           ZoomSDK zoomSDK = ZoomSDK.getInstance();
           if(!zoomSDK.isInitialized()) {
-            promise.reject("ERR_ZOOM_JOIN", "ZoomSDK has not been initialized successfully");
+            meetingPromise.reject("ERR_ZOOM_JOIN", "ZoomSDK has not been initialized successfully");
             return;
           }
 
@@ -255,7 +255,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
           Log.i(TAG, "joinMeeting, joinMeetingResult=" + joinMeetingResult);
 
           if (joinMeetingResult != MeetingError.MEETING_ERROR_SUCCESS) {
-            promise.reject("ERR_ZOOM_JOIN", "joinMeeting, errorCode=" + joinMeetingResult);
+            meetingPromise.reject("ERR_ZOOM_JOIN", "joinMeeting, errorCode=" + joinMeetingResult);
           }
         } catch (Exception ex) {
           meetingPromise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
@@ -279,7 +279,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
         try {
           ZoomSDK zoomSDK = ZoomSDK.getInstance();
           if(!zoomSDK.isInitialized()) {
-            promise.reject("ERR_ZOOM_JOIN", "ZoomSDK has not been initialized successfully");
+            meetingPromise.reject("ERR_ZOOM_JOIN", "ZoomSDK has not been initialized successfully");
             return;
           }
 
@@ -295,7 +295,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
           Log.i(TAG, "joinMeeting, joinMeetingResult=" + joinMeetingResult);
 
           if (joinMeetingResult != MeetingError.MEETING_ERROR_SUCCESS) {
-            promise.reject("ERR_ZOOM_JOIN", "joinMeeting, errorCode=" + joinMeetingResult);
+            meetingPromise.reject("ERR_ZOOM_JOIN", "joinMeeting, errorCode=" + joinMeetingResult);
           }
         } catch (Exception ex) {
           meetingPromise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
