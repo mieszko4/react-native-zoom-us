@@ -198,7 +198,6 @@ export default {
   leaveMeeting,
   connectAudio,
   isMeetingHost,
-  isUnmuteSelfAllowed,
   getInMeetingUserList,
   rotateMyVideo,
   muteMyVideo,
