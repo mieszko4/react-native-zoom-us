@@ -32,9 +32,9 @@ const App = (props) => {
             // Enable border (optional)
             border: true,
             // Disable show user name (optional)
-            show_username: false,
+            showUsername: false,
             // Show audio off (optional)
-            show_audio_off: true,
+            showAudioOff: true,
             // Background color (optional)
             background: '#ccc'
           },
@@ -43,19 +43,19 @@ const App = (props) => {
             kind: 'share',
             ...,
             // The index of user list (required)
-            user_index: 0,
+            userIndex: 0,
           },
           // Specify attendee
           {
             kind: 'attendee',
             ...,
             // The index of user list (required)
-            user_index: 0,
+            userIndex: 0,
           },
           {
             kind: 'attendee',
             ...,
-            user_index: 1,
+            userIndex: 1,
           },
         ]}
         />

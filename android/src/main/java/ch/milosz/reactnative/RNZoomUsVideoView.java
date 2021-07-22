@@ -72,9 +72,9 @@ class RNZoomUsVideoView extends MobileRTCVideoView {
       int width = unit.getInt("width");
       int height = unit.getInt("height");
       boolean border = unit.getBoolean("border");
-      boolean showUsername = unit.getBoolean("show_username");
-      boolean showAudioOff = unit.getBoolean("show_audio_off");
-      int userIndex = unit.hasKey("user_index") ? unit.getInt("user_index") : 0;
+      boolean showUsername = unit.getBoolean("showUsername");
+      boolean showAudioOff = unit.getBoolean("showAudioOff");
+      int userIndex = unit.hasKey("userIndex") ? unit.getInt("userIndex") : 0;
       int background = unit.getInt("background");
       MobileRTCVideoUnitRenderInfo renderInfo = new MobileRTCVideoUnitRenderInfo(x, y, width, height);
       if (border) {

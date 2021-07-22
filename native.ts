@@ -12,9 +12,9 @@ export interface NativeLayoutUnit {
   width: number
   height: number
   border?: boolean
-  show_username?: boolean
-  show_audio_off?: boolean
-  user_index?: number
+  showUsername?: boolean
+  showAudioOff?: boolean
+  userIndex?: number
   background?: number
 }
 
