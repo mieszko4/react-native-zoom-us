@@ -6,7 +6,7 @@ import {
 } from 'react-native'
 
 export interface NativeLayoutUnit {
-  kind: "active" | "preview" | "share" | "attendee"
+  kind: "active" | "preview" | "share" | "attendee" | "active-share"
   x: number
   y: number
   width: number

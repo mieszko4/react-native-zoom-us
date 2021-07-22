@@ -53,6 +53,22 @@ class RNZoomUsVideoView extends MobileRTCVideoView {
     return inMeetingService.getInMeetingUserList();
   }
 
+  private long getActiveUser() {
+    ZoomSDK zoomSDK = ZoomSDK.getInstance();
+
+    if (!zoomSDK.isInitialized()) {
+      return 0;
+    }
+
+    final InMeetingService inMeetingService = zoomSDK.getInMeetingService();
+
+    if (inMeetingService == null) {
+      return 0;
+    }
+
+    return inMeetingService.activeShareUserID();
+  }
+
   public void update() {
     if (currentLayout == null) {
       return;
@@ -62,51 +78,71 @@ class RNZoomUsVideoView extends MobileRTCVideoView {
       Log.e(TAG, "The video view is not initialized complately");
       return;
     }
-    manager.removeAllVideoUnits();
-    List<Long> users = getUserIdList();
-    for (int i = 0; i < currentLayout.size(); i++) {
-      ReadableMap unit = currentLayout.getMap(i);
-      String kind = unit.getString("kind");
-      int x = unit.getInt("x");
-      int y = unit.getInt("y");
-      int width = unit.getInt("width");
-      int height = unit.getInt("height");
-      boolean border = unit.getBoolean("border");
-      boolean showUsername = unit.getBoolean("showUsername");
-      boolean showAudioOff = unit.getBoolean("showAudioOff");
-      int userIndex = unit.hasKey("userIndex") ? unit.getInt("userIndex") : 0;
-      int background = unit.getInt("background");
-      MobileRTCVideoUnitRenderInfo renderInfo = new MobileRTCVideoUnitRenderInfo(x, y, width, height);
-      if (border) {
-        renderInfo.is_border_visible = border;
-      }
-      if (showUsername) {
-        renderInfo.is_username_visible = showUsername;
-      }
-      if (showAudioOff) {
-        renderInfo.is_show_audio_off = showAudioOff;
-      }
-      renderInfo.backgroud_color = background;
-      switch (kind) {
-        case "active":
-          manager.addActiveVideoUnit(renderInfo);
-          break;
-        case "preview":
-          manager.addPreviewVideoUnit(renderInfo);
-          break;
-        case "share":
-          if (userIndex >= users.size()) {
+    try {
+      manager.removeAllVideoUnits();
+      List<Long> users = getUserIdList();
+      Log.d(TAG, "Trig video update");
+      for (int i = currentLayout.size() - 1; i > 0; --i) {
+        ReadableMap unit = currentLayout.getMap(i);
+        String kind = unit.hasKey("kind") ? unit.getString("kind") : "active";
+        int x = unit.hasKey("x") ? unit.getInt("x") : 0;
+        int y = unit.hasKey("y") ? unit.getInt("y") : 0;
+        int width = unit.hasKey("width") ? unit.getInt("width") : 100;
+        int height = unit.hasKey("height") ? unit.getInt("height") : 100;
+        boolean border = unit.hasKey("border") ? unit.getBoolean("border") : false;
+        boolean showUsername = unit.hasKey("showUsername") ? unit.getBoolean("showUsername") : true;
+        boolean showAudioOff = unit.hasKey("showAudioOff") ? unit.getBoolean("showAudioOff") : true;
+        int userIndex = unit.hasKey("userIndex") ? unit.getInt("userIndex") : 0;
+        int background = unit.hasKey("background") ? unit.getInt("background") : 0x000000;
+        MobileRTCVideoUnitRenderInfo renderInfo = new MobileRTCVideoUnitRenderInfo(x, y, width, height);
+        if (border) {
+          renderInfo.is_border_visible = border;
+        }
+        if (showUsername) {
+          renderInfo.is_username_visible = showUsername;
+        }
+        if (showAudioOff) {
+          renderInfo.is_show_audio_off = showAudioOff;
+        }
+        renderInfo.backgroud_color = background;
+        switch (kind) {
+          case "active":
+            Log.d(TAG, "T=active speaker");
+            manager.addActiveVideoUnit(renderInfo);
             break;
-          }
-          manager.addShareVideoUnit(users.get(userIndex), renderInfo);
-          break;
-        case "attendee":
-          if (userIndex >= users.size()) {
+          case "preview":
+            Log.d(TAG, "T=self preview");
+            manager.addPreviewVideoUnit(renderInfo);
             break;
-          }
-          manager.addAttendeeVideoUnit(users.get(userIndex), renderInfo);
-          break;
+          case "share":
+            Log.d(TAG, "T=user share");
+            if (userIndex >= users.size() || userIndex < 0) {
+              Log.i(TAG, "Index over user count");
+              break;
+            }
+            manager.addShareVideoUnit(users.get(userIndex), renderInfo);
+            break;
+          case "attendee":
+            Log.d(TAG, "T=user");
+            if (userIndex >= users.size() || userIndex < 0) {
+              Log.i(TAG, "Index over user count");
+              break;
+            }
+            manager.addAttendeeVideoUnit(users.get(userIndex), renderInfo);
+            break;
+          case "active-share":
+            Log.d(TAG, "T=active speaker share");
+            long userId = getActiveUser();
+            if (userId != 0) {
+              manager.addShareVideoUnit(userId, renderInfo);
+            } else {
+              Log.i(TAG, "No active user");
+            }
+            break;
+        }
       }
+    } catch (Exception e) {
+      Log.e(TAG, e.getMessage());
     }
   }
 

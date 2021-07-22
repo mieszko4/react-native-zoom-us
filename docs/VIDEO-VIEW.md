@@ -38,6 +38,11 @@ const App = (props) => {
             // Background color (optional)
             background: '#ccc'
           },
+          // active speaker's share
+          {
+            kind: 'active-share',
+            ...,
+          },
           // share video
           {
             kind: 'share',

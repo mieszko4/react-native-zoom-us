@@ -1,10 +1,10 @@
-import React, { useRef, useEffect } from 'react'
+import * as React from 'react'
 import { View, findNodeHandle } from 'react-native'
 import Color from 'color'
 import { RNZoomUs, RNZoomUsVideoView } from './native'
 
 export interface LayoutUnit {
-  kind: "active" | "preview" | "share" | "attendee"
+  kind: "active" | "preview" | "share" | "attendee" | "active-share"
   x: number
   y: number
   width: number
@@ -20,43 +20,48 @@ export interface Props {
   layout: LayoutUnit[]
 }
 
-const ZoomVideoView: React.FC<Props> = (props) => {
-  if (RNZoomUsVideoView) {
-    const { layout } = props
+const ZoomUsVideoView: React.FC<Props> = (props) => {
+  const { layout = [], ...otherProps } = props
 
-    const nativeLayout = layout.map(unit => ({
-      ...unit,
+  const nativeLayout = layout.map(unit => {
+    return Object.assign({}, unit, {
       x: Math.ceil(unit.x * 100),
       y: Math.ceil(unit.y * 100),
       width: Math.ceil(unit.width * 100),
       height: Math.ceil(unit.height * 100),
       background: Color(unit.background || '#000000').rgbNumber(),
-    }))
+    })
+  })
 
-    const nativeEl = useRef(null)
+  const nativeEl = React.useRef(null)
 
-    useEffect(() => {
+  React.useEffect(() => {
+    (async function register() {
       if (nativeEl.current) {
-        RNZoomUs.addVideoView(findNodeHandle(nativeEl.current))
+        await RNZoomUs.addVideoView(findNodeHandle(nativeEl.current))
       }
+    })()
 
-      return () => {
+    return () => {
+      (async function unregister() {
         if (nativeEl.current) {
-          RNZoomUs.removeVideoView(findNodeHandle(nativeEl.current))
+          await RNZoomUs.removeVideoView(findNodeHandle(nativeEl.current))
         }
-      }
-    }, [nativeEl.current])
+      })()
+    }
+  }, [nativeEl.current])
 
+  if (RNZoomUsVideoView) {
     return (
       <RNZoomUsVideoView
         ref={nativeEl}
-        {...props}
         layout={nativeLayout}
+        {...otherProps}
       />
     )
   } else {
-    return (<View {...props} />)
+    return (<View {...otherProps} />)
   }
 }
 
-export default ZoomVideoView
+export default ZoomUsVideoView
