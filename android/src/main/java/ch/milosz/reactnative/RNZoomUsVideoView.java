@@ -34,7 +34,7 @@ class RNZoomUsVideoView extends MobileRTCVideoView {
 
   public void setZoomLayout(ReadableArray layout) {
     currentLayout = layout;
-    update();
+    update(false);
   }
 
   private List<Long> getAttendeeWithoutMe() {
@@ -52,7 +52,7 @@ class RNZoomUsVideoView extends MobileRTCVideoView {
 
     List<Long> users = inMeetingService.getInMeetingUserList();
 
-    users.remove(inMeetingService.getMyUserID());
+    users.remove(new Long(inMeetingService.getMyUserID()));
 
     return users;
   }
@@ -61,19 +61,19 @@ class RNZoomUsVideoView extends MobileRTCVideoView {
     ZoomSDK zoomSDK = ZoomSDK.getInstance();
 
     if (!zoomSDK.isInitialized()) {
-      return 0;
+      return -1;
     }
 
     final InMeetingService inMeetingService = zoomSDK.getInMeetingService();
 
     if (inMeetingService == null) {
-      return 0;
+      return -1;
     }
 
     return inMeetingService.activeShareUserID();
   }
 
-  public void update() {
+  public void update(boolean newLayout) {
     if (currentLayout == null) {
       return;
     }
@@ -83,10 +83,11 @@ class RNZoomUsVideoView extends MobileRTCVideoView {
       return;
     }
     try {
-      manager.removeAllVideoUnits();
+      if (newLayout) {
+        manager.removeAllVideoUnits();
+      }
       List<Long> users = getAttendeeWithoutMe();
-      Log.d(TAG, "Trig video update");
-      for (int i = currentLayout.size() - 1; i >= 0; --i) {
+      for (int i = 0; i < currentLayout.size(); i++) {
         ReadableMap unit = currentLayout.getMap(i);
         String kind = unit.hasKey("kind") ? unit.getString("kind") : "active";
         int x = unit.hasKey("x") ? unit.getInt("x") : 0;
@@ -109,38 +110,61 @@ class RNZoomUsVideoView extends MobileRTCVideoView {
           renderInfo.is_show_audio_off = showAudioOff;
         }
         renderInfo.backgroud_color = background;
+        Log.d(TAG, "Update #" + i + " [kind=" + kind + " x=" + x + " y=" + y + "]");
         switch (kind) {
           case "active":
-            Log.d(TAG, "T=active speaker");
-            manager.addActiveVideoUnit(renderInfo);
+            if (newLayout) {
+              manager.addActiveVideoUnit(renderInfo);
+            } else {
+              manager.updateActiveVideoUnit(renderInfo);
+            }
             break;
           case "preview":
-            Log.d(TAG, "T=self preview");
-            manager.addPreviewVideoUnit(renderInfo);
+            if (newLayout) {
+              manager.addPreviewVideoUnit(renderInfo);
+            } else {
+              manager.updatePreviewVideoUnit(renderInfo);
+            }
             break;
           case "share":
-            Log.d(TAG, "T=user share");
             if (userIndex >= users.size() || userIndex < 0) {
-              Log.i(TAG, "Index over user count");
+              Log.i(TAG, "Index over user count, skip add");
               break;
             }
-            manager.addShareVideoUnit(users.get(userIndex), renderInfo);
+            if (newLayout) {
+              manager.addShareVideoUnit(users.get(userIndex), renderInfo);
+            } else {
+              manager.updateShareVideoUnit(renderInfo);
+            }
             break;
           case "attendee":
-            Log.d(TAG, "T=user");
             if (userIndex >= users.size() || userIndex < 0) {
-              Log.i(TAG, "Index over user count");
+              Log.i(TAG, "Index over user count, skip add");
               break;
             }
-            manager.addAttendeeVideoUnit(users.get(userIndex), renderInfo);
+            if (newLayout) {
+              manager.addAttendeeVideoUnit(users.get(userIndex), renderInfo);
+            } else {
+              manager.updateAttendeeVideoUnit(users.get(userIndex), renderInfo);
+            }
             break;
           case "active-share":
-            Log.d(TAG, "T=active speaker share");
             long userId = getActiveUser();
-            if (userId != 0) {
-              manager.addShareVideoUnit(userId, renderInfo);
+            if (userId != -1) {
+              if (newLayout) {
+                manager.addShareVideoUnit(userId, renderInfo);
+              } else {
+                manager.updateShareVideoUnit(renderInfo);
+              }
             } else {
-              Log.i(TAG, "No active user");
+              Log.i(TAG, "No active user, fallback fist user");
+              if (users.size() > 0) {
+                if (newLayout) {
+                  manager.addShareVideoUnit(users.get(0), renderInfo);
+                } else {
+                  manager.updateShareVideoUnit(renderInfo);
+                }
+              }
             }
             break;
         }

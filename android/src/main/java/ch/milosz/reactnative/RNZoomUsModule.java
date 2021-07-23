@@ -19,6 +19,7 @@ import com.facebook.react.modules.core.DeviceEventManagerModule;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Collections;
 
 import us.zoom.sdk.InMeetingVideoController;
 import us.zoom.sdk.InMeetingAudioController;
@@ -62,7 +63,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   private Boolean shouldDisablePreview = false;
   private Boolean customizedMeetingUIEnabled = false;
 
-  private List<Integer> videoViews = new ArrayList<Integer>();
+  private List<Integer> videoViews = Collections.synchronizedList(new ArrayList<Integer>());
 
   public RNZoomUsModule(ReactApplicationContext reactContext) {
     super(reactContext);
@@ -539,10 +540,15 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
     final InMeetingVideoController videoController = inMeetingService.getInMeetingVideoController();
 
-    if (videoController.switchToNextCamera()) {
-      promise.resolve(null);
+    if (!videoController.isMyVideoMuted()) {
+      if (videoController.switchToNextCamera()) {
+        updateVideoView(false);
+        promise.resolve(null);
+      } else {
+        promise.reject("ERR_ZOOM_MEETING", "Switch camera failed");
+      }
     } else {
-      promise.reject("ERR_ZOOM_MEETING", "Error: Switch camera failed");
+      promise.reject("ERR_ZOOM_MEETING", "The camera is muted");
     }
   }
 
@@ -585,20 +591,22 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   }
 
   // Internal user list update trigger
-  private void updateVideoView() {
+  private void updateVideoView(final boolean newLayout) {
     UIManagerModule uiManager = reactContext.getNativeModule(UIManagerModule.class);
 
     uiManager.addUIBlock(new UIBlock() {
         @Override
         public void execute(NativeViewHierarchyManager nativeViewHierarchyManager) {
-          Iterator<Integer> iterator = videoViews.iterator();
-          while (iterator.hasNext()) {
-            final int tagId = iterator.next();
-            try {
-              final RNZoomUsVideoView view = (RNZoomUsVideoView) nativeViewHierarchyManager.resolveView(tagId);
-              if (view != null) view.update();
-            } catch (Exception e) {
-              Log.e(TAG, e.getMessage());
+          synchronized (videoViews) {
+            Iterator<Integer> iterator = videoViews.iterator();
+            while (iterator.hasNext()) {
+              final int tagId = iterator.next();
+              try {
+                final RNZoomUsVideoView view = (RNZoomUsVideoView) nativeViewHierarchyManager.resolveView(tagId);
+                if (view != null) view.update(newLayout);
+              } catch (Exception e) {
+                Log.e(TAG, e.getMessage());
+              }
             }
           }
         }
@@ -636,7 +644,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
     sendEvent("MeetingEvent", getMeetErrorName(errorCode), meetingStatus);
 
-    updateVideoView();
+    updateVideoView(true);
 
     if (meetingPromise == null) {
       return;
@@ -713,8 +721,10 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   @Override
   public void onShareActiveUser(long userId) {
     if (userId == ZoomSDK.getInstance().getInMeetingService().getMyUserID()) {
+      updateVideoView(true);
       sendEvent("MeetingEvent", "screenShareStarted");
     } else {
+      updateVideoView(true);
       sendEvent("MeetingEvent", "screenShareStopped");
     }
   }
@@ -730,16 +740,19 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
   @Override
   public void onMeetingLeaveComplete(long ret) {
+    updateVideoView(true);
     sendEvent("MeetingEvent", getMeetingEndReasonName((int)ret));
   }
 
   @Override
   public void onMeetingUserJoin(List<Long> list) {
+    updateVideoView(true);
     sendEvent("MeetingEvent", "userJoin", list);
   }
 
   @Override
   public void onMeetingUserLeave(List<Long> list) {
+    updateVideoView(true);
     sendEvent("MeetingEvent", "userLeave", list);
   }
 
