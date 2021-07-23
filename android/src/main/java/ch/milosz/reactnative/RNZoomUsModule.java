@@ -853,7 +853,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     }
 
     params.putString("event", event);
-    params.putArray("user_list", users);
+    params.putArray("userList", users);
 
     reactContext
         .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
