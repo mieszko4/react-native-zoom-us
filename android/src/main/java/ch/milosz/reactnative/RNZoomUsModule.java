@@ -128,14 +128,22 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
   @ReactMethod
   public void addVideoView(final int tagId, final Promise promise) {
-    videoViews.add(tagId);
-    promise.resolve(null);
+    try {
+      videoViews.add(new Integer(tagId));
+      promise.resolve(null);
+    } catch (Exception e) {
+      promise.reject("ERR_ZOOM_VIDEO_VIEW", e.toString());
+    }
   }
 
   @ReactMethod
   public void removeVideoView(final int tagId, final Promise promise) {
-    videoViews.remove(videoViews.indexOf(tagId));
-    promise.resolve(null);
+    try {
+      videoViews.remove(new Integer(tagId));
+      promise.resolve(null);
+    } catch (Exception e) {
+      promise.reject("ERR_ZOOM_VIDEO_VIEW", e.toString());
+    }
   }
 
   @ReactMethod
