@@ -37,7 +37,7 @@ class RNZoomUsVideoView extends MobileRTCVideoView {
     update();
   }
 
-  private List<Long> getUserIdList() {
+  private List<Long> getAttendeeWithoutMe() {
     ZoomSDK zoomSDK = ZoomSDK.getInstance();
 
     if (!zoomSDK.isInitialized()) {
@@ -50,7 +50,11 @@ class RNZoomUsVideoView extends MobileRTCVideoView {
       return Collections.emptyList();
     }
 
-    return inMeetingService.getInMeetingUserList();
+    List<Long> users = inMeetingService.getInMeetingUserList();
+
+    users.remove(inMeetingService.getMyUserID());
+
+    return users;
   }
 
   private long getActiveUser() {
@@ -80,9 +84,9 @@ class RNZoomUsVideoView extends MobileRTCVideoView {
     }
     try {
       manager.removeAllVideoUnits();
-      List<Long> users = getUserIdList();
+      List<Long> users = getAttendeeWithoutMe();
       Log.d(TAG, "Trig video update");
-      for (int i = currentLayout.size() - 1; i > 0; --i) {
+      for (int i = currentLayout.size() - 1; i >= 0; --i) {
         ReadableMap unit = currentLayout.getMap(i);
         String kind = unit.hasKey("kind") ? unit.getString("kind") : "active";
         int x = unit.hasKey("x") ? unit.getInt("x") : 0;
