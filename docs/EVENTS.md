@@ -91,6 +91,9 @@ zoomEmitter.addListener('Meeting', (meetingEvent) => {
   //   Event: "endedNoAttendee"
   //   Event: "userJoin"
   //   Event: "userLeave"
+  //   Event: "askUnMuteAudio"
+  //   Event: "askUnMuteVideo"
+  //   Event: "hostChanged"
 });
 
 ```

@@ -756,6 +756,21 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     sendEvent("MeetingEvent", "userLeave", list);
   }
 
+  @Override
+  public void onHostAskUnMute(long l) {
+    sendEvent("MeetingEvent", "askUnMuteAudio");
+  }
+
+  @Override
+  public void onHostAskStartVideo(long l) {
+    sendEvent("MeetingEvent", "askUnMuteVideo");
+  }
+
+  @Override
+  public void onMeetingHostChanged(long l) {
+    sendEvent("MeetingEvent", "hostChanged");
+  }
+
   // Required methods for InMeetingServiceListener
   @Override
   public void onMeetingNeedPasswordOrDisplayName(boolean b, boolean b1, InMeetingEventHandler inMeetingEventHandler) {}
@@ -769,8 +784,6 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   public void onMeetingFail(int i, int i1) {}
   @Override
   public void onMeetingUserUpdated(long l) {}
-  @Override
-  public void onMeetingHostChanged(long l) {}
   @Override
   public void onMeetingCoHostChanged(long l) {}
   @Override
@@ -787,10 +800,6 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   public void onMicrophoneStatusError(InMeetingAudioController.MobileRTCMicrophoneError mobileRTCMicrophoneError) {}
   @Override
   public void onUserAudioStatusChanged(long l) {}
-  @Override
-  public void onHostAskUnMute(long l) {}
-  @Override
-  public void onHostAskStartVideo(long l) {}
   @Override
   public void onUserAudioTypeChanged(long l) {}
   @Override
