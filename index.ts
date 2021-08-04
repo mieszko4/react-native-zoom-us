@@ -142,8 +142,8 @@ async function isMeetingHost() {
   return RNZoomUs.isMeetingHost()
 }
 
-async function getInMeetingUserList() {
-  return RNZoomUs.getInMeetingUserList()
+async function getInMeetingUserIdList() {
+  return RNZoomUs.getInMeetingUserIdList()
 }
 
 async function rotateMyVideo(rotation: number) {
