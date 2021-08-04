@@ -108,6 +108,7 @@ export interface RNZoomUsStartMeetingParams {
 
   // android only fields:
   noInvite?: boolean
+  noShare?: boolean
 
   noButtonLeave?: boolean
   noButtonMore?: boolean
