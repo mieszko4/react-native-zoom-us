@@ -1,4 +1,4 @@
-import { NativeModule } from 'react-native'
+import { NativeModule, Platform } from 'react-native'
 import invariant from 'invariant'
 import { RNZoomUs } from './native'
 
@@ -147,7 +147,11 @@ async function getInMeetingUserList() {
 }
 
 async function rotateMyVideo(rotation: number) {
-  return RNZoomUs.rotateMyVideo(rotation)
+  if (Platform.OS === 'android') {
+    return RNZoomUs.rotateMyVideo(rotation)
+  } else {
+    throw new Exception('Only support android')
+  }
 }
 
 async function muteMyVideo(muted: boolean) {
