@@ -203,7 +203,7 @@ export default {
   connectAudio,
   isMeetingHost,
   isMeetingConnected,
-  getInMeetingUserList,
+  getInMeetingUserIdList,
   rotateMyVideo,
   muteMyVideo,
   muteMyAudio,
