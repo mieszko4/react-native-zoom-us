@@ -150,7 +150,7 @@ async function rotateMyVideo(rotation: number) {
   if (Platform.OS === 'android') {
     return RNZoomUs.rotateMyVideo(rotation)
   } else {
-    throw new Exception('Only support android')
+    throw new Error('Only support android')
   }
 }
 
