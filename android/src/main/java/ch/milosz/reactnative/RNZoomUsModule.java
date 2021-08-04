@@ -334,7 +334,6 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
   @ReactMethod
   public void isMeetingConnected(Promise promise) {
-    WritableArray rnUserList = Arguments.createArray();
     ZoomSDK zoomSDK = ZoomSDK.getInstance();
 
     if (!zoomSDK.isInitialized()) {
@@ -349,7 +348,6 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
   @ReactMethod
   public void isMeetingHost(Promise promise) {
-    WritableArray rnUserList = Arguments.createArray();
     ZoomSDK zoomSDK = ZoomSDK.getInstance();
 
     if (!zoomSDK.isInitialized()) {
@@ -363,7 +361,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   }
 
   @ReactMethod
-  public void getInMeetingUserList(Promise promise) {
+  public void getInMeetingUserIdList(Promise promise) {
     WritableArray rnUserList = Arguments.createArray();
     ZoomSDK zoomSDK = ZoomSDK.getInstance();
 
@@ -400,7 +398,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
       promise.resolve(null);
     } else {
-      promise.reject("ERR_ZOOM_MEETING", "Mute my video error, status: " + result.name());
+      promise.reject("ERR_ZOOM_MEETING_CONTROL", "Mute my video error, status: " + result.name());
     }
   }
 
@@ -409,6 +407,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     ZoomSDK zoomSDK = ZoomSDK.getInstance();
 
     if (!zoomSDK.isInitialized()) {
+      promise.reject("ERR_ZOOM_MEETING_CONTROL", "Error: Rotate video failed");
       return;
     }
 
@@ -419,7 +418,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     if (videoController.rotateMyVideo(rotation)) {
       promise.resolve(null);
     } else {
-      promise.reject("ERR_ZOOM_MEETING", "Error: Rotate video failed");
+      promise.reject("ERR_ZOOM_MEETING_CONTROL", "Error: Rotate video failed");
     }
   }
 
@@ -440,7 +439,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
       promise.resolve(null);
     } else {
-      promise.reject("ERR_ZOOM_MEETING", "Mute myself error, status: " + result.name());
+      promise.reject("ERR_ZOOM_MEETING_CONTROL", "Mute my audio error, status: " + result.name());
     }
   }
 
@@ -461,7 +460,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
       promise.resolve(null);
     } else {
-      promise.reject("ERR_ZOOM_MEETING", "Mute error, status: " + result.name());
+      promise.reject("ERR_ZOOM_MEETING_CONTROL", "Mute attendee audio error, status: " + result.name());
     }
   }
 
@@ -482,7 +481,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
       promise.resolve(null);
     } else {
-      promise.reject("ERR_ZOOM_MEETING", "Mute all error, status: " + result.name());
+      promise.reject("ERR_ZOOM_MEETING_CONTROL", "Mute all error, status: " + result.name());
     }
   }
 
@@ -503,7 +502,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
       promise.resolve(null);
     } else {
-      promise.reject("ERR_ZOOM_MEETING", "Start share screen error, status: " + result.name());
+      promise.reject("ERR_ZOOM_MEETING_CONTROL", "Start share screen error, status: " + result.name());
     }
   }
 
@@ -524,7 +523,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
       promise.resolve(null);
     } else {
-      promise.reject("ERR_ZOOM_MEETING", "Stop share screen error, status: " + result.name());
+      promise.reject("ERR_ZOOM_MEETING_CONTROL", "Stop share screen error, status: " + result.name());
     }
   }
 
@@ -545,10 +544,10 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
         updateVideoView(false);
         promise.resolve(null);
       } else {
-        promise.reject("ERR_ZOOM_MEETING", "Switch camera failed");
+        promise.reject("ERR_ZOOM_MEETING_CONTROL", "Switch camera failed");
       }
     } else {
-      promise.reject("ERR_ZOOM_MEETING", "The camera is muted");
+      promise.reject("ERR_ZOOM_MEETING_CONTROL", "The camera is muted");
     }
   }
 
@@ -567,7 +566,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
       promise.resolve(null);
     } else {
-      promise.reject("ERR_ZOOM_MEETING", "Raise hand error, status: " + result.name());
+      promise.reject("ERR_ZOOM_MEETING_CONTROL", "Raise hand error, status: " + result.name());
     }
   }
 
@@ -586,7 +585,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
       promise.resolve(null);
     } else {
-      promise.reject("ERR_ZOOM_MEETING", "Lower hand error, status: " + result.name());
+      promise.reject("ERR_ZOOM_MEETING_CONTROL", "Lower hand error, status: " + result.name());
     }
   }
 
