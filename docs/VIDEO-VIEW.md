@@ -4,10 +4,9 @@
 
 *If use it with animate will blank view!*
 
-1. Setup `zm_config_conf_activity` to `your.package.MainActivity`
-2. Initialize with `enableCustomizedMeetingUI: true`
-3. Use `ZoomUsVideoView` on anywhere
-4. Define what video layout you want
+1. Initialize with `enableCustomizedMeetingUI: true`
+2. Use `ZoomUsVideoView` on anywhere
+3. Define what video layout you want
 
 ## Example
 
