@@ -218,7 +218,10 @@ RCT_EXPORT_METHOD(connectAudio: (RCTPromiseResolveBlock)resolve rejecter:(RCTPro
 RCT_EXPORT_METHOD(isMeetingConnected: (RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
   @try {
     MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
-    if (!ms) return;
+    if (!ms) {
+      reject(@"ERR_ZOOM_MEETING_CONTROL", @"Cannot get meeting service.", nil);
+      return;
+    }
     MobileRTCMeetingState state = [ms getMeetingState];
     resolve(@(state == MobileRTCMeetingState_InMeeting));
   } @catch (NSError *ex) {
@@ -230,7 +233,7 @@ RCT_EXPORT_METHOD(isMeetingHost: (RCTPromiseResolveBlock)resolve rejecter:(RCTPr
   @try {
     MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
     if (!ms) {
-      reject(@"ERR_ZOOM_MEETING_CONTROL", @"Meeting has not start", nil);
+      reject(@"ERR_ZOOM_MEETING_CONTROL", @"Cannot get meeting service.", nil);
       return;
     }
     resolve(@([ms isMeetingHost]));
@@ -261,7 +264,7 @@ RCT_EXPORT_METHOD(muteMyAudio: (BOOL)muted resolver:(RCTPromiseResolveBlock)reso
   @try {
     MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
     if (!ms) {
-      reject(@"ERR_ZOOM_MEETING_CONTROL", @"Meeting has not start", nil);
+      reject(@"ERR_ZOOM_MEETING_CONTROL", @"Cannot get meeting service.", nil);
       return;
     }
     MobileRTCAudioError error = [ms muteMyAudio: muted];
@@ -279,7 +282,7 @@ RCT_EXPORT_METHOD(muteMyVideo: (BOOL)muted resolver:(RCTPromiseResolveBlock)reso
   @try {
     MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
     if (!ms) {
-      reject(@"ERR_ZOOM_MEETING_CONTROL", @"Meeting has not start", nil);
+      reject(@"ERR_ZOOM_MEETING_CONTROL", @"Cannot get meeting service.", nil);
       return;
     }
     MobileRTCVideoError error = [ms muteMyVideo:muted];
@@ -297,7 +300,7 @@ RCT_EXPORT_METHOD(muteAttendee: (NSString *)userId muted:(BOOL)muted resolver:(R
   @try {
     MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
     if (!ms) {
-      reject(@"ERR_ZOOM_MEETING_CONTROL", @"Meeting has not start", nil);
+      reject(@"ERR_ZOOM_MEETING_CONTROL", @"Cannot get meeting service.", nil);
       return;
     }
     NSNumber *zoomUserId = @([userId intValue]);
@@ -315,7 +318,7 @@ RCT_EXPORT_METHOD(muteAllAttendee: (BOOL)allowUnmuteSelf resolver:(RCTPromiseRes
   @try {
     MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
     if (!ms) {
-      reject(@"ERR_ZOOM_MEETING_CONTROL", @"Meeting has not start", nil);
+      reject(@"ERR_ZOOM_MEETING_CONTROL", @"Cannot get meeting service.", nil);
       return;
     }
     if ([ms muteAllUserAudio: allowUnmuteSelf]) {
@@ -332,7 +335,7 @@ RCT_EXPORT_METHOD(startShareScreen: (RCTPromiseResolveBlock)resolve rejecter:(RC
   @try {
     MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
     if (!ms) {
-      reject(@"ERR_ZOOM_MEETING_CONTROL", @"Meeting has not start", nil);
+      reject(@"ERR_ZOOM_MEETING_CONTROL", @"Cannot get meeting service.", nil);
       return;
     }
     if ([ms startAppShare]) {
@@ -361,7 +364,7 @@ RCT_EXPORT_METHOD(switchCamera: (RCTPromiseResolveBlock)resolve rejecter:(RCTPro
   @try {
     MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
     if (!ms) {
-      reject(@"ERR_ZOOM_MEETING_CONTROL", @"Meeting has not start", nil);
+      reject(@"ERR_ZOOM_MEETING_CONTROL", @"Cannot get meeting service.", nil);
       return;
     }
     MobileRTCCameraError error = [ms switchMyCamera];
@@ -379,7 +382,7 @@ RCT_EXPORT_METHOD(raiseMyHand: (RCTPromiseResolveBlock)resolve rejecter:(RCTProm
   @try {
     MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
     if (!ms) {
-      reject(@"ERR_ZOOM_MEETING_CONTROL", @"Meeting has not start", nil);
+      reject(@"ERR_ZOOM_MEETING_CONTROL", @"Cannot get meeting service.", nil);
       return;
     }
     if ([ms raiseMyHand]) {
@@ -396,7 +399,7 @@ RCT_EXPORT_METHOD(lowerMyHand: (RCTPromiseResolveBlock)resolve rejecter:(RCTProm
   @try {
     MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
     if (!ms) {
-      reject(@"ERR_ZOOM_MEETING_CONTROL", @"Meeting has not start", nil);
+      reject(@"ERR_ZOOM_MEETING_CONTROL", @"Cannot get meeting service.", nil);
       return;
     }
     if ([ms lowerHand:[ms myselfUserID]]) {

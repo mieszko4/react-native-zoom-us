@@ -351,7 +351,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     ZoomSDK zoomSDK = ZoomSDK.getInstance();
 
     if (!zoomSDK.isInitialized()) {
-      promise.resolve(false);
+      promise.reject("ERR_ZOOM_MEETING_CONTROL", "ZoomSDK has not been initialized successfully");
       return;
     }
 
@@ -386,6 +386,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     ZoomSDK zoomSDK = ZoomSDK.getInstance();
 
     if (!zoomSDK.isInitialized()) {
+      promise.reject("ERR_ZOOM_MEETING_CONTROL", "ZoomSDK has not been initialized successfully");
       return;
     }
 
@@ -407,7 +408,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     ZoomSDK zoomSDK = ZoomSDK.getInstance();
 
     if (!zoomSDK.isInitialized()) {
-      promise.reject("ERR_ZOOM_MEETING_CONTROL", "Error: Rotate video failed");
+      promise.reject("ERR_ZOOM_MEETING_CONTROL", "ZoomSDK has not been initialized successfully");
       return;
     }
 
@@ -427,6 +428,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     ZoomSDK zoomSDK = ZoomSDK.getInstance();
 
     if (!zoomSDK.isInitialized()) {
+      promise.reject("ERR_ZOOM_MEETING_CONTROL", "ZoomSDK has not been initialized successfully");
       return;
     }
 
@@ -448,6 +450,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     ZoomSDK zoomSDK = ZoomSDK.getInstance();
 
     if (!zoomSDK.isInitialized()) {
+      promise.reject("ERR_ZOOM_MEETING_CONTROL", "ZoomSDK has not been initialized successfully");
       return;
     }
 
@@ -469,6 +472,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     ZoomSDK zoomSDK = ZoomSDK.getInstance();
 
     if (!zoomSDK.isInitialized()) {
+      promise.reject("ERR_ZOOM_MEETING_CONTROL", "ZoomSDK has not been initialized successfully");
       return;
     }
 
@@ -490,6 +494,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     ZoomSDK zoomSDK = ZoomSDK.getInstance();
 
     if (!zoomSDK.isInitialized()) {
+      promise.reject("ERR_ZOOM_MEETING_CONTROL", "ZoomSDK has not been initialized successfully");
       return;
     }
 
@@ -511,7 +516,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     ZoomSDK zoomSDK = ZoomSDK.getInstance();
 
     if (!zoomSDK.isInitialized()) {
-      return;
+      promise.reject("ERR_ZOOM_MEETING_CONTROL", "ZoomSDK has not been initialized successfully");
     }
 
     final InMeetingService inMeetingService = zoomSDK.getInMeetingService();
@@ -532,6 +537,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     ZoomSDK zoomSDK = ZoomSDK.getInstance();
 
     if (!zoomSDK.isInitialized()) {
+      promise.reject("ERR_ZOOM_MEETING_CONTROL", "ZoomSDK has not been initialized successfully");
       return;
     }
 
@@ -556,6 +562,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     ZoomSDK zoomSDK = ZoomSDK.getInstance();
 
     if (!zoomSDK.isInitialized()) {
+      promise.reject("ERR_ZOOM_MEETING_CONTROL", "ZoomSDK has not been initialized successfully");
       return;
     }
 
@@ -575,7 +582,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     ZoomSDK zoomSDK = ZoomSDK.getInstance();
 
     if (!zoomSDK.isInitialized()) {
-      return;
+      promise.reject("ERR_ZOOM_MEETING_CONTROL", "ZoomSDK has not been initialized successfully");
     }
 
     final InMeetingService inMeetingService = zoomSDK.getInMeetingService();
