@@ -48,6 +48,9 @@ buildscript {
 See [diff](https://github.com/mieszko4/react-native-zoom-us-test/pull/10/commits/cabdb876cc40f78f0a6d977d38377497be5e0726) for reference.
 
 3. Optional: Add custom activity config (`android/app/src/main/res/values/config.xml`)
+
+  > If you have custom conference activity, instead official activity or custom UI.
+
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
