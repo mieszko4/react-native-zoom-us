@@ -67,3 +67,5 @@ const App = (props) => {
   )
 }
 ```
+
+*(`share` or `active-share`) and `preview` limited once on the screen by Zoom SDK*
