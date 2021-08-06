@@ -225,7 +225,7 @@ RCT_EXPORT_METHOD(isMeetingConnected: (RCTPromiseResolveBlock)resolve rejecter:(
     MobileRTCMeetingState state = [ms getMeetingState];
     resolve(@(state == MobileRTCMeetingState_InMeeting));
   } @catch (NSError *ex) {
-    reject(@"ERR_UNEXPECTED_EXCEPTION", @"Executing isMeetingConnected", ex);
+    reject(@"ERR_ZOOM_MEETING_CONTROL", @"Executing isMeetingConnected", ex);
   }
 }
 
@@ -238,7 +238,7 @@ RCT_EXPORT_METHOD(isMeetingHost: (RCTPromiseResolveBlock)resolve rejecter:(RCTPr
     }
     resolve(@([ms isMeetingHost]));
   } @catch (NSError *ex) {
-    reject(@"ERR_UNEXPECTED_EXCEPTION", @"Executing isMeetingHost", ex);
+    reject(@"ERR_ZOOM_MEETING_CONTROL", @"Executing isMeetingHost", ex);
   }
 }
 
@@ -256,7 +256,7 @@ RCT_EXPORT_METHOD(getInMeetingUserIdList: (RCTPromiseResolveBlock)resolve reject
     }
     resolve(rnUserList);
   } @catch (NSError *ex) {
-    reject(@"ERR_UNEXPECTED_EXCEPTION", @"Executing getInMeetingUserIdList", ex);
+    reject(@"ERR_ZOOM_MEETING_CONTROL", @"Executing getInMeetingUserIdList", ex);
   }
 }
 
@@ -274,7 +274,7 @@ RCT_EXPORT_METHOD(muteMyAudio: (BOOL)muted resolver:(RCTPromiseResolveBlock)reso
       reject(@"ERR_ZOOM_MEETING_CONTROL", [NSString stringWithFormat:@"Mute my video error, status: %lu", error], nil);
     }
   } @catch (NSError *ex) {
-    reject(@"ERR_UNEXPECTED_EXCEPTION", @"Executing muteMyAudio", ex);
+    reject(@"ERR_ZOOM_MEETING_CONTROL", @"Executing muteMyAudio", ex);
   }
 }
 
@@ -292,7 +292,7 @@ RCT_EXPORT_METHOD(muteMyVideo: (BOOL)muted resolver:(RCTPromiseResolveBlock)reso
       reject(@"ERR_ZOOM_MEETING_CONTROL", [NSString stringWithFormat:@"Mute my video error, status: %lu", error], nil);
     }
   } @catch (NSError *ex) {
-    reject(@"ERR_UNEXPECTED_EXCEPTION", @"Executing muteMyVideo", ex);
+    reject(@"ERR_ZOOM_MEETING_CONTROL", @"Executing muteMyVideo", ex);
   }
 }
 
@@ -310,7 +310,7 @@ RCT_EXPORT_METHOD(muteAttendee: (NSString *)userId muted:(BOOL)muted resolver:(R
       reject(@"ERR_ZOOM_MEETING_CONTROL", @"Fail to mute attendee", nil);
     }
   } @catch (NSError *ex) {
-    reject(@"ERR_UNEXPECTED_EXCEPTION", @"Executing muteAttendee", ex);
+    reject(@"ERR_ZOOM_MEETING_CONTROL", @"Executing muteAttendee", ex);
   }
 }
 
@@ -327,7 +327,7 @@ RCT_EXPORT_METHOD(muteAllAttendee: (BOOL)allowUnmuteSelf resolver:(RCTPromiseRes
       reject(@"ERR_ZOOM_MEETING_CONTROL", @"Fail to mute all attendee", nil);
     }
   } @catch (NSError *ex) {
-    reject(@"ERR_UNEXPECTED_EXCEPTION", @"Executing muteAllAttendee", ex);
+    reject(@"ERR_ZOOM_MEETING_CONTROL", @"Executing muteAllAttendee", ex);
   }
 }
 
@@ -344,7 +344,7 @@ RCT_EXPORT_METHOD(startShareScreen: (RCTPromiseResolveBlock)resolve rejecter:(RC
       reject(@"ERR_ZOOM_MEETING_CONTROL", @"Fail to share screen", nil);
     }
   } @catch (NSError *ex) {
-    reject(@"ERR_UNEXPECTED_EXCEPTION", @"Executing startShareScreen", ex);
+    reject(@"ERR_ZOOM_MEETING_CONTROL", @"Executing startShareScreen", ex);
   }
 }
 
@@ -356,7 +356,7 @@ RCT_EXPORT_METHOD(stopShareScreen: (BOOL)muted resolver:(RCTPromiseResolveBlock)
     }
     resolve(nil);
   } @catch (NSError *ex) {
-    reject(@"ERR_UNEXPECTED_EXCEPTION", @"Executing stopShareScreen", ex);
+    reject(@"ERR_ZOOM_MEETING_CONTROL", @"Executing stopShareScreen", ex);
   }
 }
 
@@ -374,7 +374,7 @@ RCT_EXPORT_METHOD(switchCamera: (RCTPromiseResolveBlock)resolve rejecter:(RCTPro
       reject(@"ERR_ZOOM_MEETING_CONTROL", [NSString stringWithFormat:@"Switch camera error, status: %lu", error], nil);
     }
   } @catch (NSError *ex) {
-    reject(@"ERR_UNEXPECTED_EXCEPTION", @"Executing switchCamera", ex);
+    reject(@"ERR_ZOOM_MEETING_CONTROL", @"Executing switchCamera", ex);
   }
 }
 
@@ -391,7 +391,7 @@ RCT_EXPORT_METHOD(raiseMyHand: (RCTPromiseResolveBlock)resolve rejecter:(RCTProm
       reject(@"ERR_ZOOM_MEETING_CONTROL", @"Fail raise hand", nil);
     }
   } @catch (NSError *ex) {
-    reject(@"ERR_UNEXPECTED_EXCEPTION", @"Executing raiseMyHand", ex);
+    reject(@"ERR_ZOOM_MEETING_CONTROL", @"Executing raiseMyHand", ex);
   }
 }
 
@@ -408,7 +408,7 @@ RCT_EXPORT_METHOD(lowerMyHand: (RCTPromiseResolveBlock)resolve rejecter:(RCTProm
       reject(@"ERR_ZOOM_MEETING_CONTROL", @"Fail lower hand", nil);
     }
   } @catch (NSError *ex) {
-    reject(@"ERR_UNEXPECTED_EXCEPTION", @"Executing lowerMyHand", ex);
+    reject(@"ERR_ZOOM_MEETING_CONTROL", @"Executing lowerMyHand", ex);
   }
 }
 
