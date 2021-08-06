@@ -17,9 +17,8 @@ Pod::Spec.new do |s|
   s.source_files  = "ios/*.{h,m}"
   s.requires_arc = true
 
-  s.libraries = "sqlite3", "z.1.2.5", "c++"
   s.static_framework = true
   s.dependency "React"
-  s.dependency "ZoomSDK" , '5.4.54802.0124.1'
+  s.dependency "ZoomSDK" , '5.5.12511.0421'
 end
 
