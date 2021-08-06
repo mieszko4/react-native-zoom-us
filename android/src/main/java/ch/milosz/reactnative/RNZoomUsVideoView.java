@@ -27,6 +27,9 @@ class RNZoomUsVideoView extends MobileRTCVideoView {
   private final static String TAG = "RNZoomUs";
 
   private ReadableArray currentLayout = null;
+  private Boolean isNewConfig = false;
+  private List<Long> lastAttendeeUserList = null;
+  private long lastActiveUser = -1;
 
   public RNZoomUsVideoView(Context context) {
     super(context);
@@ -34,7 +37,8 @@ class RNZoomUsVideoView extends MobileRTCVideoView {
 
   public void setZoomLayout(ReadableArray layout) {
     currentLayout = layout;
-    update(false);
+    isNewConfig = true;
+    update();
   }
 
   private List<Long> getAttendeeWithoutMe() {
@@ -52,7 +56,9 @@ class RNZoomUsVideoView extends MobileRTCVideoView {
 
     List<Long> users = inMeetingService.getInMeetingUserList();
 
-    users.remove(new Long(inMeetingService.getMyUserID()));
+    if (users != null) {
+      users.remove(new Long(inMeetingService.getMyUserID()));
+    }
 
     return users;
   }
@@ -73,7 +79,7 @@ class RNZoomUsVideoView extends MobileRTCVideoView {
     return inMeetingService.activeShareUserID();
   }
 
-  public void update(boolean newLayout) {
+  public void update() {
     if (currentLayout == null) {
       return;
     }
@@ -83,10 +89,22 @@ class RNZoomUsVideoView extends MobileRTCVideoView {
       return;
     }
     try {
-      if (newLayout) {
+      boolean reLyout = isNewConfig;
+      long activeUserId = getActiveUser();
+      List<Long> users = getAttendeeWithoutMe();
+      isNewConfig = false;
+      if (users != null && users.equals(lastAttendeeUserList)) {
+        lastAttendeeUserList = users;
+        reLyout = true;
+      }
+      if (activeUserId != lastActiveUser) {
+        lastActiveUser = activeUserId;
+        reLyout = true;
+      }
+      if (reLyout) {
+        Log.d(TAG, "Re-layout all video unit");
         manager.removeAllVideoUnits();
       }
-      List<Long> users = getAttendeeWithoutMe();
       for (int i = 0; i < currentLayout.size(); i++) {
         ReadableMap unit = currentLayout.getMap(i);
         String kind = unit.hasKey("kind") ? unit.getString("kind") : "active";
@@ -110,61 +128,47 @@ class RNZoomUsVideoView extends MobileRTCVideoView {
           renderInfo.is_show_audio_off = showAudioOff;
         }
         renderInfo.backgroud_color = background;
-        Log.d(TAG, "Update #" + i + " [kind=" + kind + " x=" + x + " y=" + y + "]");
+        Log.d(TAG, "Layout #" + i + " [kind=" + kind + " x=" + x + " y=" + y + "]");
         switch (kind) {
           case "active":
-            if (newLayout) {
+            if (reLyout) {
               manager.addActiveVideoUnit(renderInfo);
             } else {
               manager.updateActiveVideoUnit(renderInfo);
             }
             break;
           case "preview":
-            if (newLayout) {
+            if (reLyout) {
               manager.addPreviewVideoUnit(renderInfo);
-            } else {
-              manager.updatePreviewVideoUnit(renderInfo);
             }
             break;
           case "share":
-            if (userIndex >= users.size() || userIndex < 0) {
+            if (users == null || userIndex >= users.size() || userIndex < 0) {
               Log.i(TAG, "Index over user count, skip add");
               break;
             }
-            if (newLayout) {
+            if (reLyout) {
               manager.addShareVideoUnit(users.get(userIndex), renderInfo);
             } else {
               manager.updateShareVideoUnit(renderInfo);
             }
             break;
           case "attendee":
-            if (userIndex >= users.size() || userIndex < 0) {
+            if (users == null || userIndex >= users.size() || userIndex < 0) {
               Log.i(TAG, "Index over user count, skip add");
               break;
             }
-            if (newLayout) {
+            if (reLyout) {
               manager.addAttendeeVideoUnit(users.get(userIndex), renderInfo);
             } else {
               manager.updateAttendeeVideoUnit(users.get(userIndex), renderInfo);
             }
             break;
           case "active-share":
-            long userId = getActiveUser();
-            if (userId != -1) {
-              if (newLayout) {
-                manager.addShareVideoUnit(userId, renderInfo);
-              } else {
-                manager.updateShareVideoUnit(renderInfo);
-              }
+            if (reLyout) {
+              manager.addShareVideoUnit(activeUserId, renderInfo);
             } else {
-              Log.i(TAG, "No active user, fallback fist user");
-              if (users.size() > 0) {
-                if (newLayout) {
-                  manager.addShareVideoUnit(users.get(0), renderInfo);
-                } else {
-                  manager.updateShareVideoUnit(renderInfo);
-                }
-              }
+              manager.updateShareVideoUnit(renderInfo);
             }
             break;
         }
