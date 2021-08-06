@@ -202,6 +202,7 @@ RCT_EXPORT_METHOD(leaveMeeting: (RCTPromiseResolveBlock)resolve rejecter:(RCTPro
 RCT_EXPORT_METHOD(connectAudio: (RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
   @try {
     [self connectAudio];
+    resolve(nil);
   } @catch (NSError *ex) {
     reject(@"ERR_UNEXPECTED_EXCEPTION", @"Executing connectAudio", ex);
   }

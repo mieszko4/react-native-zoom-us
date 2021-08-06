@@ -328,8 +328,9 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   }
 
   @ReactMethod
-  public void connectAudio() {
+  public void connectAudio(Promise promise) {
     connectAudioWithVoIP();
+    promise.resolve(null);
   }
 
   @ReactMethod
