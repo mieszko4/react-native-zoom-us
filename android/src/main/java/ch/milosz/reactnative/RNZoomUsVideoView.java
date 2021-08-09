@@ -36,6 +36,7 @@ class RNZoomUsVideoView extends MobileRTCVideoView {
   }
 
   public void setZoomLayout(ReadableArray layout) {
+    Log.i(TAG, "set layout");
     currentLayout = layout;
     isNewConfig = true;
     update();
@@ -81,6 +82,7 @@ class RNZoomUsVideoView extends MobileRTCVideoView {
 
   public void update() {
     if (currentLayout == null) {
+      Log.e(TAG, "The video view no layout");
       return;
     }
     MobileRTCVideoViewManager manager = getVideoViewManager();
@@ -93,7 +95,7 @@ class RNZoomUsVideoView extends MobileRTCVideoView {
       long activeUserId = getActiveUser();
       List<Long> users = getAttendeeWithoutMe();
       isNewConfig = false;
-      if (users != null && users.equals(lastAttendeeUserList)) {
+      if (lastAttendeeUserList == null || !lastAttendeeUserList.equals(users)) {
         lastAttendeeUserList = users;
         reLyout = true;
       }
@@ -102,7 +104,7 @@ class RNZoomUsVideoView extends MobileRTCVideoView {
         reLyout = true;
       }
       if (reLyout) {
-        Log.d(TAG, "Re-layout all video unit");
+        Log.i(TAG, "Re-layout all video unit");
         manager.removeAllVideoUnits();
       }
       for (int i = 0; i < currentLayout.size(); i++) {
@@ -128,7 +130,7 @@ class RNZoomUsVideoView extends MobileRTCVideoView {
           renderInfo.is_show_audio_off = showAudioOff;
         }
         renderInfo.backgroud_color = background;
-        Log.d(TAG, "Layout #" + i + " [kind=" + kind + " x=" + x + " y=" + y + "]");
+        Log.i(TAG, "Layout #" + i + " [kind=" + kind + " x=" + x + " y=" + y + "]");
         switch (kind) {
           case "active":
             if (reLyout) {

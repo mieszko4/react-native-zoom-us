@@ -651,11 +651,9 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   public void onMeetingStatusChanged(MeetingStatus meetingStatus, int errorCode, int internalErrorCode) {
     Log.i(TAG, "onMeetingStatusChanged, meetingStatus=" + meetingStatus + ", errorCode=" + errorCode + ", internalErrorCode=" + internalErrorCode);
 
-    sendEvent("MeetingEvent", getMeetErrorName(errorCode), meetingStatus);
+    updateVideoView();
 
-    if (meetingStatus != MeetingStatus.MEETING_STATUS_CONNECTING) {
-      updateVideoView();
-    }
+    sendEvent("MeetingEvent", getMeetErrorName(errorCode), meetingStatus);
 
     if (meetingPromise == null) {
       return;
