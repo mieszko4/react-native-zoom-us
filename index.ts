@@ -1,7 +1,6 @@
-import { NativeModule, NativeModules } from 'react-native'
+import { NativeModule, Platform } from 'react-native'
 import invariant from 'invariant'
-
-const { RNZoomUs } = NativeModules
+import { RNZoomUs } from './native'
 
 if (!RNZoomUs) console.error('RNZoomUs native module is not linked.')
 
@@ -25,9 +24,11 @@ export interface RNZoomUsSDKInitParams extends RNZoomUsInitializeCommonParams {
 async function initialize(
   params: RNZoomUsInitializeParams|RNZoomUsSDKInitParams,
   settings: {
+    enableCustomizedMeetingUI?: boolean,
     // ios only
     disableShowVideoPreviewWhenJoinMeeting?: boolean
   } = {
+    enableCustomizedMeetingUI: false,
     // more details inside: https://github.com/mieszko4/react-native-zoom-us/issues/28
     disableShowVideoPreviewWhenJoinMeeting: true,
   },
@@ -134,7 +135,65 @@ async function connectAudio() {
   return RNZoomUs.connectAudio()
 }
 
+async function isMeetingConnected() {
+  return RNZoomUs.isMeetingConnected()
+}
+
+async function isMeetingHost() {
+  return RNZoomUs.isMeetingHost()
+}
+
+async function getInMeetingUserIdList() {
+  return RNZoomUs.getInMeetingUserIdList()
+}
+
+async function rotateMyVideo(rotation: number) {
+  if (Platform.OS === 'android') {
+    return RNZoomUs.rotateMyVideo(rotation)
+  } else {
+    throw new Error('Only support android')
+  }
+}
+
+async function muteMyVideo(muted: boolean) {
+  return RNZoomUs.muteMyVideo(muted)
+}
+
+async function muteMyAudio(muted: boolean) {
+  return RNZoomUs.muteMyAudio(muted)
+}
+
+async function muteAttendee(userId: string, muted: boolean) {
+  return RNZoomUs.muteAttendee(userId, muted)
+}
+
+async function muteAllAttendee(allowUnmuteSelf: boolean) {
+  return RNZoomUs.muteAllAttendee(allowUnmuteSelf)
+}
+
+async function startShareScreen() {
+  return RNZoomUs.startShareScreen()
+}
+
+async function stopShareScreen() {
+  return RNZoomUs.stopShareScreen()
+}
+
+async function switchCamera() {
+  return RNZoomUs.switchCamera()
+}
+
+async function raiseMyHand() {
+  return RNZoomUs.raiseMyHand()
+}
+
+async function lowerMyHand() {
+  return RNZoomUs.lowerMyHand()
+}
+
 export const ZoomEmitter = RNZoomUs as NativeModule;
+
+export { default as ZoomUsVideoView } from './video-view'
 
 export default {
   initialize,
@@ -143,4 +202,17 @@ export default {
   startMeeting,
   leaveMeeting,
   connectAudio,
+  isMeetingHost,
+  isMeetingConnected,
+  getInMeetingUserIdList,
+  rotateMyVideo,
+  muteMyVideo,
+  muteMyAudio,
+  muteAttendee,
+  muteAllAttendee,
+  startShareScreen,
+  stopShareScreen,
+  switchCamera,
+  raiseMyHand,
+  lowerMyHand,
 }
