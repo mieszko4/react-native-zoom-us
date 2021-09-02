@@ -55,7 +55,6 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   private final static String TAG = "RNZoomUs";
   private final ReactApplicationContext reactContext;
 
-  private Boolean isInitialized = false;
   private Boolean shouldAutoConnectAudio = false;
   private Promise initializePromise;
   private Promise meetingPromise;
@@ -77,17 +76,27 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   }
 
   @ReactMethod
+  public void isInitialized(final Promise promise) {
+    try {
+      ZoomSDK zoomSDK = ZoomSDK.getInstance();
+
+      Boolean isInitialized = zoomSDK.isInitialized();
+      promise.resolve(isInitialized);
+    } catch (Exception ex) {
+      promise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
+    }
+  }
+
+  @ReactMethod
   public void initialize(final ReadableMap params, final ReadableMap settings, final Promise promise) {
-    if (isInitialized) {
+    ZoomSDK zoomSDK = ZoomSDK.getInstance();
+    if (zoomSDK.isInitialized()) {
       promise.resolve("Already initialize Zoom SDK successfully.");
       return;
     }
-
-    isInitialized = true;
+    initializePromise = promise;
 
     try {
-      initializePromise = promise;
-
       if (settings.hasKey("disableShowVideoPreviewWhenJoinMeeting")) {
         shouldDisablePreview = settings.getBoolean("disableShowVideoPreviewWhenJoinMeeting");
       }
@@ -123,7 +132,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
           }
       });
     } catch (Exception ex) {
-      meetingPromise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
+      promise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
     }
   }
 

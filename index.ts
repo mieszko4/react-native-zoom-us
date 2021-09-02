@@ -32,7 +32,7 @@ async function initialize(
     // more details inside: https://github.com/mieszko4/react-native-zoom-us/issues/28
     disableShowVideoPreviewWhenJoinMeeting: true,
   },
-) {
+): Promise<string> {
   invariant(typeof params === 'object',
     'ZoomUs.initialize expects object param. Consider to check migration docs. ' +
     'Check Link: https://github.com/mieszko4/react-native-zoom-us/blob/master/docs/UPGRADING.md',
@@ -48,6 +48,10 @@ async function initialize(
   if (!params.domain) params.domain = 'zoom.us'
 
   return RNZoomUs.initialize(params, settings)
+}
+
+function isInitialized(): Promise<boolean> {
+  return RNZoomUs.isInitialized()
 }
 
 export interface RNZoomUsJoinMeetingParams {
@@ -202,6 +206,7 @@ export default {
   startMeeting,
   leaveMeeting,
   connectAudio,
+  isInitialized,
   isMeetingHost,
   isMeetingConnected,
   getInMeetingUserIdList,
