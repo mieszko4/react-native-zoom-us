@@ -47,6 +47,7 @@ import us.zoom.sdk.StartMeetingOptions;
 import us.zoom.sdk.StartMeetingParamsWithoutLogin;
 
 import us.zoom.sdk.JoinMeetingOptions;
+import us.zoom.sdk.MeetingOptions;
 import us.zoom.sdk.MeetingViewsOptions;
 import us.zoom.sdk.JoinMeetingParams;
 
@@ -114,6 +115,9 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
                 ZoomSDKInitParams initParams = new ZoomSDKInitParams();
                 initParams.jwtToken = params.getString("jwtToken");
                 initParams.domain = params.getString("domain");
+//              initParams.enableLog = true;
+//              initParams.enableGenerateDump =true;
+//              initParams.logSize = 5;
 
                 zoomSDK.initialize(
                   reactContext.getCurrentActivity(),
@@ -121,13 +125,11 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
                   initParams
                 );
             } else {
-              zoomSDK.initialize(
-                reactContext.getCurrentActivity(),
-                params.getString("clientKey"),
-                params.getString("clientSecret"),
-                params.getString("domain"),
-                RNZoomUsModule.this
-              );
+              ZoomSDKInitParams initParams = new ZoomSDKInitParams();
+              initParams.appKey = params.getString("clientKey");
+              initParams.appSecret = params.getString("clientSecret");
+              initParams.domain = params.getString("domain");
+              zoomSDK.initialize(getReactApplicationContext(), RNZoomUsModule.this, initParams);
             }
           }
       });
@@ -247,8 +249,15 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
           JoinMeetingOptions opts = new JoinMeetingOptions();
           MeetingViewsOptions view = new MeetingViewsOptions();
-          if(paramMap.hasKey("participantID")) opts.participant_id = paramMap.getString("participantID");
           if(paramMap.hasKey("noAudio")) opts.no_audio = paramMap.getBoolean("noAudio");
+          /**
+              participant_id was removed from android options.
+              There is no propper documentations and it still exists in jave docs...
+              Maybe it was renamed to customer_key or so on. (todo check)
+              Waiting before further changes.
+           */
+//          if(paramMap.hasKey("participantID")) opts.participant_id = paramMap.getString("participantID");
+
           if(paramMap.hasKey("noVideo")) opts.no_video = paramMap.getBoolean("noVideo");
           if(paramMap.hasKey("noInvite")) opts.no_invite = paramMap.getBoolean("noInvite");
           if(paramMap.hasKey("noBottomToolbar")) opts.no_bottom_toolbar = paramMap.getBoolean("noBottomToolbar");
@@ -259,6 +268,17 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
           if(paramMap.hasKey("noShare")) opts.no_share = paramMap.getBoolean("noShare");
           if(paramMap.hasKey("noTitlebar")) opts.no_titlebar = paramMap.getBoolean("noTitlebar");
           if(paramMap.hasKey("customMeetingId")) opts.custom_meeting_id = paramMap.getString("customMeetingId");
+          /** posible extra options:
+            opts.no_driving_mode = meetingOptions.no_driving_mode;
+            opts.no_disconnect_audio = meetingOptions.no_disconnect_audio;
+            opts.no_record = meetingOptions.no_record;
+            opts.meeting_views_options = meetingOptions.meeting_views_options;
+            opts.invite_options = meetingOptions.invite_options;
+            opts.customer_key = meetingOptions.customer_key;
+            opts.no_unmute_confirm_dialog=meetingOptions.no_unmute_confirm_dialog;
+            opts.no_webinar_register_dialog=meetingOptions.no_webinar_register_dialog;
+            opts.no_chat_msg_toast = meetingOptions.no_chat_msg_toast;
+          */
 
           if(paramMap.hasKey("noButtonLeave") && paramMap.getBoolean("noButtonLeave")) opts.meeting_views_options = opts.meeting_views_options + view.NO_BUTTON_LEAVE;
           if(paramMap.hasKey("noButtonMore") && paramMap.getBoolean("noButtonMore")) opts.meeting_views_options = opts.meeting_views_options + view.NO_BUTTON_MORE;
@@ -792,8 +812,8 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   // Required methods for InMeetingServiceListener
   @Override
   public void onMeetingNeedPasswordOrDisplayName(boolean b, boolean b1, InMeetingEventHandler inMeetingEventHandler) {}
-  @Override
-  public void onWebinarNeedRegister() {}
+//  @Override
+//  public void onWebinarNeedRegister() {}
   @Override
   public void onJoinWebinarNeedUserNameAndEmail(InMeetingEventHandler inMeetingEventHandler) {}
   @Override
@@ -810,22 +830,22 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   public void onActiveSpeakerVideoUserChanged(long l) {}
   @Override
   public void onSpotlightVideoChanged(boolean b) {}
-  @Override
-  public void onUserVideoStatusChanged(long l) {}
+//  @Override
+//  public void onUserVideoStatusChanged(long l) {}
   @Override
   public void onUserNetworkQualityChanged(long l) {}
   @Override
   public void onMicrophoneStatusError(InMeetingAudioController.MobileRTCMicrophoneError mobileRTCMicrophoneError) {}
-  @Override
-  public void onUserAudioStatusChanged(long l) {}
+//  @Override
+//  public void onUserAudioStatusChanged(long l) {}
   @Override
   public void onUserAudioTypeChanged(long l) {}
   @Override
   public void onMyAudioSourceTypeChanged(int i) {}
   @Override
   public void onLowOrRaiseHandStatusChanged(long l, boolean b) {}
-  @Override
-  public void onMeetingSecureKeyNotification(byte[] bytes) {}
+//  @Override
+//  public void onMeetingSecureKeyNotification(byte[] bytes) {}
   @Override
   public void onChatMessageReceived(InMeetingChatMessage inMeetingChatMessage) {}
   @Override
@@ -840,6 +860,10 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   public void onSinkAllowAttendeeChatNotification(int i) {}
   @Override
   public void onUserNameChanged(long l, String s) {}
+  @Override
+  public void onInvalidReclaimHostkey() {}
+  @Override
+  public void onRecordingStatus(RecordingStatus status) {  }
 
   // React LifeCycle
   @Override
@@ -861,6 +885,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
         .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
         .emit(name, params);
   }
+
   private void sendEvent(String name, String event, MeetingStatus status) {
     WritableMap params = Arguments.createMap();
     params.putString("event", event);
