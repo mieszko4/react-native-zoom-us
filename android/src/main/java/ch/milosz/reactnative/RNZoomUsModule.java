@@ -34,6 +34,8 @@ import us.zoom.sdk.ZoomSDK;
 import us.zoom.sdk.ZoomError;
 import us.zoom.sdk.ZoomSDKInitializeListener;
 import us.zoom.sdk.ZoomSDKInitParams;
+import us.zoom.sdk.FreeMeetingNeedUpgradeType;
+import us.zoom.sdk.ShareSettingType;
 
 import us.zoom.sdk.MeetingStatus;
 import us.zoom.sdk.MeetingError;
@@ -812,8 +814,8 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   // Required methods for InMeetingServiceListener
   @Override
   public void onMeetingNeedPasswordOrDisplayName(boolean b, boolean b1, InMeetingEventHandler inMeetingEventHandler) {}
-//  @Override
-//  public void onWebinarNeedRegister() {}
+  @Override
+  public void onWebinarNeedRegister(String registerUrl) {}
   @Override
   public void onJoinWebinarNeedUserNameAndEmail(InMeetingEventHandler inMeetingEventHandler) {}
   @Override
@@ -830,22 +832,16 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   public void onActiveSpeakerVideoUserChanged(long l) {}
   @Override
   public void onSpotlightVideoChanged(boolean b) {}
-//  @Override
-//  public void onUserVideoStatusChanged(long l) {}
   @Override
   public void onUserNetworkQualityChanged(long l) {}
   @Override
   public void onMicrophoneStatusError(InMeetingAudioController.MobileRTCMicrophoneError mobileRTCMicrophoneError) {}
-//  @Override
-//  public void onUserAudioStatusChanged(long l) {}
   @Override
   public void onUserAudioTypeChanged(long l) {}
   @Override
   public void onMyAudioSourceTypeChanged(int i) {}
   @Override
   public void onLowOrRaiseHandStatusChanged(long l, boolean b) {}
-//  @Override
-//  public void onMeetingSecureKeyNotification(byte[] bytes) {}
   @Override
   public void onChatMessageReceived(InMeetingChatMessage inMeetingChatMessage) {}
   @Override
@@ -863,7 +859,25 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   @Override
   public void onInvalidReclaimHostkey() {}
   @Override
-  public void onRecordingStatus(RecordingStatus status) {  }
+  public void onRecordingStatus(RecordingStatus status) {}
+  @Override
+  public void onClosedCaptionReceived(String message) {}
+  @Override
+  public void onFreeMeetingUpgradeToProMeeting() {}
+  @Override
+  public void onFreeMeetingUpgradeToGiftFreeTrialStop() {}
+  @Override
+  public void onFreeMeetingUpgradeToGiftFreeTrialStart() {}
+  @Override
+  public void onFreeMeetingNeedToUpgrade(FreeMeetingNeedUpgradeType type, String gifUrl) {}
+  @Override
+  public void onUserAudioStatusChanged(long userId, AudioStatus audioStatus) {}
+  @Override
+  public void onUserVideoStatusChanged(long userId, VideoStatus status) {}
+
+  // ShareEvents
+  @Override
+  public void onShareSettingTypeChanged(ShareSettingType type) {}
 
   // React LifeCycle
   @Override
