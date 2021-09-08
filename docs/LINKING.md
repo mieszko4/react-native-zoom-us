@@ -6,20 +6,6 @@
 
 #### Extra steps for Android
 
-Since Zoom SDK `*.aar` libraries are not globally distributed
-it is also required to manually go to your project's `android/build.gradle` and under `allprojects.repositories` add the following:
-```gradle
-allprojects {
-    repositories {
-        flatDir {
-            dirs "$rootDir/../node_modules/react-native-zoom-us/android/libs"
-        }
-        ...
-    }
-    ...
-}
-```
-
 If you have problem with multiDex go to your project's `android/app/build.gradle` and under `android.defaultSettings` add the following:
 ```gradle
 android {

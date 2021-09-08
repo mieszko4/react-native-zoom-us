@@ -25,18 +25,7 @@ If you have `react-native < 0.60`, check [Full Linking Guide](https://github.com
 
 #### Android
 
-1. Add repository to `android/build.gradle`:
-```gradle
-allprojects {
-    repositories {
-        flatDir {
-            dirs "$rootDir/../node_modules/react-native-zoom-us/android/libs"
-        }
-    }
-}   
-```
-
-2. Set `minSdkVersion` to `21`
+1. Set `minSdkVersion` to `21`
 ```gradle
 buildscript {
     ext {
@@ -47,7 +36,7 @@ buildscript {
 
 See [diff](https://github.com/mieszko4/react-native-zoom-us-test/pull/10/commits/cabdb876cc40f78f0a6d977d38377497be5e0726) for reference.
 
-3. Optional: Add custom activity config (`android/app/src/main/res/values/config.xml`)
+2. Optional: Add custom activity config (`android/app/src/main/res/values/config.xml`)
 
   > If you have custom conference activity, instead official activity or custom UI.
 
