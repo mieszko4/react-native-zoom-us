@@ -13,7 +13,9 @@ Tested on XCode 12.4 and react-native 0.64.0. ([See details](https://github.com/
 Pull requests are welcome.
 
 - [Example](https://github.com/mieszko4/react-native-zoom-us-test)
-- [Upgrading Guide](https://github.com/mieszko4/react-native-zoom-us/tree/master/docs/UPGRADING.md)
+- [Upgrading Guide](./docs/UPGRADING.md)
+- [CHANGELOG](./CHANGELOG.md)
+- [TROUBLESHOOTING](./docs/TROUBLESHOOTING.md)
 
 ## Getting started
 
