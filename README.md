@@ -8,7 +8,7 @@ This is a bridge for ZoomUS SDK:
 | iOS	        | 5.5.12511.0421    | https://github.com/zoom/zoom-sdk-ios     | https://marketplace.zoom.us/docs/changelog#labels/client-sdk-i-os    |
 | Android       | 5.7.1.1267        | https://github.com/zoom/zoom-sdk-android | https://marketplace.zoom.us/docs/changelog#labels/client-sdk-android |
 
-Tested on XCode 12.4 and react-native 0.64.1. ([See details](https://github.com/mieszko4/react-native-zoom-us#testing))
+Tested on XCode 12.4 and react-native 0.64.2. ([See details](https://github.com/mieszko4/react-native-zoom-us#testing))
 
 Pull requests are welcome.
 
@@ -145,7 +145,7 @@ await ZoomUs.connectAudio()
 
 The plugin has been tested for `joinMeeting` using [smoke test procedure]https://github.com/mieszko4/react-native-zoom-us-test#smoke-test-procedure:
 * react-native-zoom-us: 6.0.1
-* react-native: 0.64.1
+* react-native: 0.64.2
 * node: 14.16.0
 * macOS: 10.15.5
 * XCode: 12.4
