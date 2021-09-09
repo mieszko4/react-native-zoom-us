@@ -270,6 +270,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
           if(paramMap.hasKey("noShare")) opts.no_share = paramMap.getBoolean("noShare");
           if(paramMap.hasKey("noTitlebar")) opts.no_titlebar = paramMap.getBoolean("noTitlebar");
           if(paramMap.hasKey("customMeetingId")) opts.custom_meeting_id = paramMap.getString("customMeetingId");
+          if(paramMap.hasKey("webinarToken")) opts.webinar_token = paramMap.getString("webinarToken");
           /** posible extra options:
             opts.no_driving_mode = meetingOptions.no_driving_mode;
             opts.no_disconnect_audio = meetingOptions.no_disconnect_audio;

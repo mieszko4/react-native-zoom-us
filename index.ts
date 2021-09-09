@@ -79,10 +79,10 @@ export interface RNZoomUsJoinMeetingParams {
   noButtonShare?: boolean
   noTextMeetingId?: boolean
   noTextPassword?: boolean
+  webinarToken?: string
 
   // ios only fields:
   zoomAccessToken?: string
-  webinarToken?: string
 }
 async function joinMeeting(params: RNZoomUsJoinMeetingParams) {
   let { meetingNumber, noAudio = false, noVideo = false, autoConnectAudio = false } = params
