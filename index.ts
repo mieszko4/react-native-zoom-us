@@ -58,7 +58,6 @@ export interface RNZoomUsJoinMeetingParams {
   userName: string
   meetingNumber: string | number
   password?: string
-  participantID?: string
   autoConnectAudio?: boolean
   noAudio?: boolean
   noVideo?: boolean
