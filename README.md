@@ -144,7 +144,7 @@ await ZoomUs.connectAudio()
 ## Testing
 
 The plugin has been tested for `joinMeeting` using [smoke test procedure]https://github.com/mieszko4/react-native-zoom-us-test#smoke-test-procedure:
-* react-native-zoom-us: 5.8.3
+* react-native-zoom-us: 6.0.0
 * react-native: 0.64.0
 * node: 14.16.0
 * macOS: 10.15.5
