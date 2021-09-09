@@ -12,6 +12,6 @@
     "noEmitOnError": false,
     "declaration": true,
     "esModuleInterop": true,
-    "jsx": "react-jsx"
+    "jsx": "react-native"
   }
 }
