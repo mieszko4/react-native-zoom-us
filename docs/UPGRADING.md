@@ -4,7 +4,7 @@
 ### 6.0.0 (JitPack)
 
 - You should remove a local repository from build.gradle:
-```
+```gradle
 flatDir {
     dirs "$rootDir/../node_modules/react-native-zoom-us/android/libs"
 }
@@ -12,7 +12,7 @@ flatDir {
 
 - ZoomSDk now uses exoplayer. So you can experience problems if it already exists in project.
 You can try to disable it: 
-```
+```gradle
 implementation (project(':react-native-zoom-us')) {
     exclude group: 'com.google.android.exoplayer'
 }
