@@ -6,7 +6,7 @@
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
-    "prepack": "npx tsc --noEmit false --jsx react-native",
+    "prepack": "npx tsc --noEmit false",
     "postversion": "git push && git push --tags"
   },
   "keywords": [
