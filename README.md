@@ -40,7 +40,19 @@ android {
 }
 ```
 
-2. Optional: Add custom activity config (`android/app/src/main/res/values/config.xml`)
+2. In your `MainApplication.java` inside of `onCreate` add `SoLoader.loadLibrary("zoom");`:
+
+```java
+@Override
+  public void onCreate() {
+    super.onCreate();
+    SoLoader.init(this, /* native exopackage */ false);
+    SoLoader.loadLibrary("zoom"); // <-- ADD THIS LINE
+    initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
+  }
+```
+
+3. Optional: Add custom activity config (`android/app/src/main/res/values/config.xml`)
 
   > If you have custom conference activity, instead official activity or custom UI.
 
@@ -146,7 +158,7 @@ await ZoomUs.connectAudio()
 ## Testing
 
 The plugin has been tested for `joinMeeting` using [smoke test procedure]https://github.com/mieszko4/react-native-zoom-us-test#smoke-test-procedure:
-* react-native-zoom-us: 6.0.3
+* react-native-zoom-us: 6.0.4
 * react-native: 0.64.2
 * node: 14.16.0
 * macOS: 10.15.5
