@@ -10,6 +10,8 @@ flatDir {
 }
 ```
 
+- Set `pickFirst` rules
+
 - ZoomSDk now uses exoplayer. So you can experience problems if it already exists in project.
 You can try to disable it: 
 ```gradle

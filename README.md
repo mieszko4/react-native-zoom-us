@@ -27,16 +27,18 @@ If you have `react-native < 0.60`, check [Full Linking Guide](https://github.com
 
 #### Android
 
-1. Set `minSdkVersion` to `21`
+1. Set `pickFirst` rules in `android/app/build.gradle`
+
 ```gradle
-buildscript {
-    ext {
-        minSdkVersion = 21
+android {
+    packagingOptions {
+        pickFirst 'lib/arm64-v8a/libc++_shared.so'
+        pickFirst 'lib/x86/libc++_shared.so'
+        pickFirst 'lib/x86_64/libc++_shared.so'
+        pickFirst 'lib/armeabi-v7a/libc++_shared.so'
     }
 }
 ```
-
-See [diff](https://github.com/mieszko4/react-native-zoom-us-test/pull/10/commits/cabdb876cc40f78f0a6d977d38377497be5e0726) for reference.
 
 2. Optional: Add custom activity config (`android/app/src/main/res/values/config.xml`)
 
