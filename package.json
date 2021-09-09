@@ -1,6 +1,6 @@
 {
   "name": "react-native-zoom-us",
-  "version": "6.0.2",
+  "version": "6.0.3",
   "description": "React-native bridge for ZoomUs SDK",
   "homepage": "https://github.com/mieszko4/react-native-zoom-us",
   "main": "index.js",
