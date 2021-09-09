@@ -22,3 +22,22 @@ implementation (project(':react-native-zoom-us')) {
 If lib still not published: `yarn add https://github.com/react-native-video/react-native-video#724b8629f6c7f222c08e60e6948d06fa45a6f4f2`
 
 Note: it can be also with other libs which uses exoplayer
+
+### OS independent path
+
+If you see error like this:
+```
+More than one file was found with OS independent path 'lib/armeabi-v7a/libc++_shared.so'.
+```
+
+You can solve it by adding:
+```gradle
+    packagingOptions {
+        pickFirst 'lib/arm64-v8a/libc++_shared.so'
+        pickFirst 'lib/x86/libc++_shared.so'
+        pickFirst 'lib/x86_64/libc++_shared.so'
+        pickFirst 'lib/armeabi-v7a/libc++_shared.so'
+    }
+```
+
+in `android/app/build.gradle`.
