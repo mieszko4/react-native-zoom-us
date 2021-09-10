@@ -43,6 +43,15 @@
 
 RCT_EXPORT_MODULE()
 
+RCT_EXPORT_METHOD(isInitialized: (RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject) {
+  @try {
+    // todo check from ZoomSdk
+    resolve(@(isInitialized));
+  } @catch (NSError *ex) {
+    reject(@"ERR_UNEXPECTED_EXCEPTION", @"Executing isInitialized", ex);
+  }
+}
+
 RCT_EXPORT_METHOD(
   initialize: (NSDictionary *)data
   withSettings: (NSDictionary *)settings
@@ -144,7 +153,7 @@ RCT_EXPORT_METHOD(
       joinParam.userName = data[@"userName"];
       joinParam.meetingNumber = data[@"meetingNumber"];
       joinParam.password =  data[@"password"];
-      joinParam.participantID = data[@"participantID"];
+//       joinParam.participantID = data[@"participantID"]; // todo any new keyword?
       joinParam.zak = data[@"zoomAccessToken"];
       joinParam.webinarToken =  data[@"webinarToken"];
       joinParam.noAudio = data[@"noAudio"];
