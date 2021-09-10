@@ -458,11 +458,77 @@ RCT_EXPORT_METHOD(lowerMyHand: (RCTPromiseResolveBlock)resolve rejecter:(RCTProm
   meetingPromiseReject = nil;
 }
 
+- (NSString*)formatStateToString:(MobileRTCMeetingState)state {
+    NSString *result = nil;
+
+    // naming synced with android enum MeetingStatus
+    switch(state) {
+        case MobileRTCMeetingState_Connecting:
+            result = @"MEETING_STATUS_CONNECTING";
+            break;
+        case MobileRTCMeetingState_Idle:
+            result = @"MEETING_STATUS_IDLE";
+            break;
+        case MobileRTCMeetingState_Failed:
+            result = @"MEETING_STATUS_FAILED";
+            break;
+        case MobileRTCMeetingState_WebinarPromote:
+            result = @"MEETING_STATUS_WEBINAR_PROMOTE";
+            break;
+        case MobileRTCMeetingState_WebinarDePromote:
+            result = @"MEETING_STATUS_WEBINAR_DEPROMOTE";
+            break;
+        case MobileRTCMeetingState_InWaitingRoom:
+            result = @"MEETING_STATUS_IN_WAITING_ROOM";
+            break;
+        case MobileRTCMeetingState_WaitingForHost:
+            result = @"MEETING_STATUS_WAITINGFORHOST";
+            break;
+        case MobileRTCMeetingState_Disconnecting:
+            result = @"MEETING_STATUS_DISCONNECTING";
+            break;
+        case MobileRTCMeetingState_InMeeting:
+            result = @"MEETING_STATUS_INMEETING";
+            break;
+        case MobileRTCMeetingState_Reconnecting:
+            result = @"MEETING_STATUS_RECONNECTING";
+            break;
+        case MobileRTCMeetingState_Unknow:
+            result = @"MEETING_STATUS_UNKNOWN";
+            break;
+
+        // only iOS (guessed naming)
+        case MobileRTCMeetingState_WaitingExternalSessionKey:
+            result = @"MEETING_STATUS_WAITING_EXTERNAL_SESSION_KEY";
+            break;
+        case MobileRTCMeetingState_Ended:
+            result = @"MEETING_STATUS_ENDED";
+            break;
+        case MobileRTCMeetingState_Locked:
+            result = @"MEETING_STATUS_LOCKED";
+            break;
+        case MobileRTCMeetingState_Unlocked:
+            result = @"MEETING_STATUS_UNLOCKED";
+            break;
+        case MobileRTCMeetingState_JoinBO:
+            result = @"MEETING_STATUS_JOIN_BO";
+            break;
+        case MobileRTCMeetingState_LeaveBO:
+            result = @"MEETING_STATUS_LEAVE_BO";
+            break;
+
+        default:
+            [NSException raise:NSGenericException format:@"Unexpected state."];
+    }
+
+    return result;
+}
+
 - (void)onMeetingStateChange:(MobileRTCMeetingState)state {
   NSLog(@"onMeetingStatusChanged, meetingState=%d", state);
 
-  // TODO Send event with status to be consistent with android
-  // [self sendEventWithName:@"MeetingEvent" event:@"success" status:state];
+  NSString* statusString = [self formatStateToString:state];
+  [self sendEventWithName:@"MeetingEvent" event:@"success" status:statusString];
 
   if (state == MobileRTCMeetingState_InMeeting && shouldAutoConnectAudio == YES) {
     [self connectAudio];
@@ -557,6 +623,11 @@ RCT_EXPORT_METHOD(lowerMyHand: (RCTPromiseResolveBlock)resolve rejecter:(RCTProm
 - (void)sendEventWithName:(NSString *)name event:(NSString *)event {
   if (hasObservers) {
     [self sendEventWithName:name body:@{@"event": event}];
+  }
+}
+- (void)sendEventWithName:(NSString *)name event:(NSString *)event status:(NSString *)status {
+  if (hasObservers) {
+    [self sendEventWithName:name body:@{@"event": event, @"status": status}];
   }
 }
 
