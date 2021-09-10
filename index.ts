@@ -37,15 +37,15 @@ export interface RNZoomUsSDKInitParams extends RNZoomUsInitializeCommonParams {
 async function initialize(
   params: RNZoomUsInitializeParams|RNZoomUsSDKInitParams,
   settings: {
-    enableCustomizedMeetingUI?: boolean,
+    language: Language,
+    enableCustomizedMeetingUI: boolean,
     // ios only
     disableShowVideoPreviewWhenJoinMeeting?: boolean
-    language: Language,
   } = {
+    language: 'en',
     enableCustomizedMeetingUI: false,
     // more details inside: https://github.com/mieszko4/react-native-zoom-us/issues/28
     disableShowVideoPreviewWhenJoinMeeting: true,
-    language: 'en',
   },
 ): Promise<string> {
   invariant(typeof params === 'object',
