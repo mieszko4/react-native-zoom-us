@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Collections;
+import java.util.Locale;
 
 import us.zoom.sdk.InMeetingVideoController;
 import us.zoom.sdk.InMeetingAudioController;
@@ -112,6 +113,12 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
           @Override
           public void run() {
             ZoomSDK zoomSDK = ZoomSDK.getInstance();
+
+            String[] parts = settings.getString("language").split("-");
+            Locale locale = parts.length == 1
+              ? new Locale(parts[0])
+              : new Locale(parts[0], parts[1]);
+            zoomSDK.setSdkLocale(reactContext, locale);
 
             if (params.hasKey("jwtToken")) {
                 ZoomSDKInitParams initParams = new ZoomSDKInitParams();

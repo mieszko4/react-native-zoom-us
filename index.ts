@@ -6,6 +6,19 @@ if (!RNZoomUs) console.error('RNZoomUs native module is not linked.')
 
 const DEFAULT_USER_TYPE = 2
 
+type Language = 'de' | 'ja' | 'en' | 'zh-Hant' | 'es' | 'zh-Hans' | 'it' | 'ko' | 'vi' | 'ru' | 'pt-PT' | 'fr';
+
+const applyLanguageMapping = (language: Language): string => {
+  const androidLanguageMapping = {
+    'zh-Hans': 'zh-CN',
+    'zh-Hant': 'zh-TW',
+  };
+  if (Platform.OS === 'android') {
+    return androidLanguageMapping[language] || language;
+  }
+
+  return language;
+}
 interface RNZoomUsInitializeCommonParams {
   domain?: string;
   iosAppGroupId?: string;
@@ -27,10 +40,12 @@ async function initialize(
     enableCustomizedMeetingUI?: boolean,
     // ios only
     disableShowVideoPreviewWhenJoinMeeting?: boolean
+    language: Language,
   } = {
     enableCustomizedMeetingUI: false,
     // more details inside: https://github.com/mieszko4/react-native-zoom-us/issues/28
     disableShowVideoPreviewWhenJoinMeeting: true,
+    language: 'en',
   },
 ): Promise<string> {
   invariant(typeof params === 'object',
@@ -47,7 +62,12 @@ async function initialize(
 
   if (!params.domain) params.domain = 'zoom.us'
 
-  return RNZoomUs.initialize(params, settings)
+  const mappedSettings = {
+    ...settings,
+    language: applyLanguageMapping(settings.language),
+  };
+
+  return RNZoomUs.initialize(params, mappedSettings)
 }
 
 function isInitialized(): Promise<boolean> {
