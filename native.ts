@@ -22,6 +22,7 @@ export interface NativeVideoProps {
   layout: NativeLayoutUnit[]
 }
 
+// TODO: implement for iOS -> https://github.com/mieszko4/react-native-zoom-us/issues/113
 export const RNZoomUsVideoView = (
   Platform.OS === 'android' ? requireNativeComponent('RNZoomUsVideoView') : null
 ) as HostComponent<NativeVideoProps> | null

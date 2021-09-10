@@ -78,7 +78,7 @@ RCT_EXPORT_METHOD(
     context.enableLog = YES;
     context.locale = MobileRTC_ZoomLocale_Default;
 
-    //Note: This step is optional, Method is uesd for iOS Replaykit Screen share integration,if not,just ignore this step.
+    //Note: This step is optional, Method is used for iOS Replaykit Screen share integration,if not,just ignore this step.
     context.appGroupId = data[@"iosAppGroupId"];
     BOOL initializeSuc = [[MobileRTC sharedRTC] initialize:context];
     MobileRTCMeetingSettings *zoomSettings = [[MobileRTC sharedRTC] getMeetingSettings];
