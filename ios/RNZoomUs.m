@@ -85,6 +85,8 @@ RCT_EXPORT_METHOD(
     [zoomSettings disableShowVideoPreviewWhenJoinMeeting:settings[@"disableShowVideoPreviewWhenJoinMeeting"]];
     zoomSettings.enableCustomMeeting = settings[@"enableCustomizedMeetingUI"];
 
+    [[MobileRTC sharedRTC] setLanguage:settings[@"language"]];
+
     MobileRTCAuthService *authService = [[MobileRTC sharedRTC] getAuthService];
     if (authService)
     {
