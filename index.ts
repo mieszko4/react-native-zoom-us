@@ -99,6 +99,12 @@ export interface RNZoomUsJoinMeetingParams {
   noMeetingErrorMessage?: boolean
   noShare?: boolean
   noTitlebar?: boolean
+  noDrivingMode?: boolean
+  noDisconnectAudio?: boolean
+  noRecord?: boolean
+  noUnmuteConfirmDialog?: boolean
+  noWebinarRegisterDialog?: boolean
+  noChatMsgToast?: boolean
 
   // ios only fields:
   zoomAccessToken?: string

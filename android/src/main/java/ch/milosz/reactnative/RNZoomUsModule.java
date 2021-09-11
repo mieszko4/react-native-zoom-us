@@ -278,16 +278,18 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
           if(paramMap.hasKey("noTitlebar")) opts.no_titlebar = paramMap.getBoolean("noTitlebar");
           if(paramMap.hasKey("customMeetingId")) opts.custom_meeting_id = paramMap.getString("customMeetingId");
           if(paramMap.hasKey("webinarToken")) opts.webinar_token = paramMap.getString("webinarToken");
-          /** posible extra options:
-            opts.no_driving_mode = meetingOptions.no_driving_mode;
-            opts.no_disconnect_audio = meetingOptions.no_disconnect_audio;
-            opts.no_record = meetingOptions.no_record;
+          if(paramMap.hasKey("noDrivingMode")) opts.no_driving_mode = paramMap.getBoolean("noDrivingMode");
+          if(paramMap.hasKey("noDisconnectAudio")) opts.no_disconnect_audio = paramMap.getBoolean("noDisconnectAudio");
+          if(paramMap.hasKey("noRecord")) opts.no_record = paramMap.getBoolean("noRecord");
+          if(paramMap.hasKey("noUnmuteConfirmDialog")) opts.no_unmute_confirm_dialog = paramMap.getBoolean("noUnmuteConfirmDialog");
+          if(paramMap.hasKey("noWebinarRegisterDialog")) opts.no_webinar_register_dialog = paramMap.getBoolean("noWebinarRegisterDialog");
+          if(paramMap.hasKey("noChatMsgToast")) opts.no_chat_msg_toast = paramMap.getBoolean("noChatMsgToast");
+
+
+          /** TODO: posible extra options:
             opts.meeting_views_options = meetingOptions.meeting_views_options;
             opts.invite_options = meetingOptions.invite_options;
             opts.customer_key = meetingOptions.customer_key;
-            opts.no_unmute_confirm_dialog=meetingOptions.no_unmute_confirm_dialog;
-            opts.no_webinar_register_dialog=meetingOptions.no_webinar_register_dialog;
-            opts.no_chat_msg_toast = meetingOptions.no_chat_msg_toast;
           */
 
           if(paramMap.hasKey("noButtonLeave") && paramMap.getBoolean("noButtonLeave")) opts.meeting_views_options = opts.meeting_views_options + view.NO_BUTTON_LEAVE;
