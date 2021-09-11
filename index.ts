@@ -82,6 +82,14 @@ export interface RNZoomUsJoinMeetingParams {
   noAudio?: boolean
   noVideo?: boolean
 
+  noButtonLeave?: boolean
+  noButtonMore?: boolean
+  noButtonParticipants?: boolean
+  noButtonShare?: boolean
+  noTextMeetingId?: boolean
+  noTextPassword?: boolean
+  webinarToken?: string
+
   // android only fields:
   noInvite?: boolean
   noBottomToolbar?: boolean
@@ -91,14 +99,6 @@ export interface RNZoomUsJoinMeetingParams {
   noMeetingErrorMessage?: boolean
   noShare?: boolean
   noTitlebar?: boolean
-
-  noButtonLeave?: boolean
-  noButtonMore?: boolean
-  noButtonParticipants?: boolean
-  noButtonShare?: boolean
-  noTextMeetingId?: boolean
-  noTextPassword?: boolean
-  webinarToken?: string
 
   // ios only fields:
   zoomAccessToken?: string
