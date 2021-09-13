@@ -34,19 +34,25 @@ export interface RNZoomUsSDKInitParams extends RNZoomUsInitializeCommonParams {
   // we don't care for the rest, for now
 }
 
+type InitializeSettings = {
+  language?: Language;
+  enableCustomizedMeetingUI?: boolean;
+  disableShowVideoPreviewWhenJoinMeeting?: boolean;
+};
+
 async function initialize(
-  params: RNZoomUsInitializeParams|RNZoomUsSDKInitParams,
-  settings: {
-    language: Language,
-    enableCustomizedMeetingUI: boolean,
+  {
+    domain = 'zoom.us',
+    ...params
+  }: RNZoomUsInitializeParams|RNZoomUsSDKInitParams,
+  {
+    language = 'en',
+    enableCustomizedMeetingUI = false,
+
     // ios only
-    disableShowVideoPreviewWhenJoinMeeting?: boolean
-  } = {
-    language: 'en',
-    enableCustomizedMeetingUI: false,
     // more details inside: https://github.com/mieszko4/react-native-zoom-us/issues/28
-    disableShowVideoPreviewWhenJoinMeeting: true,
-  },
+    disableShowVideoPreviewWhenJoinMeeting = true
+  }: InitializeSettings = {},
 ): Promise<string> {
   invariant(typeof params === 'object',
     'ZoomUs.initialize expects object param. Consider to check migration docs. ' +
@@ -60,14 +66,19 @@ async function initialize(
     invariant(params.clientSecret, 'ZoomUs.initialize requires clientSecret')
   }
 
-  if (!params.domain) params.domain = 'zoom.us'
-
   const mappedSettings = {
-    ...settings,
-    language: applyLanguageMapping(settings.language),
+    language: applyLanguageMapping(language),
+    enableCustomizedMeetingUI,
+
+    disableShowVideoPreviewWhenJoinMeeting
   };
 
-  return RNZoomUs.initialize(params, mappedSettings)
+  const mappedParams = {
+    domain,
+    ...params,
+  };
+
+  return RNZoomUs.initialize(mappedParams, mappedSettings)
 }
 
 function isInitialized(): Promise<boolean> {
