@@ -50,8 +50,8 @@ dependencies {
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
     implementation 'com.google.code.gson:gson:2.8.1'
-    implementation ('com.google.android.exoplayer:exoplayer-core:2.15.0')
-    implementation ('com.google.android.exoplayer:exoplayer-ui:2.15.0')
+    implementation ('com.google.android.exoplayer:exoplayer-core:2.13.3')
+    implementation ('com.google.android.exoplayer:exoplayer-ui:2.13.3')
 
     /** MobileRTC deps: App works without next deps but they still can be necessary */
 //     implementation 'com.github.bumptech.glide:annotations:4.11.0'
