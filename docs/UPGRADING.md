@@ -1,6 +1,29 @@
 
 ## Upgrading guide
 
+### 6.0.0 (JitPack)
+
+- You should remove a local repository from build.gradle:
+```gradle
+flatDir {
+    dirs "$rootDir/../node_modules/react-native-zoom-us/android/libs"
+}
+```
+
+- Set `pickFirst` rules
+
+- In your `MainApplication.java` inside of `onCreate` add `SoLoader.loadLibrary("zoom");`
+
+- ZoomSDk now uses exoplayer. So you can experience problems if it already exists in project.
+You can try to disable it: 
+```gradle
+implementation (project(':react-native-zoom-us')) {
+    exclude group: 'com.google.android.exoplayer'
+}
+```
+or check troubleshooting docs for extra options
+
+
 ### 5.0.0 (TypeScript)
 You can check notes there: https://github.com/mieszko4/react-native-zoom-us/pull/31
 

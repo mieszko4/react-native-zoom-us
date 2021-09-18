@@ -1,3 +1,4 @@
+apply plugin: 'com.android.library'
 
 buildscript {
     repositories {
@@ -6,14 +7,14 @@ buildscript {
             url 'https://maven.google.com/'
             name 'Google'
         }
+        maven { url 'https://jitpack.io' }
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.2'
+        classpath 'com.android.tools.build:gradle:4.2.1'
     }
 }
 
-apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 29
@@ -33,15 +34,26 @@ android {
 
 
 dependencies {
-    // fileTree works for dev, but produces conflict crash (duplicated assets) on release build
-    // implementation fileTree(dir: "libs", include: ["*.aar"])
-
-    implementation 'us.zoom.sdk:commonlib@aar'
-    implementation 'us.zoom.sdk:mobilertc@aar'
-
     implementation 'com.facebook.react:react-native:+' // From node_modules
-    implementation 'androidx.recyclerview:recyclerview:1.0.0'
-    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'com.github.zoom-us-community:jitpack-zoom-us:5.7.1'
+
+        /**  deps from commonlib */
+//     implementation 'androidx.recyclerview:recyclerview:1.0.0'
+//     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+
+    // MobileRTC Deps
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'com.google.android.material:material:1.0.0-rc01'
+    implementation 'com.google.android.material:material:1.2.0-alpha03'
+    implementation 'androidx.security:security-crypto:1.1.0-alpha02'
+    implementation 'com.google.crypto.tink:tink-android:1.5.0'
+
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
+    implementation 'com.google.android.flexbox:flexbox:3.0.0'
+    implementation 'com.google.code.gson:gson:2.8.1'
+    implementation ('com.google.android.exoplayer:exoplayer-core:2.13.3')
+    implementation ('com.google.android.exoplayer:exoplayer-ui:2.13.3')
+
+    /** MobileRTC deps: App works without next deps but they still can be necessary */
+//     implementation 'com.github.bumptech.glide:annotations:4.11.0'
+//     implementation 'com.github.bumptech.glide:glide:4.11.0'
 }
