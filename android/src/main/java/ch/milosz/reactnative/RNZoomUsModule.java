@@ -29,6 +29,7 @@ import us.zoom.sdk.InMeetingEventHandler;
 import us.zoom.sdk.InMeetingService;
 import us.zoom.sdk.InMeetingServiceListener;
 import us.zoom.sdk.InMeetingShareController;
+import us.zoom.sdk.InMeetingUserInfo;
 import us.zoom.sdk.MeetingEndReason;
 import us.zoom.sdk.MeetingSettingsHelper;
 import us.zoom.sdk.ZoomSDK;
@@ -881,9 +882,25 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   @Override
   public void onFreeMeetingNeedToUpgrade(FreeMeetingNeedUpgradeType type, String gifUrl) {}
   @Override
-  public void onUserAudioStatusChanged(long userId, AudioStatus audioStatus) {}
+  public void onUserAudioStatusChanged(long userId, AudioStatus audioStatus) {
+    InMeetingService inMeetingService = ZoomSDK.getInstance().getInMeetingService();
+
+    if (userId == inMeetingService.getMyUserID()) {
+      final InMeetingUserInfo userInfo = inMeetingService.getMyUserInfo();
+
+      sendEvent("MeetingEvent", "myAudioStatus", userInfo);
+    }
+  }
   @Override
-  public void onUserVideoStatusChanged(long userId, VideoStatus status) {}
+  public void onUserVideoStatusChanged(long userId, VideoStatus status) {
+    InMeetingService inMeetingService = ZoomSDK.getInstance().getInMeetingService();
+
+    if (userId == inMeetingService.getMyUserID()) {
+      final InMeetingUserInfo userInfo = inMeetingService.getMyUserInfo();
+
+      sendEvent("MeetingEvent", "myVideoStatus", userInfo);
+    }
+  }
 
   // ShareEvents
   @Override
@@ -904,6 +921,21 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   private void sendEvent(String name, String event) {
     WritableMap params = Arguments.createMap();
     params.putString("event", event);
+
+    reactContext
+        .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+        .emit(name, params);
+  }
+
+  private void sendEvent(String name, String event, InMeetingUserInfo userInfo) {
+    WritableMap params = Arguments.createMap();
+    params.putString("event", event);
+    params.putString("role", userInfo.getInMeetingUserRole().name());
+    params.putDouble("audioType",  userInfo.getAudioStatus().getAudioType());
+
+    params.putBoolean("isMuted",  userInfo.getAudioStatus().isMuted());
+    params.putBoolean("isTalking",  userInfo.getAudioStatus().isTalking());
+    params.putBoolean("isMutedCam", !userInfo.getVideoStatus().isSending());
 
     reactContext
         .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
