@@ -3,6 +3,8 @@
 In addition to a promise-based API, NativeEventEmitter can be used to subscribe to authentication
 and meeting events as follows:
 
+Remember that you should add the listener after the sdk has been initialized successfully.
+
 ```javascript
 import { ZoomEmitter } from 'react-native-zoom-us';
 
@@ -94,6 +96,10 @@ zoomEmitter.addListener('Meeting', (meetingEvent) => {
   //   Event: "askUnMuteAudio"
   //   Event: "askUnMuteVideo"
   //   Event: "hostChanged"
+  
+  //   ANDROID ONLY EVENTS
+  //   Event: "myAudioStatusChanged", {role: string, audioType: number, isMuted: boolean, isTalkin: boolean, isMutedCam: boolean}
+  //   Event: "myVideoStatusChanged", {role: string, audioType: number, isMuted: boolean, isTalkin: boolean, isMutedCam: boolean}
 });
 
 ```
