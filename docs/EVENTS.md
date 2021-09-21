@@ -96,8 +96,10 @@ zoomEmitter.addListener('Meeting', (meetingEvent) => {
   //   Event: "askUnMuteAudio"
   //   Event: "askUnMuteVideo"
   //   Event: "hostChanged"
-  //   Event: "myAudioStatus", {role: string, audioType: number, isMuted: boolean, isTalkin: boolean, isMutedCam: boolean}
-  //   Event: "myVideoStatus", {role: string, audioType: number, isMuted: boolean, isTalkin: boolean, isMutedCam: boolean}
+  
+  //   ANDROID ONLY EVENTS
+  //   Event: "myAudioStatusChanged", {role: string, audioType: number, isMuted: boolean, isTalkin: boolean, isMutedCam: boolean}
+  //   Event: "myVideoStatusChanged", {role: string, audioType: number, isMuted: boolean, isTalkin: boolean, isMutedCam: boolean}
 });
 
 ```

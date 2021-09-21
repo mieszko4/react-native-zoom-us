@@ -888,17 +888,17 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     if (userId == inMeetingService.getMyUserID()) {
       final InMeetingUserInfo userInfo = inMeetingService.getMyUserInfo();
 
-      sendEvent("MeetingEvent", "myAudioStatus", userInfo);
+      sendEvent("MeetingEvent", "myAudioStatusChanged", userInfo);
     }
   }
   @Override
-  public void onUserVideoStatusChanged(long userId, VideoStatus status) {
+  public void onUserVideoStatusChanged(long userId, VideoStatus videoStatus) {
     InMeetingService inMeetingService = ZoomSDK.getInstance().getInMeetingService();
 
     if (userId == inMeetingService.getMyUserID()) {
       final InMeetingUserInfo userInfo = inMeetingService.getMyUserInfo();
 
-      sendEvent("MeetingEvent", "myVideoStatus", userInfo);
+      sendEvent("MeetingEvent", "myVideoStatusChanged", userInfo);
     }
   }
 
@@ -930,12 +930,12 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   private void sendEvent(String name, String event, InMeetingUserInfo userInfo) {
     WritableMap params = Arguments.createMap();
     params.putString("event", event);
-    params.putString("role", userInfo.getInMeetingUserRole().name());
+    params.putString("userRole", userInfo.getInMeetingUserRole().name());
     params.putDouble("audioType",  userInfo.getAudioStatus().getAudioType());
 
-    params.putBoolean("isMuted",  userInfo.getAudioStatus().isMuted());
     params.putBoolean("isTalking",  userInfo.getAudioStatus().isTalking());
-    params.putBoolean("isMutedCam", !userInfo.getVideoStatus().isSending());
+    params.putBoolean("isMutedAudio",  userInfo.getAudioStatus().isMuted());
+    params.putBoolean("isMutedVideo", !userInfo.getVideoStatus().isSending());
 
     reactContext
         .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
