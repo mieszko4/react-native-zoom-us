@@ -8,7 +8,7 @@ import {
 } from 'react-native'
 
 export interface NativeLayoutUnit {
-  style: StyleProp<ViewStyle>
+  style?: StyleProp<ViewStyle>
   kind: "active" | "preview" | "share" | "attendee" | "active-share"
   x: number
   y: number
