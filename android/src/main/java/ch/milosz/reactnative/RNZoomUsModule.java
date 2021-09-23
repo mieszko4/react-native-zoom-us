@@ -489,7 +489,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
         MobileRTCSDKError result = audioController.muteMyAudio(muted);
 
         if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
-          promise.resolve();
+          promise.resolve(null);
         } else {
           promise.reject("ERR_ZOOM_MEETING_CONTROL", "Mute my audio error, status: " + result.name());
         }
