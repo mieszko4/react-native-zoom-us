@@ -11,6 +11,7 @@ import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableArray;
+import com.facebook.react.bridge.UiThreadUtil;
 import com.facebook.react.uimanager.UIManagerModule;
 import com.facebook.react.uimanager.NativeViewHierarchyManager;
 import com.facebook.react.uimanager.UIBlock;
@@ -435,17 +436,20 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
       return;
     }
 
-    final InMeetingService inMeetingService = zoomSDK.getInMeetingService();
+    final InMeetingVideoController videoController = zoomSDK.getInMeetingService().getInMeetingVideoController();
 
-    final InMeetingVideoController videoController = inMeetingService.getInMeetingVideoController();
+    UiThreadUtil.runOnUiThread(new Runnable() {
+      @Override
+      public void run() {
+        MobileRTCSDKError result = videoController.muteMyVideo(muted);
 
-    MobileRTCSDKError result = videoController.muteMyVideo(muted);
-
-    if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
-      promise.resolve(null);
-    } else {
-      promise.reject("ERR_ZOOM_MEETING_CONTROL", "Mute my video error, status: " + result.name());
-    }
+        if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
+          promise.resolve(null);
+        } else {
+          promise.reject("ERR_ZOOM_MEETING_CONTROL", "Mute my video error, status: " + result.name());
+        }
+      }
+    });
   }
 
   @ReactMethod
@@ -477,17 +481,20 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
       return;
     }
 
-    final InMeetingService inMeetingService = zoomSDK.getInMeetingService();
+    final InMeetingAudioController audioController = zoomSDK.getInMeetingService().getInMeetingAudioController();
 
-    final InMeetingAudioController audioController = inMeetingService.getInMeetingAudioController();
+    UiThreadUtil.runOnUiThread(new Runnable() {
+      @Override
+      public void run() {
+        MobileRTCSDKError result = audioController.muteMyAudio(muted);
 
-    MobileRTCSDKError result = audioController.muteMyAudio(muted);
-
-    if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
-      promise.resolve(null);
-    } else {
-      promise.reject("ERR_ZOOM_MEETING_CONTROL", "Mute my audio error, status: " + result.name());
-    }
+        if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
+          promise.resolve();
+        } else {
+          promise.reject("ERR_ZOOM_MEETING_CONTROL", "Mute my audio error, status: " + result.name());
+        }
+      }
+    });
   }
 
   @ReactMethod
