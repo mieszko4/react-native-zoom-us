@@ -8,7 +8,6 @@ import {
 } from 'react-native'
 
 export interface NativeLayoutUnit {
-  style?: StyleProp<ViewStyle>
   kind: "active" | "preview" | "share" | "attendee" | "active-share"
   x: number
   y: number
@@ -18,10 +17,11 @@ export interface NativeLayoutUnit {
   showUsername?: boolean
   showAudioOff?: boolean
   userIndex?: number
-  background?: number
+  background?: string
 }
 
 export interface NativeVideoProps {
+  style?: StyleProp<ViewStyle>
   layout: NativeLayoutUnit[]
 }
 
