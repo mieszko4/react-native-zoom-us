@@ -428,7 +428,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   }
 
   @ReactMethod
-  public void muteMyVideo(final boolean muted, Promise promise) {
+  public void muteMyVideo(final boolean muted, final Promise promise) {
     ZoomSDK zoomSDK = ZoomSDK.getInstance();
 
     if (!zoomSDK.isInitialized()) {
@@ -473,7 +473,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   }
 
   @ReactMethod
-  public void muteMyAudio(final boolean muted, Promise promise) {
+  public void muteMyAudio(final boolean muted, final Promise promise) {
     ZoomSDK zoomSDK = ZoomSDK.getInstance();
 
     if (!zoomSDK.isInitialized()) {
