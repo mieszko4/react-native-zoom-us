@@ -279,7 +279,6 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
           if(paramMap.hasKey("noShare")) opts.no_share = paramMap.getBoolean("noShare");
           if(paramMap.hasKey("noTitlebar")) opts.no_titlebar = paramMap.getBoolean("noTitlebar");
           if(paramMap.hasKey("customMeetingId")) opts.custom_meeting_id = paramMap.getString("customMeetingId");
-          if(paramMap.hasKey("webinarToken")) opts.webinar_token = paramMap.getString("webinarToken");
           if(paramMap.hasKey("noDrivingMode")) opts.no_driving_mode = paramMap.getBoolean("noDrivingMode");
           if(paramMap.hasKey("noDisconnectAudio")) opts.no_disconnect_audio = paramMap.getBoolean("noDisconnectAudio");
           if(paramMap.hasKey("noRecord")) opts.no_record = paramMap.getBoolean("noRecord");
@@ -305,6 +304,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
           params.displayName = paramMap.getString("userName");
           params.meetingNo = paramMap.getString("meetingNumber");
           if(paramMap.hasKey("password")) params.password = paramMap.getString("password");
+          if(paramMap.hasKey("webinarToken")) params.webinarToken = paramMap.getString("webinarToken");
 
           int joinMeetingResult = meetingService.joinMeetingWithParams(reactContext.getCurrentActivity(), params, opts);
           Log.i(TAG, "joinMeeting, joinMeetingResult=" + joinMeetingResult);
