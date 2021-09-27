@@ -369,7 +369,12 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
     final MeetingService meetingService = zoomSDK.getMeetingService();
 
-    meetingService.leaveCurrentMeeting(false);
+    UiThreadUtil.runOnUiThread(new Runnable() {
+      @Override
+      public void run() {
+        meetingService.leaveCurrentMeeting(false);
+      }
+    });
   }
 
   @ReactMethod
