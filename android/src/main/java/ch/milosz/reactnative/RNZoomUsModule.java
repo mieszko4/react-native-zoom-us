@@ -111,7 +111,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
         customizedMeetingUIEnabled = settings.getBoolean("enableCustomizedMeetingUI");
       }
 
-      reactContext.getCurrentActivity().runOnUiThread(new Runnable() {
+      UiThreadUtil.runOnUiThread(new Runnable() {
           @Override
           public void run() {
             ZoomSDK zoomSDK = ZoomSDK.getInstance();
@@ -176,7 +176,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   ) {
     meetingPromise = promise;
 
-    reactContext.getCurrentActivity().runOnUiThread(new Runnable() {
+    UiThreadUtil.runOnUiThread(new Runnable() {
       @Override
       public void run() {
         try {
@@ -246,7 +246,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     meetingPromise = promise;
     shouldAutoConnectAudio = paramMap.getBoolean("autoConnectAudio");
 
-    reactContext.getCurrentActivity().runOnUiThread(new Runnable() {
+    UiThreadUtil.runOnUiThread(new Runnable() {
       @Override
       public void run() {
         try {
@@ -328,7 +328,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   ) {
     meetingPromise = promise;
 
-    reactContext.getCurrentActivity().runOnUiThread(new Runnable() {
+    UiThreadUtil.runOnUiThread(new Runnable() {
       @Override
       public void run() {
         try {
