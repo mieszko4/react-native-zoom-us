@@ -1,23 +1,11 @@
 import * as React from 'react'
 import { View, findNodeHandle } from 'react-native'
 import Color from 'color'
-import { RNZoomUs, RNZoomUsVideoView } from './native'
-
-export interface LayoutUnit {
-  kind: "active" | "preview" | "share" | "attendee" | "active-share"
-  x: number
-  y: number
-  width: number
-  height: number
-  border?: boolean
-  showUsername?: boolean
-  showAudioOff?: boolean
-  userIndex?: number
-  background?: string
-}
+import { RNZoomUs, RNZoomUsVideoView, NativeVideoProps } from './native'
 
 export interface Props {
-  layout: LayoutUnit[]
+  style?: NativeVideoProps["style"]
+  layout: NativeVideoProps["layout"]
 }
 
 const ZoomUsVideoView: React.FC<Props> = (props) => {
