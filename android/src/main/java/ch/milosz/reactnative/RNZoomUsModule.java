@@ -863,7 +863,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   // TODO: It might need to run on UiThread
   @Override
   public void onMyAudioSourceTypeChanged(int type) {
-    final InMeetingUserInfo userInfo = inMeetingService.getMyUserInfo();
+    final InMeetingUserInfo userInfo = ZoomSDK.getInstance().getInMeetingService().getMyUserInfo();
 
     sendEvent("MeetingEvent", "myAudioSourceTypeChanged", userInfo);
   }
