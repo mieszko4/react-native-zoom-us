@@ -600,8 +600,10 @@ RCT_EXPORT_METHOD(lowerMyHand: (RCTPromiseResolveBlock)resolve rejecter:(RCTProm
   }
 }
 
-#pragma mark - Other listeners
 #pragma mark - https://marketplacefront.zoom.us/sdk/meeting/ios/_mobile_r_t_c_meeting_delegate_8h_source.html
+
+
+#pragma mark - MobileRTCVideoServiceDelegate
 
 - (void)onSinkMeetingVideoStatusChange:(NSUInteger)userID videoStatus:(MobileRTC_VideoStatus)videoStatus {
   MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
@@ -619,6 +621,27 @@ RCT_EXPORT_METHOD(lowerMyHand: (RCTPromiseResolveBlock)resolve rejecter:(RCTProm
     }];
   }
 }
+
+- (void)onSinkMeetingActiveVideo:(NSUInteger)userID {}
+
+- (void)onSinkMeetingVideoStatusChange:(NSUInteger)userID {}
+
+- (void)onMyVideoStateChange {}
+
+- (void)onSpotlightVideoChange:(BOOL)on {}
+
+- (void)onSinkMeetingPreviewStopped {}
+
+- (void)onSinkMeetingActiveVideoForDeck:(NSUInteger)userID {}
+
+- (void)onSinkMeetingVideoQualityChanged:(MobileRTCNetworkQuality)qality userID:(NSUInteger)userID {}
+
+- (void)onSinkMeetingVideoRequestUnmuteByHost:(void (^_Nonnull)(BOOL Accept))completion {}
+
+- (void)onSinkMeetingShowMinimizeMeetingOrBackZoomUI:(MobileRTCMinimizeMeetingState)state {}
+
+
+#pragma mark - MobileRTCAudioServiceDelegate
 
 - (void)onSinkMeetingMyAudioTypeChange {
   MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
@@ -651,9 +674,35 @@ RCT_EXPORT_METHOD(lowerMyHand: (RCTPromiseResolveBlock)resolve rejecter:(RCTProm
   }
 }
 
-- (void)onSinkMeetingAudioRequestUnmuteByHost:(NSUInteger)userID {
+- (void)onSinkMeetingAudioRequestUnmuteByHost {
   [self sendEventWithName:@"MeetingEvent" event:@"askUnMuteAudio"];
 }
+
+- (void)onSinkMeetingAudioStatusChange:(NSUInteger)userID {}
+
+- (void)onSinkMeetingAudioTypeChange:(NSUInteger)userID {}
+
+- (void)onAudioOutputChange {}
+
+- (void)onMyAudioStateChange {}
+
+
+#pragma mark - MobileRTCUserServiceDelegate
+
+- (void)onMyHandStateChange {}
+
+- (void)onInMeetingUserUpdated {}
+
+- (void)onSinkMeetingUserRaiseHand:(NSUInteger)userID {}
+
+- (void)onSinkMeetingUserLowerHand:(NSUInteger)userID {}
+
+- (void)onSinkUserNameChanged:(NSUInteger)userID userName:(NSString *_Nonnull)userName {}
+
+- (void)onMeetingCoHostChange:(NSUInteger)cohostId {}
+
+- (void)onClaimHostResult:(MobileRTCClaimHostError)error {}
+
 
 // TODO: askUnMuteVideo, looks like it has a param that I dont know how to use
 - (void)onSinkMeetingVideoRequestUnmuteByHost {
