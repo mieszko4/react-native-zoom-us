@@ -361,7 +361,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
   @ReactMethod
   public void leaveMeeting() {
-    ZoomSDK zoomSDK = ZoomSDK.getInstance();
+    final ZoomSDK zoomSDK = ZoomSDK.getInstance();
 
     if (!zoomSDK.isInitialized()) {
       return;
@@ -382,8 +382,8 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   }
 
   @ReactMethod
-  public void isMeetingConnected(Promise promise) {
-    ZoomSDK zoomSDK = ZoomSDK.getInstance();
+  public void isMeetingConnected(final Promise promise) {
+    final ZoomSDK zoomSDK = ZoomSDK.getInstance();
 
     if (!zoomSDK.isInitialized()) {
       promise.resolve(false);
@@ -399,8 +399,8 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   }
 
   @ReactMethod
-  public void isMeetingHost(Promise promise) {
-    ZoomSDK zoomSDK = ZoomSDK.getInstance();
+  public void isMeetingHost(final Promise promise) {
+    final ZoomSDK zoomSDK = ZoomSDK.getInstance();
 
     if (!zoomSDK.isInitialized()) {
       promise.reject("ERR_ZOOM_MEETING_CONTROL", "ZoomSDK has not been initialized successfully");
@@ -416,9 +416,9 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   }
 
   @ReactMethod
-  public void getInMeetingUserIdList(Promise promise) {
-    WritableArray rnUserList = Arguments.createArray();
-    ZoomSDK zoomSDK = ZoomSDK.getInstance();
+  public void getInMeetingUserIdList(final Promise promise) {
+    final WritableArray rnUserList = Arguments.createArray();
+    final ZoomSDK zoomSDK = ZoomSDK.getInstance();
 
     if (!zoomSDK.isInitialized()) {
       promise.resolve(rnUserList);
@@ -441,7 +441,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
   @ReactMethod
   public void muteMyVideo(final boolean muted, final Promise promise) {
-    ZoomSDK zoomSDK = ZoomSDK.getInstance();
+    final ZoomSDK zoomSDK = ZoomSDK.getInstance();
 
     if (!zoomSDK.isInitialized()) {
       promise.reject("ERR_ZOOM_MEETING_CONTROL", "ZoomSDK has not been initialized successfully");
@@ -465,8 +465,8 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   }
 
   @ReactMethod
-  public void rotateMyVideo(final int rotation, Promise promise) {
-    ZoomSDK zoomSDK = ZoomSDK.getInstance();
+  public void rotateMyVideo(final int rotation, final Promise promise) {
+    final ZoomSDK zoomSDK = ZoomSDK.getInstance();
 
     if (!zoomSDK.isInitialized()) {
       promise.reject("ERR_ZOOM_MEETING_CONTROL", "ZoomSDK has not been initialized successfully");
@@ -489,7 +489,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
   @ReactMethod
   public void muteMyAudio(final boolean muted, final Promise promise) {
-    ZoomSDK zoomSDK = ZoomSDK.getInstance();
+    final ZoomSDK zoomSDK = ZoomSDK.getInstance();
 
     if (!zoomSDK.isInitialized()) {
       promise.reject("ERR_ZOOM_MEETING_CONTROL", "ZoomSDK has not been initialized successfully");
@@ -513,8 +513,8 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   }
 
   @ReactMethod
-  public void muteAttendee(final String userId, final boolean muted, Promise promise) {
-    ZoomSDK zoomSDK = ZoomSDK.getInstance();
+  public void muteAttendee(final String userId, final boolean muted, final Promise promise) {
+    final ZoomSDK zoomSDK = ZoomSDK.getInstance();
 
     if (!zoomSDK.isInitialized()) {
       promise.reject("ERR_ZOOM_MEETING_CONTROL", "ZoomSDK has not been initialized successfully");
@@ -538,8 +538,8 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   }
 
   @ReactMethod
-  public void muteAllAttendee(final boolean allowUnmuteSelf, Promise promise) {
-    ZoomSDK zoomSDK = ZoomSDK.getInstance();
+  public void muteAllAttendee(final boolean allowUnmuteSelf, final Promise promise) {
+    final ZoomSDK zoomSDK = ZoomSDK.getInstance();
 
     if (!zoomSDK.isInitialized()) {
       promise.reject("ERR_ZOOM_MEETING_CONTROL", "ZoomSDK has not been initialized successfully");
@@ -563,8 +563,8 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   }
 
   @ReactMethod
-  public void startShareScreen(Promise promise) {
-    ZoomSDK zoomSDK = ZoomSDK.getInstance();
+  public void startShareScreen(final Promise promise) {
+    final ZoomSDK zoomSDK = ZoomSDK.getInstance();
 
     if (!zoomSDK.isInitialized()) {
       promise.reject("ERR_ZOOM_MEETING_CONTROL", "ZoomSDK has not been initialized successfully");
@@ -588,8 +588,8 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   }
 
   @ReactMethod
-  public void stopShareScreen(Promise promise) {
-    ZoomSDK zoomSDK = ZoomSDK.getInstance();
+  public void stopShareScreen(final Promise promise) {
+    final ZoomSDK zoomSDK = ZoomSDK.getInstance();
 
     if (!zoomSDK.isInitialized()) {
       promise.reject("ERR_ZOOM_MEETING_CONTROL", "ZoomSDK has not been initialized successfully");
@@ -612,8 +612,8 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   }
 
   @ReactMethod
-  public void switchCamera(Promise promise) {
-    ZoomSDK zoomSDK = ZoomSDK.getInstance();
+  public void switchCamera(final Promise promise) {
+    final ZoomSDK zoomSDK = ZoomSDK.getInstance();
 
     if (!zoomSDK.isInitialized()) {
       promise.reject("ERR_ZOOM_MEETING_CONTROL", "ZoomSDK has not been initialized successfully");
@@ -640,8 +640,8 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   }
 
   @ReactMethod
-  public void raiseMyHand(Promise promise) {
-    ZoomSDK zoomSDK = ZoomSDK.getInstance();
+  public void raiseMyHand(final Promise promise) {
+    final ZoomSDK zoomSDK = ZoomSDK.getInstance();
 
     if (!zoomSDK.isInitialized()) {
       promise.reject("ERR_ZOOM_MEETING_CONTROL", "ZoomSDK has not been initialized successfully");
@@ -663,8 +663,8 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   }
 
   @ReactMethod
-  public void lowerMyHand(Promise promise) {
-    ZoomSDK zoomSDK = ZoomSDK.getInstance();
+  public void lowerMyHand(final Promise promise) {
+    final ZoomSDK zoomSDK = ZoomSDK.getInstance();
 
     if (!zoomSDK.isInitialized()) {
       promise.reject("ERR_ZOOM_MEETING_CONTROL", "ZoomSDK has not been initialized successfully");
@@ -765,7 +765,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   }
 
   private void connectAudioWithVoIP() {
-    ZoomSDK zoomSDK = ZoomSDK.getInstance();
+    final ZoomSDK zoomSDK = ZoomSDK.getInstance();
 
     if (!zoomSDK.isInitialized()) {
       return;
