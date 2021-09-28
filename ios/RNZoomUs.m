@@ -600,6 +600,80 @@ RCT_EXPORT_METHOD(lowerMyHand: (RCTPromiseResolveBlock)resolve rejecter:(RCTProm
   }
 }
 
+#pragma mark - Other listeners
+#pragma mark - https://marketplacefront.zoom.us/sdk/meeting/ios/_mobile_r_t_c_meeting_delegate_8h_source.html
+
+- (void)onSinkMeetingVideoStatusChange:(NSUInteger)userID videoStatus:(MobileRTC_VideoStatus)videoStatus {
+  MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
+
+  if ([ms isMyself:userID]) {
+    MobileRTCMeetingUserInfo *userInfo = [ms userInfoByID:[ms myselfUserID]];
+
+    [self sendEventWithName:@"MeetingEvent" params:@{
+      @"event": @"myVideoStatusChanged",
+      @"userRole": @([userInfo userRole]),
+      @"audioType": @([[userInfo audioStatus] audioType]),
+      @"isTalking": @([[userInfo audioStatus] isTalking]),
+      @"isMutedAudio": @([[userInfo audioStatus] isMuted]),
+      @"isMutedVideo": @(![[userInfo videoStatus] isSending]),
+    }];
+  }
+}
+
+- (void)onSinkMeetingMyAudioTypeChange {
+  MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
+  MobileRTCMeetingUserInfo *userInfo = [ms userInfoByID:[ms myselfUserID]];
+
+  [self sendEventWithName:@"MeetingEvent" params:@{
+    @"event": @"myAudioStatusChanged",
+    @"userRole": @([userInfo userRole]),
+    @"audioType": @([[userInfo audioStatus] audioType]),
+    @"isTalking": @([[userInfo audioStatus] isTalking]),
+    @"isMutedAudio": @([[userInfo audioStatus] isMuted]),
+    @"isMutedVideo": @(![[userInfo videoStatus] isSending]),
+  }];
+}
+
+- (void)onSinkMeetingAudioStatusChange:(NSUInteger)userID audioStatus:(MobileRTC_AudioStatus)audioStatus {
+  MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
+
+  if ([ms isMyself:userID]) {
+    MobileRTCMeetingUserInfo *userInfo = [ms userInfoByID:[ms myselfUserID]];
+
+    [self sendEventWithName:@"MeetingEvent" params:@{
+      @"event": @"myAudioStatusChanged",
+      @"userRole": @([userInfo userRole]),
+      @"audioType": @([[userInfo audioStatus] audioType]),
+      @"isTalking": @([[userInfo audioStatus] isTalking]),
+      @"isMutedAudio": @([[userInfo audioStatus] isMuted]),
+      @"isMutedVideo": @(![[userInfo videoStatus] isSending]),
+    }];
+  }
+}
+
+- (void)onSinkMeetingAudioRequestUnmuteByHost:(NSUInteger)userID {
+  [self sendEventWithName:@"MeetingEvent" event:@"askUnMuteAudio"];
+}
+
+// TODO: askUnMuteVideo, looks like it has a param that I dont know how to use
+- (void)onSinkMeetingVideoRequestUnmuteByHost {
+  [self sendEventWithName:@"MeetingEvent" event:@"askUnMuteVideo"];
+}
+
+- (void)onMeetingHostChange:(NSUInteger)hostId {
+  [self sendEventWithName:@"MeetingEvent" event:@"hostChanged"];
+}
+
+// TODO: userLeave send userId as array
+- (void)onSinkMeetingUserLeft:(NSUInteger)userID {
+  [self sendEventWithName:@"MeetingEvent" event:@"userLeave"];
+}
+
+// TODO: userJoin send userId as array
+- (void)onSinkMeetingUserJoin:(NSUInteger)userID {
+  [self sendEventWithName:@"MeetingEvent" event:@"userJoin"];
+}
+
 - (BOOL)respondsToSelector:(SEL)aSelector
 {
   if (aSelector == @selector(onClickShareScreen:)) {
@@ -630,6 +704,11 @@ RCT_EXPORT_METHOD(lowerMyHand: (RCTPromiseResolveBlock)resolve rejecter:(RCTProm
 - (void)sendEventWithName:(NSString *)name event:(NSString *)event status:(NSString *)status {
   if (hasObservers) {
     [self sendEventWithName:name body:@{@"event": event, @"status": status}];
+  }
+}
+- (void)sendEventWithName:(NSString *)name params:(NSDictionary *)params {
+  if (hasObservers) {
+    [self sendEventWithName:name body:params];
   }
 }
 
