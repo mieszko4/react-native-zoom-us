@@ -1,5 +1,10 @@
 ## Changelog
 
+### 6.3.1
+
+- Upgrade iOS ZoomSDK to 5.7.1.645
+- Upgrade android ZoomSDK to 5.7.1.1268
+
 ### 6.1.0
 
 iOS updates:
