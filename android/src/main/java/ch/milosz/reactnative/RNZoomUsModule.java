@@ -1,6 +1,10 @@
 package ch.milosz.reactnative;
 
 import android.util.Log;
+import android.app.Activity;
+import android.content.Intent;
+import android.content.Context;
+import android.media.projection.MediaProjectionManager;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Promise;
@@ -571,18 +575,32 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
       return;
     }
 
+    MediaProjectionManager manager =
+      (MediaProjectionManager) getReactApplicationContext().getSystemService(Context.MEDIA_PROJECTION_SERVICE);
+
+    if (manager != null) {
+      Intent intent = manager.createScreenCaptureIntent();
+
+      reactContext.getCurrentActivity().startActivityForResult(intent, 99);
+    }
+
+    promise.resolve(null);
+  }
+
+  private void startZoomScreenShare(Intent data) {
     UiThreadUtil.runOnUiThread(new Runnable() {
       @Override
       public void run() {
+        final ZoomSDK zoomSDK = ZoomSDK.getInstance();
         final InMeetingShareController shareController = zoomSDK.getInMeetingService().getInMeetingShareController();
 
-        MobileRTCSDKError result = shareController.startShareScreenContent();
+        MobileRTCSDKError result = shareController.startShareScreenSession(data);
 
-        if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
-          promise.resolve(null);
-        } else {
-          promise.reject("ERR_ZOOM_MEETING_CONTROL", "Start share screen error, status: " + result.name());
-        }
+//         if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
+//           promise.resolve(null);
+//         } else {
+//           promise.reject("ERR_ZOOM_MEETING_CONTROL", "Start share screen error, status: " + result.name());
+//         }
       }
     });
   }
@@ -949,12 +967,24 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   // InMeetingShareListener event listeners
   @Override
   public void onShareActiveUser(long userId) {
-    if (userId == ZoomSDK.getInstance().getInMeetingService().getMyUserID()) {
+    final InMeetingService inMeetingService = ZoomSDK.getInstance().getInMeetingService();
+
+    if (inMeetingService.isMyself(userId)) {
       updateVideoView();
       sendEvent("MeetingEvent", "screenShareStarted");
     } else {
       updateVideoView();
       sendEvent("MeetingEvent", "screenShareStopped");
+    }
+
+    final InMeetingShareController shareController = inMeetingService.getInMeetingShareController();
+
+    if (inMeetingService.isMyself(userId)) {
+      if (shareController.isSharingOut()) {
+        if (shareController.isSharingScreen()) {
+            shareController.startShareScreenContent();
+        }
+      }
     }
   }
 
@@ -1079,6 +1109,12 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
       case MeetingEndReason.KICK_BY_HOST: return "endedRemovedByHost";
       case MeetingEndReason.END_FOR_NOATEENDEE: return "endedNoAttendee"; // Android only
       default: return "endedUnknownReason";
+    }
+  }
+
+  public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    if (requestCode == 99 && resultCode == Activity.RESULT_OK) {
+        startZoomScreenShare(data);
     }
   }
 }
