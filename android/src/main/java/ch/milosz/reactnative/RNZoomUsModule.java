@@ -830,15 +830,15 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   }
 
   @Override
-  public void onMeetingUserJoin(List<Long> userList) {
+  public void onMeetingUserJoin(List<Long> userIdList) {
     updateVideoView();
-    sendEvent("MeetingEvent", "userJoin", userList);
+    sendEvent("MeetingEvent", "userJoin", userIdList);
   }
 
   @Override
-  public void onMeetingUserLeave(List<Long> userList) {
+  public void onMeetingUserLeave(List<Long> userIdList) {
     updateVideoView();
-    sendEvent("MeetingEvent", "userLeave", userList);
+    sendEvent("MeetingEvent", "userLeave", userIdList);
   }
 
   @Override
