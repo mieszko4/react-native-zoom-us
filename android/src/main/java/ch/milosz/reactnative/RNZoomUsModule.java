@@ -709,7 +709,6 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     });
   }
 
-  // TODO: It might need to run on UiThread
   @Override
   public void onZoomSDKInitializeResult(int errorCode, int internalErrorCode) {
     Log.i(TAG, "onZoomSDKInitializeResult, errorCode=" + errorCode + ", internalErrorCode=" + internalErrorCode);
@@ -782,7 +781,6 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     });
   }
 
-  // TODO: It might need to run on UiThread
   private void registerListener() {
     Log.i(TAG, "registerListener");
     ZoomSDK zoomSDK = ZoomSDK.getInstance();
@@ -800,7 +798,6 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     }
   }
 
-  // TODO: It might need to run on UiThread
   private void unregisterListener() {
     Log.i(TAG, "unregisterListener");
     ZoomSDK zoomSDK = ZoomSDK.getInstance();
@@ -860,7 +857,6 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   }
 
 
-  // TODO: It might need to run on UiThread
   @Override
   public void onMyAudioSourceTypeChanged(int type) {
     final InMeetingUserInfo userInfo = ZoomSDK.getInstance().getInMeetingService().getMyUserInfo();
@@ -868,7 +864,6 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     sendEvent("MeetingEvent", "myAudioSourceTypeChanged", userInfo);
   }
 
-  // TODO: It might need to run on UiThread
   @Override
   public void onUserAudioStatusChanged(long userId, AudioStatus audioStatus) {
     InMeetingService inMeetingService = ZoomSDK.getInstance().getInMeetingService();
@@ -880,7 +875,6 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     }
   }
 
-  // TODO: It might need to run on UiThread
   @Override
   public void onUserVideoStatusChanged(long userId, VideoStatus videoStatus) {
     InMeetingService inMeetingService = ZoomSDK.getInstance().getInMeetingService();
@@ -953,7 +947,6 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   public void onFreeMeetingNeedToUpgrade(FreeMeetingNeedUpgradeType type, String gifUrl) {}
 
   // InMeetingShareListener event listeners
-  // TODO: It might need to run on UiThread
   @Override
   public void onShareActiveUser(long userId) {
     if (userId == ZoomSDK.getInstance().getInMeetingService().getMyUserID()) {
