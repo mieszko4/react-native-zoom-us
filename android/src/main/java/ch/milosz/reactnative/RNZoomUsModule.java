@@ -742,7 +742,6 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     final InMeetingAudioController audioController = inMeetingService.getInMeetingAudioController();
 
     audioController.connectAudioWithVoIP();
-    audioController.muteMyAudio(false);
   }
 
   private void registerListener() {
