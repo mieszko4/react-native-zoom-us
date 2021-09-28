@@ -582,7 +582,7 @@ RCT_EXPORT_METHOD(lowerMyHand: (RCTPromiseResolveBlock)resolve rejecter:(RCTProm
   if (ms) {
     if (userID == 0) {
       [self sendEventWithName:@"MeetingEvent" event:@"screenShareStopped"];
-    } else if (userID == [ms myselfUserID]){
+    } else if ([ms isMyself:userID]){
       [self sendEventWithName:@"MeetingEvent" event:@"screenShareStarted"];
     }
   }
