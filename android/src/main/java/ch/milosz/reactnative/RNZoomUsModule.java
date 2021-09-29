@@ -612,7 +612,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     }
   }
 
-  private void startZoomScreenShare(Intent intent) {
+  private void startZoomScreenShare(final Intent intent) {
     UiThreadUtil.runOnUiThread(new Runnable() {
       @Override
       public void run() {
