@@ -11,6 +11,7 @@ import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.BaseActivityEventListener;
 import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
@@ -74,10 +75,20 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
   private List<Integer> videoViews = Collections.synchronizedList(new ArrayList<Integer>());
 
+  private final ActivityEventListener mActivityEventListener = new BaseActivityEventListener() {
+    @Override
+    public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent intent) {
+      if (requestCode == 99 && resultCode == Activity.RESULT_OK) {
+        startZoomScreenShare(intent);
+      }
+    }
+  };
+
   public RNZoomUsModule(ReactApplicationContext reactContext) {
     super(reactContext);
     this.reactContext = reactContext;
     reactContext.addLifecycleEventListener(this);
+    reactContext.addActivityEventListener(mActivityEventListener);
   }
 
   @Override
@@ -575,32 +586,44 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
       return;
     }
 
-    MediaProjectionManager manager =
-      (MediaProjectionManager) getReactApplicationContext().getSystemService(Context.MEDIA_PROJECTION_SERVICE);
+    if (customizedMeetingUIEnabled) {
+      final MediaProjectionManager manager =
+        (MediaProjectionManager) getReactApplicationContext().getSystemService(Context.MEDIA_PROJECTION_SERVICE);
 
-    if (manager != null) {
-      Intent intent = manager.createScreenCaptureIntent();
+      if (manager != null) {
+        Intent intent = manager.createScreenCaptureIntent();
 
-      reactContext.getCurrentActivity().startActivityForResult(intent, 99);
+        reactContext.getCurrentActivity().startActivityForResult(intent, 99);
+      }
+
+      promise.resolve(null);
+    } else {
+      final InMeetingShareController shareController = zoomSDK.getInMeetingService().getInMeetingShareController();
+
+      MobileRTCSDKError result = shareController.startShareScreenContent();
+
+      if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
+        promise.resolve(null);
+      } else {
+        promise.reject("ERR_ZOOM_MEETING_CONTROL", "Start share screen error, status: " + result.name());
+      }
     }
-
-    promise.resolve(null);
   }
 
-  private void startZoomScreenShare(Intent data) {
+  private void startZoomScreenShare(Intent intent) {
     UiThreadUtil.runOnUiThread(new Runnable() {
       @Override
       public void run() {
         final ZoomSDK zoomSDK = ZoomSDK.getInstance();
         final InMeetingShareController shareController = zoomSDK.getInMeetingService().getInMeetingShareController();
 
-        MobileRTCSDKError result = shareController.startShareScreenSession(data);
+        MobileRTCSDKError result = shareController.startShareScreenSession(intent);
 
-//         if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
-//           promise.resolve(null);
-//         } else {
-//           promise.reject("ERR_ZOOM_MEETING_CONTROL", "Start share screen error, status: " + result.name());
-//         }
+        if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
+          sendEvent("MeetingEvent", "screenShareSuccess");
+        } else {
+          sendEvent("MeetingEvent", "screenShareError:" + result.name());
+        }
       }
     });
   }
@@ -1109,12 +1132,6 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
       case MeetingEndReason.KICK_BY_HOST: return "endedRemovedByHost";
       case MeetingEndReason.END_FOR_NOATEENDEE: return "endedNoAttendee"; // Android only
       default: return "endedUnknownReason";
-    }
-  }
-
-  public void onActivityResult(int requestCode, int resultCode, Intent data) {
-    if (requestCode == 99 && resultCode == Activity.RESULT_OK) {
-        startZoomScreenShare(data);
     }
   }
 }
