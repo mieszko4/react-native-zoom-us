@@ -65,6 +65,7 @@ import us.zoom.sdk.JoinMeetingParams;
 public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSDKInitializeListener, InMeetingServiceListener, MeetingServiceListener, InMeetingShareController.InMeetingShareListener, LifecycleEventListener {
 
   private final static String TAG = "RNZoomUs";
+  private final static int SCREEN_SHARE_REQUEST_CODE = 99;
   private final ReactApplicationContext reactContext;
 
   private Boolean shouldAutoConnectAudio = false;
@@ -79,7 +80,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   private final ActivityEventListener mActivityEventListener = new BaseActivityEventListener() {
     @Override
     public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent intent) {
-      if (requestCode == 99 && resultCode == Activity.RESULT_OK) {
+      if (requestCode == SCREEN_SHARE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
         startZoomScreenShare(intent);
       }
     }
@@ -594,7 +595,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
       if (manager != null) {
         Intent intent = manager.createScreenCaptureIntent();
 
-        reactContext.getCurrentActivity().startActivityForResult(intent, 99);
+        reactContext.getCurrentActivity().startActivityForResult(intent, SCREEN_SHARE_REQUEST_CODE);
       }
 
       promise.resolve(null);
