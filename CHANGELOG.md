@@ -1,5 +1,9 @@
 ## Changelog
 
+### 6.4.0
+
+Android updates:
+- Fix share screen for Custom View
 ### 6.3.1
 
 - Upgrade iOS ZoomSDK to 5.7.1.645
@@ -9,7 +13,7 @@
 
 iOS updates:
 - Upgrade ios ZoomSDk to 5.7.1.644
-- added `isInitialized()` method
+- Add `isInitialized()` method
 ### 6.0.0
 
 Android updates:
