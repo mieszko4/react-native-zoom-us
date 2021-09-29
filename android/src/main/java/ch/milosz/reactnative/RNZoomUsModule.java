@@ -883,6 +883,8 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   @Override
   public void onRecordingStatus(RecordingStatus status) {}
   @Override
+  public void onLocalRecordingStatus(RecordingStatus recordingStatus) {}
+  @Override
   public void onClosedCaptionReceived(String message) {}
   @Override
   public void onFreeMeetingUpgradeToProMeeting() {}
