@@ -100,6 +100,8 @@ zoomEmitter.addListener('Meeting', (meetingEvent) => {
   //   ANDROID ONLY EVENTS
   //   Event: "myAudioStatusChanged", {userRole: string, audioType: number, isMutedAudio: boolean, isTalking: boolean, isMutedVideo: boolean}
   //   Event: "myVideoStatusChanged", {userRole: string, audioType: number, isMutedAudio: boolean, isTalking: boolean, isMutedVideo: boolean}
+  //   Event: "screenShareSuccess" called on custom ui when share screen is successful
+  //   Event: "screenShareError" called on custom ui when there was an error sharing screen
 });
 
 ```
