@@ -624,7 +624,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
         if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
           sendEvent("MeetingEvent", "screenShareSuccess");
         } else {
-          sendEvent("MeetingEvent", "screenShareError:" + result.name());
+          sendEvent("MeetingEvent", "screenShareError", result);
         }
       }
     });
@@ -1074,6 +1074,16 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
     params.putString("event", event);
     params.putArray("userList", users);
+
+    reactContext
+        .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+        .emit(name, params);
+  }
+
+  private void sendEvent(String name, String event, MobileRTCSDKError error) {
+    WritableMap params = Arguments.createMap();
+    params.putString("event", event);
+    params.putString("error", error.name());
 
     reactContext
         .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
