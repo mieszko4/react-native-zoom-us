@@ -899,6 +899,10 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     sendEvent("MeetingEvent", "hostChanged", userId);
   }
 
+  @Override
+  public void onMeetingCoHostChanged(long userId) {
+    sendEvent("MeetingEvent", "coHostChanged", userId);
+  }
 
   @Override
   public void onMyAudioSourceTypeChanged(int type) {
@@ -942,8 +946,6 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   public void onMeetingFail(int errorCode, int internalErrorCode) {}
   @Override
   public void onMeetingUserUpdated(long userId) {}
-  @Override
-  public void onMeetingCoHostChanged(long userId) {}
   @Override
   public void onActiveVideoUserChanged(long userId) {}
   @Override
