@@ -93,19 +93,16 @@ zoomEmitter.addListener('Meeting', (meetingEvent) => {
   //   Event: "endedNoAttendee"
   //   Event: "userJoin", {userList: [userId]}
   //   Event: "userLeave", {userList: [userId]}
-  //   Event: "askUnMuteAudio"
-  //   Event: "askUnMuteVideo"
-  //   Event: "hostChanged"
+  //   Event: "hostChanged", {userId: number}
+  //   Event: "coHostChanged", {userId: number}  
   //   Event: "myAudioTypeChanged", {userRole: string, audioType: number, isMutedAudio: boolean, isTalking: boolean, isMutedVideo: boolean}
   //   Event: "myAudioStatusChanged", {userRole: string, audioType: number, isMutedAudio: boolean, isTalking: boolean, isMutedVideo: boolean}
   //   Event: "myVideoStatusChanged", {userRole: string, audioType: number, isMutedAudio: boolean, isTalking: boolean, isMutedVideo: boolean}
   //   Event: "screenShareStartedByUser", {userId}
-  
-  // IOS ONLY EVENTS
-  //   Event: "hostChanged", {userId: number}
-  //   Event: "coHostChanged", {userId: number}
 
   //   ANDROID ONLY EVENTS
+  //   Event: "askUnMuteAudio"
+  //   Event: "askUnMuteVideo"
   //   Event: "screenShareSuccess" called on custom ui when share screen is successful
   //   Event: "screenShareError", {error: string} called on custom ui when there was an error sharing screen
 });
