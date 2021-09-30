@@ -699,18 +699,20 @@ RCT_EXPORT_METHOD(lowerMyHand: (RCTPromiseResolveBlock)resolve rejecter:(RCTProm
 
 - (void)onSinkUserNameChanged:(NSUInteger)userID userName:(NSString *_Nonnull)userName {}
 
-- (void)onMeetingCoHostChange:(NSUInteger)cohostId {}
-
 - (void)onClaimHostResult:(MobileRTCClaimHostError)error {}
 
-
-// TODO: askUnMuteVideo, looks like it has a param that I dont know how to use
-- (void)onSinkMeetingVideoRequestUnmuteByHost {
-  [self sendEventWithName:@"MeetingEvent" event:@"askUnMuteVideo"];
+- (void)onMeetingHostChange:(NSUInteger)userId {
+    [self sendEventWithName:@"MeetingEvent" params:@{
+    @"event": @"hostChanged",
+    @"userId": @(userId)
+  }];
 }
 
-- (void)onMeetingHostChange:(NSUInteger)hostId {
-  [self sendEventWithName:@"MeetingEvent" event:@"hostChanged"];
+- (void)onMeetingCoHostChange:(NSUInteger)userId {
+    [self sendEventWithName:@"MeetingEvent" params:@{
+    @"event": @"coHostChanged",
+    @"userId": @(userId)
+  }];
 }
 
 - (void)onSinkMeetingUserLeft:(NSUInteger)userId {
