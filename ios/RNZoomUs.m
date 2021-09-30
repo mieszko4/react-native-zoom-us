@@ -622,6 +622,15 @@ RCT_EXPORT_METHOD(lowerMyHand: (RCTPromiseResolveBlock)resolve rejecter:(RCTProm
   }
 }
 
+// TODO: This one is not getting called
+- (void)onSinkMeetingVideoRequestUnmuteByHost:(void (^)(BOOL Accept))completion {
+  [self sendEventWithName:@"MeetingEvent" event:@"askUnMuteVideo"];
+
+  if (completion) {
+    completion(YES);
+  }
+}
+
 - (void)onSinkMeetingActiveVideo:(NSUInteger)userID {}
 
 - (void)onSinkMeetingVideoStatusChange:(NSUInteger)userID {}
@@ -635,8 +644,6 @@ RCT_EXPORT_METHOD(lowerMyHand: (RCTPromiseResolveBlock)resolve rejecter:(RCTProm
 - (void)onSinkMeetingActiveVideoForDeck:(NSUInteger)userID {}
 
 - (void)onSinkMeetingVideoQualityChanged:(MobileRTCNetworkQuality)qality userID:(NSUInteger)userID {}
-
-- (void)onSinkMeetingVideoRequestUnmuteByHost:(void (^_Nonnull)(BOOL Accept))completion {}
 
 - (void)onSinkMeetingShowMinimizeMeetingOrBackZoomUI:(MobileRTCMinimizeMeetingState)state {}
 
@@ -674,6 +681,7 @@ RCT_EXPORT_METHOD(lowerMyHand: (RCTPromiseResolveBlock)resolve rejecter:(RCTProm
   }
 }
 
+// TODO: This one is not getting called
 - (void)onSinkMeetingAudioRequestUnmuteByHost {
   [self sendEventWithName:@"MeetingEvent" event:@"askUnMuteAudio"];
 }
