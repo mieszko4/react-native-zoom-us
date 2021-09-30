@@ -618,13 +618,10 @@ RCT_EXPORT_METHOD(lowerMyHand: (RCTPromiseResolveBlock)resolve rejecter:(RCTProm
   }
 }
 
-// TODO: This one is not getting called
+// This looks like it doesnt get called check
+// https://github.com/mieszko4/react-native-zoom-us/pull/144#issuecomment-931189245
 - (void)onSinkMeetingVideoRequestUnmuteByHost:(void (^)(BOOL Accept))completion {
   [self sendEventWithName:@"MeetingEvent" event:@"askUnMuteVideo"];
-
-  if (completion) {
-    completion(YES);
-  }
 }
 
 - (void)onSinkMeetingActiveVideo:(NSUInteger)userID {}
@@ -659,7 +656,8 @@ RCT_EXPORT_METHOD(lowerMyHand: (RCTPromiseResolveBlock)resolve rejecter:(RCTProm
   }
 }
 
-// TODO: This one is not getting called
+// This looks like it doesnt get called check
+// https://github.com/mieszko4/react-native-zoom-us/pull/144#issuecomment-931189245
 - (void)onSinkMeetingAudioRequestUnmuteByHost {
   [self sendEventWithName:@"MeetingEvent" event:@"askUnMuteAudio"];
 }
