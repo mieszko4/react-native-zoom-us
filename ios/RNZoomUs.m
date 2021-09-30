@@ -613,11 +613,11 @@ RCT_EXPORT_METHOD(lowerMyHand: (RCTPromiseResolveBlock)resolve rejecter:(RCTProm
 
     [self sendEventWithName:@"MeetingEvent" params:@{
       @"event": @"myVideoStatusChanged",
-      @"userRole": @([userInfo userRole]),
+      @"userRole": [self getUserRole:[userInfo userRole]],
       @"audioType": @([[userInfo audioStatus] audioType]),
       @"isTalking": @([[userInfo audioStatus] isTalking]),
-      @"isMutedAudio": @([[userInfo audioStatus] isMuted]),
-      @"isMutedVideo": @(![[userInfo videoStatus] isSending]),
+      @"isMutedAudio": @((BOOL)([[userInfo audioStatus] audioType] == 2 ? YES : [[userInfo audioStatus] isMuted])),
+      @"isMutedVideo": @((BOOL)![[userInfo videoStatus] isSending]),
     }];
   }
 }
@@ -648,12 +648,12 @@ RCT_EXPORT_METHOD(lowerMyHand: (RCTPromiseResolveBlock)resolve rejecter:(RCTProm
   MobileRTCMeetingUserInfo *userInfo = [ms userInfoByID:[ms myselfUserID]];
 
   [self sendEventWithName:@"MeetingEvent" params:@{
-    @"event": @"myAudioStatusChanged",
-    @"userRole": @([userInfo userRole]),
+    @"event": @"myAudioTypeChanged",
+    @"userRole": [self getUserRole:[userInfo userRole]],
     @"audioType": @([[userInfo audioStatus] audioType]),
     @"isTalking": @([[userInfo audioStatus] isTalking]),
-    @"isMutedAudio": @([[userInfo audioStatus] isMuted]),
-    @"isMutedVideo": @(![[userInfo videoStatus] isSending]),
+    @"isMutedAudio": @((BOOL)([[userInfo audioStatus] audioType] == 2 ? YES : [[userInfo audioStatus] isMuted])),
+    @"isMutedVideo": @((BOOL)![[userInfo videoStatus] isSending]),
   }];
 }
 
@@ -665,11 +665,11 @@ RCT_EXPORT_METHOD(lowerMyHand: (RCTPromiseResolveBlock)resolve rejecter:(RCTProm
 
     [self sendEventWithName:@"MeetingEvent" params:@{
       @"event": @"myAudioStatusChanged",
-      @"userRole": @([userInfo userRole]),
+      @"userRole": [self getUserRole:[userInfo userRole]],
       @"audioType": @([[userInfo audioStatus] audioType]),
       @"isTalking": @([[userInfo audioStatus] isTalking]),
-      @"isMutedAudio": @([[userInfo audioStatus] isMuted]),
-      @"isMutedVideo": @(![[userInfo videoStatus] isSending]),
+      @"isMutedAudio": @((BOOL)([[userInfo audioStatus] audioType] == 2 ? YES : [[userInfo audioStatus] isMuted])),
+      @"isMutedVideo": @((BOOL)![[userInfo videoStatus] isSending]),
     }];
   }
 }
@@ -729,6 +729,17 @@ RCT_EXPORT_METHOD(lowerMyHand: (RCTPromiseResolveBlock)resolve rejecter:(RCTProm
     return screenShareExtension != nil;
   }
   return [super respondsToSelector:aSelector];
+}
+
+#pragma mark - helpers
+- (NSString*)getUserRole:(NSInteger)roleCode {
+  // TODO: missing USERROLE_PANELIST, USERROLE_BREAKOUTROOM_MODERATOR
+  switch (roleCode) {
+    case 1: return @"USERROLE_HOST";
+    case 2: return @"USERROLE_COHOST";
+    case 3: return @"USERROLE_ATTENDEE";
+    default: return @"USERROLE_NONE";
+  }
 }
 
 #pragma mark - React Native event emitters and event handling
