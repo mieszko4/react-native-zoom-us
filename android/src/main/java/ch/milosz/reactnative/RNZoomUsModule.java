@@ -896,7 +896,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
   @Override
   public void onMeetingHostChanged(long userId) {
-    sendEvent("MeetingEvent", "hostChanged");
+    sendEvent("MeetingEvent", "hostChanged", userId);
   }
 
 
@@ -1058,6 +1058,16 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     WritableMap params = Arguments.createMap();
     params.putString("event", event);
     params.putString("status", status.name());
+
+    reactContext
+        .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+        .emit(name, params);
+  }
+
+  private void sendEvent(String name, String event, long userId) {
+    WritableMap params = Arguments.createMap();
+    params.putString("event", event);
+    params.putDouble("userId", userId);
 
     reactContext
         .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
