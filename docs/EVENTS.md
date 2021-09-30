@@ -104,6 +104,8 @@ zoomEmitter.addListener('MeetingEvent', (meetingEvent) => {
   // {event: 'myVideoStatusChanged', userRole: string, audioType: number, isMutedAudio: boolean, isTalking: boolean, isMutedVideo: boolean}
   
   // Meeting screen share events
+  // {event: 'screenShareStarted'}
+  // {event: 'screenShareStopped'}
   // {event: 'screenShareStartedByUser', userId: number}
   
   
