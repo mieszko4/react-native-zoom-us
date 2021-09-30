@@ -996,22 +996,22 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   public void onShareActiveUser(long userId) {
     final InMeetingService inMeetingService = ZoomSDK.getInstance().getInMeetingService();
 
+    updateVideoView();
+
     if (inMeetingService.isMyself(userId)) {
-      updateVideoView();
       sendEvent("MeetingEvent", "screenShareStarted");
-    } else {
-      updateVideoView();
-      sendEvent("MeetingEvent", "screenShareStopped");
-    }
 
-    final InMeetingShareController shareController = inMeetingService.getInMeetingShareController();
+      final InMeetingShareController shareController = inMeetingService.getInMeetingShareController();
 
-    if (inMeetingService.isMyself(userId)) {
       if (shareController.isSharingOut()) {
         if (shareController.isSharingScreen()) {
             shareController.startShareScreenContent();
         }
       }
+    } else if (userId == 0) {
+      sendEvent("MeetingEvent", "screenShareStopped");
+    } else {
+      sendEvent("MeetingEvent", "screenShareStartedByUser", userId);
     }
   }
 

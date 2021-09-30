@@ -577,13 +577,18 @@ RCT_EXPORT_METHOD(lowerMyHand: (RCTPromiseResolveBlock)resolve rejecter:(RCTProm
 
 #pragma mark - Screen share functionality
 
-- (void)onSinkMeetingActiveShare:(NSUInteger)userID {
+- (void)onSinkMeetingActiveShare:(NSUInteger)userId {
   MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
   if (ms) {
-    if (userID == 0) {
+    if (userId == 0) {
       [self sendEventWithName:@"MeetingEvent" event:@"screenShareStopped"];
-    } else if ([ms isMyself:userID]){
+    } else if ([ms isMyself:userId]){
       [self sendEventWithName:@"MeetingEvent" event:@"screenShareStarted"];
+    } else {
+      [self sendEventWithName:@"MeetingEvent" params:@{
+        @"event": @"screenShareStartedByUser",
+        @"userId": @(userId)
+      }];
     }
   }
 }
