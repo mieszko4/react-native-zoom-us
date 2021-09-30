@@ -713,18 +713,21 @@ RCT_EXPORT_METHOD(lowerMyHand: (RCTPromiseResolveBlock)resolve rejecter:(RCTProm
   [self sendEventWithName:@"MeetingEvent" event:@"hostChanged"];
 }
 
-// TODO: userLeave send userId as array
-- (void)onSinkMeetingUserLeft:(NSUInteger)userID {
-  [self sendEventWithName:@"MeetingEvent" event:@"userLeave"];
+- (void)onSinkMeetingUserLeft:(NSUInteger)userId {
+  [self sendEventWithName:@"MeetingEvent" params:@{
+    @"event": @"userLeave",
+    @"userList": @[@(userId)]
+  }];
 }
 
-// TODO: userJoin send userId as array
-- (void)onSinkMeetingUserJoin:(NSUInteger)userID {
-  [self sendEventWithName:@"MeetingEvent" event:@"userJoin"];
+- (void)onSinkMeetingUserJoin:(NSUInteger)userId {
+  [self sendEventWithName:@"MeetingEvent" params:@{
+    @"event": @"userJoin",
+    @"userList": @[@(userId)]
+  }];
 }
 
-- (BOOL)respondsToSelector:(SEL)aSelector
-{
+- (BOOL)respondsToSelector:(SEL)aSelector {
   if (aSelector == @selector(onClickShareScreen:)) {
     return screenShareExtension != nil;
   }
