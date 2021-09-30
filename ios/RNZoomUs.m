@@ -609,16 +609,7 @@ RCT_EXPORT_METHOD(lowerMyHand: (RCTPromiseResolveBlock)resolve rejecter:(RCTProm
   MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
 
   if ([ms isMyself:userID]) {
-    MobileRTCMeetingUserInfo *userInfo = [ms userInfoByID:[ms myselfUserID]];
-
-    [self sendEventWithName:@"MeetingEvent" params:@{
-      @"event": @"myVideoStatusChanged",
-      @"userRole": [self getUserRole:[userInfo userRole]],
-      @"audioType": @([[userInfo audioStatus] audioType]),
-      @"isTalking": @([[userInfo audioStatus] isTalking]),
-      @"isMutedAudio": @((BOOL)([[userInfo audioStatus] audioType] == 2 ? YES : [[userInfo audioStatus] isMuted])),
-      @"isMutedVideo": @((BOOL)![[userInfo videoStatus] isSending]),
-    }];
+    [self sendEventWithName:@"MeetingEvent" event:@"myVideoStatusChanged" userInfo:[ms userInfoByID:[ms myselfUserID]]];
   }
 }
 
@@ -652,32 +643,14 @@ RCT_EXPORT_METHOD(lowerMyHand: (RCTPromiseResolveBlock)resolve rejecter:(RCTProm
 
 - (void)onSinkMeetingMyAudioTypeChange {
   MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
-  MobileRTCMeetingUserInfo *userInfo = [ms userInfoByID:[ms myselfUserID]];
-
-  [self sendEventWithName:@"MeetingEvent" params:@{
-    @"event": @"myAudioTypeChanged",
-    @"userRole": [self getUserRole:[userInfo userRole]],
-    @"audioType": @([[userInfo audioStatus] audioType]),
-    @"isTalking": @([[userInfo audioStatus] isTalking]),
-    @"isMutedAudio": @((BOOL)([[userInfo audioStatus] audioType] == 2 ? YES : [[userInfo audioStatus] isMuted])),
-    @"isMutedVideo": @((BOOL)![[userInfo videoStatus] isSending]),
-  }];
+  [self sendEventWithName:@"MeetingEvent" event:@"myAudioTypeChanged" userInfo:[ms userInfoByID:[ms myselfUserID]]];
 }
 
 - (void)onSinkMeetingAudioStatusChange:(NSUInteger)userID audioStatus:(MobileRTC_AudioStatus)audioStatus {
   MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
 
   if ([ms isMyself:userID]) {
-    MobileRTCMeetingUserInfo *userInfo = [ms userInfoByID:[ms myselfUserID]];
-
-    [self sendEventWithName:@"MeetingEvent" params:@{
-      @"event": @"myAudioStatusChanged",
-      @"userRole": [self getUserRole:[userInfo userRole]],
-      @"audioType": @([[userInfo audioStatus] audioType]),
-      @"isTalking": @([[userInfo audioStatus] isTalking]),
-      @"isMutedAudio": @((BOOL)([[userInfo audioStatus] audioType] == 2 ? YES : [[userInfo audioStatus] isMuted])),
-      @"isMutedVideo": @((BOOL)![[userInfo videoStatus] isSending]),
-    }];
+    [self sendEventWithName:@"MeetingEvent" event:@"myAudioStatusChanged" userInfo:[ms userInfoByID:[ms myselfUserID]]];
   }
 }
 
@@ -782,6 +755,18 @@ RCT_EXPORT_METHOD(lowerMyHand: (RCTPromiseResolveBlock)resolve rejecter:(RCTProm
 - (void)sendEventWithName:(NSString *)name params:(NSDictionary *)params {
   if (hasObservers) {
     [self sendEventWithName:name body:params];
+  }
+}
+- (void)sendEventWithName:(NSString *)name event:(NSString *)event userInfo:(MobileRTCMeetingUserInfo *)userInfo {
+  if (hasObservers) {
+    [self sendEventWithName:name body:@{
+      @"event": event,
+      @"userRole": [self getUserRole:[userInfo userRole]],
+      @"audioType": @([[userInfo audioStatus] audioType]),
+      @"isTalking": @([[userInfo audioStatus] isTalking]),
+      @"isMutedAudio": @((BOOL)([[userInfo audioStatus] audioType] == 2 ? YES : [[userInfo audioStatus] isMuted])),
+      @"isMutedVideo": @((BOOL)![[userInfo videoStatus] isSending]),
+    }];
   }
 }
 
