@@ -896,9 +896,13 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
   @Override
   public void onMeetingHostChanged(long userId) {
-    sendEvent("MeetingEvent", "hostChanged");
+    sendEvent("MeetingEvent", "hostChanged", userId);
   }
 
+  @Override
+  public void onMeetingCoHostChanged(long userId) {
+    sendEvent("MeetingEvent", "coHostChanged", userId);
+  }
 
   @Override
   public void onMyAudioSourceTypeChanged(int type) {
@@ -942,8 +946,6 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   public void onMeetingFail(int errorCode, int internalErrorCode) {}
   @Override
   public void onMeetingUserUpdated(long userId) {}
-  @Override
-  public void onMeetingCoHostChanged(long userId) {}
   @Override
   public void onActiveVideoUserChanged(long userId) {}
   @Override
@@ -994,22 +996,22 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   public void onShareActiveUser(long userId) {
     final InMeetingService inMeetingService = ZoomSDK.getInstance().getInMeetingService();
 
+    updateVideoView();
+
     if (inMeetingService.isMyself(userId)) {
-      updateVideoView();
       sendEvent("MeetingEvent", "screenShareStarted");
-    } else {
-      updateVideoView();
-      sendEvent("MeetingEvent", "screenShareStopped");
-    }
 
-    final InMeetingShareController shareController = inMeetingService.getInMeetingShareController();
+      final InMeetingShareController shareController = inMeetingService.getInMeetingShareController();
 
-    if (inMeetingService.isMyself(userId)) {
       if (shareController.isSharingOut()) {
         if (shareController.isSharingScreen()) {
             shareController.startShareScreenContent();
         }
       }
+    } else if (userId == 0) {
+      sendEvent("MeetingEvent", "screenShareStopped");
+    } else {
+      sendEvent("MeetingEvent", "screenShareStartedByUser", userId);
     }
   }
 
@@ -1058,6 +1060,16 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     WritableMap params = Arguments.createMap();
     params.putString("event", event);
     params.putString("status", status.name());
+
+    reactContext
+        .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+        .emit(name, params);
+  }
+
+  private void sendEvent(String name, String event, long userId) {
+    WritableMap params = Arguments.createMap();
+    params.putString("event", event);
+    params.putDouble("userId", userId);
 
     reactContext
         .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)

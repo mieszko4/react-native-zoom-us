@@ -577,13 +577,18 @@ RCT_EXPORT_METHOD(lowerMyHand: (RCTPromiseResolveBlock)resolve rejecter:(RCTProm
 
 #pragma mark - Screen share functionality
 
-- (void)onSinkMeetingActiveShare:(NSUInteger)userID {
+- (void)onSinkMeetingActiveShare:(NSUInteger)userId {
   MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
   if (ms) {
-    if (userID == 0) {
+    if (userId == 0) {
       [self sendEventWithName:@"MeetingEvent" event:@"screenShareStopped"];
-    } else if (userID == [ms myselfUserID]){
+    } else if ([ms isMyself:userId]){
       [self sendEventWithName:@"MeetingEvent" event:@"screenShareStarted"];
+    } else {
+      [self sendEventWithName:@"MeetingEvent" params:@{
+        @"event": @"screenShareStartedByUser",
+        @"userId": @(userId)
+      }];
     }
   }
 }
@@ -600,12 +605,130 @@ RCT_EXPORT_METHOD(lowerMyHand: (RCTPromiseResolveBlock)resolve rejecter:(RCTProm
   }
 }
 
-- (BOOL)respondsToSelector:(SEL)aSelector
-{
+#pragma mark - https://marketplacefront.zoom.us/sdk/meeting/ios/_mobile_r_t_c_meeting_delegate_8h_source.html
+
+
+#pragma mark - MobileRTCVideoServiceDelegate
+
+- (void)onSinkMeetingVideoStatusChange:(NSUInteger)userID videoStatus:(MobileRTC_VideoStatus)videoStatus {
+  MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
+
+  if ([ms isMyself:userID]) {
+    [self sendEventWithName:@"MeetingEvent" event:@"myVideoStatusChanged" userInfo:[ms userInfoByID:[ms myselfUserID]]];
+  }
+}
+
+// This looks like it doesnt get called check
+// https://github.com/mieszko4/react-native-zoom-us/pull/144#issuecomment-931189245
+- (void)onSinkMeetingVideoRequestUnmuteByHost:(void (^)(BOOL Accept))completion {
+  [self sendEventWithName:@"MeetingEvent" event:@"askUnMuteVideo"];
+}
+
+- (void)onSinkMeetingActiveVideo:(NSUInteger)userID {}
+
+- (void)onSinkMeetingVideoStatusChange:(NSUInteger)userID {}
+
+- (void)onMyVideoStateChange {}
+
+- (void)onSpotlightVideoChange:(BOOL)on {}
+
+- (void)onSinkMeetingPreviewStopped {}
+
+- (void)onSinkMeetingActiveVideoForDeck:(NSUInteger)userID {}
+
+- (void)onSinkMeetingVideoQualityChanged:(MobileRTCNetworkQuality)qality userID:(NSUInteger)userID {}
+
+- (void)onSinkMeetingShowMinimizeMeetingOrBackZoomUI:(MobileRTCMinimizeMeetingState)state {}
+
+
+#pragma mark - MobileRTCAudioServiceDelegate
+
+- (void)onSinkMeetingMyAudioTypeChange {
+  MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
+  [self sendEventWithName:@"MeetingEvent" event:@"myAudioTypeChanged" userInfo:[ms userInfoByID:[ms myselfUserID]]];
+}
+
+- (void)onSinkMeetingAudioStatusChange:(NSUInteger)userID audioStatus:(MobileRTC_AudioStatus)audioStatus {
+  MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
+
+  if ([ms isMyself:userID]) {
+    [self sendEventWithName:@"MeetingEvent" event:@"myAudioStatusChanged" userInfo:[ms userInfoByID:[ms myselfUserID]]];
+  }
+}
+
+// This looks like it doesnt get called check
+// https://github.com/mieszko4/react-native-zoom-us/pull/144#issuecomment-931189245
+- (void)onSinkMeetingAudioRequestUnmuteByHost {
+  [self sendEventWithName:@"MeetingEvent" event:@"askUnMuteAudio"];
+}
+
+- (void)onSinkMeetingAudioStatusChange:(NSUInteger)userID {}
+
+- (void)onSinkMeetingAudioTypeChange:(NSUInteger)userID {}
+
+- (void)onAudioOutputChange {}
+
+- (void)onMyAudioStateChange {}
+
+
+#pragma mark - MobileRTCUserServiceDelegate
+
+- (void)onMyHandStateChange {}
+
+- (void)onInMeetingUserUpdated {}
+
+- (void)onSinkMeetingUserRaiseHand:(NSUInteger)userID {}
+
+- (void)onSinkMeetingUserLowerHand:(NSUInteger)userID {}
+
+- (void)onSinkUserNameChanged:(NSUInteger)userID userName:(NSString *_Nonnull)userName {}
+
+- (void)onClaimHostResult:(MobileRTCClaimHostError)error {}
+
+- (void)onMeetingHostChange:(NSUInteger)userId {
+    [self sendEventWithName:@"MeetingEvent" params:@{
+    @"event": @"hostChanged",
+    @"userId": @(userId)
+  }];
+}
+
+- (void)onMeetingCoHostChange:(NSUInteger)userId {
+    [self sendEventWithName:@"MeetingEvent" params:@{
+    @"event": @"coHostChanged",
+    @"userId": @(userId)
+  }];
+}
+
+- (void)onSinkMeetingUserLeft:(NSUInteger)userId {
+  [self sendEventWithName:@"MeetingEvent" params:@{
+    @"event": @"userLeave",
+    @"userList": @[@(userId)]
+  }];
+}
+
+- (void)onSinkMeetingUserJoin:(NSUInteger)userId {
+  [self sendEventWithName:@"MeetingEvent" params:@{
+    @"event": @"userJoin",
+    @"userList": @[@(userId)]
+  }];
+}
+
+- (BOOL)respondsToSelector:(SEL)aSelector {
   if (aSelector == @selector(onClickShareScreen:)) {
     return screenShareExtension != nil;
   }
   return [super respondsToSelector:aSelector];
+}
+
+#pragma mark - helpers
+- (NSString*)getUserRole:(NSInteger)roleCode {
+  // TODO: missing USERROLE_PANELIST, USERROLE_BREAKOUTROOM_MODERATOR
+  switch (roleCode) {
+    case 1: return @"USERROLE_HOST";
+    case 2: return @"USERROLE_COHOST";
+    case 3: return @"USERROLE_ATTENDEE";
+    default: return @"USERROLE_NONE";
+  }
 }
 
 #pragma mark - React Native event emitters and event handling
@@ -630,6 +753,23 @@ RCT_EXPORT_METHOD(lowerMyHand: (RCTPromiseResolveBlock)resolve rejecter:(RCTProm
 - (void)sendEventWithName:(NSString *)name event:(NSString *)event status:(NSString *)status {
   if (hasObservers) {
     [self sendEventWithName:name body:@{@"event": event, @"status": status}];
+  }
+}
+- (void)sendEventWithName:(NSString *)name params:(NSDictionary *)params {
+  if (hasObservers) {
+    [self sendEventWithName:name body:params];
+  }
+}
+- (void)sendEventWithName:(NSString *)name event:(NSString *)event userInfo:(MobileRTCMeetingUserInfo *)userInfo {
+  if (hasObservers) {
+    [self sendEventWithName:name body:@{
+      @"event": event,
+      @"userRole": [self getUserRole:[userInfo userRole]],
+      @"audioType": @([[userInfo audioStatus] audioType]),
+      @"isTalking": @([[userInfo audioStatus] isTalking]),
+      @"isMutedAudio": @((BOOL)([[userInfo audioStatus] audioType] == 2 ? YES : [[userInfo audioStatus] isMuted])),
+      @"isMutedVideo": @((BOOL)![[userInfo videoStatus] isSending]),
+    }];
   }
 }
 
