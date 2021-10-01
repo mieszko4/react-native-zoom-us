@@ -18,6 +18,7 @@ export interface NativeLayoutUnit {
   showAudioOff?: boolean
   userIndex?: number
   background?: string
+  aspectMode?: 0 | 1 | 2 | 3 | 4
 }
 
 export interface NativeVideoProps {

@@ -233,7 +233,7 @@ async function lowerMyHand() {
 
 export const ZoomEmitter = RNZoomUs as NativeModule;
 
-export { default as ZoomUsVideoView } from './video-view'
+export { default as ZoomUsVideoView, VIDEO_ASPECT_MODE } from './video-view'
 
 export default {
   initialize,
