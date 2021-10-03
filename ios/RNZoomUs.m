@@ -360,7 +360,7 @@ RCT_EXPORT_METHOD(startShareScreen: (RCTPromiseResolveBlock)resolve rejecter:(RC
   }
 }
 
-RCT_EXPORT_METHOD(stopShareScreen: (BOOL)muted resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+RCT_EXPORT_METHOD(stopShareScreen: (RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
   @try {
     MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
     if (ms) {
