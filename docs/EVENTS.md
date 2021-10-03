@@ -5,10 +5,10 @@ and meeting events as follows:
 
 Remember that you should add the listener after the sdk has been initialized successfully.
 
-```javascript
-import { NativeModules } from 'react-native';
+```ts
+import { ZoomEmitter } from 'react-native-zoom-us';
 
-const zoomEmitter = new NativeEventEmitter(NativeModules.ZoomUs);
+const zoomEmitter = new NativeEventEmitter(ZoomEmitter);
 
 // Handle Auth events
 zoomEmitter.addListener('AuthEvent', (authEvent) => {
