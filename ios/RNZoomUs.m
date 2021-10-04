@@ -170,36 +170,6 @@ RCT_EXPORT_METHOD(
   }
 }
 
-// todo should be deleted
-RCT_EXPORT_METHOD(
-  joinMeetingWithPassword: (NSString *)displayName
-  withMeetingNo: (NSString *)meetingNo
-  withPassword: (NSString *)password
-  withResolve: (RCTPromiseResolveBlock)resolve
-  withReject: (RCTPromiseRejectBlock)reject
-)
-{
-  @try {
-    meetingPromiseResolve = resolve;
-    meetingPromiseReject = reject;
-
-    MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
-    if (ms) {
-      ms.delegate = self;
-
-      MobileRTCMeetingJoinParam * joinParam = [[MobileRTCMeetingJoinParam alloc]init];
-      joinParam.userName = displayName;
-      joinParam.meetingNumber = meetingNo;
-      joinParam.password = password;
-
-      MobileRTCMeetError joinMeetingResult = [ms joinMeetingWithJoinParam:joinParam];
-      NSLog(@"joinMeeting, joinMeetingResult=%lu", joinMeetingResult);
-    }
-  } @catch (NSError *ex) {
-      reject(@"ERR_UNEXPECTED_EXCEPTION", @"Executing joinMeeting", ex);
-  }
-}
-
 RCT_EXPORT_METHOD(leaveMeeting: (RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
   @try {
     MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
