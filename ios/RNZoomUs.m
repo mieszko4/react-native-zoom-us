@@ -424,12 +424,15 @@ RCT_EXPORT_METHOD(lowerMyHand: (RCTPromiseResolveBlock)resolve rejecter:(RCTProm
   }
 }
 
+/*
+NOTE: this is only required for android
 RCT_EXPORT_METHOD(addListener : (NSString *)eventName) {
   // Keep: Required for RN built in Event Emitter Calls.
 }
 RCT_EXPORT_METHOD(removeListeners : (NSInteger)count) {
   // Keep: Required for RN built in Event Emitter Calls.
 }
+*/
 
 - (void)onMobileRTCAuthReturn:(MobileRTCAuthError)returnValue {
   NSLog(@"nZoomSDKInitializeResult, errorCode=%d", returnValue);
