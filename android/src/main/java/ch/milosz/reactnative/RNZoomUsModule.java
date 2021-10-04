@@ -596,6 +596,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
     if (!zoomSDK.isInitialized()) {
       promise.reject("ERR_ZOOM_MEETING_CONTROL", "ZoomSDK has not been initialized successfully");
+      return;
     }
 
     UiThreadUtil.runOnUiThread(new Runnable() {
@@ -671,6 +672,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
     if (!zoomSDK.isInitialized()) {
       promise.reject("ERR_ZOOM_MEETING_CONTROL", "ZoomSDK has not been initialized successfully");
+      return;
     }
 
     UiThreadUtil.runOnUiThread(new Runnable() {
