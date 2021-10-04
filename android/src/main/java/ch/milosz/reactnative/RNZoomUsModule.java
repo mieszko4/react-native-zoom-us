@@ -337,46 +337,6 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   }
 
   @ReactMethod
-  public void joinMeetingWithPassword(
-    final String displayName,
-    final String meetingNo,
-    final String password,
-    Promise promise
-  ) {
-    meetingPromise = promise;
-
-    UiThreadUtil.runOnUiThread(new Runnable() {
-      @Override
-      public void run() {
-        try {
-          ZoomSDK zoomSDK = ZoomSDK.getInstance();
-          if(!zoomSDK.isInitialized()) {
-            meetingPromise.reject("ERR_ZOOM_JOIN", "ZoomSDK has not been initialized successfully");
-            return;
-          }
-
-          final MeetingService meetingService = zoomSDK.getMeetingService();
-
-          JoinMeetingOptions opts = new JoinMeetingOptions();
-          JoinMeetingParams params = new JoinMeetingParams();
-          params.displayName = displayName;
-          params.meetingNo = meetingNo;
-          params.password = password;
-
-          int joinMeetingResult = meetingService.joinMeetingWithParams(reactContext.getCurrentActivity(), params, opts);
-          Log.i(TAG, "joinMeeting, joinMeetingResult=" + joinMeetingResult);
-
-          if (joinMeetingResult != MeetingError.MEETING_ERROR_SUCCESS) {
-            meetingPromise.reject("ERR_ZOOM_JOIN", "joinMeeting, errorCode=" + joinMeetingResult);
-          }
-        } catch (Exception ex) {
-          meetingPromise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
-        }
-      }
-    });
-  }
-
-  @ReactMethod
   public void leaveMeeting() {
     final ZoomSDK zoomSDK = ZoomSDK.getInstance();
 
