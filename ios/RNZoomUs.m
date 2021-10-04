@@ -170,36 +170,6 @@ RCT_EXPORT_METHOD(
   }
 }
 
-// todo should be deleted
-RCT_EXPORT_METHOD(
-  joinMeetingWithPassword: (NSString *)displayName
-  withMeetingNo: (NSString *)meetingNo
-  withPassword: (NSString *)password
-  withResolve: (RCTPromiseResolveBlock)resolve
-  withReject: (RCTPromiseRejectBlock)reject
-)
-{
-  @try {
-    meetingPromiseResolve = resolve;
-    meetingPromiseReject = reject;
-
-    MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
-    if (ms) {
-      ms.delegate = self;
-
-      MobileRTCMeetingJoinParam * joinParam = [[MobileRTCMeetingJoinParam alloc]init];
-      joinParam.userName = displayName;
-      joinParam.meetingNumber = meetingNo;
-      joinParam.password = password;
-
-      MobileRTCMeetError joinMeetingResult = [ms joinMeetingWithJoinParam:joinParam];
-      NSLog(@"joinMeeting, joinMeetingResult=%lu", joinMeetingResult);
-    }
-  } @catch (NSError *ex) {
-      reject(@"ERR_UNEXPECTED_EXCEPTION", @"Executing joinMeeting", ex);
-  }
-}
-
 RCT_EXPORT_METHOD(leaveMeeting: (RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
   @try {
     MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
@@ -360,7 +330,7 @@ RCT_EXPORT_METHOD(startShareScreen: (RCTPromiseResolveBlock)resolve rejecter:(RC
   }
 }
 
-RCT_EXPORT_METHOD(stopShareScreen: (BOOL)muted resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+RCT_EXPORT_METHOD(stopShareScreen: (RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
   @try {
     MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
     if (ms) {
@@ -423,6 +393,16 @@ RCT_EXPORT_METHOD(lowerMyHand: (RCTPromiseResolveBlock)resolve rejecter:(RCTProm
     reject(@"ERR_ZOOM_MEETING_CONTROL", @"Executing lowerMyHand", ex);
   }
 }
+
+/*
+NOTE: this is only required for android
+RCT_EXPORT_METHOD(addListener : (NSString *)eventName) {
+  // Keep: Required for RN built in Event Emitter Calls.
+}
+RCT_EXPORT_METHOD(removeListeners : (NSInteger)count) {
+  // Keep: Required for RN built in Event Emitter Calls.
+}
+*/
 
 - (void)onMobileRTCAuthReturn:(MobileRTCAuthError)returnValue {
   NSLog(@"nZoomSDKInitializeResult, errorCode=%d", returnValue);

@@ -135,9 +135,17 @@ async function joinMeeting(params: RNZoomUsJoinMeetingParams) {
   })
 }
 
-async function joinMeetingWithPassword(...params) {
+async function joinMeetingWithPassword(
+  userName: RNZoomUsJoinMeetingParams['userName'],
+  meetingNumber: NonNullable<RNZoomUsJoinMeetingParams['meetingNumber']>,
+  password: NonNullable<RNZoomUsJoinMeetingParams['password']>,
+) {
   console.warn("ZoomUs.joinMeetingWithPassword is deprecated. Use joinMeeting({ password: 'xxx', ... })")
-  return RNZoomUs.joinMeetingWithPassword(...params)
+  return joinMeeting({
+    userName,
+    meetingNumber,
+    password,
+  })
 }
 
 export interface RNZoomUsStartMeetingParams {
