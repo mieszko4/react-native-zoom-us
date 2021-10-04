@@ -8,14 +8,6 @@ export interface Props {
   layout: NativeVideoProps["layout"]
 }
 
-export const VIDEO_ASPECT_MODE = {
-  'VIDEO_ASPECT_ORIGINAL': 0,
-  'VIDEO_ASPECT_FULL_FILLED': 1,
-  'VIDEO_ASPECT_LETTER_BOX': 2,
-  'VIDEO_ASPECT_PAN_AND_SCAN': 3,
-  'VIDEO_ASPECT_TRUSTEE': 4,
-}
-
 const ZoomUsVideoView: React.FC<Props> = (props) => {
   const { layout = [], ...otherProps } = props
 
