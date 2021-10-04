@@ -118,6 +118,7 @@ class RNZoomUsVideoView extends MobileRTCVideoView {
         boolean showUsername = unit.hasKey("showUsername") ? unit.getBoolean("showUsername") : true;
         boolean showAudioOff = unit.hasKey("showAudioOff") ? unit.getBoolean("showAudioOff") : true;
         int userIndex = unit.hasKey("userIndex") ? unit.getInt("userIndex") : 0;
+        int aspectMode = unit.hasKey("aspectMode") ? unit.getInt("aspectMode") : 0;
         int background = unit.hasKey("background") ? unit.getInt("background") : 0x000000;
         MobileRTCVideoUnitRenderInfo renderInfo = new MobileRTCVideoUnitRenderInfo(x, y, width, height);
         if (border) {
@@ -129,6 +130,7 @@ class RNZoomUsVideoView extends MobileRTCVideoView {
         if (showAudioOff) {
           renderInfo.is_show_audio_off = showAudioOff;
         }
+        renderInfo.aspect_mode = aspectMode;
         renderInfo.backgroud_color = background;
         Log.i(TAG, "Layout #" + i + " [kind=" + kind + " x=" + x + " y=" + y + "]");
         switch (kind) {
