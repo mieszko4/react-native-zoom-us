@@ -910,7 +910,9 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   @Override
   public void onWebinarNeedRegister(String registerUrl) {}
   @Override
-  public void onJoinWebinarNeedUserNameAndEmail(InMeetingEventHandler handler) {}
+  public void onJoinWebinarNeedUserNameAndEmail(InMeetingEventHandler handler) {
+    handler.setRegisterWebinarInfo("a", "a@gmail.com", false);
+  }  
   @Override
   public void onMeetingNeedColseOtherMeeting(InMeetingEventHandler handler) {}
   @Override

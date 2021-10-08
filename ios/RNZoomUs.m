@@ -85,6 +85,14 @@ RCT_EXPORT_METHOD(
     [zoomSettings disableShowVideoPreviewWhenJoinMeeting:settings[@"disableShowVideoPreviewWhenJoinMeeting"]];
     zoomSettings.enableCustomMeeting = settings[@"enableCustomizedMeetingUI"];
 
+    [zoomSettings disableCallIn:true];
+    [zoomSettings disableCallOut:true];
+    [zoomSettings disableDriveMode:true];
+    zoomSettings.meetingPasswordHidden = true;
+    zoomSettings.meetingInviteHidden = true;
+    zoomSettings.meetingShareHidden = true;
+    zoomSettings.topBarHidden = true;
+
     [[MobileRTC sharedRTC] setLanguage:settings[@"language"]];
 
     MobileRTCAuthService *authService = [[MobileRTC sharedRTC] getAuthService];
@@ -146,6 +154,16 @@ RCT_EXPORT_METHOD(
     shouldAutoConnectAudio = data[@"autoConnectAudio"];
     meetingPromiseResolve = resolve;
     meetingPromiseReject = reject;
+
+    MobileRTCMeetingSettings *zoomSettings = [[MobileRTC sharedRTC] getMeetingSettings];
+    [zoomSettings disableCallIn:true];
+    [zoomSettings disableCallOut:true];
+    [zoomSettings disableDriveMode:true];
+    [zoomSettings setAutoConnectInternetAudio:true];
+    zoomSettings.meetingPasswordHidden = true;
+    zoomSettings.meetingInviteHidden = true;
+    zoomSettings.meetingShareHidden = true;
+    //zoomSettings.topBarHidden = true;
 
     MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
     if (ms) {
@@ -403,6 +421,18 @@ RCT_EXPORT_METHOD(removeListeners : (NSInteger)count) {
   // Keep: Required for RN built in Event Emitter Calls.
 }
 */
+
+- (void)onSinkJoinWebinarNeedUserNameAndEmailWithCompletion:(BOOL (^_Nonnull)(NSString * _Nonnull username, 
+  NSString * _Nonnull email, BOOL cancel))completion
+{
+    if (completion)
+    {
+        NSString * username = [NSString stringWithString:@"a"];
+        NSString * email = [NSString stringWithString:@"a@gmail.com"];
+        BOOL ret = completion(username,email,NO);
+        NSLog(@"%zd",ret);
+    }
+}
 
 - (void)onMobileRTCAuthReturn:(MobileRTCAuthError)returnValue {
   NSLog(@"nZoomSDKInitializeResult, errorCode=%d", returnValue);
