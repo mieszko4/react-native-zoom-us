@@ -6,7 +6,7 @@
 
 1. First compress your asset files (png, jpg, gif), use any online free image compressor website to compress it.
 2. Enable [hermes engine](https://reactnative.dev/docs/hermes)
-3. Add these [proguard-rules](https://github.com/facebook/react-native/blob/main/ReactAndroid/proguard-rules.pro) -> `android/app/proguard-rules.pro`
+3. Add these [proguard-rules-zoom](https://gist.github.com/Md-Mudassir/0e0728e40c0149c74863ebde8066406e) -> `android/app/proguard-rules.pro`
 4. Open `AndroidManifest.xml`
 and inside `application` tag 
 
@@ -84,6 +84,13 @@ android {
     }
 }
 
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation 'com.facebook.soloader:soloader:0.9.0+' //Add this line
+    .
+    .
+    .
+}
 ```
 
 For iOS follow this: [ios-reduce-your-app-size-with-app-thinning](https://agostini.tech/2019/06/02/reduce-your-app-size-with-app-thinning/)
