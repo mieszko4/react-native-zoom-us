@@ -5,7 +5,9 @@
 
 
 1. First compress your asset files (png, jpg, gif), use any online free image compressor website to compress it.
-2. Open `AndroidManifest.xml`
+2. Enable [hermes engine](https://reactnative.dev/docs/hermes)
+3. Add these [proguard-rules](https://github.com/facebook/react-native/blob/main/ReactAndroid/proguard-rules.pro) -> `android/app/proguard-rules.pro`
+4. Open `AndroidManifest.xml`
 and inside `application` tag 
 
 ```js
@@ -15,7 +17,7 @@ and inside `application` tag
  ...
 </application>
 ```
-3. Go to `android/app/build.gradle` & enable 
+5. Go to `android/app/build.gradle` & enable 
 
 `def enableSeparateBuildPerCPUArchitecture = true`
 `def enableProguardInReleaseBuilds = true`
