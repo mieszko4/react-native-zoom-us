@@ -78,6 +78,8 @@ android {
 }
 ```
 
+See diff for the example app: https://github.com/mieszko4/react-native-zoom-us-test/pull/33
+
 ## Size Reduction Tips [iOS]
 
 For iOS follow this: [ios-reduce-your-app-size-with-app-thinning](https://agostini.tech/2019/06/02/reduce-your-app-size-with-app-thinning/)
