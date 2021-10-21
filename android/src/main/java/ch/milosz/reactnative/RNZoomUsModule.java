@@ -1,3 +1,8 @@
+// DEPRECATED - please change:
+// Integer -> ?number
+// int -> number
+// use Double/double instead!
+
 package ch.milosz.reactnative;
 
 import android.util.Log;
@@ -77,6 +82,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
   private List<Integer> videoViews = Collections.synchronizedList(new ArrayList<Integer>());
 
+  // To do this, you must extend BaseActivityEventListener or implement ActivityEventListener. The former is preferred
   private final ActivityEventListener mActivityEventListener = new BaseActivityEventListener() {
     @Override
     public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent intent) {
@@ -95,7 +101,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
   @Override
   public String getName() {
-    return "RNZoomUs";
+    return "RNZoomUsModule";
   }
 
   @ReactMethod
@@ -555,7 +561,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
       if (manager != null) {
         Intent intent = manager.createScreenCaptureIntent();
 
-        reactContext.getCurrentActivity().startActivityForResult(intent, SCREEN_SHARE_REQUEST_CODE);
+        this.reactContext.getCurrentActivity().startActivityForResult(intent, SCREEN_SHARE_REQUEST_CODE);
       }
 
       promise.resolve(null);
@@ -996,6 +1002,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   @Override
   public void onHostDestroy() {
     unregisterListener();
+    // TODO deinitialize??? https://devforum.zoom.us/t/is-there-a-way-to-de-init-the-zoom-sdk/22997
   }
   @Override
   public void onHostPause() {}

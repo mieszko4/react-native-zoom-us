@@ -1,3 +1,5 @@
+// IDEA: use swift!
+
 #import <ReplayKit/ReplayKit.h>
 #import "RNZoomUs.h"
 
@@ -16,6 +18,12 @@
 
   NSString *jwtToken;
 }
+
+/*
+Native modules can conform to the RCTInvalidating protocol on iOS by implementing the invalidate() method.
+This method can be invoked when the native bridge is invalidated (ie: on devmode reload).
+Please use this mechanism as necessary to do the required cleanup for your native module.
+*/
 
 - (instancetype)init {
   if (self = [super init]) {
@@ -36,8 +44,10 @@
   return NO;
 }
 
+// If you want to explicitly provide a method queue for a native module
 - (dispatch_queue_t)methodQueue
 {
+  //  needs to use a main-thread-only iOS API
   return dispatch_get_main_queue();
 }
 
@@ -100,7 +110,7 @@ RCT_EXPORT_METHOD(
 
       [authService sdkAuth];
     } else {
-      NSLog(@"onZoomSDKInitializeResult, no authService");
+      RCTLogInfo(@"onZoomSDKInitializeResult, no authService");
     }
   } @catch (NSError *ex) {
       reject(@"ERR_UNEXPECTED_EXCEPTION", @"Executing initialize", ex);
@@ -418,6 +428,9 @@ RCT_EXPORT_METHOD(removeListeners : (NSInteger)count) {
   }
 }
 
+// NSInteger will not be supported -> use double
+
+// IDEA: RCTMakeError
 - (void)onMeetingReturn:(MobileRTCMeetError)errorCode internalError:(NSInteger)internalErrorCode {
   NSLog(@"onMeetingReturn, error=%d, internalErrorCode=%zd", errorCode, internalErrorCode);
   [self sendEventWithName:@"MeetingEvent" event:[self meetErrorName:errorCode]];
@@ -714,10 +727,12 @@ RCT_EXPORT_METHOD(removeListeners : (NSInteger)count) {
 #pragma mark - React Native event emitters and event handling
 
 - (void)startObserving {
+  // TODO: maybe here to restart listenerS?
   hasObservers = YES;
 }
 
 - (void)stopObserving {
+  // TODO: maybe here to quit listeners?
   hasObservers = NO;
 }
 
