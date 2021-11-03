@@ -23,7 +23,7 @@ Pull requests are welcome.
 
 ### Installation
 
-If you have `react-native < 0.60`, check [Full Linking Guide](https://github.com/mieszko4/react-native-zoom-us/tree/master/docs/LINKING.md)
+If you have `react-native < 0.60`, check [Full Linking Guide](docs/LINKING.md)
 
 #### Android
 
@@ -149,14 +149,14 @@ await ZoomUs.connectAudio()
 
 ## Docs
 
-- [Screenshare on iOS](https://github.com/mieszko4/react-native-zoom-us/tree/master/docs/IOS-SCREENSHARE.md)
-- [Events](https://github.com/mieszko4/react-native-zoom-us/tree/master/docs/EVENTS.md)
+- [Screenshare on iOS](docs/IOS-SCREENSHARE.md)
+- [Events](docs/EVENTS.md)
 - [Video View Component](docs/VIDEO-VIEW.md)
-
+- [Size Reduction](docs/SIZE-REDUCTION-TIPS.md)
 
 ## Testing
 
-The plugin has been tested for `joinMeeting` using [smoke test procedure]https://github.com/mieszko4/react-native-zoom-us-test#smoke-test-procedure:
+The plugin has been tested for `joinMeeting` using [smoke test procedure](https://github.com/mieszko4/react-native-zoom-us-test#smoke-test-procedure):
 * react-native-zoom-us: 6.5.1
 * react-native: 0.66.0
 * node: 14.16.0

@@ -6,20 +6,35 @@
 
 1. First compress your asset files (png, jpg, gif), use any online free image compressor website to compress it.
 2. Enable [hermes engine](https://reactnative.dev/docs/hermes)
-3. Add these [proguard-rules-zoom](https://gist.github.com/Md-Mudassir/0e0728e40c0149c74863ebde8066406e) -> `android/app/proguard-rules.pro`
-4. Open `AndroidManifest.xml`
-and inside `application` tag 
+3. Update you proguard rules -> `android/app/proguard-rules.pro`:
+* Apply react-native: https://github.com/facebook/react-native/blob/main/ReactAndroid/proguard-rules.pro
+* Apply hermes: https://reactnative.dev/docs/hermes
+* Apply Zoom SDK:
+
+```
+-keep class  us.zoom.**{*;}
+-keep class  com.zipow.**{*;}
+-keep class  us.zipow.**{*;}
+-keep class  org.webrtc.**{*;}
+-keep class  us.google.protobuf.**{*;}
+-keep class  com.google.crypto.tink.**{*;}
+-keep class  androidx.security.crypto.**{*;}
+```
+
+* Make sure to also apply proguard rules for `react-native-*` libs that you use, e.g. for `react-native-svg` -> `-keep public class com.horcrux.svg.** {*;}`
+
+4. Open `AndroidManifest.xml` and add inside `application` tag the following:
 
 ```xml
 <application
  ...
- android:extractNativeLibs="true" //ADD THIS LINE
+ android:extractNativeLibs="true"
  ...
 >
  ...
 </application>
 ```
-5. Go to `android/app/build.gradle` & enable 
+5. Go to `android/app/build.gradle` and enable:
 
 ```gradle
 def enableSeparateBuildPerCPUArchitecture = true
@@ -28,7 +43,7 @@ def enableProguardInReleaseBuilds = true
 
 > Proguard shrinks, optimizes and obfuscates Java code. It is able to optimize bytecode as well as detect and remove unused instructions. 
 
-Now add the lines wherever I've mentioned `//ADD THIS LINE`
+Now add the lines wherever I've mentioned `//ADD THIS LINE`:
 ```gradle
 android {
     ...
@@ -53,22 +68,17 @@ android {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
             shrinkResources true //ADD THIS LINE
-            minifyEnabled true //ADD THIS LINE
             signingConfig signingConfigs.debug
             signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
-}
-
-dependencies {
-    implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation 'com.facebook.soloader:soloader:0.9.0+' //ADD THIS LINE
-    
     ...
 }
 ```
+
+See diff for the example app: https://github.com/mieszko4/react-native-zoom-us-test/pull/33
 
 ## Size Reduction Tips [iOS]
 
