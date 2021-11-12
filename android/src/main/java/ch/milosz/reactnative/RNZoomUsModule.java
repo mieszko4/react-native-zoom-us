@@ -75,6 +75,8 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   private Boolean shouldDisablePreview = false;
   private Boolean customizedMeetingUIEnabled = false;
 
+  private String userName = "Unknown";
+
   private List<Integer> videoViews = Collections.synchronizedList(new ArrayList<Integer>());
 
   private final ActivityEventListener mActivityEventListener = new BaseActivityEventListener() {
@@ -303,7 +305,6 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
           if(paramMap.hasKey("noWebinarRegisterDialog")) opts.no_webinar_register_dialog = paramMap.getBoolean("noWebinarRegisterDialog");
           if(paramMap.hasKey("noChatMsgToast")) opts.no_chat_msg_toast = paramMap.getBoolean("noChatMsgToast");
 
-
           /** TODO: posible extra options:
             opts.meeting_views_options = meetingOptions.meeting_views_options;
             opts.invite_options = meetingOptions.invite_options;
@@ -322,6 +323,8 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
           params.meetingNo = paramMap.getString("meetingNumber");
           if(paramMap.hasKey("password")) params.password = paramMap.getString("password");
           if(paramMap.hasKey("webinarToken")) params.webinarToken = paramMap.getString("webinarToken");
+
+          userName = params.displayName;
 
           int joinMeetingResult = meetingService.joinMeetingWithParams(reactContext.getCurrentActivity(), params, opts);
           Log.i(TAG, "joinMeeting, joinMeetingResult=" + joinMeetingResult);
@@ -911,7 +914,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   public void onWebinarNeedRegister(String registerUrl) {}
   @Override
   public void onJoinWebinarNeedUserNameAndEmail(InMeetingEventHandler handler) {
-    handler.setRegisterWebinarInfo("a", "a@gmail.com", false);
+    handler.setRegisterWebinarInfo(this.userName, System.currentTimeMillis() + "-dummy@gmail.com", false);
   }  
   @Override
   public void onMeetingNeedColseOtherMeeting(InMeetingEventHandler handler) {}
