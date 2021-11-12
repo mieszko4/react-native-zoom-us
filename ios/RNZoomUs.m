@@ -15,6 +15,7 @@
   NSString *screenShareExtension;
 
   NSString *jwtToken;
+  NSString *userName;
 }
 
 - (instancetype)init {
@@ -27,6 +28,7 @@
     meetingPromiseReject = nil;
     screenShareExtension = nil;
     jwtToken = nil;
+    userName = nil;
   }
   return self;
 }
@@ -179,6 +181,7 @@ RCT_EXPORT_METHOD(
       joinParam.noAudio = data[@"noAudio"];
       joinParam.noVideo = data[@"noVideo"];
 
+      userName = joinParam.userName;
       MobileRTCMeetError joinMeetingResult = [ms joinMeetingWithJoinParam:joinParam];
 
       NSLog(@"joinMeeting, joinMeetingResult=%lu", joinMeetingResult);
@@ -427,8 +430,9 @@ RCT_EXPORT_METHOD(removeListeners : (NSInteger)count) {
 {
     if (completion)
     {
-        NSString * username = [NSString stringWithString:@"a"];
-        NSString * email = [NSString stringWithString:@"a@gmail.com"];
+        NSString * timeStampValue = [NSString stringWithFormat:@"%d", (long)[[NSDate date] timeIntervalSince1970]];
+        NSString * email = [timeStampValue stringByAppendingString:@"-dummy@gmail.com"];
+        NSString * username = userName;
         BOOL ret = completion(username,email,NO);
         NSLog(@"%zd",ret);
     }
