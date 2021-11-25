@@ -52,19 +52,6 @@ android {
   }
 ```
 
-3. Optional: Add custom activity config (`android/app/src/main/res/values/config.xml`)
-
-  > If you have custom conference activity, instead official activity or custom UI.
-
-```xml
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="zm_config_conf_activity">ID of your custom activity</string>
-</resources>
-```
-
-See [docs](https://marketplace.zoom.us/docs/sdk/native-sdks/android/mastering-zoom-sdk/in-meeting-function/customized-meeting-ui/overview) for more details.
-
 #### iOS
 1. Make sure you have appropriate description in `Info.plist`:
 ```xml
@@ -153,6 +140,7 @@ await ZoomUs.connectAudio()
 - [Events](docs/EVENTS.md)
 - [Video View Component](docs/VIDEO-VIEW.md)
 - [Size Reduction](docs/SIZE-REDUCTION-TIPS.md)
+- [Custom Meeting Activity](docs/CUSTOM-MEETING-ACTIVITY.md)
 
 ## Testing
 

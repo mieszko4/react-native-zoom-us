@@ -1,6 +1,6 @@
 # Video Component for custom UI on react native MainActivity
 
-*Current only support for Android!*
+*Currently only support for Android!*
 
 *If use it with animate will blank view!*
 
