@@ -916,6 +916,8 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   @Override
   public void onMeetingFail(int errorCode, int internalErrorCode) {}
   @Override
+  public void hideMeetingInviteUrl(boolean hidden) {}
+  @Override
   public void onMeetingUserUpdated(long userId) {}
   @Override
   public void onActiveVideoUserChanged(long userId) {}
@@ -991,6 +993,18 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
   @Override
   public void onShareUserReceivingStatus(long userId) {}
+
+  @Override
+  public void onSharingStatus(SharingStatus status, long userId) {}
+
+  // MIaw
+  @Override
+  public MobileRTCSDKError showAANPanel(FragmentActivity activity) {}
+
+  @Override
+  public MobileRTCSDKError hideAANPanel() {}
+
+  @Override InMeetingAANController getInMeetingAANController() {}
 
   // React LifeCycle
   @Override

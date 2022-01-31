@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+  <domain-config cleartextTrafficPermitted="true">
+    <domain includeSubdomains="true">ocsp.digicert.com</domain>
+    <domain includeSubdomains="true">crl3.digicert.com</domain>
+    <domain includeSubdomains="true">crl4.digicert.com</domain>
+    <domain includeSubdomains="true">crl.godaddy.com</domain>
+    <domain includeSubdomains="true">certificates.godaddy.com</domain>
+    <domain includeSubdomains="true">crl.starfieldtech.com</domain>
+    <domain includeSubdomains="true">certificates.starfieldtech.com</domain>
+    <domain includeSubdomains="true">ocsp.godaddy.com</domain>
+    <domain includeSubdomains="true">ocsp.starfieldtech.com</domain>
+  </domain-config>
+</network-security-config>
