@@ -1,5 +1,26 @@
 ## Changelog
 
+### 6.7.0
+Android updates:
+- Updated ZoomSDK to 5.9.1.3674
+- Added new installation steps
+- Updated native dependencies
+- Added new required listeners
+  - onSharingStatus(SharingStatus status, long userId)
+  - onFollowHostVideoOrderChanged(boolean bFollow)
+  - onVideoOrderUpdated(List<Long> orderList)
+- Updated renamed listener
+  - onMeetingNeedCloseOtherMeeting(InMeetingEventHandler handler)
+
+iOS updates:
+- Updated ZoomSDK to 5.9.1.2191
+- Added new required listeners
+  - onSinkSharingStatus:(MobileRTCSharingStatus)status userID:(NSUInteger)userID
+  - onVideoOrderUpdated:(NSArray <NSNumber *>* _Nullable)orderArr
+  - onFollowHostVideoOrderChanged:(BOOL)follow
+
+Be aware that you might need to follow the android installation steps to get this working on android 28 and above.
+
 ### 6.4.0
 
 Android updates:
