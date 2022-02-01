@@ -1013,18 +1013,20 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   }
 
   private void sendEvent(String name, String event, InMeetingUserInfo userInfo) {
-    WritableMap params = Arguments.createMap();
-    params.putString("event", event);
-    params.putString("userRole", userInfo.getInMeetingUserRole().name());
-    params.putDouble("audioType",  userInfo.getAudioStatus().getAudioType());
+    if (userInfo != null) {
+      WritableMap params = Arguments.createMap();
+          params.putString("event", event);
+          params.putString("userRole", userInfo.getInMeetingUserRole().name());
+          params.putDouble("audioType", userInfo.getAudioStatus().getAudioType());
 
-    params.putBoolean("isTalking",  userInfo.getAudioStatus().isTalking());
-    params.putBoolean("isMutedAudio",  userInfo.getAudioStatus().isMuted());
-    params.putBoolean("isMutedVideo", !userInfo.getVideoStatus().isSending());
+          params.putBoolean("isTalking", userInfo.getAudioStatus().isTalking());
+          params.putBoolean("isMutedAudio", userInfo.getAudioStatus().isMuted());
+          params.putBoolean("isMutedVideo", !userInfo.getVideoStatus().isSending());
 
-    reactContext
-        .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-        .emit(name, params);
+        reactContext
+            .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+            .emit(name, params);
+    }
   }
 
   private void sendEvent(String name, String event, MeetingStatus status) {
