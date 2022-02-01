@@ -34,22 +34,9 @@ android {
 
 
 dependencies {
-//     classpath 'com.android.tools:r8:3.0.73'
-
-
     implementation 'com.facebook.react:react-native:+' // From node_modules
     implementation 'com.github.zoom-us-community:jitpack-zoom-us:5.9.1.3674'
 
-    /**  deps from commonlib */
-//     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-
-    // New zoom deps
-    implementation 'androidx.window:window:1.0.0-alpha06'
-    implementation 'androidx.window:window-java:1.0.0-beta03'
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.5.21'
-    implementation 'androidx.core:core-ktx:1.6.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0'
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.0'
     implementation 'com.airbnb.android:lottie:4.0.0'
 
     // MobileRTC Deps
@@ -64,9 +51,4 @@ dependencies {
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'com.google.android.exoplayer:exoplayer-core:2.13.3'
     implementation 'com.google.android.exoplayer:exoplayer-ui:2.13.3'
-
-    /** MobileRTC deps: App works without next deps but they still can be necessary */
-//     implementation 'com.github.bumptech.glide:annotations:4.11.0'
-//     implementation 'com.github.bumptech.glide:glide:4.11.0'
-//     implementation 'androidx.appcompat:appcompat:1.2.0'
 }
