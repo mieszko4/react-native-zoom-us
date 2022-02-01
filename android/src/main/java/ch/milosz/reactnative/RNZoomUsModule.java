@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.Context;
 import android.media.projection.MediaProjectionManager;
+import androidx.fragment.app.FragmentActivity;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Promise;
@@ -23,6 +24,7 @@ import com.facebook.react.uimanager.NativeViewHierarchyManager;
 import com.facebook.react.uimanager.UIBlock;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 
+import java.lang.Long;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -46,6 +48,7 @@ import us.zoom.sdk.ZoomSDKInitParams;
 import us.zoom.sdk.FreeMeetingNeedUpgradeType;
 import us.zoom.sdk.ShareSettingType;
 
+import us.zoom.sdk.SharingStatus;
 import us.zoom.sdk.MeetingStatus;
 import us.zoom.sdk.MeetingError;
 import us.zoom.sdk.MeetingService;
@@ -906,17 +909,19 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
   // InMeetingServiceListener required listeners but unused for now
   @Override
+  public void onFollowHostVideoOrderChanged(boolean bFollow) {}
+  @Override
+  public void onVideoOrderUpdated(List<Long> orderList) {}
+  @Override
   public void onMeetingNeedPasswordOrDisplayName(boolean needPassword, boolean needDisplayName, InMeetingEventHandler handler) {}
   @Override
   public void onWebinarNeedRegister(String registerUrl) {}
   @Override
   public void onJoinWebinarNeedUserNameAndEmail(InMeetingEventHandler handler) {}
   @Override
-  public void onMeetingNeedColseOtherMeeting(InMeetingEventHandler handler) {}
+  public void onMeetingNeedCloseOtherMeeting(InMeetingEventHandler handler) {}
   @Override
   public void onMeetingFail(int errorCode, int internalErrorCode) {}
-  @Override
-  public void hideMeetingInviteUrl(boolean hidden) {}
   @Override
   public void onMeetingUserUpdated(long userId) {}
   @Override
@@ -996,15 +1001,6 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
   @Override
   public void onSharingStatus(SharingStatus status, long userId) {}
-
-  // MIaw
-  @Override
-  public MobileRTCSDKError showAANPanel(FragmentActivity activity) {}
-
-  @Override
-  public MobileRTCSDKError hideAANPanel() {}
-
-  @Override InMeetingAANController getInMeetingAANController() {}
 
   // React LifeCycle
   @Override
