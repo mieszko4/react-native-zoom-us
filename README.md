@@ -3,10 +3,10 @@
 
 This is a bridge for ZoomUS SDK:
 
-| Platform      | Version           | Url                                      | Changelog                                                            |
-| :-----------: | :---------------  | :--------------------------------------: | :------------------------------------------------------------------: |
-| iOS	        | 5.7.1.645         | https://github.com/zoom/zoom-sdk-ios     | https://marketplace.zoom.us/docs/changelog#labels/client-sdk-i-os    |
-| Android       | 5.7.1.1268        | https://github.com/zoom/zoom-sdk-android | https://marketplace.zoom.us/docs/changelog#labels/client-sdk-android |
+| Platform      | Version    | Url                                      | Changelog                                                            |
+| :-----------: |:-----------| :--------------------------------------: | :------------------------------------------------------------------: |
+| iOS	        | 5.7.1.645  | https://github.com/zoom/zoom-sdk-ios     | https://marketplace.zoom.us/docs/changelog#labels/client-sdk-i-os    |
+| Android       | 5.9.1.3674 | https://github.com/zoom/zoom-sdk-android | https://marketplace.zoom.us/docs/changelog#labels/client-sdk-android |
 
 Tested on XCode 12.4 and react-native 0.66.0. ([See details](https://github.com/mieszko4/react-native-zoom-us#testing))
 
@@ -52,6 +52,41 @@ android {
   }
 ```
 
+4. Add this to /android/src/main/res/xml/network_security_config.xml
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+  <domain-config cleartextTrafficPermitted="true">
+    <domain includeSubdomains="true">ocsp.digicert.com</domain>
+    <domain includeSubdomains="true">crl3.digicert.com</domain>
+    <domain includeSubdomains="true">crl4.digicert.com</domain>
+    <domain includeSubdomains="true">crl.godaddy.com</domain>
+    <domain includeSubdomains="true">certificates.godaddy.com</domain>
+    <domain includeSubdomains="true">crl.starfieldtech.com</domain>
+    <domain includeSubdomains="true">certificates.starfieldtech.com</domain>
+    <domain includeSubdomains="true">ocsp.godaddy.com</domain>
+    <domain includeSubdomains="true">ocsp.starfieldtech.com</domain>
+  </domain-config>
+</network-security-config>
+```
+5. Do the same for debugging, add this to /android/src/debug/res/xml/network_security_config.xml
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+  <!-- deny cleartext traffic for React Native packager ips in release -->
+  <domain-config cleartextTrafficPermitted="true">
+    <domain includeSubdomains="true">localhost</domain>
+    <domain includeSubdomains="true">10.0.2.2</domain>
+    <domain includeSubdomains="true">10.0.3.2</domain>
+  </domain-config>
+</network-security-config>
+```
+
+6. Add this line to you application tag in AndroidManifest.xml for debug and main
+```xml
+android:networkSecurityConfig="@xml/network_security_config"
+```
+
 #### iOS
 1. Make sure you have appropriate description in `Info.plist`:
 ```xml
@@ -70,7 +105,7 @@ android {
 
 2. Update pods using `cd ios/ && pod install && cd ..`
 
-3. Make sure to set `ENABLE_BITCODE = NO;` for both Debug and Release because bitcode is not supported by Zoom iOS SDK 
+3. Make sure to set `ENABLE_BITCODE = NO;` for both Debug and Release because bitcode is not supported by Zoom iOS SDK
 
 4. Optional: Implement custom UI
 See [docs](https://marketplace.zoom.us/docs/sdk/native-sdks/iOS/mastering-zoom-sdk/in-meeting-function/customized-in-meeting-ui/overview) for more details.
