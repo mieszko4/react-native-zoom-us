@@ -5,7 +5,7 @@ This is a bridge for ZoomUS SDK:
 
 | Platform      | Version    | Url                                      | Changelog                                                            |
 | :-----------: |:-----------| :--------------------------------------: | :------------------------------------------------------------------: |
-| iOS	        | 5.7.1.645  | https://github.com/zoom/zoom-sdk-ios     | https://marketplace.zoom.us/docs/changelog#labels/client-sdk-i-os    |
+| iOS	        | 5.9.1.2191 | https://github.com/zoom/zoom-sdk-ios     | https://marketplace.zoom.us/docs/changelog#labels/client-sdk-i-os    |
 | Android       | 5.9.1.3674 | https://github.com/zoom/zoom-sdk-android | https://marketplace.zoom.us/docs/changelog#labels/client-sdk-android |
 
 Tested on XCode 12.4 and react-native 0.66.0. ([See details](https://github.com/mieszko4/react-native-zoom-us#testing))
