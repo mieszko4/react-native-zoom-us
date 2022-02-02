@@ -8,7 +8,7 @@ This is a bridge for ZoomUS SDK:
 | iOS	        | 5.9.1.2191 | https://github.com/zoom/zoom-sdk-ios     | https://marketplace.zoom.us/docs/changelog#labels/client-sdk-i-os    |
 | Android       | 5.9.1.3674 | https://github.com/zoom/zoom-sdk-android | https://marketplace.zoom.us/docs/changelog#labels/client-sdk-android |
 
-Tested on XCode 12.4 and react-native 0.66.0. ([See details](https://github.com/mieszko4/react-native-zoom-us#testing))
+Tested on XCode 13.2.1 and react-native 0.66.0. ([See details](https://github.com/mieszko4/react-native-zoom-us#testing))
 
 Pull requests are welcome.
 
@@ -52,7 +52,7 @@ android {
   }
 ```
 
-4. Add this to /android/src/main/res/xml/network_security_config.xml
+4. Add this to /android/app/src/main/res/xml/network_security_config.xml
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config>
@@ -69,7 +69,16 @@ android {
   </domain-config>
 </network-security-config>
 ```
-5. Do the same for debugging, add this to /android/src/debug/res/xml/network_security_config.xml
+Then add this to /android/app/src/main/AndroidManifest.xml
+```xml
+<application
+  ...
+
+  tools:replace="android:usesCleartextTraffic"
+  android:networkSecurityConfig="@xml/network_security_config"
+>
+```
+5. Add this to /android/app/src/debug/res/xml/network_security_config.xml
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config>
@@ -81,10 +90,13 @@ android {
   </domain-config>
 </network-security-config>
 ```
-
-6. Add this line to you application tag in AndroidManifest.xml for debug and main
+Then add this to /android/app/src/debug/AndroidManifest.xml
 ```xml
-android:networkSecurityConfig="@xml/network_security_config"
+<application
+  ...
+
+  android:networkSecurityConfig="@xml/network_security_config"
+>
 ```
 
 #### iOS
