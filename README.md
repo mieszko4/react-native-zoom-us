@@ -74,7 +74,6 @@ Then add this to /android/app/src/main/AndroidManifest.xml
 <application
   ...
 
-  tools:replace="android:usesCleartextTraffic"
   android:networkSecurityConfig="@xml/network_security_config"
 >
 ```
@@ -95,6 +94,7 @@ Then add this to /android/app/src/debug/AndroidManifest.xml
 <application
   ...
 
+  tools:replace="android:usesCleartextTraffic"
   android:networkSecurityConfig="@xml/network_security_config"
 >
 ```
