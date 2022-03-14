@@ -404,6 +404,8 @@ RCT_EXPORT_METHOD(removeListeners : (NSInteger)count) {
 }
 */
 
+- (void)onMeetingParameterNotification:(MobileRTCMeetingParameter *_Nullable)meetingParam {}
+
 - (void)onMobileRTCAuthReturn:(MobileRTCAuthError)returnValue {
   NSLog(@"nZoomSDKInitializeResult, errorCode=%d", returnValue);
   [self sendEventWithName:@"AuthEvent" event:[self authErrorName:returnValue]];

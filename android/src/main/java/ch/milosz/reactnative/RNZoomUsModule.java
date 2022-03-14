@@ -31,6 +31,7 @@ import java.util.Iterator;
 import java.util.Collections;
 import java.util.Locale;
 
+import us.zoom.sdk.MeetingParameter;
 import us.zoom.sdk.InMeetingVideoController;
 import us.zoom.sdk.InMeetingAudioController;
 import us.zoom.sdk.InMeetingChatMessage;
@@ -911,7 +912,9 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   @Override
   public void onFollowHostVideoOrderChanged(boolean bFollow) {}
   @Override
-  public void onVideoOrderUpdated(List<Long> orderList) {}
+  public void onMeetingParameterNotification(MeetingParameter meetingParameter) {}
+  @Override
+  public void onHostVideoOrderUpdated(List<Long> orderList) {}
   @Override
   public void onMeetingNeedPasswordOrDisplayName(boolean needPassword, boolean needDisplayName, InMeetingEventHandler handler) {}
   @Override
@@ -957,7 +960,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   @Override
   public void onLocalRecordingStatus(RecordingStatus recordingStatus) {}
   @Override
-  public void onClosedCaptionReceived(String message) {}
+  public void onClosedCaptionReceived(String message, long senderId) {}
   @Override
   public void onFreeMeetingReminder(boolean isHost, boolean canUpgrade, boolean isFirstGift) {}
   @Override

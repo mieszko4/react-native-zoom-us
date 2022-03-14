@@ -10,16 +10,16 @@ Pod::Spec.new do |s|
                    DESC
   s.homepage     = "https://github.com/mieszko4/react-native-zoom-us"
   s.license      = "MIT"
-  s.author             = { "author" => "author@domain.cn" }
+  s.author       = { "author" => "author@domain.cn" }
   s.platform     = :ios, "9.0"
 
   s.source       = { :git => "https://github.com/mieszko4/react-native-zoom-us" }
-  s.source_files  = "ios/*.{h,m}"
+  s.source_files = "ios/*.{h,m}"
   s.requires_arc = true
 
   s.static_framework = true
   s.dependency "React"
-  s.dependency "ZoomSDK", '5.9.1.2191'
+  s.dependency "ZoomSDK", '5.9.6.2769'
 
 end
 
