@@ -1094,13 +1094,13 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
   private String getSharingStatusEventName(final SharingStatus status) {
     switch (status) {
-      case SharingStatus.Sharing_Self_Send_Begin: return "screenShareStartedBySelf";
-      case SharingStatus.Sharing_Self_Send_End: return "screenShareStoppedBySelf";
-      case SharingStatus.Sharing_Other_Share_Begin: return "screenShareStartedByUser";
-      case SharingStatus.Sharing_Other_Share_End: return "screenShareStoppedByUser";
-      case SharingStatus.Sharing_View_Other_Sharing: return "screenShareOtherSharing";
-      case SharingStatus.Sharing_Pause: return "screenSharePause";
-      case SharingStatus.Sharing_Resume: return "screenShareResume";
+      case Sharing_Self_Send_Begin: return "screenShareStartedBySelf";
+      case Sharing_Self_Send_End: return "screenShareStoppedBySelf";
+      case Sharing_Other_Share_Begin: return "screenShareStartedByUser";
+      case Sharing_Other_Share_End: return "screenShareStoppedByUser";
+      case Sharing_View_Other_Sharing: return "screenShareOtherSharing";
+      case Sharing_Pause: return "screenSharePause";
+      case Sharing_Resume: return "screenShareResume";
       default: return "screenShareStoppedByUser";
     }
   }
