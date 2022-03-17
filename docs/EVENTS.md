@@ -104,9 +104,15 @@ zoomEmitter.addListener('MeetingEvent', (meetingEvent) => {
   // {event: 'myVideoStatusChanged', userRole: string, audioType: number, isMutedAudio: boolean, isTalking: boolean, isMutedVideo: boolean}
   
   // Meeting screen share events
-  // {event: 'screenShareStarted'}
-  // {event: 'screenShareStopped'}
+  // {event: 'screenShareStartedBySelf', userId: number}
+  // {event: 'screenShareStoppedBySelf', userId: number}
   // {event: 'screenShareStartedByUser', userId: number}
+  // {event: 'screenShareStoppedByUser', userId: number}
+  // {event: 'screenShareOtherSharing', userId: number}
+  // {event: 'screenSharePause', userId: number}
+  // {event: 'screenShareResume', userId: number}
+  // {event: 'screenShareStarted'} // DEPRECATED
+  // {event: 'screenShareStopped'} // DEPRECATED
   
   
   // ANDROID ONLY EVENTS

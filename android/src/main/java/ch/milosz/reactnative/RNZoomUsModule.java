@@ -973,26 +973,15 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   public void onFreeMeetingNeedToUpgrade(FreeMeetingNeedUpgradeType type, String gifUrl) {}
 
   // InMeetingShareListener event listeners
+  // DEPRECATED: onShareActiveUser is just kept for now for backwards compatibility of events
   @Override
   public void onShareActiveUser(long userId) {
     final InMeetingService inMeetingService = ZoomSDK.getInstance().getInMeetingService();
 
-    updateVideoView();
-
     if (inMeetingService.isMyself(userId)) {
       sendEvent("MeetingEvent", "screenShareStarted");
-
-      final InMeetingShareController shareController = inMeetingService.getInMeetingShareController();
-
-      if (shareController.isSharingOut()) {
-        if (shareController.isSharingScreen()) {
-            shareController.startShareScreenContent();
-        }
-      }
     } else if (userId == 0) {
       sendEvent("MeetingEvent", "screenShareStopped");
-    } else {
-      sendEvent("MeetingEvent", "screenShareStartedByUser", userId);
     }
   }
 
@@ -1003,7 +992,22 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   public void onShareUserReceivingStatus(long userId) {}
 
   @Override
-  public void onSharingStatus(SharingStatus status, long userId) {}
+  public void onSharingStatus(SharingStatus status, long userId) {
+    updateVideoView();
+
+    sendEvent("MeetingEvent", getSharingStatusEventName(status), userId);
+
+    if (status.equals(SharingStatus.Sharing_Self_Send_Begin)) {
+      final InMeetingService inMeetingService = ZoomSDK.getInstance().getInMeetingService();
+      final InMeetingShareController shareController = inMeetingService.getInMeetingShareController();
+
+      if (shareController.isSharingOut()) {
+        if (shareController.isSharingScreen()) {
+            shareController.startShareScreenContent();
+        }
+      }
+    }
+  }
 
   // React LifeCycle
   @Override
@@ -1086,6 +1090,19 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     reactContext
         .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
         .emit(name, params);
+  }
+
+  private String getSharingStatusEventName(final SharingStatus status) {
+    switch (status) {
+      case Sharing_Self_Send_Begin: return "screenShareStartedBySelf";
+      case Sharing_Self_Send_End: return "screenShareStoppedBySelf";
+      case Sharing_Other_Share_Begin: return "screenShareStartedByUser";
+      case Sharing_Other_Share_End: return "screenShareStoppedByUser";
+      case Sharing_View_Other_Sharing: return "screenShareOtherSharing";
+      case Sharing_Pause: return "screenSharePause";
+      case Sharing_Resume: return "screenShareResume";
+      default: return "screenShareStoppedByUser";
+    }
   }
 
   private String getAuthErrorName(final int errorCode) {
