@@ -66,6 +66,9 @@ import us.zoom.sdk.MeetingOptions;
 import us.zoom.sdk.MeetingViewsOptions;
 import us.zoom.sdk.JoinMeetingParams;
 
+import us.zoom.sdk.VideoQuality;
+import us.zoom.sdk.ChatMessageDeleteType;
+
 public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSDKInitializeListener, InMeetingServiceListener, MeetingServiceListener, InMeetingShareController.InMeetingShareListener, LifecycleEventListener {
 
   private final static String TAG = "RNZoomUs";
@@ -875,7 +878,10 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   }
 
   @Override
-  public void onMeetingCoHostChanged(long userId, boolean isCoHost) {
+  @Deprecated
+  public void onMeetingCoHostChanged(long userId) {}
+  @Override
+  public void onMeetingCoHostChange(long userId, boolean isCoHost) {
     sendEvent("MeetingEvent", "coHostChanged", userId);
   }
 
@@ -934,6 +940,9 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   @Override
   public void onSpotlightVideoChanged(boolean on) {}
   @Override
+  @Deprecated
+  public void onUserNetworkQualityChanged(long userId) {};
+  @Override
   public void onSinkMeetingVideoQualityChanged(VideoQuality videoQuality, long userId) {}
   @Override
   public void onMicrophoneStatusError(InMeetingAudioController.MobileRTCMicrophoneError error) {}
@@ -952,7 +961,10 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   @Override
   public void onSinkAllowAttendeeChatNotification(int privilege) {}
   @Override
-  public void onUserNameChanged(List<Long> userList) {}
+  @Deprecated
+  public void onUserNameChanged(long userId, String name) {}
+  @Override
+  public void onUserNamesChanged(List<Long> userList) {}
   @Override
   public void onInvalidReclaimHostkey() {}
   @Override
@@ -971,6 +983,15 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   public void onFreeMeetingUpgradeToGiftFreeTrialStart() {}
   @Override
   public void onFreeMeetingNeedToUpgrade(FreeMeetingNeedUpgradeType type, String gifUrl) {}
+  @Override
+  public void onLocalVideoOrderUpdated(List<Long> localOrderList) {}
+  @Override
+  public void onAllHandsLowered() {};
+  @Override
+  public void onPermissionRequested(String[] permissions) {};
+  @Override
+  public void onChatMsgDeleteNotification(String msgID, ChatMessageDeleteType deleteBy) {};
+
 
   // InMeetingShareListener event listeners
   // DEPRECATED: onShareActiveUser is just kept for now for backwards compatibility of events
