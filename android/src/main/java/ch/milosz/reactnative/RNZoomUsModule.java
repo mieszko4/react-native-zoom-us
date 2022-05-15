@@ -934,7 +934,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   @Override
   public void onSpotlightVideoChanged(boolean on) {}
   @Override
-  public void onUserNetworkQualityChanged(long userId) {}
+  public void onSinkMeetingVideoQualityChanged(VideoQuality videoQuality, long userId) {}
   @Override
   public void onMicrophoneStatusError(InMeetingAudioController.MobileRTCMicrophoneError error) {}
   @Override
