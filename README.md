@@ -77,6 +77,9 @@ Then add this to /android/app/src/main/AndroidManifest.xml
   android:networkSecurityConfig="@xml/network_security_config"
 >
 ```
+
+Source: https://8xmdmkir8ctlkfj8dttx.noticeable.news/publications/android-meeting-sdk-v5-9-0.
+
 5. Add this to /android/app/src/debug/res/xml/network_security_config.xml
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
