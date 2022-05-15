@@ -875,7 +875,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   }
 
   @Override
-  public void onMeetingCoHostChanged(long userId) {
+  public void onMeetingCoHostChanged(long userId, boolean isCoHost) {
     sendEvent("MeetingEvent", "coHostChanged", userId);
   }
 
@@ -952,13 +952,13 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   @Override
   public void onSinkAllowAttendeeChatNotification(int privilege) {}
   @Override
-  public void onUserNameChanged(long userId, String name) {}
+  public void onUserNameChanged(List<Long> userList) {}
   @Override
   public void onInvalidReclaimHostkey() {}
   @Override
   public void onRecordingStatus(RecordingStatus status) {}
   @Override
-  public void onLocalRecordingStatus(RecordingStatus recordingStatus) {}
+  public void onLocalRecordingStatus(long userId, RecordingStatus recordingStatus) {}
   @Override
   public void onClosedCaptionReceived(String message, long senderId) {}
   @Override
