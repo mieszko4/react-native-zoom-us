@@ -1,5 +1,23 @@
 ## Changelog
 
+### 6.9.0
+Android updates:
+- Updated ZoomSDK to 5.10.3.5614
+- Increased compileSdkVersion to 31
+- Increased targetSdkVersion to 31
+- Increased minSdkVersion to 21
+- Increased buildToolsVersion to 30.0.2
+- Added new required listeners
+  - onLocalVideoOrderUpdated(List<Long> localOrderList)
+  - onAllHandsLowered()
+  - onPermissionRequested(String[] permissions)
+  - onChatMsgDeleteNotification(String msgID, ChatMessageDeleteType deleteBy)
+- Changed deprecated listeners in favour of:
+  - onLocalRecordingStatus(RecordingStatus recordingStatus) -> onLocalRecordingStatus(long userId, RecordingStatus recordingStatus)
+  - onUserNameChanged(long userId, String name) -> onUserNamesChanged(List<Long> userList)
+  - onUserNetworkQualityChanged(long userId) -> onSinkMeetingVideoQualityChanged(VideoQuality videoQuality, long userId)
+  - onMeetingCoHostChanged(long userId) -> onMeetingCoHostChange(long userId, boolean isCoHost)
+
 ### 6.7.0
 Android updates:
 - Updated ZoomSDK to 5.9.1.3674
