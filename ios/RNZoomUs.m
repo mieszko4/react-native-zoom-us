@@ -438,6 +438,8 @@ RCT_EXPORT_METHOD(removeListeners : (NSInteger)count) {
     }
 }
 
+- (void)onMeetingParameterNotification:(MobileRTCMeetingParameter *_Nullable)meetingParam {}
+
 - (void)onMobileRTCAuthReturn:(MobileRTCAuthError)returnValue {
   NSLog(@"nZoomSDKInitializeResult, errorCode=%d", returnValue);
   [self sendEventWithName:@"AuthEvent" event:[self authErrorName:returnValue]];
@@ -619,6 +621,8 @@ RCT_EXPORT_METHOD(removeListeners : (NSInteger)count) {
   }
 }
 
+- (void)onSinkSharingStatus:(MobileRTCSharingStatus)status userID:(NSUInteger)userID {}
+
 #pragma mark - https://marketplacefront.zoom.us/sdk/meeting/ios/_mobile_r_t_c_meeting_delegate_8h_source.html
 
 
@@ -637,6 +641,10 @@ RCT_EXPORT_METHOD(removeListeners : (NSInteger)count) {
 - (void)onSinkMeetingVideoRequestUnmuteByHost:(void (^)(BOOL Accept))completion {
   [self sendEventWithName:@"MeetingEvent" event:@"askUnMuteVideo"];
 }
+
+- (void)onVideoOrderUpdated:(NSArray <NSNumber *>* _Nullable)orderArr {}
+
+- (void)onFollowHostVideoOrderChanged:(BOOL)follow {}
 
 - (void)onSinkMeetingActiveVideo:(NSUInteger)userID {}
 

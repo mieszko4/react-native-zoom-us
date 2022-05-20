@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.Context;
 import android.media.projection.MediaProjectionManager;
+import androidx.fragment.app.FragmentActivity;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Promise;
@@ -23,12 +24,14 @@ import com.facebook.react.uimanager.NativeViewHierarchyManager;
 import com.facebook.react.uimanager.UIBlock;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 
+import java.lang.Long;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Collections;
 import java.util.Locale;
 
+import us.zoom.sdk.MeetingParameter;
 import us.zoom.sdk.InMeetingVideoController;
 import us.zoom.sdk.InMeetingAudioController;
 import us.zoom.sdk.InMeetingChatMessage;
@@ -46,6 +49,7 @@ import us.zoom.sdk.ZoomSDKInitParams;
 import us.zoom.sdk.FreeMeetingNeedUpgradeType;
 import us.zoom.sdk.ShareSettingType;
 
+import us.zoom.sdk.SharingStatus;
 import us.zoom.sdk.MeetingStatus;
 import us.zoom.sdk.MeetingError;
 import us.zoom.sdk.MeetingService;
@@ -61,6 +65,9 @@ import us.zoom.sdk.JoinMeetingOptions;
 import us.zoom.sdk.MeetingOptions;
 import us.zoom.sdk.MeetingViewsOptions;
 import us.zoom.sdk.JoinMeetingParams;
+
+import us.zoom.sdk.VideoQuality;
+import us.zoom.sdk.ChatMessageDeleteType;
 
 public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSDKInitializeListener, InMeetingServiceListener, MeetingServiceListener, InMeetingShareController.InMeetingShareListener, LifecycleEventListener {
 
@@ -874,7 +881,10 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   }
 
   @Override
-  public void onMeetingCoHostChanged(long userId) {
+  @Deprecated
+  public void onMeetingCoHostChanged(long userId) {}
+  @Override
+  public void onMeetingCoHostChange(long userId, boolean isCoHost) {
     sendEvent("MeetingEvent", "coHostChanged", userId);
   }
 
@@ -909,6 +919,12 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
   // InMeetingServiceListener required listeners but unused for now
   @Override
+  public void onFollowHostVideoOrderChanged(boolean bFollow) {}
+  @Override
+  public void onMeetingParameterNotification(MeetingParameter meetingParameter) {}
+  @Override
+  public void onHostVideoOrderUpdated(List<Long> orderList) {}
+  @Override
   public void onMeetingNeedPasswordOrDisplayName(boolean needPassword, boolean needDisplayName, InMeetingEventHandler handler) {}
   @Override
   public void onWebinarNeedRegister(String registerUrl) {}
@@ -917,7 +933,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     handler.setRegisterWebinarInfo(this.userName, System.currentTimeMillis() + "-dummy@gmail.com", false);
   }  
   @Override
-  public void onMeetingNeedColseOtherMeeting(InMeetingEventHandler handler) {}
+  public void onMeetingNeedCloseOtherMeeting(InMeetingEventHandler handler) {}
   @Override
   public void onMeetingFail(int errorCode, int internalErrorCode) {}
   @Override
@@ -929,7 +945,10 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   @Override
   public void onSpotlightVideoChanged(boolean on) {}
   @Override
-  public void onUserNetworkQualityChanged(long userId) {}
+  @Deprecated
+  public void onUserNetworkQualityChanged(long userId) {};
+  @Override
+  public void onSinkMeetingVideoQualityChanged(VideoQuality videoQuality, long userId) {}
   @Override
   public void onMicrophoneStatusError(InMeetingAudioController.MobileRTCMicrophoneError error) {}
   @Override
@@ -947,15 +966,18 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   @Override
   public void onSinkAllowAttendeeChatNotification(int privilege) {}
   @Override
+  @Deprecated
   public void onUserNameChanged(long userId, String name) {}
+  @Override
+  public void onUserNamesChanged(List<Long> userList) {}
   @Override
   public void onInvalidReclaimHostkey() {}
   @Override
   public void onRecordingStatus(RecordingStatus status) {}
   @Override
-  public void onLocalRecordingStatus(RecordingStatus recordingStatus) {}
+  public void onLocalRecordingStatus(long userId, RecordingStatus recordingStatus) {}
   @Override
-  public void onClosedCaptionReceived(String message) {}
+  public void onClosedCaptionReceived(String message, long senderId) {}
   @Override
   public void onFreeMeetingReminder(boolean isHost, boolean canUpgrade, boolean isFirstGift) {}
   @Override
@@ -966,28 +988,26 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   public void onFreeMeetingUpgradeToGiftFreeTrialStart() {}
   @Override
   public void onFreeMeetingNeedToUpgrade(FreeMeetingNeedUpgradeType type, String gifUrl) {}
+  @Override
+  public void onLocalVideoOrderUpdated(List<Long> localOrderList) {}
+  @Override
+  public void onAllHandsLowered() {};
+  @Override
+  public void onPermissionRequested(String[] permissions) {};
+  @Override
+  public void onChatMsgDeleteNotification(String msgID, ChatMessageDeleteType deleteBy) {};
+
 
   // InMeetingShareListener event listeners
+  // DEPRECATED: onShareActiveUser is just kept for now for backwards compatibility of events
   @Override
   public void onShareActiveUser(long userId) {
     final InMeetingService inMeetingService = ZoomSDK.getInstance().getInMeetingService();
 
-    updateVideoView();
-
     if (inMeetingService.isMyself(userId)) {
       sendEvent("MeetingEvent", "screenShareStarted");
-
-      final InMeetingShareController shareController = inMeetingService.getInMeetingShareController();
-
-      if (shareController.isSharingOut()) {
-        if (shareController.isSharingScreen()) {
-            shareController.startShareScreenContent();
-        }
-      }
     } else if (userId == 0) {
       sendEvent("MeetingEvent", "screenShareStopped");
-    } else {
-      sendEvent("MeetingEvent", "screenShareStartedByUser", userId);
     }
   }
 
@@ -996,6 +1016,24 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
   @Override
   public void onShareUserReceivingStatus(long userId) {}
+
+  @Override
+  public void onSharingStatus(SharingStatus status, long userId) {
+    updateVideoView();
+
+    sendEvent("MeetingEvent", getSharingStatusEventName(status), userId);
+
+    if (status.equals(SharingStatus.Sharing_Self_Send_Begin)) {
+      final InMeetingService inMeetingService = ZoomSDK.getInstance().getInMeetingService();
+      final InMeetingShareController shareController = inMeetingService.getInMeetingShareController();
+
+      if (shareController.isSharingOut()) {
+        if (shareController.isSharingScreen()) {
+            shareController.startShareScreenContent();
+        }
+      }
+    }
+  }
 
   // React LifeCycle
   @Override
@@ -1018,18 +1056,20 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   }
 
   private void sendEvent(String name, String event, InMeetingUserInfo userInfo) {
-    WritableMap params = Arguments.createMap();
-    params.putString("event", event);
-    params.putString("userRole", userInfo.getInMeetingUserRole().name());
-    params.putDouble("audioType",  userInfo.getAudioStatus().getAudioType());
+    if (userInfo != null) {
+      WritableMap params = Arguments.createMap();
+          params.putString("event", event);
+          params.putString("userRole", userInfo.getInMeetingUserRole().name());
+          params.putDouble("audioType", userInfo.getAudioStatus().getAudioType());
 
-    params.putBoolean("isTalking",  userInfo.getAudioStatus().isTalking());
-    params.putBoolean("isMutedAudio",  userInfo.getAudioStatus().isMuted());
-    params.putBoolean("isMutedVideo", !userInfo.getVideoStatus().isSending());
+          params.putBoolean("isTalking", userInfo.getAudioStatus().isTalking());
+          params.putBoolean("isMutedAudio", userInfo.getAudioStatus().isMuted());
+          params.putBoolean("isMutedVideo", !userInfo.getVideoStatus().isSending());
 
-    reactContext
-        .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-        .emit(name, params);
+        reactContext
+            .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+            .emit(name, params);
+    }
   }
 
   private void sendEvent(String name, String event, MeetingStatus status) {
@@ -1076,6 +1116,19 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     reactContext
         .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
         .emit(name, params);
+  }
+
+  private String getSharingStatusEventName(final SharingStatus status) {
+    switch (status) {
+      case Sharing_Self_Send_Begin: return "screenShareStartedBySelf";
+      case Sharing_Self_Send_End: return "screenShareStoppedBySelf";
+      case Sharing_Other_Share_Begin: return "screenShareStartedByUser";
+      case Sharing_Other_Share_End: return "screenShareStoppedByUser";
+      case Sharing_View_Other_Sharing: return "screenShareOtherSharing";
+      case Sharing_Pause: return "screenSharePause";
+      case Sharing_Resume: return "screenShareResume";
+      default: return "screenShareStoppedByUser";
+    }
   }
 
   private String getAuthErrorName(final int errorCode) {
