@@ -22,3 +22,5 @@ implementation (project(':react-native-zoom-us')) {
 If lib still not published: `yarn add https://github.com/react-native-video/react-native-video#724b8629f6c7f222c08e60e6948d06fa45a6f4f2`
 
 Note: it can be also with other libs which uses exoplayer
+
+**Note:** Solution can be different for newer versions.
