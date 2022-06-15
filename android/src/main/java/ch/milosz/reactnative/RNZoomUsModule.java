@@ -736,10 +736,10 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     String errorInfo = getAuthErrorName(errorCode);
     sendEvent("AuthEvent", errorInfo);
     if(errorCode != ZoomError.ZOOM_ERROR_SUCCESS) {
-      String errorFormatted = String.format("Error: %d (%s)", errorCode, errorInfo);
+      String errorFormatted = String.format("Error= %d (%s)", errorCode, errorInfo);
       initializePromise.reject(
-              "ERR_ZOOM_INITIALIZATION",
-              "Error= " + errorFormatted + ", internalErrorCode=" + internalErrorCode
+        "ERR_ZOOM_INITIALIZATION",
+         errorFormatted + ", internalErrorCode=" + internalErrorCode
       );
     } else {
       registerListener();
