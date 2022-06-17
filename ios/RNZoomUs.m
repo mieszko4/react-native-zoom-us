@@ -513,6 +513,7 @@ RCT_EXPORT_METHOD(removeListeners : (NSInteger)count) {
 
   NSString* statusString = [self formatStateToString:state];
   [self sendEventWithName:@"MeetingEvent" event:@"success" status:statusString];
+  [self sendEventWithName:@"MeetingStatus" event:statusString];
 
   if (state == MobileRTCMeetingState_InMeeting && shouldAutoConnectAudio == YES) {
     [self connectAudio];
@@ -730,7 +731,7 @@ RCT_EXPORT_METHOD(removeListeners : (NSInteger)count) {
 }
 
 - (NSArray<NSString *> *)supportedEvents {
-  return @[@"AuthEvent", @"MeetingEvent"];
+  return @[@"AuthEvent", @"MeetingEvent", @"MeetingStatus"];
 }
 
 - (void)sendEventWithName:(NSString *)name event:(NSString *)event {

@@ -1,0 +1,3 @@
+{
+  "root": true // needed to disable parent eslint
+}

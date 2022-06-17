@@ -733,11 +733,13 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   @Override
   public void onZoomSDKInitializeResult(int errorCode, int internalErrorCode) {
     Log.i(TAG, "onZoomSDKInitializeResult, errorCode=" + errorCode + ", internalErrorCode=" + internalErrorCode);
-    sendEvent("AuthEvent", getAuthErrorName(errorCode));
+    String errorInfo = getAuthErrorName(errorCode);
+    sendEvent("AuthEvent", errorInfo);
     if(errorCode != ZoomError.ZOOM_ERROR_SUCCESS) {
+      String errorFormatted = String.format("Error= %d (%s)", errorCode, errorInfo);
       initializePromise.reject(
-              "ERR_ZOOM_INITIALIZATION",
-              "Error: " + errorCode + ", internalErrorCode=" + internalErrorCode
+        "ERR_ZOOM_INITIALIZATION",
+         errorFormatted + ", internalErrorCode=" + internalErrorCode
       );
     } else {
       registerListener();
@@ -763,6 +765,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     updateVideoView();
 
     sendEvent("MeetingEvent", getMeetErrorName(errorCode), meetingStatus);
+    sendEvent("MeetingStatus", meetingStatus.name());
 
     if (meetingPromise == null) {
       return;

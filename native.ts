@@ -26,7 +26,7 @@ export interface NativeLayoutUnit {
   showAudioOff?: boolean
   userIndex?: number
   background?: string
-  aspectMode?: VideoAspectModeEnum
+  aspectMode?: VideoAspectModeEnum // buggy typing
 }
 
 export interface NativeVideoProps {
@@ -40,3 +40,4 @@ export const RNZoomUsVideoView = (
 ) as HostComponent<NativeVideoProps> | null
 
 export const RNZoomUs = NativeModules.RNZoomUs
+if (!RNZoomUs) console.error('[react-native-zoom-us] RNZoomUs native module is not linked.')

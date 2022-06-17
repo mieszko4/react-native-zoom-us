@@ -1,12 +1,14 @@
 
 # react-native-zoom-us
 
-This is a bridge for ZoomUS SDK:
+This is a bridge for ZoomUS SDK.
 
-| Platform      | Version    | Url                                      | Changelog                                                            |
-| :-----------: |:-----------| :--------------------------------------: | :------------------------------------------------------------------: |
-| iOS	        | 5.9.6.2769 | https://github.com/zoom/zoom-sdk-ios     | https://marketplace.zoom.us/docs/changelog#labels/client-sdk-i-os    |
-| Android       | 5.10.3.5614 | https://github.com/zoom/zoom-sdk-android | https://marketplace.zoom.us/docs/changelog#labels/client-sdk-android |
+[![npm](https://img.shields.io/npm/v/react-native-zoom-us)](https://www.npmjs.com/package/react-native-zoom-us)
+
+| Platform      | Version     | SDK Url                                                                      | Changelog                                                            |
+| :-----------: |:------------| :----------------------------------------------------------------------: | :------------------------------------------------------------------: |
+| iOS	        | 5.9.6.2769  | [ZoomSDK](https://github.com/zoom-us-community/zoom-sdk-pods)            | https://marketplace.zoom.us/docs/changelog#labels/client-sdk-i-os    |
+| Android       | 5.10.3.5614 | [jitpack-zoom-us](https://github.com/zoom-us-community/jitpack-zoom-us)  | https://marketplace.zoom.us/docs/changelog#labels/client-sdk-android |
 
 Tested on Android and iOS: ([See details](https://github.com/mieszko4/react-native-zoom-us#testing))
 
@@ -16,6 +18,15 @@ Pull requests are welcome.
 - [Upgrading Guide](./docs/UPGRADING.md)
 - [CHANGELOG](./CHANGELOG.md)
 - [TROUBLESHOOTING](./docs/TROUBLESHOOTING.md)
+
+## Docs
+
+- [Screenshare on iOS](docs/IOS-SCREENSHARE.md)
+- [Events](docs/EVENTS.md)
+- [Video View Component](docs/VIDEO-VIEW.md)
+- [Size Reduction](docs/SIZE-REDUCTION-TIPS.md)
+- [Custom Meeting Activity](docs/CUSTOM-MEETING-ACTIVITY.md)
+
 
 ## Getting started
 
@@ -184,13 +195,29 @@ await ZoomUs.connectAudio()
 // you can also use autoConnectAudio: true in `ZoomUs.joinMeeting`
 ```
 
-## Docs
+## Events Api
 
-- [Screenshare on iOS](docs/IOS-SCREENSHARE.md)
-- [Events](docs/EVENTS.md)
-- [Video View Component](docs/VIDEO-VIEW.md)
-- [Size Reduction](docs/SIZE-REDUCTION-TIPS.md)
-- [Custom Meeting Activity](docs/CUSTOM-MEETING-ACTIVITY.md)
+Hook sample for listening events:
+```tsx
+import ZoomUs from 'react-native-zoom-us'
+
+useEffect(() => {
+  const listener = ZoomUs.onMeetingStatusChange(({ event }) => {
+    console.log('onMeetingStatusChange', event)
+  })
+  const joinListener = ZoomUs.onMeetingJoined(() => {
+    console.log('onMeetingJoined')
+  })
+  
+  return () => {
+    listener.remove()
+    joinListener.remove()
+  }
+}, [])
+```
+
+If you need more events, take a look [Events](./docs/EVENTS.md)
+
 
 ## Testing
 
