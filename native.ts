@@ -41,5 +41,3 @@ export const RNZoomUsVideoView = (
 
 export const RNZoomUs = NativeModules.RNZoomUs
 if (!RNZoomUs) console.error('[react-native-zoom-us] RNZoomUs native module is not linked.')
-
-export default RNZoomUs
