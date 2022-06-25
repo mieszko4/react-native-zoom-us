@@ -670,7 +670,7 @@ RCT_EXPORT_METHOD(removeListeners : (NSInteger)count) {
 
 - (void)onSinkMeetingUserLowerHand:(NSUInteger)userID {}
 
-- (void)onSinkUserNameChanged:(NSUInteger)userID userName:(NSString *_Nonnull)userName {}
+- (void)onSinkUserNameChanged:(NSArray <NSNumber*>* _Nullable)userNameChangedArr {}
 
 - (void)onClaimHostResult:(MobileRTCClaimHostError)error {}
 
@@ -681,8 +681,8 @@ RCT_EXPORT_METHOD(removeListeners : (NSInteger)count) {
   }];
 }
 
-- (void)onMeetingCoHostChange:(NSUInteger)userId {
-    [self sendEventWithName:@"MeetingEvent" params:@{
+- (void)onMeetingCoHostChange:(NSUInteger)userId isCoHost:(BOOL)isCoHost {
+  [self sendEventWithName:@"MeetingEvent" params:@{
     @"event": @"coHostChanged",
     @"userId": @(userId)
   }];

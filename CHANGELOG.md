@@ -1,5 +1,12 @@
 ## Changelog
 
+### 6.11.0
+iOS updates:
+- Updated ZoomSDK to 5.10.3.3244
+- Changed deprecated listeners in favour of:
+  - (void)onSinkUserNameChanged:(NSUInteger)userID userName:(NSString *_Nonnull)userName -> (void)onSinkUserNameChanged:(NSArray <NSNumber*>* _Nullable)userNameChangedArr
+  - (void)onMeetingCoHostChange:(NSUInteger)userId -> (void)onMeetingCoHostChange:(NSUInteger)userId isCoHost:(BOOL)isCoHost
+
 ### 6.9.0
 Android updates:
 - Updated ZoomSDK to 5.10.3.5614
