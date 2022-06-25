@@ -261,7 +261,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
             // It is not clear from docs (https://marketplace.zoom.us/docs/sdk/native-sdks/android/mastering-zoom-sdk/start-join-meeting/api-user/start-meeting)
             // that in case of no success onMeetingStatusChanged will not be triggered
             meetingPromise.reject("ERR_ZOOM_START", "startMeeting, errorCode=" + startMeetingResult);
-            meetingPromise = null
+            meetingPromise = null;
           }
         } catch (Exception ex) {
           promise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
@@ -348,13 +348,13 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
             // It is not clear from docs (https://marketplace.zoom.us/docs/sdk/native-sdks/android/mastering-zoom-sdk/start-join-meeting/join-meeting)
             // that in case of no success onMeetingStatusChanged will not be triggered
             meetingPromise.reject("ERR_ZOOM_JOIN", "joinMeeting, errorCode=" + joinMeetingResult);
-            meetingPromise = null
-            shouldAutoConnectAudio = null
+            meetingPromise = null;
+            shouldAutoConnectAudio = null;
           }
         } catch (Exception ex) {
           promise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
-          meetingPromise = null
-          shouldAutoConnectAudio = null
+          meetingPromise = null;
+          shouldAutoConnectAudio = null;
         }
       }
     });
@@ -807,7 +807,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
       if (shouldAutoConnectAudio == true) {
         connectAudioWithVoIP();
       }
-      shouldAutoConnectAudio = null
+      shouldAutoConnectAudio = null;
     }
   }
 
