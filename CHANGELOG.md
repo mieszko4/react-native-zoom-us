@@ -3,6 +3,8 @@
 ### 6.12.0
 iOS updates:
 - Updated ZOomSDK to 5.11.0.3907
+Android updates:
+- Updated ZoomSDK to 5.11.0.6883
 
 ### 6.11.0
 iOS updates:
