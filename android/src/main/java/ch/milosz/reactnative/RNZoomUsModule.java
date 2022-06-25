@@ -173,7 +173,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
             initParams.appKey = params.getString("clientKey");
             initParams.appSecret = params.getString("clientSecret");
             initParams.domain = params.getString("domain");
-            zoomSDK.initialize(getReactApplicationContext(), RNZoomUsModule.this, initParams);
+            zoomSDK.initialize(reactContext.getCurrentActivity(), RNZoomUsModule.this, initParams);
           }
         } catch (Exception ex) {
           promise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
@@ -566,7 +566,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
     if (customizedMeetingUIEnabled) {
       final MediaProjectionManager manager =
-        (MediaProjectionManager) getReactApplicationContext().getSystemService(Context.MEDIA_PROJECTION_SERVICE);
+        (MediaProjectionManager) reactContext.getCurrentActivity().getSystemService(Context.MEDIA_PROJECTION_SERVICE);
 
       if (manager != null) {
         Intent intent = manager.createScreenCaptureIntent();
