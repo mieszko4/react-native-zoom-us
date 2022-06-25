@@ -276,16 +276,13 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     final ReadableMap paramMap,
     Promise promise
   ) {
-    meetingPromise = promise;
-    shouldAutoConnectAudio = paramMap.getBoolean("autoConnectAudio");
-
     UiThreadUtil.runOnUiThread(new Runnable() {
       @Override
       public void run() {
         try {
           ZoomSDK zoomSDK = ZoomSDK.getInstance();
           if(!zoomSDK.isInitialized()) {
-            meetingPromise.reject("ERR_ZOOM_JOIN", "ZoomSDK has not been initialized successfully");
+            promise.reject("ERR_ZOOM_JOIN", "ZoomSDK has not been initialized successfully");
             return;
           }
 
@@ -339,14 +336,25 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
           if(paramMap.hasKey("password")) params.password = paramMap.getString("password");
           if(paramMap.hasKey("webinarToken")) params.webinarToken = paramMap.getString("webinarToken");
 
+          // Save promise and shouldAutoConnectAudio so that it can be resolved in onMeetingStatusChanged
+          // after zoomSDK.joinMeetingWithParams is called
+          meetingPromise = promise;
+          shouldAutoConnectAudio = paramMap.getBoolean("autoConnectAudio");
           int joinMeetingResult = meetingService.joinMeetingWithParams(reactContext.getCurrentActivity(), params, opts);
           Log.i(TAG, "joinMeeting, joinMeetingResult=" + joinMeetingResult);
 
           if (joinMeetingResult != MeetingError.MEETING_ERROR_SUCCESS) {
+            // TODO: Figure out if we are resolving promise twice: (1) right away and (2) in onMeetingStatusChanged
+            // It is not clear from docs (https://marketplace.zoom.us/docs/sdk/native-sdks/android/mastering-zoom-sdk/start-join-meeting/join-meeting)
+            // that in case of no success onMeetingStatusChanged will not be triggered
             meetingPromise.reject("ERR_ZOOM_JOIN", "joinMeeting, errorCode=" + joinMeetingResult);
+            meetingPromise = null
+            shouldAutoConnectAudio = null
           }
         } catch (Exception ex) {
-          meetingPromise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
+          promise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
+          meetingPromise = null
+          shouldAutoConnectAudio = null
         }
       }
     });
