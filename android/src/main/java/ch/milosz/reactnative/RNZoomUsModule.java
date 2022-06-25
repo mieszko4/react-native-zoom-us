@@ -78,7 +78,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   private final static int SCREEN_SHARE_REQUEST_CODE = 99;
   private final ReactApplicationContext reactContext;
 
-  private Boolean shouldAutoConnectAudio = false;
+  private Boolean shouldAutoConnectAudio;
   private Promise initializePromise;
   private Promise meetingPromise;
   
@@ -250,17 +250,21 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
           params.userType = paramMap.getInt("userType");
           params.zoomAccessToken = paramMap.getString("zoomAccessToken");
 
+          // Save promise so that it can be resolved in onMeetingStatusChanged
+          // after zoomSDK.startMeetingWithParams is called
+          meetingPromise = promise;
           int startMeetingResult = meetingService.startMeetingWithParams(reactContext.getCurrentActivity(), params, opts);
           Log.i(TAG, "startMeeting, startMeetingResult=" + startMeetingResult);
 
           if (startMeetingResult != MeetingError.MEETING_ERROR_SUCCESS) {
-            // Save promise so that it can be resolved in onMeetingStatusChanged
-            // after zoomSDK.startMeetingWithParams is called
-            meetingPromise = promise;
+            // TODO: Figure out if we are resolving promise twice: (1) right away and (2) in onMeetingStatusChanged
+            // It is not clear from docs (https://marketplace.zoom.us/docs/sdk/native-sdks/android/mastering-zoom-sdk/start-join-meeting/api-user/start-meeting)
+            // that in case of no success onMeetingStatusChanged will not be triggered
             meetingPromise.reject("ERR_ZOOM_START", "startMeeting, errorCode=" + startMeetingResult);
+            meetingPromise = null
           }
         } catch (Exception ex) {
-          meetingPromise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
+          promise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
           meetingPromise = null;
         }
       }
@@ -775,6 +779,8 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     sendEvent("MeetingStatus", meetingStatus.name());
 
     if (meetingPromise == null) {
+      // This should not happen
+       Log.i(TAG, "onMeetingStatusChanged does not have meetingPromise");
       return;
     }
 
@@ -784,6 +790,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
               "Error: " + errorCode + ", internalErrorCode=" + internalErrorCode
       );
       meetingPromise = null;
+
       shouldAutoConnectAudio = null;
     } else if (meetingStatus == MeetingStatus.MEETING_STATUS_INMEETING) {
       meetingPromise.resolve("Connected to zoom meeting");
@@ -792,6 +799,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
       if (shouldAutoConnectAudio == true) {
         connectAudioWithVoIP();
       }
+      shouldAutoConnectAudio = null
     }
   }
 
