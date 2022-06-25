@@ -113,6 +113,20 @@ Then add this to /android/app/src/debug/AndroidManifest.xml
 >
 ```
 
+6. Declare permissions
+
+Depending on how you will use the lib, you will need to declare permissions in /android/app/src/main/AndroidManifest.xml.
+This is the minimum set of permissions you need to add in order to use audio and video:
+```xml
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
+  <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+  <uses-permission android:name="android.permission.CAMERA"/>
+  <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+  
+  ...
+</manifest>
+```
+
 #### iOS
 1. Make sure you have appropriate description in `Info.plist`:
 ```xml
