@@ -19,7 +19,7 @@ Pod::Spec.new do |s|
 
   s.static_framework = true
   s.dependency "React"
-  s.dependency "ZoomSDK", '5.10.3.3244'
+  s.dependency "ZoomSDK", '5.11.0.3907'
 
 end
 
