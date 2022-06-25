@@ -5,6 +5,8 @@ iOS updates:
 - Updated ZOomSDK to 5.11.0.3907
 Android updates:
 - Updated ZoomSDK to 5.11.0.6883
+- Added new required listeners
+  onSinkPanelistChatPrivilegeChanged(InMeetingChatController.MobileRTCWebinarPanelistChatPrivilege privilege)
 - Changed deprecated listeners in favour of:
   - onSpotlightVideoChanged(boolean on) -> onSpotlightVideoChanged(List<Long> userList)
 

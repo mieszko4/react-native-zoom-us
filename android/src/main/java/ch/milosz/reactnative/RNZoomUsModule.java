@@ -68,6 +68,7 @@ import us.zoom.sdk.JoinMeetingParams;
 
 import us.zoom.sdk.VideoQuality;
 import us.zoom.sdk.ChatMessageDeleteType;
+import us.zoom.sdk.InMeetingChatController;
 
 public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSDKInitializeListener, InMeetingServiceListener, MeetingServiceListener, InMeetingShareController.InMeetingShareListener, LifecycleEventListener {
 
@@ -945,6 +946,8 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   public void onSpotlightVideoChanged(boolean on) {}
   @Override
   public void onSpotlightVideoChanged(List<Long> userList) {}
+  @Override
+  public void onSinkPanelistChatPrivilegeChanged(InMeetingChatController.MobileRTCWebinarPanelistChatPrivilege privilege) {}
   @Override
   @Deprecated
   public void onUserNetworkQualityChanged(long userId) {};
