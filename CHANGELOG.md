@@ -1,5 +1,9 @@
 ## Changelog
 
+### 6.12.0
+iOS updates:
+- Updated ZOomSDK to 5.11.0.3907
+
 ### 6.11.0
 iOS updates:
 - Updated ZoomSDK to 5.10.3.3244
