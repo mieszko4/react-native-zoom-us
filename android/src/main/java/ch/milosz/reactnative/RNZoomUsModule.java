@@ -70,6 +70,8 @@ import us.zoom.sdk.VideoQuality;
 import us.zoom.sdk.ChatMessageDeleteType;
 import us.zoom.sdk.InMeetingChatController;
 
+// Please note that SDK initialization and all API call must run in Main Thread.
+// See https://marketplace.zoom.us/docs/sdk/native-sdks/android/mastering-zoom-sdk/sdk-initialization/
 public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSDKInitializeListener, InMeetingServiceListener, MeetingServiceListener, InMeetingShareController.InMeetingShareListener, LifecycleEventListener {
 
   private final static String TAG = "RNZoomUs";
@@ -79,7 +81,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   private Boolean shouldAutoConnectAudio = false;
   private Promise initializePromise;
   private Promise meetingPromise;
-
+  
   private Boolean shouldDisablePreview = false;
   private Boolean customizedMeetingUIEnabled = false;
 
@@ -108,70 +110,76 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
   @ReactMethod
   public void isInitialized(final Promise promise) {
-    try {
-      ZoomSDK zoomSDK = ZoomSDK.getInstance();
+    UiThreadUtil.runOnUiThread(new Runnable() {
+      @Override
+      public void run() {
+        try {
+           ZoomSDK zoomSDK = ZoomSDK.getInstance();
 
-      Boolean isInitialized = zoomSDK.isInitialized();
-      promise.resolve(isInitialized);
-    } catch (Exception ex) {
-      promise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
-    }
+           Boolean isInitialized = zoomSDK.isInitialized();
+          promise.resolve(isInitialized);
+        } catch (Exception ex) {
+          promise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
+        }
+      }
+    });
   }
 
   @ReactMethod
   public void initialize(final ReadableMap params, final ReadableMap settings, final Promise promise) {
-    ZoomSDK zoomSDK = ZoomSDK.getInstance();
-    if (zoomSDK.isInitialized()) {
-      promise.resolve("Already initialize Zoom SDK successfully.");
-      return;
-    }
-    initializePromise = promise;
+    UiThreadUtil.runOnUiThread(new Runnable() {
+      @Override
+      public void run() {
+        try {
+          ZoomSDK zoomSDK = ZoomSDK.getInstance();
+          if (zoomSDK.isInitialized()) {
+            promise.resolve("Already initialize Zoom SDK successfully.");
+            return;
+          }
 
-    try {
-      if (settings.hasKey("disableShowVideoPreviewWhenJoinMeeting")) {
-        shouldDisablePreview = settings.getBoolean("disableShowVideoPreviewWhenJoinMeeting");
-      }
+          if (settings.hasKey("disableShowVideoPreviewWhenJoinMeeting")) {
+            shouldDisablePreview = settings.getBoolean("disableShowVideoPreviewWhenJoinMeeting");
+          }
 
-      if (settings.hasKey("enableCustomizedMeetingUI")) {
-        customizedMeetingUIEnabled = settings.getBoolean("enableCustomizedMeetingUI");
-      }
+          if (settings.hasKey("enableCustomizedMeetingUI")) {
+            customizedMeetingUIEnabled = settings.getBoolean("enableCustomizedMeetingUI");
+          }
 
-      UiThreadUtil.runOnUiThread(new Runnable() {
-          @Override
-          public void run() {
-            ZoomSDK zoomSDK = ZoomSDK.getInstance();
+          String[] parts = settings.getString("language").split("-");
+          Locale locale = parts.length == 1
+            ? new Locale(parts[0])
+            : new Locale(parts[0], parts[1]);
+          zoomSDK.setSdkLocale(reactContext, locale);
 
-            String[] parts = settings.getString("language").split("-");
-            Locale locale = parts.length == 1
-              ? new Locale(parts[0])
-              : new Locale(parts[0], parts[1]);
-            zoomSDK.setSdkLocale(reactContext, locale);
+          // Save promise so that it can be resolved in onZoomSDKInitializeResult
+          // after zoomSDK.initialize is called
+          initializePromise = promise;
 
-            if (params.hasKey("jwtToken")) {
-                ZoomSDKInitParams initParams = new ZoomSDKInitParams();
-                initParams.jwtToken = params.getString("jwtToken");
-                initParams.domain = params.getString("domain");
+          if (params.hasKey("jwtToken")) {
+              ZoomSDKInitParams initParams = new ZoomSDKInitParams();
+              initParams.jwtToken = params.getString("jwtToken");
+              initParams.domain = params.getString("domain");
 //              initParams.enableLog = true;
 //              initParams.enableGenerateDump =true;
 //              initParams.logSize = 5;
 
-                zoomSDK.initialize(
-                  reactContext.getCurrentActivity(),
-                  RNZoomUsModule.this,
-                  initParams
-                );
-            } else {
-              ZoomSDKInitParams initParams = new ZoomSDKInitParams();
-              initParams.appKey = params.getString("clientKey");
-              initParams.appSecret = params.getString("clientSecret");
-              initParams.domain = params.getString("domain");
-              zoomSDK.initialize(getReactApplicationContext(), RNZoomUsModule.this, initParams);
-            }
+              zoomSDK.initialize(
+                reactContext.getCurrentActivity(),
+                RNZoomUsModule.this,
+                initParams
+              );
+          } else {
+            ZoomSDKInitParams initParams = new ZoomSDKInitParams();
+            initParams.appKey = params.getString("clientKey");
+            initParams.appSecret = params.getString("clientSecret");
+            initParams.domain = params.getString("domain");
+            zoomSDK.initialize(getReactApplicationContext(), RNZoomUsModule.this, initParams);
           }
-      });
-    } catch (Exception ex) {
-      promise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
-    }
+        } catch (Exception ex) {
+          promise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
+        }
+      }
+    });
   }
 
   @ReactMethod
