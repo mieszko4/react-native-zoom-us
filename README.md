@@ -239,7 +239,7 @@ The plugin has been tested for `joinMeeting` using [smoke test procedure](https:
 * react-native-zoom-us: 6.9.0
 * react-native: 0.66.0
 * node: 16.14.2
-* macOS: 12.3.1
+* macOS: 12.4
 * XCode: 13.3.1
 * Android minSdkVersion: 21
 

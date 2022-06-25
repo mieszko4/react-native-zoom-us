@@ -1,6 +1,6 @@
 ## Changelog
 
-### 6.10.0
+### 6.11.0
 iOS updates:
 - Updated ZoomSDK to 5.10.3.3244
 - Changed deprecated listeners in favour of:
