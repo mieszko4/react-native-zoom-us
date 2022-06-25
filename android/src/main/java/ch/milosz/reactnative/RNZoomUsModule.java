@@ -151,30 +151,23 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
             : new Locale(parts[0], parts[1]);
           zoomSDK.setSdkLocale(reactContext, locale);
 
-          // Save promise so that it can be resolved in onZoomSDKInitializeResult
-          // after zoomSDK.initialize is called
-          initializePromise = promise;
-
+          ZoomSDKInitParams initParams = new ZoomSDKInitParams();
           if (params.hasKey("jwtToken")) {
-              ZoomSDKInitParams initParams = new ZoomSDKInitParams();
               initParams.jwtToken = params.getString("jwtToken");
               initParams.domain = params.getString("domain");
-//              initParams.enableLog = true;
-//              initParams.enableGenerateDump =true;
-//              initParams.logSize = 5;
-
-              zoomSDK.initialize(
-                reactContext.getCurrentActivity(),
-                RNZoomUsModule.this,
-                initParams
-              );
+              // initParams.enableLog = true;
+              // initParams.enableGenerateDump =true;
+              // initParams.logSize = 5;
           } else {
-            ZoomSDKInitParams initParams = new ZoomSDKInitParams();
             initParams.appKey = params.getString("clientKey");
             initParams.appSecret = params.getString("clientSecret");
             initParams.domain = params.getString("domain");
-            zoomSDK.initialize(reactContext.getCurrentActivity(), RNZoomUsModule.this, initParams);
           }
+
+          // Save promise so that it can be resolved in onZoomSDKInitializeResult
+          // after zoomSDK.initialize is called
+          initializePromise = promise;
+          zoomSDK.initialize(reactContext.getCurrentActivity(), RNZoomUsModule.this, initParams);
         } catch (Exception ex) {
           promise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
         }
