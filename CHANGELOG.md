@@ -5,6 +5,8 @@ iOS updates:
 - Updated ZOomSDK to 5.11.0.3907
 Android updates:
 - Updated ZoomSDK to 5.11.0.6883
+- Changed deprecated listeners in favour of:
+  - onSpotlightVideoChanged(boolean on) -> onSpotlightVideoChanged(List<Long> userList)
 
 ### 6.11.0
 iOS updates:

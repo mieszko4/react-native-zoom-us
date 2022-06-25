@@ -941,7 +941,10 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   @Override
   public void onActiveSpeakerVideoUserChanged(long userId) {}
   @Override
+  @Deprecated
   public void onSpotlightVideoChanged(boolean on) {}
+  @Override
+  public void onSpotlightVideoChanged(List<Long> userList) {}
   @Override
   @Deprecated
   public void onUserNetworkQualityChanged(long userId) {};
