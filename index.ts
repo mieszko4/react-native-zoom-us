@@ -1,8 +1,7 @@
 import { NativeModule, Platform } from 'react-native'
 import invariant from 'invariant'
 import { RNZoomUs } from './native'
-
-if (!RNZoomUs) console.error('RNZoomUs native module is not linked.')
+import events from './src/events'
 
 const DEFAULT_USER_TYPE = 2
 
@@ -239,10 +238,9 @@ async function lowerMyHand() {
   return RNZoomUs.lowerMyHand()
 }
 
-export const ZoomEmitter = RNZoomUs as NativeModule;
-
 export { default as ZoomUsVideoView } from './video-view'
 
+export * from './src/events'
 export default {
   initialize,
   joinMeeting,
@@ -264,4 +262,5 @@ export default {
   switchCamera,
   raiseMyHand,
   lowerMyHand,
+  ...events,
 }
