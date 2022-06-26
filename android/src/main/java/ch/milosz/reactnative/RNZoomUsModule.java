@@ -904,13 +904,16 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     ZoomSDK zoomSDK = ZoomSDK.getInstance();
     MeetingService meetingService = zoomSDK.getMeetingService();
     if(meetingService != null) {
+      Log.i(TAG, "registerListener, added listener for meetingService");
       meetingService.addListener(this);
     }
     InMeetingService inMeetingService = zoomSDK.getInMeetingService();
     if (inMeetingService != null) {
+      Log.i(TAG, "registerListener, added listener for inMeetingService");
       inMeetingService.addListener(this);
       InMeetingShareController inMeetingShareController = inMeetingService.getInMeetingShareController();
       if (inMeetingShareController != null) {
+        Log.i(TAG, "registerListener, added listener for getInMeetingShareController");
         inMeetingShareController.addListener(this);
       }
     }
@@ -922,13 +925,16 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     if(zoomSDK.isInitialized()) {
       final MeetingService meetingService = zoomSDK.getMeetingService();
       if (meetingService != null) {
+        Log.i(TAG, "unregisterListener, removed listener from meetingService");
         meetingService.removeListener(this);
       }
       final InMeetingService inMeetingService = zoomSDK.getInMeetingService();
       if (inMeetingService != null) {
+        Log.i(TAG, "unregisterListener, removed listener from inMeetingService");
         inMeetingService.removeListener(this);
         final InMeetingShareController inMeetingShareController = inMeetingService.getInMeetingShareController();
         if (inMeetingShareController != null) {
+          Log.i(TAG, "unregisterListener, removed listener from inMeetingShareController");
           inMeetingShareController.removeListener(this);
         }
       }
@@ -1169,6 +1175,8 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
             Log.i(TAG, "onHostResume, returning to meeting");
             meetingService.returnToMeeting(reactContext.getCurrentActivity());
           }
+
+          registerListener();
         } catch (Exception ex) {
           Log.e(TAG, ex.getMessage());
         }
