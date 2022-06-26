@@ -845,8 +845,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   }
 
   @Override
-  public void onZoomAuthIdentityExpired(){
-  }
+  public void onZoomAuthIdentityExpired() {}
 
   // MeetingServiceListener
   @Override
