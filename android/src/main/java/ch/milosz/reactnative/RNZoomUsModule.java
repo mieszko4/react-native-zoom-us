@@ -96,8 +96,8 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
           public void run() {
             try {
         startZoomScreenShare(intent);
-            } catch (Exception e) {
-              Log.e(TAG, e.getMessage());
+            } catch (Exception ex) {
+              Log.e(TAG, ex.getMessage());
             }
           }
         });
@@ -140,6 +140,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
       @Override
       public void run() {
         try {
+          Log.i(TAG, "initialize");
           ZoomSDK zoomSDK = ZoomSDK.getInstance();
           if (zoomSDK.isInitialized()) {
             promise.resolve("Already initialize Zoom SDK successfully.");
@@ -190,8 +191,8 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     try {
       videoViews.add(new Integer(tagId));
       promise.resolve(null);
-    } catch (Exception e) {
-      promise.reject("ERR_ZOOM_VIDEO_VIEW", e.toString());
+    } catch (Exception ex) {
+      promise.reject("ERR_ZOOM_VIDEO_VIEW", ex.toString());
     }
   }
 
@@ -200,8 +201,8 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     try {
       videoViews.remove(new Integer(tagId));
       promise.resolve(null);
-    } catch (Exception e) {
-      promise.reject("ERR_ZOOM_VIDEO_VIEW", e.toString());
+    } catch (Exception ex) {
+      promise.reject("ERR_ZOOM_VIDEO_VIEW", ex.toString());
     }
   }
 
@@ -809,14 +810,15 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
         @Override
         public void execute(NativeViewHierarchyManager nativeViewHierarchyManager) {
           synchronized (videoViews) {
+            Log.i(TAG, "updateVideoView");
             Iterator<Integer> iterator = videoViews.iterator();
             while (iterator.hasNext()) {
               final int tagId = iterator.next();
               try {
                 final RNZoomUsVideoView view = (RNZoomUsVideoView) nativeViewHierarchyManager.resolveView(tagId);
                 if (view != null) view.update();
-              } catch (Exception e) {
-                Log.e(TAG, e.getMessage());
+              } catch (Exception ex) {
+                Log.e(TAG, ex.getMessage());
               }
             }
           }
@@ -1133,8 +1135,8 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
       public void run() {
         try {
     unregisterListener();
-        } catch (Exception e) {
-          Log.e(TAG, e.getMessage());
+        } catch (Exception ex) {
+          Log.e(TAG, ex.getMessage());
         }
       }
     });
@@ -1150,8 +1152,8 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
       public void run() {
         try {
           unregisterListener();
-        } catch (Exception e) {
-          Log.e(TAG, e.getMessage());
+        } catch (Exception ex) {
+          Log.e(TAG, ex.getMessage());
         }
       }
     });
