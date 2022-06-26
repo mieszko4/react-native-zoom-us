@@ -1130,10 +1130,16 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   // React LifeCycle
   @Override
   public void onHostDestroy() {
+    Log.i(TAG, "onHostDestroy");
     UiThreadUtil.runOnUiThread(new Runnable() {
       @Override
       public void run() {
         try {
+          final ZoomSDK zoomSDK = ZoomSDK.getInstance();
+          if (zoomSDK.isInitialized()) {
+            zoomSDK.getMeetingService().leaveCurrentMeeting(false);
+          }
+
     unregisterListener();
         } catch (Exception ex) {
           Log.e(TAG, ex.getMessage());
@@ -1142,15 +1148,25 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     });
   }
   @Override
-  public void onHostPause() {}
+  public void onHostPause() {
+    Log.i(TAG, "onHostPause");
+  }
   @Override
-  public void onHostResume() {}
+  public void onHostResume() {
+    Log.i(TAG, "onHostResume");
+  }
   @Override
   public void onCatalystInstanceDestroy() {
+     Log.i(TAG, "onCatalystInstanceDestroy");
     UiThreadUtil.runOnUiThread(new Runnable() {
       @Override
       public void run() {
         try {
+          final ZoomSDK zoomSDK = ZoomSDK.getInstance();
+          if (!zoomSDK.isInitialized()) {
+            zoomSDK.getMeetingService().leaveCurrentMeeting(false);
+          }
+
           unregisterListener();
         } catch (Exception ex) {
           Log.e(TAG, ex.getMessage());
