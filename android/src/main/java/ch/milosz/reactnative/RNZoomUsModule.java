@@ -1183,7 +1183,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
       public void run() {
         try {
           final ZoomSDK zoomSDK = ZoomSDK.getInstance();
-          if (!zoomSDK.isInitialized()) {
+          if (zoomSDK.isInitialized()) {
             zoomSDK.getMeetingService().leaveCurrentMeeting(false);
           }
 
