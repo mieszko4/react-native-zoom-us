@@ -268,9 +268,8 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
           Log.i(TAG, "startMeeting, startMeetingResult=" + startMeetingResult);
 
           if (startMeetingResult != MeetingError.MEETING_ERROR_SUCCESS) {
-            // TODO: Figure out if we are resolving promise twice: (1) right away and (2) in onMeetingStatusChanged
+            // We are resolving promise: (1) right away and (2) in onMeetingStatusChanged because in case of no success onMeetingStatusChanged will not be triggered
             // It is not clear from docs (https://marketplace.zoom.us/docs/sdk/native-sdks/android/mastering-zoom-sdk/start-join-meeting/api-user/start-meeting)
-            // that in case of no success onMeetingStatusChanged will not be triggered
             meetingPromise.reject("ERR_ZOOM_START", "startMeeting, errorCode=" + startMeetingResult);
             meetingPromise = null;
           }
@@ -355,9 +354,8 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
           Log.i(TAG, "joinMeeting, joinMeetingResult=" + joinMeetingResult);
 
           if (joinMeetingResult != MeetingError.MEETING_ERROR_SUCCESS) {
-            // TODO: Figure out if we are resolving promise twice: (1) right away and (2) in onMeetingStatusChanged
+            // We are resolving promise: (1) right away and (2) in onMeetingStatusChanged because in case of no success onMeetingStatusChanged will not be triggered
             // It is not clear from docs (https://marketplace.zoom.us/docs/sdk/native-sdks/android/mastering-zoom-sdk/start-join-meeting/join-meeting)
-            // that in case of no success onMeetingStatusChanged will not be triggered
             meetingPromise.reject("ERR_ZOOM_JOIN", "joinMeeting, errorCode=" + joinMeetingResult);
             meetingPromise = null;
             shouldAutoConnectAudio = null;
