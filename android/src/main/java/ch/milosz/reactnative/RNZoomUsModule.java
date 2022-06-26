@@ -865,7 +865,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     sendEvent("MeetingStatus", meetingStatus.name());
 
     if (meetingPromise == null) {
-       Log.i(TAG, "onMeetingStatusChanged does not have meetingPromise");
+      Log.i(TAG, "onMeetingStatusChanged, does not have meetingPromise");
       return;
     }
 
@@ -1154,6 +1154,26 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   @Override
   public void onHostResume() {
     Log.i(TAG, "onHostResume");
+
+    UiThreadUtil.runOnUiThread(new Runnable() {
+      @Override
+      public void run() {
+        try {
+          ZoomSDK zoomSDK = ZoomSDK.getInstance();
+          if(!zoomSDK.isInitialized()) {
+            return;
+          }
+
+          final MeetingService meetingService = zoomSDK.getMeetingService();
+          if(meetingService.getMeetingStatus() == MeetingStatus.MEETING_STATUS_INMEETING) {
+            Log.i(TAG, "onHostResume, returning to meeting");
+            meetingService.returnToMeeting(reactContext.getCurrentActivity());
+          }
+        } catch (Exception ex) {
+          Log.e(TAG, ex.getMessage());
+        }
+      }
+    });
   }
   @Override
   public void onCatalystInstanceDestroy() {
