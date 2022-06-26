@@ -930,11 +930,6 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     }
   }
 
-  @Override
-  public void onCatalystInstanceDestroy() {
-    unregisterListener();
-  }
-
   // InMeetingServiceListener required listeners
   @Override
   public void onMeetingLeaveComplete(long ret) {
@@ -1130,12 +1125,34 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   // React LifeCycle
   @Override
   public void onHostDestroy() {
+    UiThreadUtil.runOnUiThread(new Runnable() {
+      @Override
+      public void run() {
+        try {
     unregisterListener();
+        } catch (Exception e) {
+          Log.e(TAG, e.getMessage());
+        }
+      }
+    });
   }
   @Override
   public void onHostPause() {}
   @Override
   public void onHostResume() {}
+  @Override
+  public void onCatalystInstanceDestroy() {
+    UiThreadUtil.runOnUiThread(new Runnable() {
+      @Override
+      public void run() {
+        try {
+          unregisterListener();
+        } catch (Exception e) {
+          Log.e(TAG, e.getMessage());
+        }
+      }
+    });
+  }
 
   // React Native event emitters and event handling
   private void sendEvent(String name, String event) {
