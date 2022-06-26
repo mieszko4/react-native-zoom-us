@@ -91,7 +91,16 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     @Override
     public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent intent) {
       if (requestCode == SCREEN_SHARE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+        UiThreadUtil.runOnUiThread(new Runnable() {
+          @Override
+          public void run() {
+            try {
         startZoomScreenShare(intent);
+            } catch (Exception e) {
+              Log.e(TAG, e.getMessage());
+            }
+          }
+        });
       }
     }
   };
@@ -653,9 +662,6 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   }
 
   private void startZoomScreenShare(final Intent intent) {
-    UiThreadUtil.runOnUiThread(new Runnable() {
-      @Override
-      public void run() {
         final ZoomSDK zoomSDK = ZoomSDK.getInstance();
         final InMeetingShareController shareController = zoomSDK.getInMeetingService().getInMeetingShareController();
 
@@ -666,8 +672,6 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
         } else {
           sendEvent("MeetingEvent", "screenShareError", result);
         }
-      }
-    });
   }
 
   @ReactMethod
