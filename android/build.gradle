@@ -35,7 +35,7 @@ android {
 
 dependencies {
     implementation 'com.facebook.react:react-native:+' // From node_modules
-    implementation 'com.github.zoom-us-community:jitpack-zoom-us:5.11.0.6883'
+    implementation 'com.github.zoom-us-community:jitpack-zoom-us:5.10.3.5614'
 
     implementation 'com.airbnb.android:lottie:4.0.0'
 

@@ -95,7 +95,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
           @Override
           public void run() {
             try {
-        startZoomScreenShare(intent);
+              startZoomScreenShare(intent);
             } catch (Exception ex) {
               Log.e(TAG, ex.getMessage());
             }
@@ -662,16 +662,16 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   }
 
   private void startZoomScreenShare(final Intent intent) {
-        final ZoomSDK zoomSDK = ZoomSDK.getInstance();
-        final InMeetingShareController shareController = zoomSDK.getInMeetingService().getInMeetingShareController();
+    final ZoomSDK zoomSDK = ZoomSDK.getInstance();
+    final InMeetingShareController shareController = zoomSDK.getInMeetingService().getInMeetingShareController();
 
-        MobileRTCSDKError result = shareController.startShareScreenSession(intent);
+    MobileRTCSDKError result = shareController.startShareScreenSession(intent);
 
-        if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
-          sendEvent("MeetingEvent", "screenShareSuccess");
-        } else {
-          sendEvent("MeetingEvent", "screenShareError", result);
-        }
+    if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
+      sendEvent("MeetingEvent", "screenShareSuccess");
+    } else {
+      sendEvent("MeetingEvent", "screenShareError", result);
+    }
   }
 
   @ReactMethod
@@ -1034,12 +1034,12 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   @Override
   public void onActiveSpeakerVideoUserChanged(long userId) {}
   @Override
-  @Deprecated
+  //@Deprecated
   public void onSpotlightVideoChanged(boolean on) {}
-  @Override
-  public void onSpotlightVideoChanged(List<Long> userList) {}
-  @Override
-  public void onSinkPanelistChatPrivilegeChanged(InMeetingChatController.MobileRTCWebinarPanelistChatPrivilege privilege) {}
+  //@Override
+  //public void onSpotlightVideoChanged(List<Long> userList) {}
+  //@Override
+  //public void onSinkPanelistChatPrivilegeChanged(InMeetingChatController.MobileRTCWebinarPanelistChatPrivilege privilege) {}
   @Override
   @Deprecated
   public void onUserNetworkQualityChanged(long userId) {};
@@ -1144,7 +1144,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
             zoomSDK.getMeetingService().leaveCurrentMeeting(false);
           }
 
-    unregisterListener();
+          unregisterListener();
         } catch (Exception ex) {
           Log.e(TAG, ex.getMessage());
         }
