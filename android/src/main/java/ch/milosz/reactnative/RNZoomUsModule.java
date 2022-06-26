@@ -876,7 +876,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
       meetingPromise.resolve("Connected to zoom meeting");
       meetingPromise = null;
 
-      if (shouldAutoConnectAudio == true) {
+      if (shouldAutoConnectAudio != null && shouldAutoConnectAudio == true) {
         connectAudioWithVoIP();
       }
       shouldAutoConnectAudio = null;
