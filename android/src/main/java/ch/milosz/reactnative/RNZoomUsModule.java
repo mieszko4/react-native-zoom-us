@@ -243,6 +243,8 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
 
           if(paramMap.hasKey("noInvite")) opts.no_invite = paramMap.getBoolean("noInvite");
+          if(paramMap.hasKey("noShare")) opts.no_share = paramMap.getBoolean("noShare");
+          if(paramMap.hasKey("noMeetingErrorMessage")) opts.no_meeting_error_message = paramMap.getBoolean("noMeetingErrorMessage");
 
           if(paramMap.hasKey("noButtonLeave") && paramMap.getBoolean("noButtonLeave")) opts.meeting_views_options = opts.meeting_views_options + view.NO_BUTTON_LEAVE;
           if(paramMap.hasKey("noButtonMore") && paramMap.getBoolean("noButtonMore")) opts.meeting_views_options = opts.meeting_views_options + view.NO_BUTTON_MORE;
@@ -250,7 +252,6 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
           if(paramMap.hasKey("noButtonShare") && paramMap.getBoolean("noButtonShare")) opts.meeting_views_options = opts.meeting_views_options + view.NO_BUTTON_SHARE;
           if(paramMap.hasKey("noTextMeetingId") && paramMap.getBoolean("noTextMeetingId")) opts.meeting_views_options = opts.meeting_views_options + view.NO_TEXT_MEETING_ID;
           if(paramMap.hasKey("noTextPassword") && paramMap.getBoolean("noTextPassword")) opts.meeting_views_options = opts.meeting_views_options + view.NO_TEXT_PASSWORD;
-          if(paramMap.hasKey("noShare")) opts.no_share = paramMap.getBoolean("noShare");
 
           StartMeetingParamsWithoutLogin params = new StartMeetingParamsWithoutLogin();
           params.displayName = paramMap.getString("userName");
@@ -862,7 +863,6 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     sendEvent("MeetingStatus", meetingStatus.name());
 
     if (meetingPromise == null) {
-      // This should not happen
        Log.i(TAG, "onMeetingStatusChanged does not have meetingPromise");
       return;
     }
