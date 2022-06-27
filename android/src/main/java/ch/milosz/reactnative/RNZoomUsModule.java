@@ -369,17 +369,23 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   }
 
   @ReactMethod
-  public void leaveMeeting() {
-    final ZoomSDK zoomSDK = ZoomSDK.getInstance();
-
-    if (!zoomSDK.isInitialized()) {
-      return;
-    }
-
+  public void leaveMeeting(Promise promise) {
     UiThreadUtil.runOnUiThread(new Runnable() {
       @Override
       public void run() {
-        zoomSDK.getMeetingService().leaveCurrentMeeting(false);
+        try {
+          final ZoomSDK zoomSDK = ZoomSDK.getInstance();
+
+          if (!zoomSDK.isInitialized()) {
+            promise.resolve(null);
+            return;
+          }
+
+          zoomSDK.getMeetingService().leaveCurrentMeeting(false);
+          promise.resolve(null);
+        } catch (Exception ex) {
+          promise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
+        }
       }
     });
   }
