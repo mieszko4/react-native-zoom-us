@@ -633,7 +633,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
           if (customizedMeetingUIEnabled) {
             final MediaProjectionManager manager =
-              (MediaProjectionManager) getReactApplicationContext().getSystemService(Context.MEDIA_PROJECTION_SERVICE);
+              (MediaProjectionManager) reactContext.getCurrentActivity().getSystemService(Context.MEDIA_PROJECTION_SERVICE);
 
             if (manager != null) {
               Intent intent = manager.createScreenCaptureIntent();
