@@ -392,88 +392,113 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
   @ReactMethod
   public void connectAudio(Promise promise) {
-    connectAudioWithVoIP();
-    promise.resolve(null);
+    UiThreadUtil.runOnUiThread(new Runnable() {
+      @Override
+      public void run() {
+        try {
+          connectAudioWithVoIP();
+          promise.resolve(null);
+        } catch (Exception ex) {
+          promise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
+        }
+      }
+    });
   }
 
   @ReactMethod
   public void isMeetingConnected(final Promise promise) {
-    final ZoomSDK zoomSDK = ZoomSDK.getInstance();
-
-    if (!zoomSDK.isInitialized()) {
-      promise.resolve(false);
-      return;
-    }
-
     UiThreadUtil.runOnUiThread(new Runnable() {
       @Override
       public void run() {
-        promise.resolve(zoomSDK.getInMeetingService().isMeetingConnected());
+        try {
+          final ZoomSDK zoomSDK = ZoomSDK.getInstance();
+
+          if (!zoomSDK.isInitialized()) {
+            promise.resolve(false);
+            return;
+          }
+
+          promise.resolve(zoomSDK.getInMeetingService().isMeetingConnected());
+        } catch (Exception ex) {
+          promise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
+        }
       }
     });
   }
 
   @ReactMethod
   public void isMeetingHost(final Promise promise) {
-    final ZoomSDK zoomSDK = ZoomSDK.getInstance();
-
-    if (!zoomSDK.isInitialized()) {
-      promise.reject("ERR_ZOOM_MEETING_CONTROL", "ZoomSDK has not been initialized successfully");
-      return;
-    }
-
     UiThreadUtil.runOnUiThread(new Runnable() {
       @Override
       public void run() {
-        promise.resolve(zoomSDK.getInMeetingService().isMeetingHost());
+        try {
+          final ZoomSDK zoomSDK = ZoomSDK.getInstance();
+
+          if (!zoomSDK.isInitialized()) {
+            promise.reject("ERR_ZOOM_MEETING_CONTROL", "ZoomSDK has not been initialized successfully");
+            return;
+          }
+
+          promise.resolve(zoomSDK.getInMeetingService().isMeetingHost());
+        } catch (Exception ex) {
+          promise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
+        }
       }
     });
   }
 
   @ReactMethod
   public void getInMeetingUserIdList(final Promise promise) {
-    final WritableArray rnUserList = Arguments.createArray();
-    final ZoomSDK zoomSDK = ZoomSDK.getInstance();
-
-    if (!zoomSDK.isInitialized()) {
-      promise.resolve(rnUserList);
-      return;
-    }
-
     UiThreadUtil.runOnUiThread(new Runnable() {
       @Override
       public void run() {
-        final List<Long> userList = zoomSDK.getInMeetingService().getInMeetingUserList();
+        try {
+          final WritableArray rnUserList = Arguments.createArray();
+          final ZoomSDK zoomSDK = ZoomSDK.getInstance();
 
-        for (final Long userId : userList) {
-          rnUserList.pushString(userId.toString());
+          if (!zoomSDK.isInitialized()) {
+            promise.resolve(rnUserList);
+            return;
+          }
+
+          final List<Long> userList = zoomSDK.getInMeetingService().getInMeetingUserList();
+
+          for (final Long userId : userList) {
+            rnUserList.pushString(userId.toString());
+          }
+
+          promise.resolve(rnUserList);
+        } catch (Exception ex) {
+          promise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
         }
-
-        promise.resolve(rnUserList);
       }
     });
   }
 
   @ReactMethod
   public void muteMyVideo(final boolean muted, final Promise promise) {
-    final ZoomSDK zoomSDK = ZoomSDK.getInstance();
-
-    if (!zoomSDK.isInitialized()) {
-      promise.reject("ERR_ZOOM_MEETING_CONTROL", "ZoomSDK has not been initialized successfully");
-      return;
-    }
-
     UiThreadUtil.runOnUiThread(new Runnable() {
       @Override
       public void run() {
-        final InMeetingVideoController videoController = zoomSDK.getInMeetingService().getInMeetingVideoController();
+        try {
+          final ZoomSDK zoomSDK = ZoomSDK.getInstance();
 
-        MobileRTCSDKError result = videoController.muteMyVideo(muted);
+          if (!zoomSDK.isInitialized()) {
+            promise.reject("ERR_ZOOM_MEETING_CONTROL", "ZoomSDK has not been initialized successfully");
+            return;
+          }
 
-        if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
-          promise.resolve(null);
-        } else {
-          promise.reject("ERR_ZOOM_MEETING_CONTROL", "Mute my video error, status: " + result.name());
+          final InMeetingVideoController videoController = zoomSDK.getInMeetingService().getInMeetingVideoController();
+
+          MobileRTCSDKError result = videoController.muteMyVideo(muted);
+
+          if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
+            promise.resolve(null);
+          } else {
+            promise.reject("ERR_ZOOM_MEETING_CONTROL", "Mute my video error, status: " + result.name());
+          }
+        } catch (Exception ex) {
+          promise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
         }
       }
     });
@@ -481,22 +506,26 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
   @ReactMethod
   public void rotateMyVideo(final int rotation, final Promise promise) {
-    final ZoomSDK zoomSDK = ZoomSDK.getInstance();
-
-    if (!zoomSDK.isInitialized()) {
-      promise.reject("ERR_ZOOM_MEETING_CONTROL", "ZoomSDK has not been initialized successfully");
-      return;
-    }
-
     UiThreadUtil.runOnUiThread(new Runnable() {
       @Override
       public void run() {
-        final InMeetingVideoController videoController = zoomSDK.getInMeetingService().getInMeetingVideoController();
+        try {
+          final ZoomSDK zoomSDK = ZoomSDK.getInstance();
 
-        if (videoController.rotateMyVideo(rotation)) {
-          promise.resolve(null);
-        } else {
-          promise.reject("ERR_ZOOM_MEETING_CONTROL", "Error: Rotate video failed");
+          if (!zoomSDK.isInitialized()) {
+            promise.reject("ERR_ZOOM_MEETING_CONTROL", "ZoomSDK has not been initialized successfully");
+            return;
+          }
+
+          final InMeetingVideoController videoController = zoomSDK.getInMeetingService().getInMeetingVideoController();
+
+          if (videoController.rotateMyVideo(rotation)) {
+            promise.resolve(null);
+          } else {
+            promise.reject("ERR_ZOOM_MEETING_CONTROL", "Error: Rotate video failed");
+          }
+        } catch (Exception ex) {
+          promise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
         }
       }
     });
@@ -504,24 +533,28 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
   @ReactMethod
   public void muteMyAudio(final boolean muted, final Promise promise) {
-    final ZoomSDK zoomSDK = ZoomSDK.getInstance();
-
-    if (!zoomSDK.isInitialized()) {
-      promise.reject("ERR_ZOOM_MEETING_CONTROL", "ZoomSDK has not been initialized successfully");
-      return;
-    }
-
     UiThreadUtil.runOnUiThread(new Runnable() {
       @Override
       public void run() {
-        final InMeetingAudioController audioController = zoomSDK.getInMeetingService().getInMeetingAudioController();
+        try {
+          final ZoomSDK zoomSDK = ZoomSDK.getInstance();
 
-        MobileRTCSDKError result = audioController.muteMyAudio(muted);
+          if (!zoomSDK.isInitialized()) {
+            promise.reject("ERR_ZOOM_MEETING_CONTROL", "ZoomSDK has not been initialized successfully");
+            return;
+          }
 
-        if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
-          promise.resolve(null);
-        } else {
-          promise.reject("ERR_ZOOM_MEETING_CONTROL", "Mute my audio error, status: " + result.name());
+          final InMeetingAudioController audioController = zoomSDK.getInMeetingService().getInMeetingAudioController();
+
+          MobileRTCSDKError result = audioController.muteMyAudio(muted);
+
+          if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
+            promise.resolve(null);
+          } else {
+            promise.reject("ERR_ZOOM_MEETING_CONTROL", "Mute my audio error, status: " + result.name());
+          }
+        } catch (Exception ex) {
+          promise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
         }
       }
     });
@@ -529,24 +562,28 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
   @ReactMethod
   public void muteAttendee(final String userId, final boolean muted, final Promise promise) {
-    final ZoomSDK zoomSDK = ZoomSDK.getInstance();
-
-    if (!zoomSDK.isInitialized()) {
-      promise.reject("ERR_ZOOM_MEETING_CONTROL", "ZoomSDK has not been initialized successfully");
-      return;
-    }
-
     UiThreadUtil.runOnUiThread(new Runnable() {
       @Override
       public void run() {
-        final InMeetingAudioController audioController = zoomSDK.getInMeetingService().getInMeetingAudioController();
+        try {
+          final ZoomSDK zoomSDK = ZoomSDK.getInstance();
 
-        MobileRTCSDKError result = audioController.muteAttendeeAudio(muted, Long.parseLong(userId));
+          if (!zoomSDK.isInitialized()) {
+            promise.reject("ERR_ZOOM_MEETING_CONTROL", "ZoomSDK has not been initialized successfully");
+            return;
+          }
 
-        if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
-          promise.resolve(null);
-        } else {
-          promise.reject("ERR_ZOOM_MEETING_CONTROL", "Mute attendee audio error, status: " + result.name());
+          final InMeetingAudioController audioController = zoomSDK.getInMeetingService().getInMeetingAudioController();
+
+          MobileRTCSDKError result = audioController.muteAttendeeAudio(muted, Long.parseLong(userId));
+
+          if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
+            promise.resolve(null);
+          } else {
+            promise.reject("ERR_ZOOM_MEETING_CONTROL", "Mute attendee audio error, status: " + result.name());
+          }
+        } catch (Exception ex) {
+          promise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
         }
       }
     });
@@ -554,24 +591,28 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
   @ReactMethod
   public void muteAllAttendee(final boolean allowUnmuteSelf, final Promise promise) {
-    final ZoomSDK zoomSDK = ZoomSDK.getInstance();
-
-    if (!zoomSDK.isInitialized()) {
-      promise.reject("ERR_ZOOM_MEETING_CONTROL", "ZoomSDK has not been initialized successfully");
-      return;
-    }
-
     UiThreadUtil.runOnUiThread(new Runnable() {
       @Override
       public void run() {
-        final InMeetingAudioController audioController = zoomSDK.getInMeetingService().getInMeetingAudioController();
+        try {
+          final ZoomSDK zoomSDK = ZoomSDK.getInstance();
 
-        MobileRTCSDKError result = audioController.muteAllAttendeeAudio(allowUnmuteSelf);
+          if (!zoomSDK.isInitialized()) {
+            promise.reject("ERR_ZOOM_MEETING_CONTROL", "ZoomSDK has not been initialized successfully");
+            return;
+          }
 
-        if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
-          promise.resolve(null);
-        } else {
-          promise.reject("ERR_ZOOM_MEETING_CONTROL", "Mute all error, status: " + result.name());
+          final InMeetingAudioController audioController = zoomSDK.getInMeetingService().getInMeetingAudioController();
+
+          MobileRTCSDKError result = audioController.muteAllAttendeeAudio(allowUnmuteSelf);
+
+          if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
+            promise.resolve(null);
+          } else {
+            promise.reject("ERR_ZOOM_MEETING_CONTROL", "Mute all error, status: " + result.name());
+          }
+        } catch (Exception ex) {
+          promise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
         }
       }
     });
@@ -579,35 +620,44 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
   @ReactMethod
   public void startShareScreen(final Promise promise) {
-    final ZoomSDK zoomSDK = ZoomSDK.getInstance();
+    UiThreadUtil.runOnUiThread(new Runnable() {
+      @Override
+      public void run() {
+        try {
+          final ZoomSDK zoomSDK = ZoomSDK.getInstance();
 
-    if (!zoomSDK.isInitialized()) {
-      promise.reject("ERR_ZOOM_MEETING_CONTROL", "ZoomSDK has not been initialized successfully");
-      return;
-    }
+          if (!zoomSDK.isInitialized()) {
+            promise.reject("ERR_ZOOM_MEETING_CONTROL", "ZoomSDK has not been initialized successfully");
+            return;
+          }
 
-    if (customizedMeetingUIEnabled) {
-      final MediaProjectionManager manager =
-        (MediaProjectionManager) getReactApplicationContext().getSystemService(Context.MEDIA_PROJECTION_SERVICE);
+          if (customizedMeetingUIEnabled) {
+            final MediaProjectionManager manager =
+              (MediaProjectionManager) getReactApplicationContext().getSystemService(Context.MEDIA_PROJECTION_SERVICE);
 
-      if (manager != null) {
-        Intent intent = manager.createScreenCaptureIntent();
+            if (manager != null) {
+              Intent intent = manager.createScreenCaptureIntent();
 
-        reactContext.getCurrentActivity().startActivityForResult(intent, SCREEN_SHARE_REQUEST_CODE);
+              reactContext.getCurrentActivity().startActivityForResult(intent, SCREEN_SHARE_REQUEST_CODE);
+            }
+
+            promise.resolve(null);
+          } else {
+            final InMeetingShareController shareController = zoomSDK.getInMeetingService().getInMeetingShareController();
+
+            MobileRTCSDKError result = shareController.startShareScreenContent();
+
+            if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
+              promise.resolve(null);
+            } else {
+              promise.reject("ERR_ZOOM_MEETING_CONTROL", "Start share screen error, status: " + result.name());
+            }
+          }
+        } catch (Exception ex) {
+          promise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
+        }
       }
-
-      promise.resolve(null);
-    } else {
-      final InMeetingShareController shareController = zoomSDK.getInMeetingService().getInMeetingShareController();
-
-      MobileRTCSDKError result = shareController.startShareScreenContent();
-
-      if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
-        promise.resolve(null);
-      } else {
-        promise.reject("ERR_ZOOM_MEETING_CONTROL", "Start share screen error, status: " + result.name());
-      }
-    }
+    });
   }
 
   private void startZoomScreenShare(final Intent intent) {
@@ -625,24 +675,28 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
   @ReactMethod
   public void stopShareScreen(final Promise promise) {
-    final ZoomSDK zoomSDK = ZoomSDK.getInstance();
-
-    if (!zoomSDK.isInitialized()) {
-      promise.reject("ERR_ZOOM_MEETING_CONTROL", "ZoomSDK has not been initialized successfully");
-      return;
-    }
-
     UiThreadUtil.runOnUiThread(new Runnable() {
       @Override
       public void run() {
-        final InMeetingShareController shareController = zoomSDK.getInMeetingService().getInMeetingShareController();
+        try {
+          final ZoomSDK zoomSDK = ZoomSDK.getInstance();
 
-        MobileRTCSDKError result = shareController.stopShareScreen();
+          if (!zoomSDK.isInitialized()) {
+            promise.reject("ERR_ZOOM_MEETING_CONTROL", "ZoomSDK has not been initialized successfully");
+            return;
+          }
 
-        if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
-          promise.resolve(null);
-        } else {
-          promise.reject("ERR_ZOOM_MEETING_CONTROL", "Stop share screen error, status: " + result.name());
+          final InMeetingShareController shareController = zoomSDK.getInMeetingService().getInMeetingShareController();
+
+          MobileRTCSDKError result = shareController.stopShareScreen();
+
+          if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
+            promise.resolve(null);
+          } else {
+            promise.reject("ERR_ZOOM_MEETING_CONTROL", "Stop share screen error, status: " + result.name());
+          }
+        } catch (Exception ex) {
+          promise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
         }
       }
     });
@@ -650,27 +704,31 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
   @ReactMethod
   public void switchCamera(final Promise promise) {
-    final ZoomSDK zoomSDK = ZoomSDK.getInstance();
-
-    if (!zoomSDK.isInitialized()) {
-      promise.reject("ERR_ZOOM_MEETING_CONTROL", "ZoomSDK has not been initialized successfully");
-      return;
-    }
-
     UiThreadUtil.runOnUiThread(new Runnable() {
       @Override
       public void run() {
-        final InMeetingVideoController videoController = zoomSDK.getInMeetingService().getInMeetingVideoController();
+        try {
+          final ZoomSDK zoomSDK = ZoomSDK.getInstance();
 
-        if (!videoController.isMyVideoMuted()) {
-          if (videoController.switchToNextCamera()) {
-            updateVideoView();
-            promise.resolve(null);
-          } else {
-            promise.reject("ERR_ZOOM_MEETING_CONTROL", "Switch camera failed");
+          if (!zoomSDK.isInitialized()) {
+            promise.reject("ERR_ZOOM_MEETING_CONTROL", "ZoomSDK has not been initialized successfully");
+            return;
           }
-        } else {
-          promise.reject("ERR_ZOOM_MEETING_CONTROL", "The camera is muted");
+
+          final InMeetingVideoController videoController = zoomSDK.getInMeetingService().getInMeetingVideoController();
+
+          if (!videoController.isMyVideoMuted()) {
+            if (videoController.switchToNextCamera()) {
+              updateVideoView();
+              promise.resolve(null);
+            } else {
+              promise.reject("ERR_ZOOM_MEETING_CONTROL", "Switch camera failed");
+            }
+          } else {
+            promise.reject("ERR_ZOOM_MEETING_CONTROL", "The camera is muted");
+          }
+        } catch (Exception ex) {
+          promise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
         }
       }
     });
@@ -678,22 +736,26 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
   @ReactMethod
   public void raiseMyHand(final Promise promise) {
-    final ZoomSDK zoomSDK = ZoomSDK.getInstance();
-
-    if (!zoomSDK.isInitialized()) {
-      promise.reject("ERR_ZOOM_MEETING_CONTROL", "ZoomSDK has not been initialized successfully");
-      return;
-    }
-
     UiThreadUtil.runOnUiThread(new Runnable() {
       @Override
       public void run() {
-        MobileRTCSDKError result = zoomSDK.getInMeetingService().raiseMyHand();
+        try {
+          final ZoomSDK zoomSDK = ZoomSDK.getInstance();
 
-        if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
-          promise.resolve(null);
-        } else {
-          promise.reject("ERR_ZOOM_MEETING_CONTROL", "Raise hand error, status: " + result.name());
+          if (!zoomSDK.isInitialized()) {
+            promise.reject("ERR_ZOOM_MEETING_CONTROL", "ZoomSDK has not been initialized successfully");
+            return;
+          }
+
+          MobileRTCSDKError result = zoomSDK.getInMeetingService().raiseMyHand();
+
+          if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
+            promise.resolve(null);
+          } else {
+            promise.reject("ERR_ZOOM_MEETING_CONTROL", "Raise hand error, status: " + result.name());
+          }
+        } catch (Exception ex) {
+          promise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
         }
       }
     });
@@ -701,24 +763,28 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
   @ReactMethod
   public void lowerMyHand(final Promise promise) {
-    final ZoomSDK zoomSDK = ZoomSDK.getInstance();
-
-    if (!zoomSDK.isInitialized()) {
-      promise.reject("ERR_ZOOM_MEETING_CONTROL", "ZoomSDK has not been initialized successfully");
-      return;
-    }
-
     UiThreadUtil.runOnUiThread(new Runnable() {
       @Override
       public void run() {
-        final InMeetingService inMeetingService = zoomSDK.getInMeetingService();
+        try {
+          final ZoomSDK zoomSDK = ZoomSDK.getInstance();
 
-        MobileRTCSDKError result = inMeetingService.lowerHand(inMeetingService.getMyUserID());
+          if (!zoomSDK.isInitialized()) {
+            promise.reject("ERR_ZOOM_MEETING_CONTROL", "ZoomSDK has not been initialized successfully");
+            return;
+          }
 
-        if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
-          promise.resolve(null);
-        } else {
-          promise.reject("ERR_ZOOM_MEETING_CONTROL", "Lower hand error, status: " + result.name());
+          final InMeetingService inMeetingService = zoomSDK.getInMeetingService();
+
+          MobileRTCSDKError result = inMeetingService.lowerHand(inMeetingService.getMyUserID());
+
+          if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
+            promise.resolve(null);
+          } else {
+            promise.reject("ERR_ZOOM_MEETING_CONTROL", "Lower hand error, status: " + result.name());
+          }
+        } catch (Exception ex) {
+          promise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
         }
       }
     });
