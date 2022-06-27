@@ -1,15 +1,6 @@
 ## Changelog
 
-### 6.12.0
-iOS updates:
-- Updated ZOomSDK to 5.11.0.3907
-
-### 6.11.0
-iOS updates:
-- Updated ZoomSDK to 5.10.3.3244
-- Changed deprecated listeners in favour of:
-  - (void)onSinkUserNameChanged:(NSUInteger)userID userName:(NSString *_Nonnull)userName -> (void)onSinkUserNameChanged:(NSArray <NSNumber*>* _Nullable)userNameChangedArr
-  - (void)onMeetingCoHostChange:(NSUInteger)userId -> (void)onMeetingCoHostChange:(NSUInteger)userId isCoHost:(BOOL)isCoHost
+### 6.13.0
 Android updates:
 - Add more logs
 - Clean up passing initializePromise and meetingPromise, clean up to use only one initialize() call, use reactContext.getCurrentActivity()
@@ -19,6 +10,17 @@ Android updates:
 - Add `noMeetingErrorMessage` to `startMeeting` params
 - On destroy unregister listeners and leave meeting
 - On foreground register listeners and return to the meeting
+
+### 6.12.0
+iOS updates:
+- Updated ZoomSDK to 5.11.0.3907
+
+### 6.11.0
+iOS updates:
+- Updated ZoomSDK to 5.10.3.3244
+- Changed deprecated listeners in favour of:
+  - (void)onSinkUserNameChanged:(NSUInteger)userID userName:(NSString *_Nonnull)userName -> (void)onSinkUserNameChanged:(NSArray <NSNumber*>* _Nullable)userNameChangedArr
+  - (void)onMeetingCoHostChange:(NSUInteger)userId -> (void)onMeetingCoHostChange:(NSUInteger)userId isCoHost:(BOOL)isCoHost
 
 ### 6.9.0
 Android updates:
