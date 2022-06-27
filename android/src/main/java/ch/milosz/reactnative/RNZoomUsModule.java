@@ -210,15 +210,13 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     final ReadableMap paramMap,
     Promise promise
   ) {
-    meetingPromise = promise;
-
     UiThreadUtil.runOnUiThread(new Runnable() {
       @Override
       public void run() {
         try {
           ZoomSDK zoomSDK = ZoomSDK.getInstance();
           if(!zoomSDK.isInitialized()) {
-            meetingPromise.reject("ERR_ZOOM_START", "ZoomSDK has not been initialized successfully");
+            promise.reject("ERR_ZOOM_START", "ZoomSDK has not been initialized successfully");
             return;
           }
 
@@ -229,13 +227,13 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
             try {
               lMeetingNo = Long.parseLong(meetingNo);
             } catch (NumberFormatException e) {
-              meetingPromise.reject("ERR_ZOOM_START", "Invalid meeting number: " + meetingNo);
+              promise.reject("ERR_ZOOM_START", "Invalid meeting number: " + meetingNo);
               return;
             }
 
             if(meetingService.getCurrentRtcMeetingNumber() == lMeetingNo) {
               meetingService.returnToMeeting(reactContext.getCurrentActivity());
-              meetingPromise.resolve("Already joined zoom meeting");
+              promise.resolve("Already joined zoom meeting");
               return;
             }
           }
@@ -245,6 +243,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
 
           if(paramMap.hasKey("noInvite")) opts.no_invite = paramMap.getBoolean("noInvite");
+          if(paramMap.hasKey("noShare")) opts.no_share = paramMap.getBoolean("noShare");
 
           if(paramMap.hasKey("noButtonLeave") && paramMap.getBoolean("noButtonLeave")) opts.meeting_views_options = opts.meeting_views_options + view.NO_BUTTON_LEAVE;
           if(paramMap.hasKey("noButtonMore") && paramMap.getBoolean("noButtonMore")) opts.meeting_views_options = opts.meeting_views_options + view.NO_BUTTON_MORE;
@@ -252,7 +251,6 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
           if(paramMap.hasKey("noButtonShare") && paramMap.getBoolean("noButtonShare")) opts.meeting_views_options = opts.meeting_views_options + view.NO_BUTTON_SHARE;
           if(paramMap.hasKey("noTextMeetingId") && paramMap.getBoolean("noTextMeetingId")) opts.meeting_views_options = opts.meeting_views_options + view.NO_TEXT_MEETING_ID;
           if(paramMap.hasKey("noTextPassword") && paramMap.getBoolean("noTextPassword")) opts.meeting_views_options = opts.meeting_views_options + view.NO_TEXT_PASSWORD;
-          if(paramMap.hasKey("noShare")) opts.no_share = paramMap.getBoolean("noShare");
 
           StartMeetingParamsWithoutLogin params = new StartMeetingParamsWithoutLogin();
           params.displayName = paramMap.getString("userName");
@@ -261,14 +259,21 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
           params.userType = paramMap.getInt("userType");
           params.zoomAccessToken = paramMap.getString("zoomAccessToken");
 
+          // Save promise so that it can be resolved in onMeetingStatusChanged
+          // after zoomSDK.startMeetingWithParams is called
+          meetingPromise = promise;
           int startMeetingResult = meetingService.startMeetingWithParams(reactContext.getCurrentActivity(), params, opts);
           Log.i(TAG, "startMeeting, startMeetingResult=" + startMeetingResult);
 
           if (startMeetingResult != MeetingError.MEETING_ERROR_SUCCESS) {
+            // We are resolving promise: (1) right away and (2) in onMeetingStatusChanged because in case of no success onMeetingStatusChanged will not be triggered
+            // It is not clear from docs (https://marketplace.zoom.us/docs/sdk/native-sdks/android/mastering-zoom-sdk/start-join-meeting/api-user/start-meeting)
             meetingPromise.reject("ERR_ZOOM_START", "startMeeting, errorCode=" + startMeetingResult);
+            meetingPromise = null;
           }
         } catch (Exception ex) {
-          meetingPromise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
+          promise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
+          meetingPromise = null;
         }
       }
     });
