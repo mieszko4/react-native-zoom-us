@@ -151,8 +151,6 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
           ZoomSDK zoomSDK = ZoomSDK.getInstance();
           if (zoomSDK.isInitialized()) {
-            promise.resolve("Already initialize Zoom SDK successfully.");
-
             // Apply fresh settings
             final MeetingSettingsHelper meetingSettingsHelper = ZoomSDK.getInstance().getMeetingSettingsHelper();
             if (meetingSettingsHelper != null) {
@@ -160,6 +158,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
               meetingSettingsHelper.setCustomizedMeetingUIEnabled(customizedMeetingUIEnabled);
             }
 
+            promise.resolve("Already initialize Zoom SDK successfully.");
             return;
           }
 
