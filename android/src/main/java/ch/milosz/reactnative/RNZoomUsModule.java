@@ -119,6 +119,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
   @ReactMethod
   public void initialize(final ReadableMap params, final ReadableMap settings, final Promise promise) {
+    Log.i(TAG, "initialize");
     ZoomSDK zoomSDK = ZoomSDK.getInstance();
     if (zoomSDK.isInitialized()) {
       promise.resolve("Already initialize Zoom SDK successfully.");
@@ -715,6 +716,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
         @Override
         public void execute(NativeViewHierarchyManager nativeViewHierarchyManager) {
           synchronized (videoViews) {
+            Log.i(TAG, "updateVideoView");
             Iterator<Integer> iterator = videoViews.iterator();
             while (iterator.hasNext()) {
               final int tagId = iterator.next();
@@ -754,8 +756,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   }
 
   @Override
-  public void onZoomAuthIdentityExpired(){
-  }
+  public void onZoomAuthIdentityExpired() {}
 
   // MeetingServiceListener
   @Override
@@ -768,6 +769,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     sendEvent("MeetingStatus", meetingStatus.name());
 
     if (meetingPromise == null) {
+      Log.i(TAG, "onMeetingStatusChanged, does not have meetingPromise");
       return;
     }
 
@@ -810,13 +812,16 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     ZoomSDK zoomSDK = ZoomSDK.getInstance();
     MeetingService meetingService = zoomSDK.getMeetingService();
     if(meetingService != null) {
+      Log.i(TAG, "registerListener, added listener for meetingService");
       meetingService.addListener(this);
     }
     InMeetingService inMeetingService = zoomSDK.getInMeetingService();
     if (inMeetingService != null) {
+      Log.i(TAG, "registerListener, added listener for inMeetingService");
       inMeetingService.addListener(this);
       InMeetingShareController inMeetingShareController = inMeetingService.getInMeetingShareController();
       if (inMeetingShareController != null) {
+        Log.i(TAG, "registerListener, added listener for getInMeetingShareController");
         inMeetingShareController.addListener(this);
       }
     }
@@ -828,13 +833,16 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     if(zoomSDK.isInitialized()) {
       final MeetingService meetingService = zoomSDK.getMeetingService();
       if (meetingService != null) {
+        Log.i(TAG, "unregisterListener, removed listener from meetingService");
         meetingService.removeListener(this);
       }
       final InMeetingService inMeetingService = zoomSDK.getInMeetingService();
       if (inMeetingService != null) {
+        Log.i(TAG, "unregisterListener, removed listener from inMeetingService");
         inMeetingService.removeListener(this);
         final InMeetingShareController inMeetingShareController = inMeetingService.getInMeetingShareController();
         if (inMeetingShareController != null) {
+          Log.i(TAG, "unregisterListener, removed listener from inMeetingShareController");
           inMeetingShareController.removeListener(this);
         }
       }
