@@ -88,7 +88,16 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     @Override
     public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent intent) {
       if (requestCode == SCREEN_SHARE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-        startZoomScreenShare(intent);
+        UiThreadUtil.runOnUiThread(new Runnable() {
+          @Override
+          public void run() {
+            try {
+              startZoomScreenShare(intent);
+            } catch (Exception ex) {
+              Log.e(TAG, ex.getMessage());
+            }
+          }
+        });
       }
     }
   };
@@ -581,21 +590,16 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   }
 
   private void startZoomScreenShare(final Intent intent) {
-    UiThreadUtil.runOnUiThread(new Runnable() {
-      @Override
-      public void run() {
-        final ZoomSDK zoomSDK = ZoomSDK.getInstance();
-        final InMeetingShareController shareController = zoomSDK.getInMeetingService().getInMeetingShareController();
+    final ZoomSDK zoomSDK = ZoomSDK.getInstance();
+    final InMeetingShareController shareController = zoomSDK.getInMeetingService().getInMeetingShareController();
 
-        MobileRTCSDKError result = shareController.startShareScreenSession(intent);
+    MobileRTCSDKError result = shareController.startShareScreenSession(intent);
 
-        if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
-          sendEvent("MeetingEvent", "screenShareSuccess");
-        } else {
-          sendEvent("MeetingEvent", "screenShareError", result);
-        }
-      }
-    });
+    if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
+      sendEvent("MeetingEvent", "screenShareSuccess");
+    } else {
+      sendEvent("MeetingEvent", "screenShareError", result);
+    }
   }
 
   @ReactMethod
