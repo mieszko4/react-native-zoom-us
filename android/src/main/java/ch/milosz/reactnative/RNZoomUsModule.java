@@ -938,11 +938,6 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     }
   }
 
-  @Override
-  public void onCatalystInstanceDestroy() {
-    unregisterListener();
-  }
-
   // InMeetingServiceListener required listeners
   @Override
   public void onMeetingLeaveComplete(long ret) {
@@ -1133,12 +1128,46 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   // React LifeCycle
   @Override
   public void onHostDestroy() {
-    unregisterListener();
+    Log.i(TAG, "onHostDestroy");
+    UiThreadUtil.runOnUiThread(new Runnable() {
+      @Override
+      public void run() {
+        try {
+          final ZoomSDK zoomSDK = ZoomSDK.getInstance();
+          if (zoomSDK.isInitialized()) {
+            zoomSDK.getMeetingService().leaveCurrentMeeting(false);
+          }
+
+          unregisterListener();
+        } catch (Exception ex) {
+          Log.e(TAG, ex.getMessage());
+        }
+      }
+    });
   }
   @Override
   public void onHostPause() {}
   @Override
   public void onHostResume() {}
+  @Override
+  public void onCatalystInstanceDestroy() {
+    Log.i(TAG, "onCatalystInstanceDestroy");
+    UiThreadUtil.runOnUiThread(new Runnable() {
+      @Override
+      public void run() {
+        try {
+          final ZoomSDK zoomSDK = ZoomSDK.getInstance();
+          if (zoomSDK.isInitialized()) {
+            zoomSDK.getMeetingService().leaveCurrentMeeting(false);
+          }
+
+          unregisterListener();
+        } catch (Exception ex) {
+          Log.e(TAG, ex.getMessage());
+        }
+      }
+    });
+  }
 
   // React Native event emitters and event handling
   private void sendEvent(String name, String event) {
