@@ -107,71 +107,71 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
   @ReactMethod
   public void isInitialized(final Promise promise) {
-    try {
-      ZoomSDK zoomSDK = ZoomSDK.getInstance();
+    UiThreadUtil.runOnUiThread(new Runnable() {
+      @Override
+      public void run() {
+        try {
+          ZoomSDK zoomSDK = ZoomSDK.getInstance();
 
-      Boolean isInitialized = zoomSDK.isInitialized();
-      promise.resolve(isInitialized);
-    } catch (Exception ex) {
-      promise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
-    }
+          Boolean isInitialized = zoomSDK.isInitialized();
+          promise.resolve(isInitialized);
+        } catch (Exception ex) {
+          promise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
+        }
+      }
+    });
   }
 
   @ReactMethod
   public void initialize(final ReadableMap params, final ReadableMap settings, final Promise promise) {
-    Log.i(TAG, "initialize");
-    ZoomSDK zoomSDK = ZoomSDK.getInstance();
-    if (zoomSDK.isInitialized()) {
-      promise.resolve("Already initialize Zoom SDK successfully.");
-      return;
-    }
-    initializePromise = promise;
-
-    try {
-      if (settings.hasKey("disableShowVideoPreviewWhenJoinMeeting")) {
-        shouldDisablePreview = settings.getBoolean("disableShowVideoPreviewWhenJoinMeeting");
-      }
-
-      if (settings.hasKey("enableCustomizedMeetingUI")) {
-        customizedMeetingUIEnabled = settings.getBoolean("enableCustomizedMeetingUI");
-      }
-
-      UiThreadUtil.runOnUiThread(new Runnable() {
-          @Override
-          public void run() {
-            ZoomSDK zoomSDK = ZoomSDK.getInstance();
-
-            String[] parts = settings.getString("language").split("-");
-            Locale locale = parts.length == 1
-              ? new Locale(parts[0])
-              : new Locale(parts[0], parts[1]);
-            zoomSDK.setSdkLocale(reactContext, locale);
-
-            if (params.hasKey("jwtToken")) {
-                ZoomSDKInitParams initParams = new ZoomSDKInitParams();
-                initParams.jwtToken = params.getString("jwtToken");
-                initParams.domain = params.getString("domain");
-//              initParams.enableLog = true;
-//              initParams.enableGenerateDump =true;
-//              initParams.logSize = 5;
-
-                zoomSDK.initialize(
-                  reactContext.getCurrentActivity(),
-                  RNZoomUsModule.this,
-                  initParams
-                );
-            } else {
-              ZoomSDKInitParams initParams = new ZoomSDKInitParams();
-              initParams.appKey = params.getString("clientKey");
-              initParams.appSecret = params.getString("clientSecret");
-              initParams.domain = params.getString("domain");
-              zoomSDK.initialize(getReactApplicationContext(), RNZoomUsModule.this, initParams);
-            }
+    UiThreadUtil.runOnUiThread(new Runnable() {
+      @Override
+      public void run() {
+        try {
+          Log.i(TAG, "initialize");
+          ZoomSDK zoomSDK = ZoomSDK.getInstance();
+          if (zoomSDK.isInitialized()) {
+            promise.resolve("Already initialize Zoom SDK successfully.");
+            return;
           }
-      });
-    } catch (Exception ex) {
-      promise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
-    }
+
+          if (settings.hasKey("disableShowVideoPreviewWhenJoinMeeting")) {
+            shouldDisablePreview = settings.getBoolean("disableShowVideoPreviewWhenJoinMeeting");
+          }
+
+          if (settings.hasKey("enableCustomizedMeetingUI")) {
+            customizedMeetingUIEnabled = settings.getBoolean("enableCustomizedMeetingUI");
+          }
+
+          String[] parts = settings.getString("language").split("-");
+          Locale locale = parts.length == 1
+            ? new Locale(parts[0])
+            : new Locale(parts[0], parts[1]);
+          zoomSDK.setSdkLocale(reactContext, locale);
+
+          ZoomSDKInitParams initParams = new ZoomSDKInitParams();
+          if (params.hasKey("jwtToken")) {
+            initParams.jwtToken = params.getString("jwtToken");
+            initParams.domain = params.getString("domain");
+            // initParams.enableLog = true;
+            // initParams.enableGenerateDump =true;
+            // initParams.logSize = 5;
+          } else {
+            initParams.appKey = params.getString("clientKey");
+            initParams.appSecret = params.getString("clientSecret");
+            initParams.domain = params.getString("domain");
+          }
+
+          // Save promise so that it can be resolved in onZoomSDKInitializeResult
+          // after zoomSDK.initialize is called
+          initializePromise = promise;
+          zoomSDK.initialize(reactContext.getCurrentActivity(), RNZoomUsModule.this, initParams);
+        } catch (Exception ex) {
+          promise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
+          initializePromise = null;
+        }
+      }
+    });
   }
 
   @ReactMethod
@@ -743,9 +743,11 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
         "ERR_ZOOM_INITIALIZATION",
          errorFormatted + ", internalErrorCode=" + internalErrorCode
       );
+      initializePromise = null;
     } else {
       registerListener();
       initializePromise.resolve("Initialize Zoom SDK successfully.");
+      initializePromise = null;
 
       final MeetingSettingsHelper meetingSettingsHelper = ZoomSDK.getInstance().getMeetingSettingsHelper();
       if (meetingSettingsHelper != null) {
