@@ -1163,7 +1163,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
           }
 
           final MeetingService meetingService = zoomSDK.getMeetingService();
-          if(meetingService.getMeetingStatus() == MeetingStatus.MEETING_STATUS_INMEETING) {
+          if(meetingService.getMeetingStatus() != MeetingStatus.MEETING_STATUS_IDLE ) {
             Log.i(TAG, "onHostResume, returning to meeting");
             meetingService.returnToMeeting(reactContext.getCurrentActivity());
           }
