@@ -69,6 +69,8 @@ import us.zoom.sdk.JoinMeetingParams;
 import us.zoom.sdk.VideoQuality;
 import us.zoom.sdk.ChatMessageDeleteType;
 
+// Please note that SDK initialization and all API call must run in Main Thread.
+// See https://marketplace.zoom.us/docs/sdk/native-sdks/android/mastering-zoom-sdk/sdk-initialization/
 public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSDKInitializeListener, InMeetingServiceListener, MeetingServiceListener, InMeetingShareController.InMeetingShareListener, LifecycleEventListener {
 
   private final static String TAG = "RNZoomUs";
@@ -188,8 +190,8 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     try {
       videoViews.add(new Integer(tagId));
       promise.resolve(null);
-    } catch (Exception e) {
-      promise.reject("ERR_ZOOM_VIDEO_VIEW", e.toString());
+    } catch (Exception ex) {
+      promise.reject("ERR_ZOOM_VIDEO_VIEW", ex.toString());
     }
   }
 
@@ -198,8 +200,8 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     try {
       videoViews.remove(new Integer(tagId));
       promise.resolve(null);
-    } catch (Exception e) {
-      promise.reject("ERR_ZOOM_VIDEO_VIEW", e.toString());
+    } catch (Exception ex) {
+      promise.reject("ERR_ZOOM_VIDEO_VIEW", ex.toString());
     }
   }
 
@@ -727,8 +729,8 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
               try {
                 final RNZoomUsVideoView view = (RNZoomUsVideoView) nativeViewHierarchyManager.resolveView(tagId);
                 if (view != null) view.update();
-              } catch (Exception e) {
-                Log.e(TAG, e.getMessage());
+              } catch (Exception ex) {
+                Log.e(TAG, ex.getMessage());
               }
             }
           }
@@ -803,8 +805,8 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
       return;
     }
 
-        final InMeetingAudioController audioController = zoomSDK.getInMeetingService().getInMeetingAudioController();
-        audioController.connectAudioWithVoIP();
+    final InMeetingAudioController audioController = zoomSDK.getInMeetingService().getInMeetingAudioController();
+    audioController.connectAudioWithVoIP();
   }
 
   private void registerListener() {

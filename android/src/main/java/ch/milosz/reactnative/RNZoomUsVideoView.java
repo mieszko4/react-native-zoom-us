@@ -87,7 +87,7 @@ class RNZoomUsVideoView extends MobileRTCVideoView {
     }
     MobileRTCVideoViewManager manager = getVideoViewManager();
     if (manager == null) {
-      Log.e(TAG, "The video view is not initialized complately");
+      Log.e(TAG, "The video view is not initialized completely");
       return;
     }
     try {
