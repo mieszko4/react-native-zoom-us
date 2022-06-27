@@ -140,11 +140,6 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
       public void run() {
         try {
           Log.i(TAG, "initialize");
-          ZoomSDK zoomSDK = ZoomSDK.getInstance();
-          if (zoomSDK.isInitialized()) {
-            promise.resolve("Already initialize Zoom SDK successfully.");
-            return;
-          }
 
           if (settings.hasKey("disableShowVideoPreviewWhenJoinMeeting")) {
             shouldDisablePreview = settings.getBoolean("disableShowVideoPreviewWhenJoinMeeting");
@@ -152,6 +147,20 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
           if (settings.hasKey("enableCustomizedMeetingUI")) {
             customizedMeetingUIEnabled = settings.getBoolean("enableCustomizedMeetingUI");
+          }
+
+          ZoomSDK zoomSDK = ZoomSDK.getInstance();
+          if (zoomSDK.isInitialized()) {
+            promise.resolve("Already initialize Zoom SDK successfully.");
+
+            // Apply fresh settings
+            final MeetingSettingsHelper meetingSettingsHelper = ZoomSDK.getInstance().getMeetingSettingsHelper();
+            if (meetingSettingsHelper != null) {
+              meetingSettingsHelper.disableShowVideoPreviewWhenJoinMeeting(shouldDisablePreview);
+              meetingSettingsHelper.setCustomizedMeetingUIEnabled(customizedMeetingUIEnabled);
+            }
+
+            return;
           }
 
           String[] parts = settings.getString("language").split("-");
