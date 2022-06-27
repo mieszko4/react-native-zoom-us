@@ -1146,9 +1146,33 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     });
   }
   @Override
-  public void onHostPause() {}
+  public void onHostPause() {
+    Log.i(TAG, "onHostPause");
+  }
   @Override
-  public void onHostResume() {}
+  public void onHostResume() {
+    Log.i(TAG, "onHostResume");
+
+    UiThreadUtil.runOnUiThread(new Runnable() {
+      @Override
+      public void run() {
+        try {
+          ZoomSDK zoomSDK = ZoomSDK.getInstance();
+          if(!zoomSDK.isInitialized()) {
+            return;
+          }
+
+          final MeetingService meetingService = zoomSDK.getMeetingService();
+          if(meetingService.getMeetingStatus() == MeetingStatus.MEETING_STATUS_INMEETING) {
+            Log.i(TAG, "onHostResume, returning to meeting");
+            meetingService.returnToMeeting(reactContext.getCurrentActivity());
+          }
+        } catch (Exception ex) {
+          Log.e(TAG, ex.getMessage());
+        }
+      }
+    });
+  }
   @Override
   public void onCatalystInstanceDestroy() {
     Log.i(TAG, "onCatalystInstanceDestroy");
