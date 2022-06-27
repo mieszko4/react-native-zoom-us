@@ -1,8 +1,19 @@
 ## Changelog
 
+### 6.13.0
+Android updates:
+- Add more logs
+- Clean up passing initializePromise and meetingPromise, clean up to use only one initialize() call, use reactContext.getCurrentActivity()
+- Wrap methods in try/catch
+- Make sure to execute ZoomSDK on the main thread only
+- Make `leaveMeeting` return promise
+- Add `noMeetingErrorMessage` to `startMeeting` params
+- On destroy unregister listeners and leave meeting
+- On foreground register listeners and return to the meeting
+
 ### 6.12.0
 iOS updates:
-- Updated ZOomSDK to 5.11.0.3907
+- Updated ZoomSDK to 5.11.0.3907
 
 ### 6.11.0
 iOS updates:
