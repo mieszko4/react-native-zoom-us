@@ -797,14 +797,8 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
       return;
     }
 
-    UiThreadUtil.runOnUiThread(new Runnable() {
-      @Override
-      public void run() {
         final InMeetingAudioController audioController = zoomSDK.getInMeetingService().getInMeetingAudioController();
-
         audioController.connectAudioWithVoIP();
-      }
-    });
   }
 
   private void registerListener() {
