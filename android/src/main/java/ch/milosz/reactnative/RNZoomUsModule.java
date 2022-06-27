@@ -1167,6 +1167,8 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
             Log.i(TAG, "onHostResume, returning to meeting");
             meetingService.returnToMeeting(reactContext.getCurrentActivity());
           }
+
+          registerListener();
         } catch (Exception ex) {
           Log.e(TAG, ex.getMessage());
         }
