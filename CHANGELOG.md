@@ -1,5 +1,13 @@
 ## Changelog
 
+### 6.14.0
+Android updates:
+- Updated ZoomSDK to 5.11.0.6883
+- Added new required listeners
+  onSinkPanelistChatPrivilegeChanged(InMeetingChatController.MobileRTCWebinarPanelistChatPrivilege privilege)
+- Changed deprecated listeners in favour of:
+  - onSpotlightVideoChanged(boolean on) -> onSpotlightVideoChanged(List<Long> userList)
+
 ### 6.13.0
 Android updates:
 - Add more logs

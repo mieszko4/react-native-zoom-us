@@ -68,6 +68,7 @@ import us.zoom.sdk.JoinMeetingParams;
 
 import us.zoom.sdk.VideoQuality;
 import us.zoom.sdk.ChatMessageDeleteType;
+import us.zoom.sdk.InMeetingChatController;
 
 // Please note that SDK initialization and all API call must run in Main Thread.
 // See https://marketplace.zoom.us/docs/sdk/native-sdks/android/mastering-zoom-sdk/sdk-initialization/
@@ -1041,7 +1042,12 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   @Override
   public void onActiveSpeakerVideoUserChanged(long userId) {}
   @Override
+  @Deprecated
   public void onSpotlightVideoChanged(boolean on) {}
+  @Override
+  public void onSpotlightVideoChanged(List<Long> userList) {}
+  @Override
+  public void onSinkPanelistChatPrivilegeChanged(InMeetingChatController.MobileRTCWebinarPanelistChatPrivilege privilege) {}
   @Override
   @Deprecated
   public void onUserNetworkQualityChanged(long userId) {};
