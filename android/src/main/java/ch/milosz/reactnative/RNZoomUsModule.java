@@ -359,6 +359,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
           // after zoomSDK.joinMeetingWithParams is called
           meetingPromise = promise;
           shouldAutoConnectAudio = paramMap.getBoolean("autoConnectAudio");
+
           int joinMeetingResult = meetingService.joinMeetingWithParams(reactContext.getCurrentActivity(), params, opts);
           Log.i(TAG, "joinMeeting, joinMeetingResult=" + joinMeetingResult);
 
