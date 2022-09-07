@@ -440,6 +440,7 @@ RCT_EXPORT_METHOD(removeListeners : (NSInteger)count) {
 
 - (void)onMeetingParameterNotification:(MobileRTCMeetingParameter *_Nullable)meetingParam {}
 
+
 - (void)onMobileRTCAuthReturn:(MobileRTCAuthError)returnValue {
   NSLog(@"nZoomSDKInitializeResult, errorCode=%d", returnValue);
   [self sendEventWithName:@"AuthEvent" event:[self authErrorName:returnValue]];
@@ -547,6 +548,7 @@ RCT_EXPORT_METHOD(removeListeners : (NSInteger)count) {
 
   NSString* statusString = [self formatStateToString:state];
   [self sendEventWithName:@"MeetingEvent" event:@"success" status:statusString];
+  [self sendEventWithName:@"MeetingStatus" event:statusString];
 
   if (state == MobileRTCMeetingState_InMeeting && shouldAutoConnectAudio == YES) {
     [self connectAudio];
@@ -703,7 +705,7 @@ RCT_EXPORT_METHOD(removeListeners : (NSInteger)count) {
 
 - (void)onSinkMeetingUserLowerHand:(NSUInteger)userID {}
 
-- (void)onSinkUserNameChanged:(NSUInteger)userID userName:(NSString *_Nonnull)userName {}
+- (void)onSinkUserNameChanged:(NSArray <NSNumber*>* _Nullable)userNameChangedArr {}
 
 - (void)onClaimHostResult:(MobileRTCClaimHostError)error {}
 
@@ -714,8 +716,8 @@ RCT_EXPORT_METHOD(removeListeners : (NSInteger)count) {
   }];
 }
 
-- (void)onMeetingCoHostChange:(NSUInteger)userId {
-    [self sendEventWithName:@"MeetingEvent" params:@{
+- (void)onMeetingCoHostChange:(NSUInteger)userId isCoHost:(BOOL)isCoHost {
+  [self sendEventWithName:@"MeetingEvent" params:@{
     @"event": @"coHostChanged",
     @"userId": @(userId)
   }];
@@ -764,7 +766,7 @@ RCT_EXPORT_METHOD(removeListeners : (NSInteger)count) {
 }
 
 - (NSArray<NSString *> *)supportedEvents {
-  return @[@"AuthEvent", @"MeetingEvent"];
+  return @[@"AuthEvent", @"MeetingEvent", @"MeetingStatus"];
 }
 
 - (void)sendEventWithName:(NSString *)name event:(NSString *)event {
