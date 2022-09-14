@@ -6,6 +6,10 @@
   BOOL isInitialized;
   BOOL shouldAutoConnectAudio;
   BOOL hasObservers;
+  BOOL enableCustomMeeting;
+  BOOL showVideoPreviewWhenJoinMeetingDisabled;
+  BOOL minimizeMeetingDisabled;
+  BOOL isDisabledClearWebKitCache;
   RCTPromiseResolveBlock initializePromiseResolve;
   RCTPromiseRejectBlock initializePromiseReject;
   RCTPromiseResolveBlock meetingPromiseResolve;
@@ -20,9 +24,13 @@
 - (instancetype)init {
   if (self = [super init]) {
     isInitialized = NO;
+    shouldAutoConnectAudio = NO;
+    enableCustomMeeting = NO;
+    showVideoPreviewWhenJoinMeetingDisabled = NO;
+    minimizeMeetingDisabled = NO;
+    isDisabledClearWebKitCache = NO;
     initializePromiseResolve = nil;
     initializePromiseReject = nil;
-    shouldAutoConnectAudio = nil;
     meetingPromiseResolve = nil;
     meetingPromiseReject = nil;
     screenShareExtension = nil;
@@ -81,9 +89,22 @@ RCT_EXPORT_METHOD(
     //Note: This step is optional, Method is used for iOS Replaykit Screen share integration,if not,just ignore this step.
     context.appGroupId = data[@"iosAppGroupId"];
     BOOL initializeSuc = [[MobileRTC sharedRTC] initialize:context];
-    MobileRTCMeetingSettings *zoomSettings = [[MobileRTC sharedRTC] getMeetingSettings];
-    [zoomSettings disableShowVideoPreviewWhenJoinMeeting:settings[@"disableShowVideoPreviewWhenJoinMeeting"]];
-    zoomSettings.enableCustomMeeting = settings[@"enableCustomizedMeetingUI"];
+    
+    if (settings[@"enableCustomizedMeetingUI"]) {
+      enableCustomMeeting = [[settings objectForKey:@"enableCustomizedMeetingUI"] boolValue];
+    }
+    
+    if (settings[@"disableShowVideoPreviewWhenJoinMeeting"]) {
+      showVideoPreviewWhenJoinMeetingDisabled = [[settings objectForKey:@"disableShowVideoPreviewWhenJoinMeeting"] boolValue];
+    }
+    
+    if (settings[@"disableMinimizeMeeting"]) {
+      minimizeMeetingDisabled = [[settings objectForKey:@"disableMinimizeMeeting"] boolValue];
+    }
+    
+    if (settings[@"disableClearWebKitCache"]) {
+      isDisabledClearWebKitCache = [[settings objectForKey:@"disableClearWebKitCache"] boolValue];
+    }
 
     [[MobileRTC sharedRTC] setLanguage:settings[@"language"]];
 
@@ -104,6 +125,16 @@ RCT_EXPORT_METHOD(
     }
   } @catch (NSError *ex) {
       reject(@"ERR_UNEXPECTED_EXCEPTION", @"Executing initialize", ex);
+  }
+}
+
+- (void)setMeetingSettings {
+  MobileRTCMeetingSettings *zoomSettings = [[MobileRTC sharedRTC] getMeetingSettings];
+  if (zoomSettings != nil) {
+    zoomSettings.enableCustomMeeting = enableCustomMeeting;
+    [zoomSettings disableShowVideoPreviewWhenJoinMeeting:showVideoPreviewWhenJoinMeetingDisabled];
+    [zoomSettings disableMinimizeMeeting:minimizeMeetingDisabled];
+    [zoomSettings disableClearWebKitCache:isDisabledClearWebKitCache];
   }
 }
 
@@ -143,7 +174,7 @@ RCT_EXPORT_METHOD(
 )
 {
   @try {
-    shouldAutoConnectAudio = data[@"autoConnectAudio"];
+    shouldAutoConnectAudio = [[data objectForKey:@"autoConnectAudio"] boolValue];
     meetingPromiseResolve = resolve;
     meetingPromiseReject = reject;
 
@@ -416,6 +447,7 @@ RCT_EXPORT_METHOD(removeListeners : (NSInteger)count) {
       [NSError errorWithDomain:@"us.zoom.sdk" code:returnValue userInfo:nil]
     );
   } else {
+    [self setMeetingSettings];
     initializePromiseResolve(@"Initialize Zoom SDK successfully.");
   }
 }
@@ -549,7 +581,9 @@ RCT_EXPORT_METHOD(removeListeners : (NSInteger)count) {
     meetingPromiseResolve(@"Connected to zoom meeting");
   }
 
-  shouldAutoConnectAudio = nil;
+  // This code is the reason why { autoConnectAudio: true } is not working
+  // shouldAutoConnectAudio = nil;
+
   meetingPromiseResolve = nil;
   meetingPromiseReject = nil;
 }
