@@ -1,4 +1,9 @@
 ## Changelog
+### 6.15.0
+- Add `disableMinimizeMeeting` for `initialize` (iOS only)
+- Add `disableClearWebKitCache` for `initialize`
+- Fix `MeetingSettings` change not working in `initialize`
+- Fix `autoConnectAudio` not working on iOS
 
 ### 6.13.0
 Android updates:
