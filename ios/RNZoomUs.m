@@ -7,9 +7,9 @@
   BOOL shouldAutoConnectAudio;
   BOOL hasObservers;
   BOOL enableCustomMeeting;
-  BOOL showVideoPreviewWhenJoinMeetingDisabled;
-  BOOL minimizeMeetingDisabled;
-  BOOL isDisabledClearWebKitCache;
+  BOOL disableShowVideoPreviewWhenJoinMeeting;
+  BOOL disableMinimizeMeeting;
+  BOOL disableClearWebKitCache;
   RCTPromiseResolveBlock initializePromiseResolve;
   RCTPromiseRejectBlock initializePromiseReject;
   RCTPromiseResolveBlock meetingPromiseResolve;
@@ -26,9 +26,9 @@
     isInitialized = NO;
     shouldAutoConnectAudio = NO;
     enableCustomMeeting = NO;
-    showVideoPreviewWhenJoinMeetingDisabled = NO;
-    minimizeMeetingDisabled = NO;
-    isDisabledClearWebKitCache = NO;
+    disableShowVideoPreviewWhenJoinMeeting = YES;
+    disableMinimizeMeeting = NO;
+    disableClearWebKitCache = NO;
     initializePromiseResolve = nil;
     initializePromiseReject = nil;
     meetingPromiseResolve = nil;
@@ -95,15 +95,15 @@ RCT_EXPORT_METHOD(
     }
     
     if (settings[@"disableShowVideoPreviewWhenJoinMeeting"]) {
-      showVideoPreviewWhenJoinMeetingDisabled = [[settings objectForKey:@"disableShowVideoPreviewWhenJoinMeeting"] boolValue];
+      disableShowVideoPreviewWhenJoinMeeting = [[settings objectForKey:@"disableShowVideoPreviewWhenJoinMeeting"] boolValue];
     }
     
     if (settings[@"disableMinimizeMeeting"]) {
-      minimizeMeetingDisabled = [[settings objectForKey:@"disableMinimizeMeeting"] boolValue];
+      disableMinimizeMeeting = [[settings objectForKey:@"disableMinimizeMeeting"] boolValue];
     }
     
     if (settings[@"disableClearWebKitCache"]) {
-      isDisabledClearWebKitCache = [[settings objectForKey:@"disableClearWebKitCache"] boolValue];
+      disableClearWebKitCache = [[settings objectForKey:@"disableClearWebKitCache"] boolValue];
     }
 
     [[MobileRTC sharedRTC] setLanguage:settings[@"language"]];
@@ -132,9 +132,9 @@ RCT_EXPORT_METHOD(
   MobileRTCMeetingSettings *zoomSettings = [[MobileRTC sharedRTC] getMeetingSettings];
   if (zoomSettings != nil) {
     zoomSettings.enableCustomMeeting = enableCustomMeeting;
-    [zoomSettings disableShowVideoPreviewWhenJoinMeeting:showVideoPreviewWhenJoinMeetingDisabled];
-    [zoomSettings disableMinimizeMeeting:minimizeMeetingDisabled];
-    [zoomSettings disableClearWebKitCache:isDisabledClearWebKitCache];
+    [zoomSettings disableShowVideoPreviewWhenJoinMeeting:disableShowVideoPreviewWhenJoinMeeting];
+    [zoomSettings disableMinimizeMeeting:disableMinimizeMeeting];
+    [zoomSettings disableClearWebKitCache:disableClearWebKitCache];
   }
 }
 
@@ -580,9 +580,6 @@ RCT_EXPORT_METHOD(removeListeners : (NSInteger)count) {
   } else {
     meetingPromiseResolve(@"Connected to zoom meeting");
   }
-
-  // This code is the reason why { autoConnectAudio: true } is not working
-  // shouldAutoConnectAudio = nil;
 
   meetingPromiseResolve = nil;
   meetingPromiseReject = nil;

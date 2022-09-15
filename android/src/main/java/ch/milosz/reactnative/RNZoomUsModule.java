@@ -83,7 +83,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
   private Boolean shouldDisablePreview = false;
   private Boolean customizedMeetingUIEnabled = false;
-  private Boolean shouldDisableWebKitCacheClear = false;
+  private Boolean disableClearWebKitCache = false;
 
   private List<Integer> videoViews = Collections.synchronizedList(new ArrayList<Integer>());
 
@@ -151,7 +151,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
           }
 
           if (settings.hasKey("disableClearWebKitCache")) {
-            shouldDisableWebKitCacheClear = settings.getBoolean("disableClearWebKitCache");
+            disableClearWebKitCache = settings.getBoolean("disableClearWebKitCache");
           }
 
           ZoomSDK zoomSDK = ZoomSDK.getInstance();
@@ -163,7 +163,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
             if (meetingSettingsHelper != null) {
               meetingSettingsHelper.disableShowVideoPreviewWhenJoinMeeting(shouldDisablePreview);
               meetingSettingsHelper.setCustomizedMeetingUIEnabled(customizedMeetingUIEnabled);
-              meetingSettingsHelper.disableClearWebKitCache(shouldDisableWebKitCacheClear);
+              meetingSettingsHelper.disableClearWebKitCache(disableClearWebKitCache);
             }
 
             promise.resolve("Already initialize Zoom SDK successfully.");
@@ -861,7 +861,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
       if (meetingSettingsHelper != null) {
         meetingSettingsHelper.disableShowVideoPreviewWhenJoinMeeting(shouldDisablePreview);
         meetingSettingsHelper.setCustomizedMeetingUIEnabled(customizedMeetingUIEnabled);
-        meetingSettingsHelper.disableClearWebKitCache(shouldDisableWebKitCacheClear);
+        meetingSettingsHelper.disableClearWebKitCache(disableClearWebKitCache);
       }
     }
   }
