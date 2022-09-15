@@ -83,6 +83,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
   private Boolean shouldDisablePreview = false;
   private Boolean customizedMeetingUIEnabled = false;
+  private Boolean disableClearWebKitCache = false;
 
   private List<Integer> videoViews = Collections.synchronizedList(new ArrayList<Integer>());
 
@@ -149,13 +150,20 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
             customizedMeetingUIEnabled = settings.getBoolean("enableCustomizedMeetingUI");
           }
 
+          if (settings.hasKey("disableClearWebKitCache")) {
+            disableClearWebKitCache = settings.getBoolean("disableClearWebKitCache");
+          }
+
           ZoomSDK zoomSDK = ZoomSDK.getInstance();
           if (zoomSDK.isInitialized()) {
             // Apply fresh settings
+
+            // This setting process wouldn't be working because meetingSettingsHelper is null at this time.
             final MeetingSettingsHelper meetingSettingsHelper = ZoomSDK.getInstance().getMeetingSettingsHelper();
             if (meetingSettingsHelper != null) {
               meetingSettingsHelper.disableShowVideoPreviewWhenJoinMeeting(shouldDisablePreview);
               meetingSettingsHelper.setCustomizedMeetingUIEnabled(customizedMeetingUIEnabled);
+              meetingSettingsHelper.disableClearWebKitCache(disableClearWebKitCache);
             }
 
             promise.resolve("Already initialize Zoom SDK successfully.");
@@ -848,10 +856,12 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
       initializePromise.resolve("Initialize Zoom SDK successfully.");
       initializePromise = null;
 
+      // This might be the right spot for setMeetingSettings process
       final MeetingSettingsHelper meetingSettingsHelper = ZoomSDK.getInstance().getMeetingSettingsHelper();
       if (meetingSettingsHelper != null) {
         meetingSettingsHelper.disableShowVideoPreviewWhenJoinMeeting(shouldDisablePreview);
         meetingSettingsHelper.setCustomizedMeetingUIEnabled(customizedMeetingUIEnabled);
+        meetingSettingsHelper.disableClearWebKitCache(disableClearWebKitCache);
       }
     }
   }
