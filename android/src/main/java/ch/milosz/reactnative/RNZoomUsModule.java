@@ -65,6 +65,8 @@ import us.zoom.sdk.JoinMeetingOptions;
 import us.zoom.sdk.MeetingOptions;
 import us.zoom.sdk.MeetingViewsOptions;
 import us.zoom.sdk.JoinMeetingParams;
+import us.zoom.sdk.JoinMeetingParam4WithoutLogin;
+
 
 import us.zoom.sdk.VideoQuality;
 import us.zoom.sdk.ChatMessageDeleteType;
@@ -355,11 +357,11 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
           if(paramMap.hasKey("noTextMeetingId") && paramMap.getBoolean("noTextMeetingId")) opts.meeting_views_options = opts.meeting_views_options + view.NO_TEXT_MEETING_ID;
           if(paramMap.hasKey("noTextPassword") && paramMap.getBoolean("noTextPassword")) opts.meeting_views_options = opts.meeting_views_options + view.NO_TEXT_PASSWORD;
 
-          JoinMeetingParams params = new JoinMeetingParams();
+          JoinMeetingParam4WithoutLogin params = new JoinMeetingParam4WithoutLogin();
           params.displayName = paramMap.getString("userName");
           params.meetingNo = paramMap.getString("meetingNumber");
-          if(paramMap.hasKey("password")) params.password = paramMap.getString("password");
-          if(paramMap.hasKey("webinarToken")) params.webinarToken = paramMap.getString("webinarToken");
+          if (paramMap.hasKey("password")) params.password = paramMap.getString("password");
+          if (paramMap.hasKey("zoomAccessToken")) params.zoomAccessToken = paramMap.getString("zoomAccessToken");
 
           // Save promise and shouldAutoConnectAudio so that it can be resolved in onMeetingStatusChanged
           // after zoomSDK.joinMeetingWithParams is called
