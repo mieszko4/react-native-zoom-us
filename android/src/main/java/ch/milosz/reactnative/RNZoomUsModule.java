@@ -361,7 +361,9 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
           params.displayName = paramMap.getString("userName");
           params.meetingNo = paramMap.getString("meetingNumber");
           if (paramMap.hasKey("password")) params.password = paramMap.getString("password");
+          if (paramMap.hasKey("webinarToken")) params.webinarToken = paramMap.getString("webinarToken");
           if (paramMap.hasKey("zoomAccessToken")) params.zoomAccessToken = paramMap.getString("zoomAccessToken");
+          
 
           // Save promise and shouldAutoConnectAudio so that it can be resolved in onMeetingStatusChanged
           // after zoomSDK.joinMeetingWithParams is called
