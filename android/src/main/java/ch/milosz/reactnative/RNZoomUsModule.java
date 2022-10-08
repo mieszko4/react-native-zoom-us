@@ -64,7 +64,6 @@ import us.zoom.sdk.StartMeetingParamsWithoutLogin;
 import us.zoom.sdk.JoinMeetingOptions;
 import us.zoom.sdk.MeetingOptions;
 import us.zoom.sdk.MeetingViewsOptions;
-import us.zoom.sdk.JoinMeetingParams;
 import us.zoom.sdk.JoinMeetingParam4WithoutLogin;
 
 

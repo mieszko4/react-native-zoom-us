@@ -123,6 +123,7 @@ export interface RNZoomUsJoinMeetingParams {
   noTextMeetingId?: boolean;
   noTextPassword?: boolean;
   webinarToken?: string;
+  zoomAccessToken?: string;
 
   // android only fields:
   noInvite?: boolean;
@@ -139,9 +140,6 @@ export interface RNZoomUsJoinMeetingParams {
   noUnmuteConfirmDialog?: boolean;
   noWebinarRegisterDialog?: boolean;
   noChatMsgToast?: boolean;
-
-  // ios only fields:
-  zoomAccessToken?: string;
 }
 async function joinMeeting(params: RNZoomUsJoinMeetingParams) {
   let {
