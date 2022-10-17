@@ -35,7 +35,7 @@ android {
 
 dependencies {
     implementation 'com.facebook.react:react-native:+' // From node_modules
-    implementation 'com.github.zoom-us-community:jitpack-zoom-us:5.11.0.6883'
+    implementation 'com.github.zoom-us-community:jitpack-zoom-us:5.12.2.9109'
 
     implementation 'com.airbnb.android:lottie:4.0.0'
 
@@ -52,7 +52,7 @@ dependencies {
     implementation 'androidx.window:window-java:1.0.0'
     implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.6.0'
     implementation 'androidx.core:core-ktx:1.7.0'
-    
+
     // Other Deps (mentioned in docs - not needed)
     /*
     implementation 'androidx.appcompat:appcompat:1.3.1'
