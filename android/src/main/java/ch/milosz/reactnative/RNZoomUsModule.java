@@ -1108,11 +1108,13 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   @Override
   public void onLocalVideoOrderUpdated(List<Long> localOrderList) {}
   @Override
-  public void onAllHandsLowered() {};
+  public void onAllHandsLowered() {}
   @Override
-  public void onPermissionRequested(String[] permissions) {};
+  public void onPermissionRequested(String[] permissions) {}
   @Override
-  public void onChatMsgDeleteNotification(String msgID, ChatMessageDeleteType deleteBy) {};
+  public void onChatMsgDeleteNotification(String msgID, ChatMessageDeleteType deleteBy) {}
+  @Override
+  public void onShareMeetingChatStatusChanged(boolean start) {}
 
 
   // InMeetingShareListener event listeners
