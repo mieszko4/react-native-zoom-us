@@ -1,17 +1,17 @@
 ## Changelog
-### 6.15.0
-- Add `disableMinimizeMeeting` for `initialize` (iOS only)
-- Add `disableClearWebKitCache` for `initialize`
-- Fix `MeetingSettings` change not working in `initialize`
-- Fix `autoConnectAudio` not working on iOS
-
-### 6.14.0
+### 6.16.0
 Android updates:
 - Updated ZoomSDK to 5.11.0.6883
 - Added new required listeners
   onSinkPanelistChatPrivilegeChanged(InMeetingChatController.MobileRTCWebinarPanelistChatPrivilege privilege)
 - Changed deprecated listeners in favour of:
   - onSpotlightVideoChanged(boolean on) -> onSpotlightVideoChanged(List<Long> userList)
+
+### 6.15.0
+- Add `disableMinimizeMeeting` for `initialize` (iOS only)
+- Add `disableClearWebKitCache` for `initialize`
+- Fix `MeetingSettings` change not working in `initialize`
+- Fix `autoConnectAudio` not working on iOS
 
 ### 6.13.0
 Android updates:
