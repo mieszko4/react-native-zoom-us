@@ -51,19 +51,7 @@ android {
 }
 ```
 
-2. In your `MainApplication.java` inside of `onCreate` add `SoLoader.loadLibrary("zoom");`:
-
-```java
-@Override
-  public void onCreate() {
-    super.onCreate();
-    SoLoader.init(this, /* native exopackage */ false);
-    SoLoader.loadLibrary("zoom"); // <-- ADD THIS LINE
-    initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
-  }
-```
-
-4. Add this to /android/app/src/main/res/xml/network_security_config.xml
+2. Add this to /android/app/src/main/res/xml/network_security_config.xml
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config>
@@ -91,7 +79,7 @@ Then add this to /android/app/src/main/AndroidManifest.xml
 
 Source: https://8xmdmkir8ctlkfj8dttx.noticeable.news/publications/android-meeting-sdk-v5-9-0.
 
-5. Add this to /android/app/src/debug/res/xml/network_security_config.xml
+3. Add this to /android/app/src/debug/res/xml/network_security_config.xml
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config>
@@ -113,7 +101,7 @@ Then add this to /android/app/src/debug/AndroidManifest.xml
 >
 ```
 
-6. Declare permissions
+4. Declare permissions
 
 Depending on how you will use the lib, you will need to declare permissions in /android/app/src/main/AndroidManifest.xml.
 This is the minimum set of permissions you need to add in order to use audio and video:
