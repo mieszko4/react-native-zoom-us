@@ -24,3 +24,24 @@ If lib still not published: `yarn add https://github.com/react-native-video/reac
 Note: it can be also with other libs which uses exoplayer
 
 **Note:** Solution can be different for newer versions.
+
+### android:networkSecurityConfig
+
+ZoomSDK declares `android:networkSecurityConfig`. If you use your custom `android:networkSecurityConfig` make sure to include the following domains in your xml file:
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+  <domain-config cleartextTrafficPermitted="true">
+    <domain includeSubdomains="true">ocsp.digicert.com</domain>
+    <domain includeSubdomains="true">crl3.digicert.com</domain>
+    <domain includeSubdomains="true">crl4.digicert.com</domain>
+    <domain includeSubdomains="true">crl.godaddy.com</domain>
+    <domain includeSubdomains="true">certificates.godaddy.com</domain>
+    <domain includeSubdomains="true">crl.starfieldtech.com</domain>
+    <domain includeSubdomains="true">certificates.starfieldtech.com</domain>
+    <domain includeSubdomains="true">ocsp.godaddy.com</domain>
+    <domain includeSubdomains="true">ocsp.starfieldtech.com</domain>
+  </domain-config>
+</network-security-config>
+```
+Source: https://8xmdmkir8ctlkfj8dttx.noticeable.news/publications/android-meeting-sdk-v5-9-0.

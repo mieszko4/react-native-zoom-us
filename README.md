@@ -51,69 +51,7 @@ android {
 }
 ```
 
-2. In your `MainApplication.java` inside of `onCreate` add `SoLoader.loadLibrary("zoom");`:
-
-```java
-@Override
-  public void onCreate() {
-    super.onCreate();
-    SoLoader.init(this, /* native exopackage */ false);
-    SoLoader.loadLibrary("zoom"); // <-- ADD THIS LINE
-    initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
-  }
-```
-
-4. Add this to /android/app/src/main/res/xml/network_security_config.xml
-```xml
-<?xml version="1.0" encoding="utf-8"?>
-<network-security-config>
-  <domain-config cleartextTrafficPermitted="true">
-    <domain includeSubdomains="true">ocsp.digicert.com</domain>
-    <domain includeSubdomains="true">crl3.digicert.com</domain>
-    <domain includeSubdomains="true">crl4.digicert.com</domain>
-    <domain includeSubdomains="true">crl.godaddy.com</domain>
-    <domain includeSubdomains="true">certificates.godaddy.com</domain>
-    <domain includeSubdomains="true">crl.starfieldtech.com</domain>
-    <domain includeSubdomains="true">certificates.starfieldtech.com</domain>
-    <domain includeSubdomains="true">ocsp.godaddy.com</domain>
-    <domain includeSubdomains="true">ocsp.starfieldtech.com</domain>
-  </domain-config>
-</network-security-config>
-```
-Then add this to /android/app/src/main/AndroidManifest.xml
-```xml
-<application
-  ...
-
-  android:networkSecurityConfig="@xml/network_security_config"
->
-```
-
-Source: https://8xmdmkir8ctlkfj8dttx.noticeable.news/publications/android-meeting-sdk-v5-9-0.
-
-5. Add this to /android/app/src/debug/res/xml/network_security_config.xml
-```xml
-<?xml version="1.0" encoding="utf-8"?>
-<network-security-config>
-  <!-- deny cleartext traffic for React Native packager ips in release -->
-  <domain-config cleartextTrafficPermitted="true">
-    <domain includeSubdomains="true">localhost</domain>
-    <domain includeSubdomains="true">10.0.2.2</domain>
-    <domain includeSubdomains="true">10.0.3.2</domain>
-  </domain-config>
-</network-security-config>
-```
-Then add this to /android/app/src/debug/AndroidManifest.xml
-```xml
-<application
-  ...
-
-  tools:replace="android:usesCleartextTraffic"
-  android:networkSecurityConfig="@xml/network_security_config"
->
-```
-
-6. Declare permissions
+2. Declare permissions
 
 Depending on how you will use the lib, you will need to declare permissions in /android/app/src/main/AndroidManifest.xml.
 This is the minimum set of permissions you need to add in order to use audio and video:
@@ -126,6 +64,17 @@ This is the minimum set of permissions you need to add in order to use audio and
   ...
 </manifest>
 ```
+
+3. Add this to /android/app/src/debug/AndroidManifest.xml
+```xml
+<application
+  ...
+  tools:remove="android:networkSecurityConfig"
+  tools:replace="android:usesCleartextTraffic"
+>
+```
+This is needed because ZoomSDK declares `android:networkSecurityConfig`
+
 
 #### iOS
 1. Make sure you have appropriate description in `Info.plist`:
@@ -150,6 +99,7 @@ This is the minimum set of permissions you need to add in order to use audio and
 4. Optional: Implement custom UI
 See [docs](https://marketplace.zoom.us/docs/sdk/native-sdks/iOS/mastering-zoom-sdk/in-meeting-function/customized-in-meeting-ui/overview) for more details.
 
+Note that M1 chip is not supported by Zoom SDK.
 ## Usage
 ```typescript
 import ZoomUs from 'react-native-zoom-us';
@@ -236,11 +186,11 @@ If you need more events, take a look [Events](./docs/EVENTS.md)
 ## Testing
 
 The plugin has been tested for `joinMeeting` using [smoke test procedure](https://github.com/mieszko4/react-native-zoom-us-test#smoke-test-procedure):
-* react-native-zoom-us: 6.9.0
-* react-native: 0.66.0
-* node: 16.14.2
-* macOS: 12.4
-* XCode: 13.3.1
+* react-native-zoom-us: 6.15.1
+* react-native: 0.70.5
+* node: 16.18.1
+* macOS: 13.0
+* XCode: 14.1
 * Android minSdkVersion: 21
 
 
