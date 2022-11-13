@@ -99,6 +99,7 @@ This is needed because ZoomSDK declares `android:networkSecurityConfig`
 4. Optional: Implement custom UI
 See [docs](https://marketplace.zoom.us/docs/sdk/native-sdks/iOS/mastering-zoom-sdk/in-meeting-function/customized-in-meeting-ui/overview) for more details.
 
+Note that M1 chip is not supported by Zoom SDK.
 ## Usage
 ```typescript
 import ZoomUs from 'react-native-zoom-us';
