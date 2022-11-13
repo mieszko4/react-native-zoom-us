@@ -51,57 +51,7 @@ android {
 }
 ```
 
-2. Add this to /android/app/src/main/res/xml/network_security_config.xml
-```xml
-<?xml version="1.0" encoding="utf-8"?>
-<network-security-config>
-  <domain-config cleartextTrafficPermitted="true">
-    <domain includeSubdomains="true">ocsp.digicert.com</domain>
-    <domain includeSubdomains="true">crl3.digicert.com</domain>
-    <domain includeSubdomains="true">crl4.digicert.com</domain>
-    <domain includeSubdomains="true">crl.godaddy.com</domain>
-    <domain includeSubdomains="true">certificates.godaddy.com</domain>
-    <domain includeSubdomains="true">crl.starfieldtech.com</domain>
-    <domain includeSubdomains="true">certificates.starfieldtech.com</domain>
-    <domain includeSubdomains="true">ocsp.godaddy.com</domain>
-    <domain includeSubdomains="true">ocsp.starfieldtech.com</domain>
-  </domain-config>
-</network-security-config>
-```
-Then add this to /android/app/src/main/AndroidManifest.xml
-```xml
-<application
-  ...
-
-  android:networkSecurityConfig="@xml/network_security_config"
->
-```
-
-Source: https://8xmdmkir8ctlkfj8dttx.noticeable.news/publications/android-meeting-sdk-v5-9-0.
-
-3. Add this to /android/app/src/debug/res/xml/network_security_config.xml
-```xml
-<?xml version="1.0" encoding="utf-8"?>
-<network-security-config>
-  <!-- deny cleartext traffic for React Native packager ips in release -->
-  <domain-config cleartextTrafficPermitted="true">
-    <domain includeSubdomains="true">localhost</domain>
-    <domain includeSubdomains="true">10.0.2.2</domain>
-    <domain includeSubdomains="true">10.0.3.2</domain>
-  </domain-config>
-</network-security-config>
-```
-Then add this to /android/app/src/debug/AndroidManifest.xml
-```xml
-<application
-  ...
-
-  tools:replace="android:usesCleartextTraffic"
-  android:networkSecurityConfig="@xml/network_security_config"
->
-```
-
-4. Declare permissions
+2. Declare permissions
 
 Depending on how you will use the lib, you will need to declare permissions in /android/app/src/main/AndroidManifest.xml.
 This is the minimum set of permissions you need to add in order to use audio and video:
@@ -114,6 +64,17 @@ This is the minimum set of permissions you need to add in order to use audio and
   ...
 </manifest>
 ```
+
+3. Add this to /android/app/src/debug/AndroidManifest.xml
+```xml
+<application
+  ...
+  tools:remove="android:networkSecurityConfig"
+  tools:replace="android:usesCleartextTraffic"
+>
+```
+This is needed because ZoomSDK declares `android:networkSecurityConfig`
+
 
 #### iOS
 1. Make sure you have appropriate description in `Info.plist`:
