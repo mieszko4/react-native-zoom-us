@@ -91,7 +91,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
   private final ActivityEventListener mActivityEventListener = new BaseActivityEventListener() {
     @Override
-    public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent intent) {
+    public void onActivityResult(Activity activity, int requestCode, int resultCode, final Intent intent) {
       if (requestCode == SCREEN_SHARE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
         UiThreadUtil.runOnUiThread(new Runnable() {
           @Override
@@ -226,7 +226,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   @ReactMethod
   public void startMeeting(
     final ReadableMap paramMap,
-    Promise promise
+    final Promise promise
   ) {
     UiThreadUtil.runOnUiThread(new Runnable() {
       @Override
@@ -301,7 +301,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   @ReactMethod
   public void joinMeeting(
     final ReadableMap paramMap,
-    Promise promise
+    final Promise promise
   ) {
     UiThreadUtil.runOnUiThread(new Runnable() {
       @Override
@@ -389,7 +389,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   }
 
   @ReactMethod
-  public void leaveMeeting(Promise promise) {
+  public void leaveMeeting(final Promise promise) {
     UiThreadUtil.runOnUiThread(new Runnable() {
       @Override
       public void run() {
@@ -411,7 +411,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   }
 
   @ReactMethod
-  public void connectAudio(Promise promise) {
+  public void connectAudio(final Promise promise) {
     UiThreadUtil.runOnUiThread(new Runnable() {
       @Override
       public void run() {
