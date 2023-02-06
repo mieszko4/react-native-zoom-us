@@ -8,7 +8,7 @@ This is a bridge for ZoomUS SDK.
 | Platform | Version     | SDK Url                                                                 |                                          Changelog                                          |
 |:--------:|:------------| :----------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------:|
 |   iOS    | 5.11.3.4099 | [ZoomSDK](https://github.com/zoom-us-community/zoom-sdk-pods)           | [marketplace.zoom.us](https://marketplace.zoom.us/docs/changelog#labels/client-sdk-i-os)    |
-| Android  | 5.12.2.9109 | [jitpack-zoom-us](https://github.com/zoom-us-community/jitpack-zoom-us) | [marketplace.zoom.us](https://marketplace.zoom.us/docs/changelog#labels/client-sdk-android) |
+| Android  | 5.13.1.11014| Added manually, see "Getting started" below                             | [marketplace.zoom.us](https://marketplace.zoom.us/docs/changelog#labels/client-sdk-android) |
 
 Tested on Android and iOS: ([See details](https://github.com/mieszko4/react-native-zoom-us#testing))
 
@@ -29,8 +29,24 @@ Pull requests are welcome.
 
 
 ## Getting started
+1. [Android only] Get Meeting SDK with *.aar files
 
-`$ npm install react-native-zoom-us`
+The following manual steps are needed because ZoomUs SDK does not expose *.aar files directly.
+
+* Register on ZoomUs (https://zoom.us/signup#/signup)
+* Go to https://marketplace.zoom.us/develop/create
+* Click on `Create` placed on `Meeting SDK` card, choose `App Name` and click on `Continue`
+* Fill in `Company Name`, `Name` and `Email address` and click on `Continue`
+* On `Download` step choose `Android` then `v5.13.1.11014` and click on download icon
+* Uzip the content of downloaded `zoom-sdk-android-5.13.1.11014.zip`
+* Copy two *.aar files to the root folder of your project:
+- `zoom-sdk-android-5.13.1.11014/mobilertc-android-studio/commonlib/commonlib.aar`
+- `zoom-sdk-android-5.13.1.11014/mobilertc-android-studio/mobilertc/mobilertc.aar`
+
+2. Install npm lib
+Run `$ npm install react-native-zoom-us`.
+Note that for Android *.aar files will be moved into `node_modules/react-native-zoom-us/`
+
 
 ### Installation
 
@@ -130,7 +146,7 @@ await ZoomUs.initialize({
 await ZoomUs.startMeeting({
   userName: 'Johny',
   meetingNumber: '12345678',
-  userId: 'our-identifier',
+  userId: 'our-identifier', // ios only field
   zoomAccessToken: zak,
   userType: 2, // optional
 })
