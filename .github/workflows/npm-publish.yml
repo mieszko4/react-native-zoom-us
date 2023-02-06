@@ -18,7 +18,9 @@ jobs:
         node-version: '12.x'
         registry-url: 'https://registry.npmjs.org'
     - name: Create dummy *.aar files
-      run: echo 'TODO: Use zoom-sdk-android-5.13.1.11014/mobilertc-android-studio/commonlib/commonlib.aar' > commonlib.aar && echo 'TODO: Use zoom-sdk-android-5.13.1.11014/mobilertc-android-studio/mobilertc/mobilertc.aar' > mobilertc.aar
+      run: |
+        echo 'TODO: Use zoom-sdk-android-5.13.1.11014/mobilertc-android-studio/commonlib/commonlib.aar' > commonlib.aar
+        echo 'TODO: Use zoom-sdk-android-5.13.1.11014/mobilertc-android-studio/mobilertc/mobilertc.aar' > mobilertc.aar
     - name: Install Packages
       run: npm ci
     - name: Publish Npm
