@@ -1,6 +1,8 @@
 ## Changelog
 ### 6.16.0
 Android updates:
+BREAKING CHANGE:
+- Add manually `commonlib.aar` and `mobilertc.aar`. See [Getting Started](https://github.com/mieszko4/react-native-zoom-us/tree/feat/upgrade-android-to-5.13.1.11014#getting-started)
 - Update ZoomSDK to 5.13.1.11014
 - Add new required listeners
   onSinkPanelistChatPrivilegeChanged(InMeetingChatController.MobileRTCWebinarPanelistChatPrivilege privilege)
