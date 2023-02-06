@@ -29,8 +29,24 @@ Pull requests are welcome.
 
 
 ## Getting started
+1. [Android only] Get Meeting SDK with *.aar files
 
-`$ npm install react-native-zoom-us`
+The following manual steps are needed because ZoomUs SDK does not expose *.aar files directly.
+
+* Register on ZoomUs (https://zoom.us/signup#/signup)
+* Go to https://marketplace.zoom.us/develop/create
+* Click on `Create` placed on `Meeting SDK` card, choose `App Name` and click on `Continue`
+* Fill in `Company Name`, `Name` and `Email address` and click on `Continue`
+* On `Download` step choose `Android` then `v5.13.1.11014` and click on download icon
+* Uzip the content of downloaded `zoom-sdk-android-5.13.1.11014.zip`
+* Copy two *.aar files to the root folder of your project:
+- `zoom-sdk-android-5.13.1.11014/mobilertc-android-studio/commonlib/commonlib.aar`
+- `zoom-sdk-android-5.13.1.11014/mobilertc-android-studio/mobilertc/mobilertc.aar`
+
+2. Install npm lib
+Run `$ npm install react-native-zoom-us`.
+Note that for Android *.aar files will be moved into `node_modules/react-native-zoom-us/`
+
 
 ### Installation
 
