@@ -69,6 +69,7 @@ import us.zoom.sdk.JoinMeetingParam4WithoutLogin;
 
 import us.zoom.sdk.VideoQuality;
 import us.zoom.sdk.ChatMessageDeleteType;
+import us.zoom.sdk.InMeetingChatController;
 
 // Please note that SDK initialization and all API call must run in Main Thread.
 // See https://marketplace.zoom.us/docs/sdk/native-sdks/android/mastering-zoom-sdk/sdk-initialization/
@@ -273,7 +274,6 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
           StartMeetingParamsWithoutLogin params = new StartMeetingParamsWithoutLogin();
           params.displayName = paramMap.getString("userName");
           params.meetingNo = paramMap.getString("meetingNumber");
-          params.userId = paramMap.getString("userId");
           params.userType = paramMap.getInt("userType");
           params.zoomAccessToken = paramMap.getString("zoomAccessToken");
 
@@ -1054,7 +1054,12 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   @Override
   public void onActiveSpeakerVideoUserChanged(long userId) {}
   @Override
+  @Deprecated
   public void onSpotlightVideoChanged(boolean on) {}
+  @Override
+  public void onSpotlightVideoChanged(List<Long> userList) {}
+  @Override
+  public void onSinkPanelistChatPrivilegeChanged(InMeetingChatController.MobileRTCWebinarPanelistChatPrivilege privilege) {}
   @Override
   @Deprecated
   public void onUserNetworkQualityChanged(long userId) {};
@@ -1102,11 +1107,13 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   @Override
   public void onLocalVideoOrderUpdated(List<Long> localOrderList) {}
   @Override
-  public void onAllHandsLowered() {};
+  public void onAllHandsLowered() {}
   @Override
-  public void onPermissionRequested(String[] permissions) {};
+  public void onPermissionRequested(String[] permissions) {}
   @Override
-  public void onChatMsgDeleteNotification(String msgID, ChatMessageDeleteType deleteBy) {};
+  public void onChatMsgDeleteNotification(String msgID, ChatMessageDeleteType deleteBy) {}
+  @Override
+  public void onShareMeetingChatStatusChanged(boolean start) {}
 
 
   // InMeetingShareListener event listeners

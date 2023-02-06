@@ -8,6 +8,7 @@
   "scripts": {
     "prepack": "npx tsc --noEmit false",
     "postversion": "git push && git push --tags",
+    "postinstall": "mv commonlib.aar node_modules/react-native-zoom-us/android/commonlib && mv mobilertc.aar node_modules/react-native-zoom-us/android/mobilertc",
     "dev": "npm run prepack && rm -fr ../react-native-zoom-us-test/node_modules/react-native-zoom-us/ && cp -R . ../react-native-zoom-us-test/node_modules/react-native-zoom-us"
   },
   "keywords": [
