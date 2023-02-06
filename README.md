@@ -44,8 +44,8 @@ The following manual steps are needed because ZoomUs SDK does not expose *.aar f
 * On `Download` step choose `Android` then `v5.13.1.11014` and click on download icon
 * Uzip the content of downloaded `zoom-sdk-android-5.13.1.11014.zip`
 * Copy two *.aar files to the `node_modules/react-native-zoom-us` folder of your project:
-- `cp zoom-sdk-android-5.13.1.11014/mobilertc-android-studio/commonlib/commonlib.aar node_modules/react-native-zoom-us/android/commonlib`
-- `cp zoom-sdk-android-5.13.1.11014/mobilertc-android-studio/mobilertc/mobilertc.aar node_modules/react-native-zoom-us/android/mobilertc`
+- `cp ~/Downloads/zoom-sdk-android-5.13.1.11014/mobilertc-android-studio/commonlib/commonlib.aar node_modules/react-native-zoom-us/android/commonlib`
+- `cp ~/Downloads/zoom-sdk-android-5.13.1.11014/mobilertc-android-studio/mobilertc/mobilertc.aar node_modules/react-native-zoom-us/android/mobilertc`
 
 
 ### Installation
