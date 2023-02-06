@@ -180,7 +180,6 @@ async function joinMeetingWithPassword(
 export interface RNZoomUsStartMeetingParams {
   userName: string;
   meetingNumber: string | number;
-  userId: string;
   userType?: number; // looks like can be different for IOS and Android
   zoomAccessToken: string;
 
@@ -195,6 +194,9 @@ export interface RNZoomUsStartMeetingParams {
   noButtonShare?: boolean;
   noTextMeetingId?: boolean;
   noTextPassword?: boolean;
+
+  // ios only fields:
+  userId: string;
 }
 async function startMeeting(params: RNZoomUsStartMeetingParams) {
   let { userType = DEFAULT_USER_TYPE, meetingNumber } = params;
