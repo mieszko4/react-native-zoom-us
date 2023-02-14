@@ -1,5 +1,5 @@
 ## Changelog
-### 6.16.4
+### 6.16.5
 Android:
 - Use jitpack again - no need for applying breaking changes on 6.16.0
 ### 6.16.0
