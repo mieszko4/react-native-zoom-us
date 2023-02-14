@@ -1,4 +1,7 @@
 ## Changelog
+### 6.16.4
+Android:
+- Use jitpack again - no need for applying breaking changes on 6.16.0
 ### 6.16.0
 ANDROID BREAKING CHANGES:
 - Add manually `commonlib.aar` and `mobilertc.aar`. See [Getting started](https://github.com/mieszko4/react-native-zoom-us/tree/feat/upgrade-android-to-5.13.1.11014#getting-started)

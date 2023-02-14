@@ -34,9 +34,8 @@ android {
 
 
 dependencies {
-    implementation fileTree(dir: "commonlib", include: ["*.aar"])
-    implementation fileTree(dir: "mobilertc", include: ["*.aar"])
     implementation 'com.facebook.react:react-native:+' // From node_modules
+    implementation 'com.github.zoom-us-community:jitpack-zoom-us:5.13.1.11014'
 
     implementation 'com.airbnb.android:lottie:4.0.0'
 
