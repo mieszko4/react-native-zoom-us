@@ -1,4 +1,26 @@
 ## Changelog
+### 6.16.5
+Android:
+- Use jitpack again - no need for applying breaking changes on 6.16.0
+### 6.16.0
+ANDROID BREAKING CHANGES:
+- Add manually `commonlib.aar` and `mobilertc.aar`. See [Getting started](https://github.com/mieszko4/react-native-zoom-us/tree/feat/upgrade-android-to-5.13.1.11014#getting-started)
+- Increased compileSdkVersion to 33
+- Increased targetSdkVersion to 33
+Android updates:
+- Update ZoomSDK to 5.13.1.11014
+- Add new required listeners
+  onSinkPanelistChatPrivilegeChanged(InMeetingChatController.MobileRTCWebinarPanelistChatPrivilege privilege)
+  onShareMeetingChatStatusChanged(boolean start)
+- Change deprecated listeners in favour of:
+  - onSpotlightVideoChanged(boolean on) -> onSpotlightVideoChanged(List<Long> userList)
+- Delete `userId` param in `startMeeting`
+
+### 6.15.0
+- Add `disableMinimizeMeeting` for `initialize` (iOS only)
+- Add `disableClearWebKitCache` for `initialize`
+- Fix `MeetingSettings` change not working in `initialize`
+- Fix `autoConnectAudio` not working on iOS
 
 ### 6.13.0
 Android updates:

@@ -64,10 +64,12 @@ import us.zoom.sdk.StartMeetingParamsWithoutLogin;
 import us.zoom.sdk.JoinMeetingOptions;
 import us.zoom.sdk.MeetingOptions;
 import us.zoom.sdk.MeetingViewsOptions;
-import us.zoom.sdk.JoinMeetingParams;
+import us.zoom.sdk.JoinMeetingParam4WithoutLogin;
+
 
 import us.zoom.sdk.VideoQuality;
 import us.zoom.sdk.ChatMessageDeleteType;
+import us.zoom.sdk.InMeetingChatController;
 
 // Please note that SDK initialization and all API call must run in Main Thread.
 // See https://marketplace.zoom.us/docs/sdk/native-sdks/android/mastering-zoom-sdk/sdk-initialization/
@@ -83,6 +85,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
   private Boolean shouldDisablePreview = false;
   private Boolean customizedMeetingUIEnabled = false;
+  private Boolean disableClearWebKitCache = false;
 
   private String userName = "Unknown";
 
@@ -90,7 +93,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
   private final ActivityEventListener mActivityEventListener = new BaseActivityEventListener() {
     @Override
-    public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent intent) {
+    public void onActivityResult(Activity activity, int requestCode, int resultCode, final Intent intent) {
       if (requestCode == SCREEN_SHARE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
         UiThreadUtil.runOnUiThread(new Runnable() {
           @Override
@@ -151,13 +154,20 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
             customizedMeetingUIEnabled = settings.getBoolean("enableCustomizedMeetingUI");
           }
 
+          if (settings.hasKey("disableClearWebKitCache")) {
+            disableClearWebKitCache = settings.getBoolean("disableClearWebKitCache");
+          }
+
           ZoomSDK zoomSDK = ZoomSDK.getInstance();
           if (zoomSDK.isInitialized()) {
             // Apply fresh settings
+
+            // This setting process wouldn't be working because meetingSettingsHelper is null at this time.
             final MeetingSettingsHelper meetingSettingsHelper = ZoomSDK.getInstance().getMeetingSettingsHelper();
             if (meetingSettingsHelper != null) {
               meetingSettingsHelper.disableShowVideoPreviewWhenJoinMeeting(shouldDisablePreview);
               meetingSettingsHelper.setCustomizedMeetingUIEnabled(customizedMeetingUIEnabled);
+              meetingSettingsHelper.disableClearWebKitCache(disableClearWebKitCache);
             }
 
             promise.resolve("Already initialize Zoom SDK successfully.");
@@ -218,7 +228,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   @ReactMethod
   public void startMeeting(
     final ReadableMap paramMap,
-    Promise promise
+    final Promise promise
   ) {
     UiThreadUtil.runOnUiThread(new Runnable() {
       @Override
@@ -266,7 +276,6 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
           StartMeetingParamsWithoutLogin params = new StartMeetingParamsWithoutLogin();
           params.displayName = paramMap.getString("userName");
           params.meetingNo = paramMap.getString("meetingNumber");
-          params.userId = paramMap.getString("userId");
           params.userType = paramMap.getInt("userType");
           params.zoomAccessToken = paramMap.getString("zoomAccessToken");
 
@@ -293,7 +302,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   @ReactMethod
   public void joinMeeting(
     final ReadableMap paramMap,
-    Promise promise
+    final Promise promise
   ) {
     UiThreadUtil.runOnUiThread(new Runnable() {
       @Override
@@ -348,11 +357,13 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
           if(paramMap.hasKey("noTextMeetingId") && paramMap.getBoolean("noTextMeetingId")) opts.meeting_views_options = opts.meeting_views_options + view.NO_TEXT_MEETING_ID;
           if(paramMap.hasKey("noTextPassword") && paramMap.getBoolean("noTextPassword")) opts.meeting_views_options = opts.meeting_views_options + view.NO_TEXT_PASSWORD;
 
-          JoinMeetingParams params = new JoinMeetingParams();
+          JoinMeetingParam4WithoutLogin params = new JoinMeetingParam4WithoutLogin();
           params.displayName = paramMap.getString("userName");
           params.meetingNo = paramMap.getString("meetingNumber");
-          if(paramMap.hasKey("password")) params.password = paramMap.getString("password");
-          if(paramMap.hasKey("webinarToken")) params.webinarToken = paramMap.getString("webinarToken");
+          if (paramMap.hasKey("password")) params.password = paramMap.getString("password");
+          if (paramMap.hasKey("webinarToken")) params.webinarToken = paramMap.getString("webinarToken");
+          if (paramMap.hasKey("zoomAccessToken")) params.zoomAccessToken = paramMap.getString("zoomAccessToken");
+          
 
           userName = params.displayName;
           // Save promise and shouldAutoConnectAudio so that it can be resolved in onMeetingStatusChanged
@@ -380,7 +391,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   }
 
   @ReactMethod
-  public void leaveMeeting(Promise promise) {
+  public void leaveMeeting(final Promise promise) {
     UiThreadUtil.runOnUiThread(new Runnable() {
       @Override
       public void run() {
@@ -402,7 +413,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   }
 
   @ReactMethod
-  public void connectAudio(Promise promise) {
+  public void connectAudio(final Promise promise) {
     UiThreadUtil.runOnUiThread(new Runnable() {
       @Override
       public void run() {
@@ -851,10 +862,12 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
       initializePromise.resolve("Initialize Zoom SDK successfully.");
       initializePromise = null;
 
+      // This might be the right spot for setMeetingSettings process
       final MeetingSettingsHelper meetingSettingsHelper = ZoomSDK.getInstance().getMeetingSettingsHelper();
       if (meetingSettingsHelper != null) {
         meetingSettingsHelper.disableShowVideoPreviewWhenJoinMeeting(shouldDisablePreview);
         meetingSettingsHelper.setCustomizedMeetingUIEnabled(customizedMeetingUIEnabled);
+        meetingSettingsHelper.disableClearWebKitCache(disableClearWebKitCache);
       }
     }
   }
@@ -1046,7 +1059,12 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   @Override
   public void onActiveSpeakerVideoUserChanged(long userId) {}
   @Override
+  @Deprecated
   public void onSpotlightVideoChanged(boolean on) {}
+  @Override
+  public void onSpotlightVideoChanged(List<Long> userList) {}
+  @Override
+  public void onSinkPanelistChatPrivilegeChanged(InMeetingChatController.MobileRTCWebinarPanelistChatPrivilege privilege) {}
   @Override
   @Deprecated
   public void onUserNetworkQualityChanged(long userId) {};
@@ -1094,11 +1112,13 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   @Override
   public void onLocalVideoOrderUpdated(List<Long> localOrderList) {}
   @Override
-  public void onAllHandsLowered() {};
+  public void onAllHandsLowered() {}
   @Override
-  public void onPermissionRequested(String[] permissions) {};
+  public void onPermissionRequested(String[] permissions) {}
   @Override
-  public void onChatMsgDeleteNotification(String msgID, ChatMessageDeleteType deleteBy) {};
+  public void onChatMsgDeleteNotification(String msgID, ChatMessageDeleteType deleteBy) {}
+  @Override
+  public void onShareMeetingChatStatusChanged(boolean start) {}
 
 
   // InMeetingShareListener event listeners
