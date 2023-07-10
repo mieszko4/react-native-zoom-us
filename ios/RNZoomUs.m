@@ -155,7 +155,6 @@ RCT_EXPORT_METHOD(
       MobileRTCMeetingStartParam4WithoutLoginUser * params = [[MobileRTCMeetingStartParam4WithoutLoginUser alloc]init];
       params.userName = data[@"userName"];
       params.meetingNumber = data[@"meetingNumber"];
-      params.userID = data[@"userId"];
       params.userType = data[@"userType"];
       params.zak = data[@"zoomAccessToken"];
 

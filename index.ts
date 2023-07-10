@@ -194,9 +194,6 @@ export interface RNZoomUsStartMeetingParams {
   noButtonShare?: boolean;
   noTextMeetingId?: boolean;
   noTextPassword?: boolean;
-
-  // ios only fields:
-  userId: string;
 }
 async function startMeeting(params: RNZoomUsStartMeetingParams) {
   let { userType = DEFAULT_USER_TYPE, meetingNumber } = params;

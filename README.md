@@ -130,7 +130,6 @@ await ZoomUs.initialize({
 await ZoomUs.startMeeting({
   userName: 'Johny',
   meetingNumber: '12345678',
-  userId: 'our-identifier', // ios only field
   zoomAccessToken: zak,
   userType: 2, // optional
 })
