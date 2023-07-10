@@ -298,7 +298,7 @@ RCT_EXPORT_METHOD(muteMyVideo: (BOOL)muted resolver:(RCTPromiseResolveBlock)reso
       reject(@"ERR_ZOOM_MEETING_CONTROL", @"Cannot get meeting service.", nil);
       return;
     }
-    MobileRTCVideoError error = [ms muteMyVideo:muted];
+    MobileRTCSDKError error = [ms muteMyVideo:muted];
     if (error == 0) {
       resolve(nil);
     } else {
