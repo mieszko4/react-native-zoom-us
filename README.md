@@ -7,7 +7,7 @@ This is a bridge for ZoomUS SDK.
 
 | Platform | Version     | SDK Url                                                                 |                                          Changelog                                          |
 |:--------:|:------------| :----------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------:|
-|   iOS    | 5.11.3.4099 | [ZoomSDK](https://github.com/zoom-us-community/zoom-sdk-pods)           | [marketplace.zoom.us](https://marketplace.zoom.us/docs/changelog#labels/client-sdk-i-os)    |
+|   iOS    | 5.13.10.7064 | [ZoomSDK](https://github.com/zoom-us-community/zoom-sdk-pods)           | [marketplace.zoom.us](https://marketplace.zoom.us/docs/changelog#labels/client-sdk-i-os)    |
 | Android  | 5.13.1.11014| [jitpack-zoom-us](https://github.com/zoom-us-community/jitpack-zoom-us) | [marketplace.zoom.us](https://marketplace.zoom.us/docs/changelog#labels/client-sdk-android) |
 
 Tested on Android and iOS: ([See details](https://github.com/mieszko4/react-native-zoom-us#testing))
@@ -130,7 +130,6 @@ await ZoomUs.initialize({
 await ZoomUs.startMeeting({
   userName: 'Johny',
   meetingNumber: '12345678',
-  userId: 'our-identifier', // ios only field
   zoomAccessToken: zak,
   userType: 2, // optional
 })
@@ -186,11 +185,11 @@ If you need more events, take a look [Events](./docs/EVENTS.md)
 ## Testing
 
 The plugin has been tested for `joinMeeting` using [smoke test procedure](https://github.com/mieszko4/react-native-zoom-us-test#smoke-test-procedure):
-* react-native-zoom-us: 6.16.5
+* react-native-zoom-us: 6.17.0
 * react-native: 0.70.5
-* node: 16.18.1
-* macOS: 13.0
-* XCode: 14.1
+* node: 16.20.1
+* macOS: 13.4.1
+* XCode: 14.3.1
 * Android minSdkVersion: 21
 
 

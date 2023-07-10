@@ -1,4 +1,8 @@
 ## Changelog
+### 6.17.0
+iOS updates:
+- Updated ZOomSDK to 5.13.10.7064
+- Delete `userId` param in `startMeeting`
 ### 6.16.5
 Android:
 - Use jitpack again - no need for applying breaking changes on 6.16.0
