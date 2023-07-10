@@ -186,11 +186,11 @@ If you need more events, take a look [Events](./docs/EVENTS.md)
 ## Testing
 
 The plugin has been tested for `joinMeeting` using [smoke test procedure](https://github.com/mieszko4/react-native-zoom-us-test#smoke-test-procedure):
-* react-native-zoom-us: 6.16.5
+* react-native-zoom-us: 6.17.0
 * react-native: 0.70.5
-* node: 16.18.1
-* macOS: 13.0
-* XCode: 14.1
+* node: 16.20.1
+* macOS: 13.4.1
+* XCode: 14.3.1
 * Android minSdkVersion: 21
 
 
