@@ -50,7 +50,7 @@ Source: https://8xmdmkir8ctlkfj8dttx.noticeable.news/publications/android-meetin
 
 ### reac-native < 0.60
 
-If you have `react-native < 0.60`, check [Full Linking Guide](docs/LINKING.md)
+If you have `react-native < 0.60`, check [Full Linking Guide](LINKING.md)
 
 ### conflicts with libc++\_shared.so
 
