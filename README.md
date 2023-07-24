@@ -59,9 +59,9 @@ This is the minimum set of permissions you need to add in order to use audio and
 >
 ```
 
-3. `npm run android`
-
 This is needed because ZoomSDK declares `android:networkSecurityConfig`
+
+3. `npm run android`
 
 #### iOS
 
@@ -173,7 +173,7 @@ If you need more events, take a look [Events](./docs/EVENTS.md)
 
 The plugin has been tested for `joinMeeting` using [smoke test procedure](https://github.com/mieszko4/react-native-zoom-us-test#smoke-test-procedure):
 
-- react-native-zoom-us: 6.17.0
+- react-native-zoom-us: 6.17.1
 - react-native: 0.72.2
 - node: 16.20.1
 - macOS: 13.4.1 M1
