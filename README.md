@@ -49,6 +49,17 @@ This is the minimum set of permissions you need to add in order to use audio and
 </manifest>
 ```
 
+You may also need the following permissions:
+
+```xml
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
+  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+
+  ...
+</manifest>
+```
+
 2. Add this to /android/app/src/debug/AndroidManifest.xml
 
 ```xml
@@ -173,12 +184,12 @@ If you need more events, take a look [Events](./docs/EVENTS.md)
 
 The plugin has been tested for `joinMeeting` using [smoke test procedure](https://github.com/mieszko4/react-native-zoom-us-test#smoke-test-procedure):
 
-- react-native-zoom-us: 6.17.1
+- react-native-zoom-us: 6.18.0
 - react-native: 0.72.2
 - node: 16.20.1
 - macOS: 13.4.1 M1
 - XCode: 14.3.1
-- Android minSdkVersion: 21
+- Android minSdkVersion: 23
 
 ## FAQ
 
