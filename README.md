@@ -4,10 +4,10 @@ This is a bridge for ZoomUS SDK.
 
 [![npm](https://img.shields.io/npm/v/react-native-zoom-us)](https://www.npmjs.com/package/react-native-zoom-us)
 
-| Platform | Version      |                                 SDK Url                                 |                                          Changelog                                          |
-| :------: | :----------- | :---------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------: |
-|   iOS    | 5.13.10.7064 |      [ZoomSDK](https://github.com/zoom-us-community/zoom-sdk-pods)      |  [marketplace.zoom.us](https://marketplace.zoom.us/docs/changelog#labels/client-sdk-i-os)   |
-| Android  | 5.13.1.11014 | [jitpack-zoom-us](https://github.com/zoom-us-community/jitpack-zoom-us) | [marketplace.zoom.us](https://marketplace.zoom.us/docs/changelog#labels/client-sdk-android) |
+| Platform | Version       |                                 SDK Url                                 |                                          Changelog                                          |
+| :------: | :------------ | :---------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------: |
+|   iOS    | 5.13.10.7064  |      [ZoomSDK](https://github.com/zoom-us-community/zoom-sdk-pods)      |  [marketplace.zoom.us](https://marketplace.zoom.us/docs/changelog#labels/client-sdk-i-os)   |
+| Android  | 5.13.10.12577 | [jitpack-zoom-us](https://github.com/zoom-us-community/jitpack-zoom-us) | [marketplace.zoom.us](https://marketplace.zoom.us/docs/changelog#labels/client-sdk-android) |
 
 Tested on Android and iOS: ([See details](https://github.com/mieszko4/react-native-zoom-us#testing))
 

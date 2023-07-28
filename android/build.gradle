@@ -21,7 +21,7 @@ android {
     buildToolsVersion '30.0.3'
 
     defaultConfig {
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion 33
         versionCode 1
         versionName "1.0"
@@ -35,14 +35,14 @@ android {
 
 dependencies {
     implementation 'com.facebook.react:react-native:+' // From node_modules
-    implementation 'com.github.zoom-us-community:jitpack-zoom-us:5.13.1.11014'
+    implementation 'com.github.zoom-us-community:jitpack-zoom-us:5.13.10.12577'
 
 
     // Dependencies copied from mobilertc-android-studio/mobilertc/build.gradle
     // NB: We use com.google.android.flexbox:flexbox:3.0.0 because of "Could not find com.google.android:flexbox:2.0.1"
     implementation 'androidx.security:security-crypto:1.1.0-alpha03'
     implementation 'com.google.crypto.tink:tink-android:1.5.0'
-    implementation 'com.google.android.exoplayer:exoplayer-core:2.16.1'
+    implementation 'com.google.android.exoplayer:exoplayer-core:2.17.1'
     implementation 'com.google.android.exoplayer:exoplayer-ui:2.17.1'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 
