@@ -48,6 +48,7 @@ import us.zoom.sdk.ZoomSDKInitializeListener;
 import us.zoom.sdk.ZoomSDKInitParams;
 import us.zoom.sdk.FreeMeetingNeedUpgradeType;
 import us.zoom.sdk.ShareSettingType;
+import us.zoom.sdk.IRequestLocalRecordingPrivilegeHandler;
 
 import us.zoom.sdk.SharingStatus;
 import us.zoom.sdk.MeetingStatus;
@@ -1114,6 +1115,8 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   public void onChatMsgDeleteNotification(String msgID, ChatMessageDeleteType deleteBy) {}
   @Override
   public void onShareMeetingChatStatusChanged(boolean start) {}
+  @Override
+  public void onLocalRecordingPrivilegeRequested(IRequestLocalRecordingPrivilegeHandler handler) {}
 
 
   // InMeetingShareListener event listeners

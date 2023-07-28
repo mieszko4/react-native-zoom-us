@@ -4,10 +4,10 @@ This is a bridge for ZoomUS SDK.
 
 [![npm](https://img.shields.io/npm/v/react-native-zoom-us)](https://www.npmjs.com/package/react-native-zoom-us)
 
-| Platform | Version      |                                 SDK Url                                 |                                          Changelog                                          |
-| :------: | :----------- | :---------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------: |
-|   iOS    | 5.13.10.7064 |      [ZoomSDK](https://github.com/zoom-us-community/zoom-sdk-pods)      |  [marketplace.zoom.us](https://marketplace.zoom.us/docs/changelog#labels/client-sdk-i-os)   |
-| Android  | 5.13.1.11014 | [jitpack-zoom-us](https://github.com/zoom-us-community/jitpack-zoom-us) | [marketplace.zoom.us](https://marketplace.zoom.us/docs/changelog#labels/client-sdk-android) |
+| Platform | Version       |                                 SDK Url                                 |                                          Changelog                                          |
+| :------: | :------------ | :---------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------: |
+|   iOS    | 5.13.10.7064  |      [ZoomSDK](https://github.com/zoom-us-community/zoom-sdk-pods)      |  [marketplace.zoom.us](https://marketplace.zoom.us/docs/changelog#labels/client-sdk-i-os)   |
+| Android  | 5.13.10.12577 | [jitpack-zoom-us](https://github.com/zoom-us-community/jitpack-zoom-us) | [marketplace.zoom.us](https://marketplace.zoom.us/docs/changelog#labels/client-sdk-android) |
 
 Tested on Android and iOS: ([See details](https://github.com/mieszko4/react-native-zoom-us#testing))
 
@@ -44,6 +44,17 @@ This is the minimum set of permissions you need to add in order to use audio and
   <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
   <uses-permission android:name="android.permission.CAMERA"/>
   <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+
+  ...
+</manifest>
+```
+
+You may also need the following permissions:
+
+```xml
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
+  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
   ...
 </manifest>
@@ -173,12 +184,12 @@ If you need more events, take a look [Events](./docs/EVENTS.md)
 
 The plugin has been tested for `joinMeeting` using [smoke test procedure](https://github.com/mieszko4/react-native-zoom-us-test#smoke-test-procedure):
 
-- react-native-zoom-us: 6.17.1
+- react-native-zoom-us: 6.18.0
 - react-native: 0.72.2
 - node: 16.20.1
 - macOS: 13.4.1 M1
 - XCode: 14.3.1
-- Android minSdkVersion: 21
+- Android minSdkVersion: 23
 
 ## FAQ
 

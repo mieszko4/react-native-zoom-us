@@ -1,5 +1,12 @@
 ## Changelog
 
+### 6.18.0
+
+Android:
+
+- Updated ZoomSDK to 5.13.10.12577
+- BREAKING CHANGE: minSdkVersion has upgraded to version 23 (minimum platform version: Android 6.0)
+
 ### 6.17.1
 
 Simplify installation for iOS and Android after using react-native@0.72.2
@@ -8,7 +15,7 @@ Simplify installation for iOS and Android after using react-native@0.72.2
 
 iOS updates:
 
-- Updated ZOomSDK to 5.13.10.7064
+- Updated ZoomSDK to 5.13.10.7064
 - Delete `userId` param in `startMeeting`
 
 ### 6.16.5
