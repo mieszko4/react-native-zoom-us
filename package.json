@@ -1,13 +1,14 @@
 {
   "name": "react-native-zoom-us",
-  "version": "6.8.0",
+  "version": "6.18.0",
   "description": "React-native bridge for ZoomUs SDK",
   "homepage": "https://github.com/mieszko4/react-native-zoom-us",
   "main": "index",
   "types": "index.d.ts",
   "scripts": {
     "prepack": "npx tsc --noEmit false",
-    "postversion": "git push && git push --tags"
+    "postversion": "git push && git push --tags",
+    "dev": "npm run prepack && rm -fr ../react-native-zoom-us-test/node_modules/react-native-zoom-us/ && cp -R . ../react-native-zoom-us-test/node_modules/react-native-zoom-us"
   },
   "keywords": [
     "react-native",
