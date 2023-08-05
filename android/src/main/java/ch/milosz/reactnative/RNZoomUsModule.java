@@ -49,6 +49,7 @@ import us.zoom.sdk.ZoomSDKInitParams;
 import us.zoom.sdk.FreeMeetingNeedUpgradeType;
 import us.zoom.sdk.ShareSettingType;
 import us.zoom.sdk.IRequestLocalRecordingPrivilegeHandler;
+import us.zoom.sdk.LocalRecordingRequestPrivilegeStatus;
 
 import us.zoom.sdk.SharingStatus;
 import us.zoom.sdk.MeetingStatus;
@@ -180,17 +181,11 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
           zoomSDK.setSdkLocale(reactContext, locale);
 
           ZoomSDKInitParams initParams = new ZoomSDKInitParams();
-          if (params.hasKey("jwtToken")) {
-            initParams.jwtToken = params.getString("jwtToken");
-            initParams.domain = params.getString("domain");
-            // initParams.enableLog = true;
-            // initParams.enableGenerateDump =true;
-            // initParams.logSize = 5;
-          } else {
-            initParams.appKey = params.getString("clientKey");
-            initParams.appSecret = params.getString("clientSecret");
-            initParams.domain = params.getString("domain");
-          }
+          initParams.jwtToken = params.getString("jwtToken");
+          initParams.domain = params.getString("domain");
+          // initParams.enableLog = true;
+          // initParams.enableGenerateDump =true;
+          // initParams.logSize = 5;
 
           // Save promise so that it can be resolved in onZoomSDKInitializeResult
           // after zoomSDK.initialize is called
@@ -1032,6 +1027,23 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   }
 
   // InMeetingServiceListener required listeners but unused for now
+  @Override
+  public void onInMeetingUserAvatarPathUpdated(long userId) {}
+  @Override
+  public void onSuspendParticipantsActivities() {}
+  @Override
+  public void onAllowParticipantsStartVideoNotification(boolean allow) {}
+  @Override
+  public void onAllowParticipantsRenameNotification(boolean allow) {}
+  @Override
+  public void onAllowParticipantsUnmuteSelfNotification(boolean allow) {}
+  @Override
+  public void onAllowParticipantsShareWhiteBoardNotification(boolean allow) {}
+  @Override
+  public void onMeetingLockStatus(boolean isLock) {}
+  @Override
+  public void onRequestLocalRecordingPriviligeChanged(LocalRecordingRequestPrivilegeStatus status) {}
+
   @Override
   public void onFollowHostVideoOrderChanged(boolean bFollow) {}
   @Override
