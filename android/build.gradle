@@ -35,7 +35,7 @@ android {
 
 dependencies {
     implementation 'com.facebook.react:react-native:+' // From node_modules
-    implementation 'com.github.zoom-us-community:jitpack-zoom-us:5.13.10.12578' // 5.13.10.12577
+    implementation 'com.github.zoom-us-community:jitpack-zoom-us:5.13.10.12579' // 5.13.10.12577
 
 
     // Dependencies copied from mobilertc-android-studio/mobilertc/build.gradle
