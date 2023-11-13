@@ -76,7 +76,7 @@ async function initialize(
   invariant(
     typeof params === "object",
     "ZoomUs.initialize expects object param. Consider to check migration docs. " +
-      "Check Link: https://github.com/mieszko4/react-native-zoom-us/blob/master/docs/UPGRADING.md"
+    "Check Link: https://github.com/mieszko4/react-native-zoom-us/blob/master/docs/UPGRADING.md"
   );
 
   if ("jwtToken" in params) {

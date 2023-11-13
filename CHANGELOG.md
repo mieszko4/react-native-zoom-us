@@ -1,5 +1,14 @@
 ## Changelog
 
+### 6.19.0
+
+Android:
+
+- Updated ZoomSDK to 5.16.5.17050
+- BREAKING CHANGE: minSDKVersion has been upgraded to version 25
+- Replace deprecated MeetingActivity with NewMeetingActivity
+- Remove deprecated params from ZoomSDKInitParams
+
 ### 6.18.0
 
 Android:

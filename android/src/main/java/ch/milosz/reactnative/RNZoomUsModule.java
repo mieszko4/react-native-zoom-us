@@ -49,6 +49,7 @@ import us.zoom.sdk.ZoomSDKInitParams;
 import us.zoom.sdk.FreeMeetingNeedUpgradeType;
 import us.zoom.sdk.ShareSettingType;
 import us.zoom.sdk.IRequestLocalRecordingPrivilegeHandler;
+import us.zoom.sdk.LocalRecordingRequestPrivilegeStatus;
 
 import us.zoom.sdk.SharingStatus;
 import us.zoom.sdk.MeetingStatus;
@@ -183,14 +184,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
           if (params.hasKey("jwtToken")) {
             initParams.jwtToken = params.getString("jwtToken");
             initParams.domain = params.getString("domain");
-            // initParams.enableLog = true;
-            // initParams.enableGenerateDump =true;
-            // initParams.logSize = 5;
-          } else {
-            initParams.appKey = params.getString("clientKey");
-            initParams.appSecret = params.getString("clientSecret");
-            initParams.domain = params.getString("domain");
-          }
+          } 
 
           // Save promise so that it can be resolved in onZoomSDKInitializeResult
           // after zoomSDK.initialize is called
@@ -1117,6 +1111,22 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   public void onShareMeetingChatStatusChanged(boolean start) {}
   @Override
   public void onLocalRecordingPrivilegeRequested(IRequestLocalRecordingPrivilegeHandler handler) {}
+  @Override
+  public void onSuspendParticipantsActivities() {}
+  @Override
+  public void onAllowParticipantsStartVideoNotification(boolean b) {}
+  @Override
+  public void onAllowParticipantsRenameNotification(boolean b) {}
+  @Override
+  public void onAllowParticipantsUnmuteSelfNotification(boolean b) {}
+  @Override
+  public void onAllowParticipantsShareWhiteBoardNotification(boolean b) {}
+  @Override
+  public void onMeetingLockStatus(boolean b) {}
+  @Override
+  public void onRequestLocalRecordingPrivilegeChanged(LocalRecordingRequestPrivilegeStatus localRecordingRequestPrivilegeStatus) {}
+  @Override
+  public void onAICompanionActiveChangeNotice(boolean b) {}
 
 
   // InMeetingShareListener event listeners

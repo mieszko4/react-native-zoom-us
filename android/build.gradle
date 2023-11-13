@@ -21,7 +21,7 @@ android {
     buildToolsVersion '30.0.3'
 
     defaultConfig {
-        minSdkVersion 23
+        minSdkVersion 25
         targetSdkVersion 33
         versionCode 1
         versionName "1.0"
@@ -35,7 +35,7 @@ android {
 
 dependencies {
     implementation 'com.facebook.react:react-native:+' // From node_modules
-    implementation 'com.github.zoom-us-community:jitpack-zoom-us:5.13.10.12579' // 5.13.10.12577
+    implementation 'com.github.zoom-us-community:jitpack-zoom-us:5.16.5.17050' // 5.13.10.12577
 
 
     // Dependencies copied from mobilertc-android-studio/mobilertc/build.gradle
