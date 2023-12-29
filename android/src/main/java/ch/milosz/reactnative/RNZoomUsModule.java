@@ -957,7 +957,6 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   // InMeetingServiceListener required listeners
   @Override
   public void onMeetingLeaveComplete(long ret) {
-    updateVideoView();
     sendEvent("MeetingEvent", getMeetingEndReasonName((int)ret));
   }
 
