@@ -5,7 +5,7 @@
 Android:
 
 - Updated ZoomSDK to 5.16.2.16555
-- BREAKING CHANGE: minSDKVersion has been upgraded to version 25
+- BREAKING CHANGE: minSDKVersion has been upgraded to version 24
 
 ### 6.18.0
 
