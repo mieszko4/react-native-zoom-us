@@ -25,6 +25,7 @@ import com.facebook.react.uimanager.UIBlock;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 
 import java.lang.Long;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -957,6 +958,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   // InMeetingServiceListener required listeners
   @Override
   public void onMeetingLeaveComplete(long ret) {
+    updateVideoView();
     sendEvent("MeetingEvent", getMeetingEndReasonName((int)ret));
   }
 
@@ -1203,7 +1205,8 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
           }
 
           final MeetingService meetingService = zoomSDK.getMeetingService();
-          if(meetingService.getMeetingStatus() != MeetingStatus.MEETING_STATUS_IDLE ) {
+          List<MeetingStatus> staleMeetingStatuses = new ArrayList<>(Arrays.asList(MeetingStatus.MEETING_STATUS_IDLE, MeetingStatus.MEETING_STATUS_DISCONNECTING));
+          if(!staleMeetingStatuses.contains(meetingService.getMeetingStatus())) {
             Log.i(TAG, "onHostResume, returning to meeting");
             meetingService.returnToMeeting(reactContext.getCurrentActivity());
           }
