@@ -1,6 +1,6 @@
 {
   "name": "react-native-zoom-us",
-  "version": "6.19.3",
+  "version": "6.18.2",
   "description": "React-native bridge for ZoomUs SDK",
   "homepage": "https://github.com/mieszko4/react-native-zoom-us",
   "main": "index",
@@ -23,7 +23,7 @@
   "devDependencies": {
     "@types/invariant": "^2.2.34",
     "@types/react-native": "^0.64.4",
-    "typescript": "^4.0.5"
+    "typescript": "4.0.5"
   },
   "dependencies": {
     "color": "^3.2.1",
