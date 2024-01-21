@@ -1,4 +1,4 @@
-import { NativeModule, Platform } from "react-native";
+import { Platform } from "react-native";
 import invariant from "invariant";
 import { RNZoomUs } from "./native";
 import events from "./src/events";
@@ -37,13 +37,7 @@ interface RNZoomUsInitializeCommonParams {
 }
 export interface RNZoomUsInitializeParams
   extends RNZoomUsInitializeCommonParams {
-  clientKey: string;
-  clientSecret: string;
-}
-
-export interface RNZoomUsSDKInitParams extends RNZoomUsInitializeCommonParams {
   jwtToken: string;
-  // we don't care for the rest, for now
 }
 
 type InitializeSettings = {
@@ -58,7 +52,7 @@ async function initialize(
   {
     domain = "zoom.us",
     ...params
-  }: RNZoomUsInitializeParams | RNZoomUsSDKInitParams,
+  }: RNZoomUsInitializeParams,
   {
     language = "en",
     enableCustomizedMeetingUI = false,
@@ -79,12 +73,7 @@ async function initialize(
       "Check Link: https://github.com/mieszko4/react-native-zoom-us/blob/master/docs/UPGRADING.md"
   );
 
-  if ("jwtToken" in params) {
-    invariant(params.jwtToken, "ZoomUs.initialize requires jwtToken");
-  } else {
-    invariant(params.clientKey, "ZoomUs.initialize requires clientKey");
-    invariant(params.clientSecret, "ZoomUs.initialize requires clientSecret");
-  }
+  invariant(params.jwtToken, "ZoomUs.initialize requires jwtToken");
 
   const mappedSettings = {
     language: applyLanguageMapping(language),
