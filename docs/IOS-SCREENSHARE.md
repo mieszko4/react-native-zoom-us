@@ -14,8 +14,7 @@ to `ZoomUs.initialize`
 The resulting call to `ZoomUs.initialize` should look something like this:
 ```
 await ZoomUs.initialize({
-  clientKey: '...',
-  cientSecret: '...',
+  jwtToken: '...',
   iosAppGroupId: 'group.com.your.Bundle',
   iosScreenShareExtensionId: 'com.your.Bundle.ScreenShare'
 });

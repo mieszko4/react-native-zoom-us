@@ -89,19 +89,19 @@ RCT_EXPORT_METHOD(
     //Note: This step is optional, Method is used for iOS Replaykit Screen share integration,if not,just ignore this step.
     context.appGroupId = data[@"iosAppGroupId"];
     BOOL initializeSuc = [[MobileRTC sharedRTC] initialize:context];
-    
+
     if (settings[@"enableCustomizedMeetingUI"]) {
       enableCustomMeeting = [[settings objectForKey:@"enableCustomizedMeetingUI"] boolValue];
     }
-    
+
     if (settings[@"disableShowVideoPreviewWhenJoinMeeting"]) {
       disableShowVideoPreviewWhenJoinMeeting = [[settings objectForKey:@"disableShowVideoPreviewWhenJoinMeeting"] boolValue];
     }
-    
+
     if (settings[@"disableMinimizeMeeting"]) {
       disableMinimizeMeeting = [[settings objectForKey:@"disableMinimizeMeeting"] boolValue];
     }
-    
+
     if (settings[@"disableClearWebKitCache"]) {
       disableClearWebKitCache = [[settings objectForKey:@"disableClearWebKitCache"] boolValue];
     }
@@ -112,12 +112,7 @@ RCT_EXPORT_METHOD(
     if (authService)
     {
       authService.delegate = self;
-      if (jwtToken != nil) {
-        authService.jwtToken = data[@"jwtToken"];
-      } else {
-        authService.clientKey = data[@"clientKey"];
-        authService.clientSecret = data[@"clientSecret"];
-      }
+      authService.jwtToken = data[@"jwtToken"];
 
       [authService sdkAuth];
     } else {
