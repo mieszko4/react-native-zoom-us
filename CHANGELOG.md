@@ -1,5 +1,12 @@
 ## Changelog
 
+### 6.20.0
+
+iOS:
+
+- Updated ZoomSDK to 5.14.11.8690
+- BREAKING CHANGE: removed clientKey/clientSecret for initialize - use jwtToken instead
+
 ### 6.19.0
 
 Android:
