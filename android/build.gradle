@@ -21,7 +21,7 @@ android {
     buildToolsVersion '30.0.3'
 
     defaultConfig {
-        minSdkVersion 23
+        minSdkVersion 24
         targetSdkVersion 33
         versionCode 1
         versionName "1.0"
@@ -35,8 +35,8 @@ android {
 
 dependencies {
     implementation 'com.facebook.react:react-native:+' // From node_modules
-    implementation 'com.github.zoom-us-community:jitpack-zoom-us:5.15.7.15567'
 
+    implementation 'com.github.zoom-us-community:jitpack-zoom-us:5.16.2.16555'
 
     // Dependencies copied from mobilertc-android-studio/mobilertc/build.gradle
     // NB: We use com.google.android.flexbox:flexbox:3.0.0 because of "Could not find com.google.android:flexbox:2.0.1"
@@ -53,9 +53,10 @@ dependencies {
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
 
     implementation 'androidx.multidex:multidex:2.0.1'
-    implementation 'com.google.code.gson:gson:2.8.1'
+    implementation 'com.google.code.gson:gson:2.9.1'
     implementation 'com.github.bumptech.glide:annotations:4.11.0'
     implementation 'com.github.bumptech.glide:glide:4.11.0'
+    implementation 'org.greenrobot:eventbus:3.1.1'
 
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation 'com.airbnb.android:lottie:4.0.0'
@@ -64,11 +65,17 @@ dependencies {
 
     implementation 'androidx.window:window-java:1.0.0'
 
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.6.0'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.8.20'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.20'
+
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2'
     implementation 'androidx.core:core-ktx:1.8.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.1'
 
     implementation 'androidx.fragment:fragment-ktx:1.4.1'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
     implementation 'org.greenrobot:eventbus:3.1.1'
+    implementation 'com.davemorrissey.labs:subsampling-scale-image-view:3.10.0'
 }

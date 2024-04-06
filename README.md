@@ -5,9 +5,9 @@ This is a bridge for ZoomUS SDK.
 [![npm](https://img.shields.io/npm/v/react-native-zoom-us)](https://www.npmjs.com/package/react-native-zoom-us)
 
 | Platform | Version       |                                 SDK Url                                 |                                          Changelog                                          |
-| :------: |:--------------| :---------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------: |
-|   iOS    | 5.13.10.7064  |      [ZoomSDK](https://github.com/zoom-us-community/zoom-sdk-pods)      |  [marketplace.zoom.us](https://marketplace.zoom.us/docs/changelog#labels/client-sdk-i-os)   |
-| Android  | 5.14.11.14322 | [jitpack-zoom-us](https://github.com/zoom-us-community/jitpack-zoom-us) | [marketplace.zoom.us](https://marketplace.zoom.us/docs/changelog#labels/client-sdk-android) |
+| :------: | :------------ | :---------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------: |
+|   iOS    | 5.14.11.8690  |      [ZoomSDK](https://github.com/zoom-us-community/zoom-sdk-pods)      |  [marketplace.zoom.us](https://marketplace.zoom.us/docs/changelog#labels/client-sdk-i-os)   |
+| Android  | 5.16.2.16555 | [jitpack-zoom-us](https://github.com/zoom-us-community/jitpack-zoom-us) | [marketplace.zoom.us](https://marketplace.zoom.us/docs/changelog#labels/client-sdk-android) |
 
 Tested on Android and iOS: ([See details](https://github.com/mieszko4/react-native-zoom-us#testing))
 
@@ -101,13 +101,7 @@ This is needed because ZoomSDK declares `android:networkSecurityConfig`
 ```typescript
 import ZoomUs from 'react-native-zoom-us';
 
-// initialize minimal
-await ZoomUs.initialize({
-  clientKey: '...',
-  clientSecret: '...',
-});
-
-// initialize using JWT
+// initialize
 await ZoomUs.initialize({
   jwtToken: '...',
 });
@@ -115,8 +109,7 @@ await ZoomUs.initialize({
 // initialize with extra config
 await ZoomUs.initialize(
   {
-    clientKey: '...',
-    clientSecret: '...',
+    jwtToken: '...',
     domain: 'zoom.us',
   },
   {

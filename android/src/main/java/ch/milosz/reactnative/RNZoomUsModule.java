@@ -25,6 +25,7 @@ import com.facebook.react.uimanager.UIBlock;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 
 import java.lang.Long;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -1026,7 +1027,22 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     }
   }
 
+  @Override
+  public void onInMeetingUserAvatarPathUpdated(long userId) {}
+  @Override
+  public void onSuspendParticipantsActivities() {}
+  @Override
+  public void onAllowParticipantsStartVideoNotification(boolean allow) {}
+  @Override
+  public void onAllowParticipantsRenameNotification(boolean allow) {}
+  @Override
+  public void onAllowParticipantsUnmuteSelfNotification(boolean allow) {}
+  @Override
+  public void onAllowParticipantsShareWhiteBoardNotification(boolean allow) {}
+  @Override
+  public void onMeetingLockStatus(boolean isLock) {}
   // InMeetingServiceListener required listeners but unused for now
+
   @Override
   public void onInMeetingUserAvatarPathUpdated(long userId) {}
   @Override
@@ -1129,7 +1145,8 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   public void onShareMeetingChatStatusChanged(boolean start) {}
   @Override
   public void onLocalRecordingPrivilegeRequested(IRequestLocalRecordingPrivilegeHandler handler) {}
-
+  @Override
+  public void onRequestLocalRecordingPrivilegeChanged(LocalRecordingRequestPrivilegeStatus status) {}
 
   // InMeetingShareListener event listeners
   // DEPRECATED: onShareActiveUser is just kept for now for backwards compatibility of events
@@ -1206,7 +1223,8 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
           }
 
           final MeetingService meetingService = zoomSDK.getMeetingService();
-          if(meetingService.getMeetingStatus() != MeetingStatus.MEETING_STATUS_IDLE ) {
+          List<MeetingStatus> staleMeetingStatuses = new ArrayList<>(Arrays.asList(MeetingStatus.MEETING_STATUS_IDLE, MeetingStatus.MEETING_STATUS_DISCONNECTING));
+          if(!staleMeetingStatuses.contains(meetingService.getMeetingStatus())) {
             Log.i(TAG, "onHostResume, returning to meeting");
             meetingService.returnToMeeting(reactContext.getCurrentActivity());
           }
