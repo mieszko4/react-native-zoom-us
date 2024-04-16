@@ -1,5 +1,11 @@
 ## Changelog
 
+### 7.0.0
+
+iOS:
+
+- Updated ZoomSDK to 5.17.11.14222
+
 ### 6.20.0
 
 iOS:
