@@ -8,7 +8,7 @@
 #import "RCTEventEmitter.h"
 #import <MobileRTC/MobileRTC.h>
 
-@interface RNZoomUs : RCTEventEmitter<RCTBridgeModule, MobileRTCAuthDelegate, MobileRTCMeetingServiceDelegate, MobileRTCVideoServiceDelegate, MobileRTCAudioServiceDelegate, MobileRTCUserServiceDelegate>
+@interface RNZoomUs : RCTEventEmitter<RCTBridgeModule, MobileRTCAuthDelegate, MobileRTCMeetingServiceDelegate>
 
 @end
 

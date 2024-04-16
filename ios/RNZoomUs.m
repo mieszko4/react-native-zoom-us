@@ -126,7 +126,6 @@ RCT_EXPORT_METHOD(
 - (void)setMeetingSettings {
   MobileRTCMeetingSettings *zoomSettings = [[MobileRTC sharedRTC] getMeetingSettings];
   if (zoomSettings != nil) {
-    zoomSettings.enableCustomMeeting = enableCustomMeeting;
     [zoomSettings disableShowVideoPreviewWhenJoinMeeting:disableShowVideoPreviewWhenJoinMeeting];
     [zoomSettings disableMinimizeMeeting:disableMinimizeMeeting];
     [zoomSettings disableClearWebKitCache:disableClearWebKitCache];
@@ -498,9 +497,6 @@ RCT_EXPORT_METHOD(removeListeners : (NSInteger)count) {
         case MobileRTCMeetingState_Ended: // only iOS (guessed naming)
             result = @"MEETING_STATUS_ENDED";
             break;
-        case MobileRTCMeetingState_Unknow:
-            result = @"MEETING_STATUS_UNKNOWN";
-            break;
         case MobileRTCMeetingState_Locked: // only iOS (guessed naming)
             result = @"MEETING_STATUS_LOCKED";
             break;
@@ -624,9 +620,7 @@ RCT_EXPORT_METHOD(removeListeners : (NSInteger)count) {
   }
 }
 
-// This looks like it doesnt get called check
-// https://github.com/mieszko4/react-native-zoom-us/pull/144#issuecomment-931189245
-- (void)onSinkMeetingVideoRequestUnmuteByHost:(void (^)(BOOL Accept))completion {
+-  (void)onSinkMeetingVideoRequestUnmuteByHost:(MobileRTCSDKError (^_Nonnull)(BOOL Accept))completion {
   [self sendEventWithName:@"MeetingEvent" event:@"askUnMuteVideo"];
 }
 
@@ -649,6 +643,8 @@ RCT_EXPORT_METHOD(removeListeners : (NSInteger)count) {
 - (void)onSinkMeetingVideoQualityChanged:(MobileRTCNetworkQuality)qality userID:(NSUInteger)userID {}
 
 - (void)onSinkMeetingShowMinimizeMeetingOrBackZoomUI:(MobileRTCMinimizeMeetingState)state {}
+
+- (void)onBOOptionChanged:(MobileRTCBOOption *_Nonnull)newOption {}
 
 
 #pragma mark - MobileRTCAudioServiceDelegate
@@ -795,6 +791,7 @@ RCT_EXPORT_METHOD(removeListeners : (NSInteger)count) {
     case MobileRTCAuthError_None: return @"none"; // iOS only
     case MobileRTCAuthError_OverTime: return @"overTime"; // iOS only
     case MobileRTCAuthError_ServiceBusy: return @"serviceBusy"; // iOS only
+    case MobileRTCAuthError_LimitExceededException : return @"limitExceeded";
     default: return @"unknown";
   }
 }
