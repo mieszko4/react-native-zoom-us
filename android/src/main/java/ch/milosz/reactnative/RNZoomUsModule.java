@@ -360,7 +360,6 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
           if (paramMap.hasKey("webinarToken")) params.webinarToken = paramMap.getString("webinarToken");
           if (paramMap.hasKey("zoomAccessToken")) params.zoomAccessToken = paramMap.getString("zoomAccessToken");
 
-
           // Save promise and shouldAutoConnectAudio so that it can be resolved in onMeetingStatusChanged
           // after zoomSDK.joinMeetingWithParams is called
           meetingPromise = promise;
@@ -1042,23 +1041,6 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   @Override
   public void onMeetingLockStatus(boolean isLock) {}
   // InMeetingServiceListener required listeners but unused for now
-
-  @Override
-  public void onInMeetingUserAvatarPathUpdated(long userId) {}
-  @Override
-  public void onSuspendParticipantsActivities() {}
-  @Override
-  public void onAllowParticipantsStartVideoNotification(boolean allow) {}
-  @Override
-  public void onAllowParticipantsRenameNotification(boolean allow) {}
-  @Override
-  public void onAllowParticipantsUnmuteSelfNotification(boolean allow) {}
-  @Override
-  public void onAllowParticipantsShareWhiteBoardNotification(boolean allow) {}
-  @Override
-  public void onMeetingLockStatus(boolean isLock) {}
-  @Override
-  public void onRequestLocalRecordingPrivilegeChanged(LocalRecordingRequestPrivilegeStatus status) {}
 
   @Override
   public void onFollowHostVideoOrderChanged(boolean bFollow) {}
