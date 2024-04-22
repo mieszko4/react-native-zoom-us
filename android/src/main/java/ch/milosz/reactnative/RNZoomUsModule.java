@@ -51,6 +51,7 @@ import us.zoom.sdk.FreeMeetingNeedUpgradeType;
 import us.zoom.sdk.ShareSettingType;
 import us.zoom.sdk.IRequestLocalRecordingPrivilegeHandler;
 import us.zoom.sdk.LocalRecordingRequestPrivilegeStatus;
+import us.zoom.sdk.MobileRTCFocusModeShareType;
 
 import us.zoom.sdk.SharingStatus;
 import us.zoom.sdk.MeetingStatus;
@@ -1025,6 +1026,23 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
       sendEvent("MeetingEvent", "myVideoStatusChanged", userInfo);
     }
   }
+
+  @Override
+  public void onAICompanionActiveChangeNotice(boolean b) {}
+  @Override
+  public void onParticipantProfilePictureStatusChange(boolean b) {}
+  @Override
+  public void onCloudRecordingStorageFull(long l) {}
+  @Override
+  public void onVideoAlphaChannelStatusChanged(boolean isAlphaModeOn) {}
+  @Override
+  public void onAllowParticipantsRequestCloudRecording(boolean bAllow) {}
+  @Override
+  public void onFocusModeStateChanged(boolean on) {}
+  @Override
+  public void onFocusModeShareTypeChanged(MobileRTCFocusModeShareType shareType) {}
+  @Override
+  public void onUVCCameraStatusChange(String cameraId, UVCCameraStatus status) {}
 
   @Override
   public void onInMeetingUserAvatarPathUpdated(long userId) {}

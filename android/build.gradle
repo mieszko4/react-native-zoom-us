@@ -36,7 +36,7 @@ android {
 dependencies {
     implementation 'com.facebook.react:react-native:+' // From node_modules
 
-    implementation 'com.github.zoom-us-community:jitpack-zoom-us:5.16.2.16555'
+    implementation 'com.github.zoom-us-community:jitpack-zoom-us:5.17.11.20433'
 
     // Dependencies copied from mobilertc-android-studio/mobilertc/build.gradle
     // NB: We use com.google.android.flexbox:flexbox:3.0.0 because of "Could not find com.google.android:flexbox:2.0.1"
@@ -78,4 +78,7 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
     implementation 'org.greenrobot:eventbus:3.1.1'
     implementation 'com.davemorrissey.labs:subsampling-scale-image-view:3.10.0'
+    implementation 'androidx.core:core-splashscreen:1.0.1'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.1'
+    implementation 'androidx.databinding:viewbinding:7.1.2'
 }
