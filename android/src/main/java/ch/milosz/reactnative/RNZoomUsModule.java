@@ -73,6 +73,7 @@ import us.zoom.sdk.JoinMeetingParam4WithoutLogin;
 import us.zoom.sdk.VideoQuality;
 import us.zoom.sdk.ChatMessageDeleteType;
 import us.zoom.sdk.InMeetingChatController;
+import us.zoom.sdk.MobileRTCFocusModeShareType;
 
 // Please note that SDK initialization and all API call must run in Main Thread.
 // See https://marketplace.zoom.us/docs/sdk/native-sdks/android/mastering-zoom-sdk/sdk-initialization/
@@ -1028,6 +1029,17 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
 
   // refer zoom SDK doc 
+  @Override
+  public void onAllowParticipantsRequestCloudRecording(boolean bAllow) {}
+  @Override
+  public void onUVCCameraStatusChange(String cameraId, UVCCameraStatus status) {}
+  @Override
+  public void onVideoAlphaChannelStatusChanged(boolean isAlphaModeOn) {}
+  @Override
+  public void onFocusModeStateChanged(boolean on) {}
+  @Override
+  public void onFocusModeShareTypeChanged(MobileRTCFocusModeShareType shareType) {}
+
   @Override
   public void onAICompanionActiveChangeNotice(boolean b) {}
   @Override
