@@ -1027,8 +1027,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     }
   }
 
-
-  // refer zoom SDK doc 
+  // InMeetingServiceListener required listeners but unused for now
   @Override
   public void onAllowParticipantsRequestCloudRecording(boolean bAllow) {}
   @Override
@@ -1039,14 +1038,12 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   public void onFocusModeStateChanged(boolean on) {}
   @Override
   public void onFocusModeShareTypeChanged(MobileRTCFocusModeShareType shareType) {}
-
   @Override
   public void onAICompanionActiveChangeNotice(boolean b) {}
   @Override
   public void onParticipantProfilePictureStatusChange(boolean b) {}
   @Override
   public void onCloudRecordingStorageFull(long l) {}
-  
   @Override
   public void onInMeetingUserAvatarPathUpdated(long userId) {}
   @Override
@@ -1061,8 +1058,6 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   public void onAllowParticipantsShareWhiteBoardNotification(boolean allow) {}
   @Override
   public void onMeetingLockStatus(boolean isLock) {}
-  // InMeetingServiceListener required listeners but unused for now
-
   @Override
   public void onFollowHostVideoOrderChanged(boolean bFollow) {}
   @Override
