@@ -1,6 +1,8 @@
 # react-native-zoom-us
 
-This is a bridge for ZoomUS SDK.
+This is a bridge for [ZoomUS Meeting SDK](https://developers.zoom.us/docs/meeting-sdk/).
+
+`NOTE`: In August 2024, [official bridge](https://developers.zoom.us/docs/meeting-sdk/react-native/) has been released.
 
 [![npm](https://img.shields.io/npm/v/react-native-zoom-us)](https://www.npmjs.com/package/react-native-zoom-us)
 
