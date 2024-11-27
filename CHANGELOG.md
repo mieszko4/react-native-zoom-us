@@ -1,5 +1,11 @@
 ## Changelog
 
+### 9.0.0
+
+Android:
+
+- Updated ZoomSDK to 6.1.5.23231
+
 ### 8.0.0
 
 Android:
