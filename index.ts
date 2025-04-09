@@ -1,6 +1,6 @@
 import { Platform } from "react-native";
 import invariant from "invariant";
-import { RNZoomUs } from "./native";
+import RNZoomUs from "./native";
 import events from "./src/events";
 
 const DEFAULT_USER_TYPE = 2;

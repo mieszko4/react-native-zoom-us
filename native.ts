@@ -1,11 +1,11 @@
 import {
-  NativeModules,
   HostComponent,
   requireNativeComponent,
   Platform,
   StyleProp,
   ViewStyle,
 } from 'react-native'
+import RNZoomUs from './src/specs/RNZoomUs'
 
 export const VideoAspectModeEnum = {
   VIDEO_ASPECT_ORIGINAL: 0,
@@ -42,5 +42,5 @@ export const RNZoomUsVideoView = (
   Platform.OS === 'android' ? requireNativeComponent('RNZoomUsVideoView') : null
 ) as HostComponent<NativeVideoProps> | null
 
-export const RNZoomUs = NativeModules.RNZoomUs
-if (!RNZoomUs) console.error('[react-native-zoom-us] RNZoomUs native module is not linked.')
+if (!RNZoomUs) console.error('react-native-zoom-us: RNZoomUs is undefined. Make sure the library is linked on the native side.')
+export default RNZoomUs

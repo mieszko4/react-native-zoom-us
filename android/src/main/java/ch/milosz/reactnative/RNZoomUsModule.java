@@ -5,12 +5,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.Context;
 import android.media.projection.MediaProjectionManager;
-import androidx.fragment.app.FragmentActivity;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ActivityEventListener;
 import com.facebook.react.bridge.LifecycleEventListener;
@@ -20,15 +18,16 @@ import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.UiThreadUtil;
 import com.facebook.react.uimanager.UIManagerModule;
-import com.facebook.react.uimanager.NativeViewHierarchyManager;
-import com.facebook.react.uimanager.UIBlock;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
+import com.facebook.react.bridge.UIManager;
+import com.facebook.react.fabric.FabricUIManager;
+import com.facebook.react.uimanager.UIManagerHelper;
+import com.facebook.react.uimanager.common.UIManagerType;
 
 import java.lang.Long;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Collections;
 import java.util.Locale;
 
@@ -78,7 +77,6 @@ import us.zoom.sdk.MeetingOptions;
 import us.zoom.sdk.MeetingViewsOptions;
 import us.zoom.sdk.JoinMeetingParam4WithoutLogin;
 
-
 import us.zoom.sdk.VideoQuality;
 import us.zoom.sdk.ChatMessageDeleteType;
 import us.zoom.sdk.InMeetingChatController;
@@ -86,9 +84,9 @@ import us.zoom.sdk.MobileRTCFocusModeShareType;
 
 // Please note that SDK initialization and all API call must run in Main Thread.
 // See https://marketplace.zoom.us/docs/sdk/native-sdks/android/mastering-zoom-sdk/sdk-initialization/
-public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSDKInitializeListener, InMeetingServiceListener, MeetingServiceListener, InMeetingShareController.InMeetingShareListener, LifecycleEventListener {
+public class RNZoomUsModule extends RNZoomUsModuleSpec implements ZoomSDKInitializeListener, InMeetingServiceListener, MeetingServiceListener, InMeetingShareController.InMeetingShareListener, LifecycleEventListener {
 
-  private final static String TAG = "RNZoomUs";
+  public final static String NAME = "RNZoomUs";
   private final static int SCREEN_SHARE_REQUEST_CODE = 99;
   private final ReactApplicationContext reactContext;
 
@@ -100,7 +98,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   private Boolean customizedMeetingUIEnabled = false;
   private Boolean disableClearWebKitCache = false;
 
-  private List<Integer> videoViews = Collections.synchronizedList(new ArrayList<Integer>());
+  public static final List<Integer> videoViews = Collections.synchronizedList(new ArrayList<Integer>());
 
   private final ActivityEventListener mActivityEventListener = new BaseActivityEventListener() {
     @Override
@@ -112,7 +110,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
             try {
               startZoomScreenShare(intent);
             } catch (Exception ex) {
-              Log.e(TAG, ex.getMessage());
+              Log.e(NAME, ex.getMessage());
             }
           }
         });
@@ -125,11 +123,6 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     this.reactContext = reactContext;
     reactContext.addLifecycleEventListener(this);
     reactContext.addActivityEventListener(mActivityEventListener);
-  }
-
-  @Override
-  public String getName() {
-    return "RNZoomUs";
   }
 
   @ReactMethod
@@ -155,7 +148,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
       @Override
       public void run() {
         try {
-          Log.i(TAG, "initialize");
+          Log.i(NAME, "initialize");
 
           if (settings.hasKey("disableShowVideoPreviewWhenJoinMeeting")) {
             shouldDisablePreview = settings.getBoolean("disableShowVideoPreviewWhenJoinMeeting");
@@ -288,7 +281,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
           // after zoomSDK.startMeetingWithParams is called
           meetingPromise = promise;
           int startMeetingResult = meetingService.startMeetingWithParams(reactContext.getCurrentActivity(), params, opts);
-          Log.i(TAG, "startMeeting, startMeetingResult=" + startMeetingResult);
+          Log.i(NAME, "startMeeting, startMeetingResult=" + startMeetingResult);
 
           if (startMeetingResult != MeetingError.MEETING_ERROR_SUCCESS) {
             // We are resolving promise: (1) right away and (2) in onMeetingStatusChanged because in case of no success onMeetingStatusChanged will not be triggered
@@ -375,7 +368,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
           meetingPromise = promise;
           shouldAutoConnectAudio = paramMap.getBoolean("autoConnectAudio");
           int joinMeetingResult = meetingService.joinMeetingWithParams(reactContext.getCurrentActivity(), params, opts);
-          Log.i(TAG, "joinMeeting, joinMeetingResult=" + joinMeetingResult);
+          Log.i(NAME, "joinMeeting, joinMeetingResult=" + joinMeetingResult);
 
           if (joinMeetingResult != MeetingError.MEETING_ERROR_SUCCESS) {
             // We are resolving promise: (1) right away and (2) in onMeetingStatusChanged because in case of no success onMeetingStatusChanged will not be triggered
@@ -826,31 +819,21 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
   // Internal user list update trigger
   private void updateVideoView() {
-    UIManagerModule uiManager = reactContext.getNativeModule(UIManagerModule.class);
+    Log.i(NAME, "updateVideoView");
+    RNZoomUsVideoViewBlock uiBlock = new RNZoomUsVideoViewBlock();
 
-    uiManager.addUIBlock(new UIBlock() {
-        @Override
-        public void execute(NativeViewHierarchyManager nativeViewHierarchyManager) {
-          synchronized (videoViews) {
-            Log.i(TAG, "updateVideoView");
-            Iterator<Integer> iterator = videoViews.iterator();
-            while (iterator.hasNext()) {
-              final int tagId = iterator.next();
-              try {
-                final RNZoomUsVideoView view = (RNZoomUsVideoView) nativeViewHierarchyManager.resolveView(tagId);
-                if (view != null) view.update();
-              } catch (Exception ex) {
-                Log.e(TAG, ex.getMessage());
-              }
-            }
-          }
-        }
-    });
+    if (BuildConfig.IS_NEW_ARCHITECTURE_ENABLED) {
+      UIManager uiManager = UIManagerHelper.getUIManager(reactContext, UIManagerType.FABRIC);
+      ((FabricUIManager) uiManager).addUIBlock(uiBlock);
+    } else {
+      final UIManagerModule uiManager = this.reactContext.getNativeModule(UIManagerModule.class);
+      uiManager.addUIBlock(uiBlock);
+    }
   }
 
   @Override
   public void onZoomSDKInitializeResult(int errorCode, int internalErrorCode) {
-    Log.i(TAG, "onZoomSDKInitializeResult, errorCode=" + errorCode + ", internalErrorCode=" + internalErrorCode);
+    Log.i(NAME, "onZoomSDKInitializeResult, errorCode=" + errorCode + ", internalErrorCode=" + internalErrorCode);
     String errorInfo = getAuthErrorName(errorCode);
     sendEvent("AuthEvent", errorInfo);
     if(errorCode != ZoomError.ZOOM_ERROR_SUCCESS) {
@@ -881,7 +864,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   // MeetingServiceListener
   @Override
   public void onMeetingStatusChanged(MeetingStatus meetingStatus, int errorCode, int internalErrorCode) {
-    Log.i(TAG, "onMeetingStatusChanged, meetingStatus=" + meetingStatus + ", errorCode=" + errorCode + ", internalErrorCode=" + internalErrorCode);
+    Log.i(NAME, "onMeetingStatusChanged, meetingStatus=" + meetingStatus + ", errorCode=" + errorCode + ", internalErrorCode=" + internalErrorCode);
 
     updateVideoView();
 
@@ -889,7 +872,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     sendEvent("MeetingStatus", meetingStatus.name());
 
     if (meetingPromise == null) {
-      Log.i(TAG, "onMeetingStatusChanged, does not have meetingPromise");
+      Log.i(NAME, "onMeetingStatusChanged, does not have meetingPromise");
       return;
     }
 
@@ -924,41 +907,41 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   }
 
   private void registerListener() {
-    Log.i(TAG, "registerListener");
+    Log.i(NAME, "registerListener");
     ZoomSDK zoomSDK = ZoomSDK.getInstance();
     MeetingService meetingService = zoomSDK.getMeetingService();
     if(meetingService != null) {
-      Log.i(TAG, "registerListener, added listener for meetingService");
+      Log.i(NAME, "registerListener, added listener for meetingService");
       meetingService.addListener(this);
     }
     InMeetingService inMeetingService = zoomSDK.getInMeetingService();
     if (inMeetingService != null) {
-      Log.i(TAG, "registerListener, added listener for inMeetingService");
+      Log.i(NAME, "registerListener, added listener for inMeetingService");
       inMeetingService.addListener(this);
       InMeetingShareController inMeetingShareController = inMeetingService.getInMeetingShareController();
       if (inMeetingShareController != null) {
-        Log.i(TAG, "registerListener, added listener for getInMeetingShareController");
+        Log.i(NAME, "registerListener, added listener for getInMeetingShareController");
         inMeetingShareController.addListener(this);
       }
     }
   }
 
   private void unregisterListener() {
-    Log.i(TAG, "unregisterListener");
+    Log.i(NAME, "unregisterListener");
     ZoomSDK zoomSDK = ZoomSDK.getInstance();
     if(zoomSDK.isInitialized()) {
       final MeetingService meetingService = zoomSDK.getMeetingService();
       if (meetingService != null) {
-        Log.i(TAG, "unregisterListener, removed listener from meetingService");
+        Log.i(NAME, "unregisterListener, removed listener from meetingService");
         meetingService.removeListener(this);
       }
       final InMeetingService inMeetingService = zoomSDK.getInMeetingService();
       if (inMeetingService != null) {
-        Log.i(TAG, "unregisterListener, removed listener from inMeetingService");
+        Log.i(NAME, "unregisterListener, removed listener from inMeetingService");
         inMeetingService.removeListener(this);
         final InMeetingShareController inMeetingShareController = inMeetingService.getInMeetingShareController();
         if (inMeetingShareController != null) {
-          Log.i(TAG, "unregisterListener, removed listener from inMeetingShareController");
+          Log.i(NAME, "unregisterListener, removed listener from inMeetingShareController");
           inMeetingShareController.removeListener(this);
         }
       }
@@ -1211,7 +1194,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   // React LifeCycle
   @Override
   public void onHostDestroy() {
-    Log.i(TAG, "onHostDestroy");
+    Log.i(NAME, "onHostDestroy");
     UiThreadUtil.runOnUiThread(new Runnable() {
       @Override
       public void run() {
@@ -1223,18 +1206,18 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
           unregisterListener();
         } catch (Exception ex) {
-          Log.e(TAG, ex.getMessage());
+          Log.e(NAME, ex.getMessage());
         }
       }
     });
   }
   @Override
   public void onHostPause() {
-    Log.i(TAG, "onHostPause");
+    Log.i(NAME, "onHostPause");
   }
   @Override
   public void onHostResume() {
-    Log.i(TAG, "onHostResume");
+    Log.i(NAME, "onHostResume");
 
     UiThreadUtil.runOnUiThread(new Runnable() {
       @Override
@@ -1248,20 +1231,21 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
           final MeetingService meetingService = zoomSDK.getMeetingService();
           List<MeetingStatus> staleMeetingStatuses = new ArrayList<>(Arrays.asList(MeetingStatus.MEETING_STATUS_IDLE, MeetingStatus.MEETING_STATUS_DISCONNECTING));
           if(!staleMeetingStatuses.contains(meetingService.getMeetingStatus())) {
-            Log.i(TAG, "onHostResume, returning to meeting");
+            Log.i(NAME, "onHostResume, returning to meeting");
             meetingService.returnToMeeting(reactContext.getCurrentActivity());
           }
 
           registerListener();
         } catch (Exception ex) {
-          Log.e(TAG, ex.getMessage());
+          Log.e(NAME, ex.getMessage());
         }
       }
     });
   }
+
   @Override
   public void onCatalystInstanceDestroy() {
-    Log.i(TAG, "onCatalystInstanceDestroy");
+    Log.i(NAME, "onCatalystInstanceDestroy");
     UiThreadUtil.runOnUiThread(new Runnable() {
       @Override
       public void run() {
@@ -1273,7 +1257,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
           unregisterListener();
         } catch (Exception ex) {
-          Log.e(TAG, ex.getMessage());
+          Log.e(NAME, ex.getMessage());
         }
       }
     });

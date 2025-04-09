@@ -1,7 +1,7 @@
 import { NativeEventEmitter, NativeModule } from 'react-native'
-import { RNZoomUs } from '../native'
+import RNZoomUs from '../native'
 
-export const ZoomEmitter = RNZoomUs as NativeModule
+export const ZoomEmitter = RNZoomUs as unknown as NativeModule
 const EventEmitter = new NativeEventEmitter(ZoomEmitter)
 
 // Android statuses took from https://zoom.github.io/zoom-sdk-android/us/zoom/sdk/MeetingStatus.html#MEETING_STATUS_INMEETING

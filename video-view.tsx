@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { View, findNodeHandle } from 'react-native'
 import Color from 'color'
-import { RNZoomUs, RNZoomUsVideoView, NativeVideoProps } from './native'
+import RNZoomUs, { RNZoomUsVideoView, NativeVideoProps } from './native'
 
 export interface Props {
   style?: NativeVideoProps["style"]
