@@ -100,8 +100,6 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   private Boolean customizedMeetingUIEnabled = false;
   private Boolean disableClearWebKitCache = false;
 
-  private List<Integer> videoViews = Collections.synchronizedList(new ArrayList<Integer>());
-
   private final ActivityEventListener mActivityEventListener = new BaseActivityEventListener() {
     @Override
     public void onActivityResult(Activity activity, int requestCode, int resultCode, final Intent intent) {
@@ -208,26 +206,6 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
         }
       }
     });
-  }
-
-  @ReactMethod
-  public void addVideoView(final int tagId, final Promise promise) {
-    try {
-      videoViews.add(new Integer(tagId));
-      promise.resolve(null);
-    } catch (Exception ex) {
-      promise.reject("ERR_ZOOM_VIDEO_VIEW", ex.toString());
-    }
-  }
-
-  @ReactMethod
-  public void removeVideoView(final int tagId, final Promise promise) {
-    try {
-      videoViews.remove(new Integer(tagId));
-      promise.resolve(null);
-    } catch (Exception ex) {
-      promise.reject("ERR_ZOOM_VIDEO_VIEW", ex.toString());
-    }
   }
 
   @ReactMethod
@@ -744,7 +722,6 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
           if (!videoController.isMyVideoMuted()) {
             if (videoController.switchToNextCamera()) {
-              updateVideoView();
               promise.resolve(null);
             } else {
               promise.reject("ERR_ZOOM_MEETING_CONTROL", "Switch camera failed");
@@ -824,30 +801,6 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
       // Keep: Required for RN built in Event Emitter Calls.
   }
 
-  // Internal user list update trigger
-  private void updateVideoView() {
-    UIManagerModule uiManager = reactContext.getNativeModule(UIManagerModule.class);
-
-    uiManager.addUIBlock(new UIBlock() {
-        @Override
-        public void execute(NativeViewHierarchyManager nativeViewHierarchyManager) {
-          synchronized (videoViews) {
-            Log.i(TAG, "updateVideoView");
-            Iterator<Integer> iterator = videoViews.iterator();
-            while (iterator.hasNext()) {
-              final int tagId = iterator.next();
-              try {
-                final RNZoomUsVideoView view = (RNZoomUsVideoView) nativeViewHierarchyManager.resolveView(tagId);
-                if (view != null) view.update();
-              } catch (Exception ex) {
-                Log.e(TAG, ex.getMessage());
-              }
-            }
-          }
-        }
-    });
-  }
-
   @Override
   public void onZoomSDKInitializeResult(int errorCode, int internalErrorCode) {
     Log.i(TAG, "onZoomSDKInitializeResult, errorCode=" + errorCode + ", internalErrorCode=" + internalErrorCode);
@@ -882,8 +835,6 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   @Override
   public void onMeetingStatusChanged(MeetingStatus meetingStatus, int errorCode, int internalErrorCode) {
     Log.i(TAG, "onMeetingStatusChanged, meetingStatus=" + meetingStatus + ", errorCode=" + errorCode + ", internalErrorCode=" + internalErrorCode);
-
-    updateVideoView();
 
     sendEvent("MeetingEvent", getMeetErrorName(errorCode), meetingStatus);
     sendEvent("MeetingStatus", meetingStatus.name());
@@ -968,19 +919,16 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   // InMeetingServiceListener required listeners
   @Override
   public void onMeetingLeaveComplete(long ret) {
-    updateVideoView();
     sendEvent("MeetingEvent", getMeetingEndReasonName((int)ret));
   }
 
   @Override
   public void onMeetingUserJoin(List<Long> userIdList) {
-    updateVideoView();
     sendEvent("MeetingEvent", "userJoin", userIdList);
   }
 
   @Override
   public void onMeetingUserLeave(List<Long> userIdList) {
-    updateVideoView();
     sendEvent("MeetingEvent", "userLeave", userIdList);
   }
 
@@ -1192,8 +1140,6 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
   @Override
   public void onSharingStatus(SharingStatus status, long userId) {
-    updateVideoView();
-
     sendEvent("MeetingEvent", getSharingStatusEventName(status), userId);
 
     if (status.equals(SharingStatus.Sharing_Self_Send_Begin)) {
