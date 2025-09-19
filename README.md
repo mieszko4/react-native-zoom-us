@@ -24,7 +24,6 @@ Pull requests are welcome.
 
 - [Screenshare on iOS](docs/IOS-SCREENSHARE.md)
 - [Events](docs/EVENTS.md)
-- [Video View Component](docs/VIDEO-VIEW.md)
 - [Size Reduction](docs/SIZE-REDUCTION-TIPS.md)
 - [Custom Meeting Activity](docs/CUSTOM-MEETING-ACTIVITY.md)
 

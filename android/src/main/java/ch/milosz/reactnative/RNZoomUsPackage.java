@@ -1,4 +1,3 @@
-
 package ch.milosz.reactnative;
 
 import java.util.Arrays;
