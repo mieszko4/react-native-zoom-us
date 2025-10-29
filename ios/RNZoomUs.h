@@ -7,8 +7,10 @@
 
 #import "RCTEventEmitter.h"
 #import <MobileRTC/MobileRTC.h>
+#import "CustomMeetingViewController.h"
+#import "ProviderDelegate.h"
+#import <AVKit/AVKit.h>
 
-@interface RNZoomUs : RCTEventEmitter<RCTBridgeModule, MobileRTCAuthDelegate, MobileRTCMeetingServiceDelegate>
-
+@interface RNZoomUs : RCTEventEmitter<RCTBridgeModule, MobileRTCAuthDelegate, MobileRTCMeetingServiceDelegate, MobileRTCAnnotationServiceDelegate, MobileRTCWaitingRoomServiceDelegate, UIAlertViewDelegate, AVPictureInPictureControllerDelegate>
 @end
 

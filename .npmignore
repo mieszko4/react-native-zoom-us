@@ -1,9 +1,2 @@
-**/*.ts
-**/*.tsx
-!**/*.d.ts
-scripts
-**/tests
-**/test
-
 docs
 .github

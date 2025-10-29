@@ -46,7 +46,35 @@ type InitializeSettings = {
   disableShowVideoPreviewWhenJoinMeeting?: boolean;
   disableMinimizeMeeting?: boolean;
   disableClearWebKitCache?: boolean;
+  meetingShareHidden?: boolean;
+  meetingVideoHidden?: boolean;
+  meetingAudioHidden?: boolean;
+  closeCaptionHidden?: boolean;
+  disableCloudWhiteboard?: boolean;
+  meetingMoreHidden?: boolean;
 };
+
+export interface ZoomChatInfo {
+  chatId?: string
+  chatMessageType?: number
+  content: string
+  date?: string
+  isChatToAll?: boolean
+  isChatToAllPanelist?: boolean
+  isChatToWaitingroom?: boolean
+  isComment?: boolean
+  isMyself?: boolean
+  isPrivate?: boolean
+  isThread?: boolean
+  receiverId: number
+  receiverName?: string
+  senderId?: string
+  senderName?: string
+  threadID?: string
+  hostId?: number
+  messageToHost?: string
+  previousChatId?: string
+}
 
 async function initialize(
   {
@@ -65,12 +93,13 @@ async function initialize(
     disableMinimizeMeeting = false,
 
     disableClearWebKitCache = false,
+    ...settings
   }: InitializeSettings = {}
 ): Promise<string> {
   invariant(
     typeof params === "object",
     "ZoomUs.initialize expects object param. Consider to check migration docs. " +
-      "Check Link: https://github.com/mieszko4/react-native-zoom-us/blob/master/docs/UPGRADING.md"
+    "Check Link: https://github.com/mieszko4/react-native-zoom-us/blob/master/docs/UPGRADING.md"
   );
 
   invariant(params.jwtToken, "ZoomUs.initialize requires jwtToken");
@@ -83,6 +112,7 @@ async function initialize(
 
     disableMinimizeMeeting,
     disableClearWebKitCache,
+    ...settings
   };
 
   const mappedParams = {
@@ -91,6 +121,10 @@ async function initialize(
   };
 
   return RNZoomUs.initialize(mappedParams, mappedSettings);
+}
+
+function cleanup(): Promise<string> {
+  return RNZoomUs.cleanup();
 }
 
 function isInitialized(): Promise<boolean> {
@@ -258,11 +292,50 @@ async function lowerMyHand() {
   return RNZoomUs.lowerMyHand();
 }
 
+async function joinBO() {
+  return RNZoomUs.joinBO();
+}
+
+async function leaveBO() {
+  return RNZoomUs.leaveBO();
+}
+
+async function requestForHelp() {
+  return RNZoomUs.requestForHelp();
+}
+
+async function isHostInThisBO() {
+  return RNZoomUs.isHostInThisBO();
+}
+
+async function getAllChatMessageID() {
+  return RNZoomUs.getAllChatMessageID();
+}
+
+async function sendChatMsg(msgData: ZoomChatInfo) {
+  return RNZoomUs.sendChatMsg(msgData);
+}
+
+async function deleteChatMessage(msgId: string)  {
+  return RNZoomUs.deleteChatMessage(msgId);
+}
+
+async function isHostUser({ userId }: { userId: number }) {
+  return RNZoomUs.isHostUser(userId);
+}
+
+async function getMyselfUserID(): Promise<number> {
+  return RNZoomUs.getMyselfUserID();
+}
+
+
+
 export { default as ZoomUsVideoView } from "./video-view";
 
 export * from "./src/events";
 export default {
   initialize,
+  cleanup,
   joinMeeting,
   joinMeetingWithPassword,
   startMeeting,
@@ -282,5 +355,14 @@ export default {
   switchCamera,
   raiseMyHand,
   lowerMyHand,
+  joinBO,
+  leaveBO,
+  requestForHelp,
+  isHostInThisBO,
+  getAllChatMessageID,
+  sendChatMsg,
+  isHostUser,
+  deleteChatMessage,
+  getMyselfUserID,
   ...events,
 };

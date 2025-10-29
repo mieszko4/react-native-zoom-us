@@ -131,7 +131,7 @@ class RNZoomUsVideoView extends MobileRTCVideoView {
           renderInfo.is_show_audio_off = showAudioOff;
         }
         renderInfo.aspect_mode = aspectMode;
-        renderInfo.backgroud_color = background;
+        renderInfo.background_color = background;
         Log.i(TAG, "Layout #" + i + " [kind=" + kind + " x=" + x + " y=" + y + "]");
         switch (kind) {
           case "active":

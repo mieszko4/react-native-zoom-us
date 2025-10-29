@@ -3,10 +3,52 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2B022C402BF1BFBB008B751D /* InterpreterLanguageSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B022BEB2BF1BFBB008B751D /* InterpreterLanguageSelectViewController.m */; };
+		2B022C412BF1BFBB008B751D /* ManageLanInterpreTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B022BED2BF1BFBB008B751D /* ManageLanInterpreTableViewCell.m */; };
+		2B022C422BF1BFBB008B751D /* ManageLanInterpreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B022BEF2BF1BFBB008B751D /* ManageLanInterpreViewController.m */; };
+		2B022C432BF1BFBB008B751D /* SelectLanguageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B022BF12BF1BFBB008B751D /* SelectLanguageViewController.m */; };
+		2B022C442BF1BFBB008B751D /* AudioRawDataSaveSandboxHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B022BF42BF1BFBB008B751D /* AudioRawDataSaveSandboxHelper.m */; };
+		2B022C452BF1BFBB008B751D /* CameraCaptureAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B022BF72BF1BFBB008B751D /* CameraCaptureAdapter.m */; };
+		2B022C462BF1BFBB008B751D /* PreProcessHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B022BFA2BF1BFBB008B751D /* PreProcessHelper.m */; };
+		2B022C472BF1BFBB008B751D /* waterMark.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B022BFB2BF1BFBB008B751D /* waterMark.png */; };
+		2B022C482BF1BFBB008B751D /* frame_one.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2B022BFD2BF1BFBB008B751D /* frame_one.jpg */; };
+		2B022C492BF1BFBB008B751D /* frame_two.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2B022BFE2BF1BFBB008B751D /* frame_two.jpg */; };
+		2B022C4A2BF1BFBB008B751D /* SendPictureAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B022C002BF1BFBB008B751D /* SendPictureAdapter.m */; };
+		2B022C4B2BF1BFBB008B751D /* SendYUVAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B022C032BF1BFBB008B751D /* SendYUVAdapter.m */; };
+		2B022C4C2BF1BFBB008B751D /* SendPCMAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B022C072BF1BFBB008B751D /* SendPCMAdapter.m */; };
+		2B022C4D2BF1BFBB008B751D /* SendYUVShareAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B022C0B2BF1BFBB008B751D /* SendYUVShareAdapter.m */; };
+		2B022C4E2BF1BFBB008B751D /* BottomBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B022C0F2BF1BFBB008B751D /* BottomBarView.m */; };
+		2B022C4F2BF1BFBB008B751D /* ControlBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B022C112BF1BFBB008B751D /* ControlBar.m */; };
+		2B022C502BF1BFBB008B751D /* OpenGLViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B022C132BF1BFBB008B751D /* OpenGLViewController.m */; };
+		2B022C512BF1BFBB008B751D /* TopBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B022C152BF1BFBB008B751D /* TopBar.m */; };
+		2B022C522BF1BFBB008B751D /* AllChatMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B022C182BF1BFBB008B751D /* AllChatMessageViewController.m */; };
+		2B022C532BF1BFBB008B751D /* AnnoFloatBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B022C1A2BF1BFBB008B751D /* AnnoFloatBarView.m */; };
+		2B022C542BF1BFBB008B751D /* BOMeetingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B022C1C2BF1BFBB008B751D /* BOMeetingViewController.m */; };
+		2B022C552BF1BFBB008B751D /* BottomPanelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B022C1E2BF1BFBB008B751D /* BottomPanelView.m */; };
+		2B022C562BF1BFBB008B751D /* CustomMeetingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B022C202BF1BFBB008B751D /* CustomMeetingViewController.m */; };
+		2B022C572BF1BFBB008B751D /* CustomMeetingViewController+MeetingDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B022C222BF1BFBB008B751D /* CustomMeetingViewController+MeetingDelegate.m */; };
+		2B022C582BF1BFBB008B751D /* CustomRemoteControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B022C242BF1BFBB008B751D /* CustomRemoteControl.m */; };
+		2B022C592BF1BFBB008B751D /* HorizontalTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B022C262BF1BFBB008B751D /* HorizontalTableView.m */; };
+		2B022C5A2BF1BFBB008B751D /* LocalShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B022C282BF1BFBB008B751D /* LocalShareViewController.m */; };
+		2B022C5B2BF1BFBB008B751D /* PollingSubViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B022C2A2BF1BFBB008B751D /* PollingSubViewController.m */; };
+		2B022C5C2BF1BFBB008B751D /* PollingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B022C2C2BF1BFBB008B751D /* PollingViewController.m */; };
+		2B022C5D2BF1BFBB008B751D /* QAListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B022C2E2BF1BFBB008B751D /* QAListTableViewCell.m */; };
+		2B022C5E2BF1BFBB008B751D /* QAListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B022C302BF1BFBB008B751D /* QAListViewController.m */; };
+		2B022C5F2BF1BFBB008B751D /* RemoteShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B022C322BF1BFBB008B751D /* RemoteShareViewController.m */; };
+		2B022C602BF1BFBB008B751D /* ThumbTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B022C342BF1BFBB008B751D /* ThumbTableViewCell.m */; };
+		2B022C612BF1BFBB008B751D /* ThumbView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B022C362BF1BFBB008B751D /* ThumbView.m */; };
+		2B022C622BF1BFBB008B751D /* TopPanelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B022C382BF1BFBB008B751D /* TopPanelView.m */; };
+		2B022C632BF1BFBB008B751D /* VBViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B022C3A2BF1BFBB008B751D /* VBViewController.m */; };
+		2B022C642BF1BFBB008B751D /* VideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B022C3C2BF1BFBB008B751D /* VideoViewController.m */; };
+		2B022C652BF1BFBB008B751D /* WebinarAtteedeeslistViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B022C3E2BF1BFBB008B751D /* WebinarAtteedeeslistViewController.m */; };
+		2B79C2B12C19837200AFD9F1 /* MobileRTCScreenShare.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B79C2AD2C19836100AFD9F1 /* MobileRTCScreenShare.xcframework */; };
+		2B79C2B22C19837200AFD9F1 /* zoomcml.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B79C2AE2C19836400AFD9F1 /* zoomcml.xcframework */; };
+		2B79C2B32C19837200AFD9F1 /* MobileRTCResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2B79C2AF2C19836700AFD9F1 /* MobileRTCResources.bundle */; };
+		2B79C2B42C19837200AFD9F1 /* MobileRTC.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B79C2B02C19837200AFD9F1 /* MobileRTC.xcframework */; };
 		35B9664A2139997D009ECAC1 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35B966492139997D009ECAC1 /* CoreBluetooth.framework */; };
 		35B9664C2139998B009ECAC1 /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35B9664B2139998B009ECAC1 /* VideoToolbox.framework */; };
 		B3E7B58A1CC2AC0600A0062D /* RNZoomUs.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E7B5891CC2AC0600A0062D /* RNZoomUs.m */; };
@@ -26,6 +68,83 @@
 
 /* Begin PBXFileReference section */
 		134814201AA4EA6300B7C361 /* libRNZoomUs.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRNZoomUs.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		2B022BEA2BF1BFBB008B751D /* InterpreterLanguageSelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InterpreterLanguageSelectViewController.h; sourceTree = "<group>"; };
+		2B022BEB2BF1BFBB008B751D /* InterpreterLanguageSelectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InterpreterLanguageSelectViewController.m; sourceTree = "<group>"; };
+		2B022BEC2BF1BFBB008B751D /* ManageLanInterpreTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ManageLanInterpreTableViewCell.h; sourceTree = "<group>"; };
+		2B022BED2BF1BFBB008B751D /* ManageLanInterpreTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ManageLanInterpreTableViewCell.m; sourceTree = "<group>"; };
+		2B022BEE2BF1BFBB008B751D /* ManageLanInterpreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ManageLanInterpreViewController.h; sourceTree = "<group>"; };
+		2B022BEF2BF1BFBB008B751D /* ManageLanInterpreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ManageLanInterpreViewController.m; sourceTree = "<group>"; };
+		2B022BF02BF1BFBB008B751D /* SelectLanguageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectLanguageViewController.h; sourceTree = "<group>"; };
+		2B022BF12BF1BFBB008B751D /* SelectLanguageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectLanguageViewController.m; sourceTree = "<group>"; };
+		2B022BF32BF1BFBB008B751D /* AudioRawDataSaveSandboxHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioRawDataSaveSandboxHelper.h; sourceTree = "<group>"; };
+		2B022BF42BF1BFBB008B751D /* AudioRawDataSaveSandboxHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioRawDataSaveSandboxHelper.m; sourceTree = "<group>"; };
+		2B022BF62BF1BFBB008B751D /* CameraCaptureAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraCaptureAdapter.h; sourceTree = "<group>"; };
+		2B022BF72BF1BFBB008B751D /* CameraCaptureAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraCaptureAdapter.m; sourceTree = "<group>"; };
+		2B022BF92BF1BFBB008B751D /* PreProcessHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreProcessHelper.h; sourceTree = "<group>"; };
+		2B022BFA2BF1BFBB008B751D /* PreProcessHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreProcessHelper.m; sourceTree = "<group>"; };
+		2B022BFB2BF1BFBB008B751D /* waterMark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = waterMark.png; sourceTree = "<group>"; };
+		2B022BFD2BF1BFBB008B751D /* frame_one.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = frame_one.jpg; sourceTree = "<group>"; };
+		2B022BFE2BF1BFBB008B751D /* frame_two.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = frame_two.jpg; sourceTree = "<group>"; };
+		2B022BFF2BF1BFBB008B751D /* SendPictureAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendPictureAdapter.h; sourceTree = "<group>"; };
+		2B022C002BF1BFBB008B751D /* SendPictureAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendPictureAdapter.m; sourceTree = "<group>"; };
+		2B022C022BF1BFBB008B751D /* SendYUVAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendYUVAdapter.h; sourceTree = "<group>"; };
+		2B022C032BF1BFBB008B751D /* SendYUVAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendYUVAdapter.m; sourceTree = "<group>"; };
+		2B022C062BF1BFBB008B751D /* SendPCMAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendPCMAdapter.h; sourceTree = "<group>"; };
+		2B022C072BF1BFBB008B751D /* SendPCMAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendPCMAdapter.m; sourceTree = "<group>"; };
+		2B022C0A2BF1BFBB008B751D /* SendYUVShareAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendYUVShareAdapter.h; sourceTree = "<group>"; };
+		2B022C0B2BF1BFBB008B751D /* SendYUVShareAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendYUVShareAdapter.m; sourceTree = "<group>"; };
+		2B022C0E2BF1BFBB008B751D /* BottomBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BottomBarView.h; sourceTree = "<group>"; };
+		2B022C0F2BF1BFBB008B751D /* BottomBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BottomBarView.m; sourceTree = "<group>"; };
+		2B022C102BF1BFBB008B751D /* ControlBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ControlBar.h; sourceTree = "<group>"; };
+		2B022C112BF1BFBB008B751D /* ControlBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ControlBar.m; sourceTree = "<group>"; };
+		2B022C122BF1BFBB008B751D /* OpenGLViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenGLViewController.h; sourceTree = "<group>"; };
+		2B022C132BF1BFBB008B751D /* OpenGLViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenGLViewController.m; sourceTree = "<group>"; };
+		2B022C142BF1BFBB008B751D /* TopBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopBar.h; sourceTree = "<group>"; };
+		2B022C152BF1BFBB008B751D /* TopBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopBar.m; sourceTree = "<group>"; };
+		2B022C172BF1BFBB008B751D /* AllChatMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AllChatMessageViewController.h; sourceTree = "<group>"; };
+		2B022C182BF1BFBB008B751D /* AllChatMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AllChatMessageViewController.m; sourceTree = "<group>"; };
+		2B022C192BF1BFBB008B751D /* AnnoFloatBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnnoFloatBarView.h; sourceTree = "<group>"; };
+		2B022C1A2BF1BFBB008B751D /* AnnoFloatBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnnoFloatBarView.m; sourceTree = "<group>"; };
+		2B022C1B2BF1BFBB008B751D /* BOMeetingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BOMeetingViewController.h; sourceTree = "<group>"; };
+		2B022C1C2BF1BFBB008B751D /* BOMeetingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BOMeetingViewController.m; sourceTree = "<group>"; };
+		2B022C1D2BF1BFBB008B751D /* BottomPanelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BottomPanelView.h; sourceTree = "<group>"; };
+		2B022C1E2BF1BFBB008B751D /* BottomPanelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BottomPanelView.m; sourceTree = "<group>"; };
+		2B022C1F2BF1BFBB008B751D /* CustomMeetingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomMeetingViewController.h; sourceTree = "<group>"; };
+		2B022C202BF1BFBB008B751D /* CustomMeetingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomMeetingViewController.m; sourceTree = "<group>"; };
+		2B022C212BF1BFBB008B751D /* CustomMeetingViewController+MeetingDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CustomMeetingViewController+MeetingDelegate.h"; sourceTree = "<group>"; };
+		2B022C222BF1BFBB008B751D /* CustomMeetingViewController+MeetingDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CustomMeetingViewController+MeetingDelegate.m"; sourceTree = "<group>"; };
+		2B022C232BF1BFBB008B751D /* CustomRemoteControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomRemoteControl.h; sourceTree = "<group>"; };
+		2B022C242BF1BFBB008B751D /* CustomRemoteControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomRemoteControl.m; sourceTree = "<group>"; };
+		2B022C252BF1BFBB008B751D /* HorizontalTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HorizontalTableView.h; sourceTree = "<group>"; };
+		2B022C262BF1BFBB008B751D /* HorizontalTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HorizontalTableView.m; sourceTree = "<group>"; };
+		2B022C272BF1BFBB008B751D /* LocalShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalShareViewController.h; sourceTree = "<group>"; };
+		2B022C282BF1BFBB008B751D /* LocalShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalShareViewController.m; sourceTree = "<group>"; };
+		2B022C292BF1BFBB008B751D /* PollingSubViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PollingSubViewController.h; sourceTree = "<group>"; };
+		2B022C2A2BF1BFBB008B751D /* PollingSubViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PollingSubViewController.m; sourceTree = "<group>"; };
+		2B022C2B2BF1BFBB008B751D /* PollingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PollingViewController.h; sourceTree = "<group>"; };
+		2B022C2C2BF1BFBB008B751D /* PollingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PollingViewController.m; sourceTree = "<group>"; };
+		2B022C2D2BF1BFBB008B751D /* QAListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QAListTableViewCell.h; sourceTree = "<group>"; };
+		2B022C2E2BF1BFBB008B751D /* QAListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QAListTableViewCell.m; sourceTree = "<group>"; };
+		2B022C2F2BF1BFBB008B751D /* QAListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QAListViewController.h; sourceTree = "<group>"; };
+		2B022C302BF1BFBB008B751D /* QAListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QAListViewController.m; sourceTree = "<group>"; };
+		2B022C312BF1BFBB008B751D /* RemoteShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemoteShareViewController.h; sourceTree = "<group>"; };
+		2B022C322BF1BFBB008B751D /* RemoteShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RemoteShareViewController.m; sourceTree = "<group>"; };
+		2B022C332BF1BFBB008B751D /* ThumbTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThumbTableViewCell.h; sourceTree = "<group>"; };
+		2B022C342BF1BFBB008B751D /* ThumbTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThumbTableViewCell.m; sourceTree = "<group>"; };
+		2B022C352BF1BFBB008B751D /* ThumbView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThumbView.h; sourceTree = "<group>"; };
+		2B022C362BF1BFBB008B751D /* ThumbView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThumbView.m; sourceTree = "<group>"; };
+		2B022C372BF1BFBB008B751D /* TopPanelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopPanelView.h; sourceTree = "<group>"; };
+		2B022C382BF1BFBB008B751D /* TopPanelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopPanelView.m; sourceTree = "<group>"; };
+		2B022C392BF1BFBB008B751D /* VBViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VBViewController.h; sourceTree = "<group>"; };
+		2B022C3A2BF1BFBB008B751D /* VBViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VBViewController.m; sourceTree = "<group>"; };
+		2B022C3B2BF1BFBB008B751D /* VideoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoViewController.h; sourceTree = "<group>"; };
+		2B022C3C2BF1BFBB008B751D /* VideoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoViewController.m; sourceTree = "<group>"; };
+		2B022C3D2BF1BFBB008B751D /* WebinarAtteedeeslistViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebinarAtteedeeslistViewController.h; sourceTree = "<group>"; };
+		2B022C3E2BF1BFBB008B751D /* WebinarAtteedeeslistViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebinarAtteedeeslistViewController.m; sourceTree = "<group>"; };
+		2B79C2AD2C19836100AFD9F1 /* MobileRTCScreenShare.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:BJ4HAAB9B3:Zoom Video Communications, Inc."; lastKnownFileType = wrapper.xcframework; path = MobileRTCScreenShare.xcframework; sourceTree = "<group>"; };
+		2B79C2AE2C19836400AFD9F1 /* zoomcml.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:BJ4HAAB9B3:Zoom Video Communications, Inc."; lastKnownFileType = wrapper.xcframework; path = zoomcml.xcframework; sourceTree = "<group>"; };
+		2B79C2AF2C19836700AFD9F1 /* MobileRTCResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MobileRTCResources.bundle; sourceTree = "<group>"; };
+		2B79C2B02C19837200AFD9F1 /* MobileRTC.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:BJ4HAAB9B3:Zoom Video Communications, Inc."; lastKnownFileType = wrapper.xcframework; path = MobileRTC.xcframework; sourceTree = "<group>"; };
 		35B96644213998A6009ECAC1 /* MobileRTC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileRTC.framework; path = libs/MobileRTC.framework; sourceTree = SOURCE_ROOT; };
 		35B96647213998D0009ECAC1 /* MobileRTCResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = MobileRTCResources.bundle; path = libs/MobileRTCResources.bundle; sourceTree = "<group>"; };
 		35B966492139997D009ECAC1 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
@@ -40,7 +159,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				35B9664C2139998B009ECAC1 /* VideoToolbox.framework in Frameworks */,
+				2B79C2B12C19837200AFD9F1 /* MobileRTCScreenShare.xcframework in Frameworks */,
+				2B79C2B42C19837200AFD9F1 /* MobileRTC.xcframework in Frameworks */,
 				35B9664A2139997D009ECAC1 /* CoreBluetooth.framework in Frameworks */,
+				2B79C2B22C19837200AFD9F1 /* zoomcml.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -55,12 +177,193 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		2B022BF22BF1BFBB008B751D /* LanInterpre */ = {
+			isa = PBXGroup;
+			children = (
+				2B022BEA2BF1BFBB008B751D /* InterpreterLanguageSelectViewController.h */,
+				2B022BEB2BF1BFBB008B751D /* InterpreterLanguageSelectViewController.m */,
+				2B022BEC2BF1BFBB008B751D /* ManageLanInterpreTableViewCell.h */,
+				2B022BED2BF1BFBB008B751D /* ManageLanInterpreTableViewCell.m */,
+				2B022BEE2BF1BFBB008B751D /* ManageLanInterpreViewController.h */,
+				2B022BEF2BF1BFBB008B751D /* ManageLanInterpreViewController.m */,
+				2B022BF02BF1BFBB008B751D /* SelectLanguageViewController.h */,
+				2B022BF12BF1BFBB008B751D /* SelectLanguageViewController.m */,
+			);
+			path = LanInterpre;
+			sourceTree = "<group>";
+		};
+		2B022BF52BF1BFBB008B751D /* audioRawData */ = {
+			isa = PBXGroup;
+			children = (
+				2B022BF32BF1BFBB008B751D /* AudioRawDataSaveSandboxHelper.h */,
+				2B022BF42BF1BFBB008B751D /* AudioRawDataSaveSandboxHelper.m */,
+			);
+			path = audioRawData;
+			sourceTree = "<group>";
+		};
+		2B022BF82BF1BFBB008B751D /* CameraCapture */ = {
+			isa = PBXGroup;
+			children = (
+				2B022BF62BF1BFBB008B751D /* CameraCaptureAdapter.h */,
+				2B022BF72BF1BFBB008B751D /* CameraCaptureAdapter.m */,
+			);
+			path = CameraCapture;
+			sourceTree = "<group>";
+		};
+		2B022BFC2BF1BFBB008B751D /* PreProcess */ = {
+			isa = PBXGroup;
+			children = (
+				2B022BF92BF1BFBB008B751D /* PreProcessHelper.h */,
+				2B022BFA2BF1BFBB008B751D /* PreProcessHelper.m */,
+				2B022BFB2BF1BFBB008B751D /* waterMark.png */,
+			);
+			path = PreProcess;
+			sourceTree = "<group>";
+		};
+		2B022C012BF1BFBB008B751D /* SendPicture */ = {
+			isa = PBXGroup;
+			children = (
+				2B022BFD2BF1BFBB008B751D /* frame_one.jpg */,
+				2B022BFE2BF1BFBB008B751D /* frame_two.jpg */,
+				2B022BFF2BF1BFBB008B751D /* SendPictureAdapter.h */,
+				2B022C002BF1BFBB008B751D /* SendPictureAdapter.m */,
+			);
+			path = SendPicture;
+			sourceTree = "<group>";
+		};
+		2B022C042BF1BFBB008B751D /* SendYUV */ = {
+			isa = PBXGroup;
+			children = (
+				2B022C022BF1BFBB008B751D /* SendYUVAdapter.h */,
+				2B022C032BF1BFBB008B751D /* SendYUVAdapter.m */,
+			);
+			path = SendYUV;
+			sourceTree = "<group>";
+		};
+		2B022C052BF1BFBB008B751D /* sendRawdata */ = {
+			isa = PBXGroup;
+			children = (
+				2B022BF82BF1BFBB008B751D /* CameraCapture */,
+				2B022BFC2BF1BFBB008B751D /* PreProcess */,
+				2B022C012BF1BFBB008B751D /* SendPicture */,
+				2B022C042BF1BFBB008B751D /* SendYUV */,
+			);
+			path = sendRawdata;
+			sourceTree = "<group>";
+		};
+		2B022C082BF1BFBB008B751D /* sendPCM */ = {
+			isa = PBXGroup;
+			children = (
+				2B022C062BF1BFBB008B751D /* SendPCMAdapter.h */,
+				2B022C072BF1BFBB008B751D /* SendPCMAdapter.m */,
+			);
+			path = sendPCM;
+			sourceTree = "<group>";
+		};
+		2B022C092BF1BFBB008B751D /* sendRawdataAudio */ = {
+			isa = PBXGroup;
+			children = (
+				2B022C082BF1BFBB008B751D /* sendPCM */,
+			);
+			path = sendRawdataAudio;
+			sourceTree = "<group>";
+		};
+		2B022C0C2BF1BFBB008B751D /* SendYUV */ = {
+			isa = PBXGroup;
+			children = (
+				2B022C0A2BF1BFBB008B751D /* SendYUVShareAdapter.h */,
+				2B022C0B2BF1BFBB008B751D /* SendYUVShareAdapter.m */,
+			);
+			path = SendYUV;
+			sourceTree = "<group>";
+		};
+		2B022C0D2BF1BFBB008B751D /* sendRawdataShare */ = {
+			isa = PBXGroup;
+			children = (
+				2B022C0C2BF1BFBB008B751D /* SendYUV */,
+			);
+			path = sendRawdataShare;
+			sourceTree = "<group>";
+		};
+		2B022C162BF1BFBB008B751D /* RawData */ = {
+			isa = PBXGroup;
+			children = (
+				2B022BF52BF1BFBB008B751D /* audioRawData */,
+				2B022C052BF1BFBB008B751D /* sendRawdata */,
+				2B022C092BF1BFBB008B751D /* sendRawdataAudio */,
+				2B022C0D2BF1BFBB008B751D /* sendRawdataShare */,
+				2B022C0E2BF1BFBB008B751D /* BottomBarView.h */,
+				2B022C0F2BF1BFBB008B751D /* BottomBarView.m */,
+				2B022C102BF1BFBB008B751D /* ControlBar.h */,
+				2B022C112BF1BFBB008B751D /* ControlBar.m */,
+				2B022C122BF1BFBB008B751D /* OpenGLViewController.h */,
+				2B022C132BF1BFBB008B751D /* OpenGLViewController.m */,
+				2B022C142BF1BFBB008B751D /* TopBar.h */,
+				2B022C152BF1BFBB008B751D /* TopBar.m */,
+			);
+			path = RawData;
+			sourceTree = "<group>";
+		};
+		2B022C3F2BF1BFBB008B751D /* CustomMeeting */ = {
+			isa = PBXGroup;
+			children = (
+				2B022BF22BF1BFBB008B751D /* LanInterpre */,
+				2B022C162BF1BFBB008B751D /* RawData */,
+				2B022C172BF1BFBB008B751D /* AllChatMessageViewController.h */,
+				2B022C182BF1BFBB008B751D /* AllChatMessageViewController.m */,
+				2B022C192BF1BFBB008B751D /* AnnoFloatBarView.h */,
+				2B022C1A2BF1BFBB008B751D /* AnnoFloatBarView.m */,
+				2B022C1B2BF1BFBB008B751D /* BOMeetingViewController.h */,
+				2B022C1C2BF1BFBB008B751D /* BOMeetingViewController.m */,
+				2B022C1D2BF1BFBB008B751D /* BottomPanelView.h */,
+				2B022C1E2BF1BFBB008B751D /* BottomPanelView.m */,
+				2B022C1F2BF1BFBB008B751D /* CustomMeetingViewController.h */,
+				2B022C202BF1BFBB008B751D /* CustomMeetingViewController.m */,
+				2B022C212BF1BFBB008B751D /* CustomMeetingViewController+MeetingDelegate.h */,
+				2B022C222BF1BFBB008B751D /* CustomMeetingViewController+MeetingDelegate.m */,
+				2B022C232BF1BFBB008B751D /* CustomRemoteControl.h */,
+				2B022C242BF1BFBB008B751D /* CustomRemoteControl.m */,
+				2B022C252BF1BFBB008B751D /* HorizontalTableView.h */,
+				2B022C262BF1BFBB008B751D /* HorizontalTableView.m */,
+				2B022C272BF1BFBB008B751D /* LocalShareViewController.h */,
+				2B022C282BF1BFBB008B751D /* LocalShareViewController.m */,
+				2B022C292BF1BFBB008B751D /* PollingSubViewController.h */,
+				2B022C2A2BF1BFBB008B751D /* PollingSubViewController.m */,
+				2B022C2B2BF1BFBB008B751D /* PollingViewController.h */,
+				2B022C2C2BF1BFBB008B751D /* PollingViewController.m */,
+				2B022C2D2BF1BFBB008B751D /* QAListTableViewCell.h */,
+				2B022C2E2BF1BFBB008B751D /* QAListTableViewCell.m */,
+				2B022C2F2BF1BFBB008B751D /* QAListViewController.h */,
+				2B022C302BF1BFBB008B751D /* QAListViewController.m */,
+				2B022C312BF1BFBB008B751D /* RemoteShareViewController.h */,
+				2B022C322BF1BFBB008B751D /* RemoteShareViewController.m */,
+				2B022C332BF1BFBB008B751D /* ThumbTableViewCell.h */,
+				2B022C342BF1BFBB008B751D /* ThumbTableViewCell.m */,
+				2B022C352BF1BFBB008B751D /* ThumbView.h */,
+				2B022C362BF1BFBB008B751D /* ThumbView.m */,
+				2B022C372BF1BFBB008B751D /* TopPanelView.h */,
+				2B022C382BF1BFBB008B751D /* TopPanelView.m */,
+				2B022C392BF1BFBB008B751D /* VBViewController.h */,
+				2B022C3A2BF1BFBB008B751D /* VBViewController.m */,
+				2B022C3B2BF1BFBB008B751D /* VideoViewController.h */,
+				2B022C3C2BF1BFBB008B751D /* VideoViewController.m */,
+				2B022C3D2BF1BFBB008B751D /* WebinarAtteedeeslistViewController.h */,
+				2B022C3E2BF1BFBB008B751D /* WebinarAtteedeeslistViewController.m */,
+			);
+			name = CustomMeeting;
+			path = "../../../../Downloads/zoom-sdk-ios-6.0.2.15147/MobileRTCSample/MobileRTCSample/CustomMeeting";
+			sourceTree = "<group>";
+		};
 		35B96643213998A4009ECAC1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				35B9664B2139998B009ECAC1 /* VideoToolbox.framework */,
 				35B966492139997D009ECAC1 /* CoreBluetooth.framework */,
 				35B96644213998A6009ECAC1 /* MobileRTC.framework */,
+				2B79C2B02C19837200AFD9F1 /* MobileRTC.xcframework */,
+				2B79C2AF2C19836700AFD9F1 /* MobileRTCResources.bundle */,
+				2B79C2AD2C19836100AFD9F1 /* MobileRTCScreenShare.xcframework */,
+				2B79C2AE2C19836400AFD9F1 /* zoomcml.xcframework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -68,6 +371,7 @@
 		58B511D21A9E6C8500147676 = {
 			isa = PBXGroup;
 			children = (
+				2B022C3F2BF1BFBB008B751D /* CustomMeeting */,
 				35B96647213998D0009ECAC1 /* MobileRTCResources.bundle */,
 				B3E7B5881CC2AC0600A0062D /* RNZoomUs.h */,
 				B3E7B5891CC2AC0600A0062D /* RNZoomUs.m */,
@@ -134,6 +438,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B022C482BF1BFBB008B751D /* frame_one.jpg in Resources */,
+				2B79C2B32C19837200AFD9F1 /* MobileRTCResources.bundle in Resources */,
+				2B022C472BF1BFBB008B751D /* waterMark.png in Resources */,
+				2B022C492BF1BFBB008B751D /* frame_two.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -144,7 +452,42 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B022C552BF1BFBB008B751D /* BottomPanelView.m in Sources */,
+				2B022C612BF1BFBB008B751D /* ThumbView.m in Sources */,
+				2B022C5B2BF1BFBB008B751D /* PollingSubViewController.m in Sources */,
+				2B022C442BF1BFBB008B751D /* AudioRawDataSaveSandboxHelper.m in Sources */,
+				2B022C542BF1BFBB008B751D /* BOMeetingViewController.m in Sources */,
+				2B022C4C2BF1BFBB008B751D /* SendPCMAdapter.m in Sources */,
+				2B022C572BF1BFBB008B751D /* CustomMeetingViewController+MeetingDelegate.m in Sources */,
+				2B022C592BF1BFBB008B751D /* HorizontalTableView.m in Sources */,
+				2B022C452BF1BFBB008B751D /* CameraCaptureAdapter.m in Sources */,
+				2B022C5F2BF1BFBB008B751D /* RemoteShareViewController.m in Sources */,
+				2B022C532BF1BFBB008B751D /* AnnoFloatBarView.m in Sources */,
+				2B022C5D2BF1BFBB008B751D /* QAListTableViewCell.m in Sources */,
+				2B022C562BF1BFBB008B751D /* CustomMeetingViewController.m in Sources */,
+				2B022C422BF1BFBB008B751D /* ManageLanInterpreViewController.m in Sources */,
+				2B022C622BF1BFBB008B751D /* TopPanelView.m in Sources */,
+				2B022C462BF1BFBB008B751D /* PreProcessHelper.m in Sources */,
+				2B022C4A2BF1BFBB008B751D /* SendPictureAdapter.m in Sources */,
+				2B022C4D2BF1BFBB008B751D /* SendYUVShareAdapter.m in Sources */,
+				2B022C502BF1BFBB008B751D /* OpenGLViewController.m in Sources */,
+				2B022C602BF1BFBB008B751D /* ThumbTableViewCell.m in Sources */,
+				2B022C5C2BF1BFBB008B751D /* PollingViewController.m in Sources */,
+				2B022C412BF1BFBB008B751D /* ManageLanInterpreTableViewCell.m in Sources */,
+				2B022C652BF1BFBB008B751D /* WebinarAtteedeeslistViewController.m in Sources */,
+				2B022C632BF1BFBB008B751D /* VBViewController.m in Sources */,
+				2B022C5E2BF1BFBB008B751D /* QAListViewController.m in Sources */,
+				2B022C432BF1BFBB008B751D /* SelectLanguageViewController.m in Sources */,
+				2B022C642BF1BFBB008B751D /* VideoViewController.m in Sources */,
+				2B022C522BF1BFBB008B751D /* AllChatMessageViewController.m in Sources */,
 				B3E7B58A1CC2AC0600A0062D /* RNZoomUs.m in Sources */,
+				2B022C512BF1BFBB008B751D /* TopBar.m in Sources */,
+				2B022C582BF1BFBB008B751D /* CustomRemoteControl.m in Sources */,
+				2B022C5A2BF1BFBB008B751D /* LocalShareViewController.m in Sources */,
+				2B022C4B2BF1BFBB008B751D /* SendYUVAdapter.m in Sources */,
+				2B022C402BF1BFBB008B751D /* InterpreterLanguageSelectViewController.m in Sources */,
+				2B022C4E2BF1BFBB008B751D /* BottomBarView.m in Sources */,
+				2B022C4F2BF1BFBB008B751D /* ControlBar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

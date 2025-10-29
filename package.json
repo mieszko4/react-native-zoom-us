@@ -1,14 +1,12 @@
 {
-  "name": "react-native-zoom-us",
-  "version": "10.0.0",
+  "name": "@joaquin-viera-li/react-native-zoom-us",
+  "version": "13.0.2",
   "description": "React-native bridge for ZoomUs SDK",
-  "homepage": "https://github.com/mieszko4/react-native-zoom-us",
+  "homepage": "https://github.com/joaquin-viera-li/react-native-zoom-us",
   "main": "index",
   "types": "index.d.ts",
   "scripts": {
-    "prepack": "npx tsc --noEmit false",
-    "postversion": "git push && git push --tags",
-    "dev": "npm run prepack && rm -fr ../react-native-zoom-us-test/node_modules/react-native-zoom-us/ && cp -R . ../react-native-zoom-us-test/node_modules/react-native-zoom-us"
+    "release": "release-it"
   },
   "keywords": [
     "react-native",
@@ -20,13 +18,23 @@
     "react": ">=16.8.0",
     "react-native": ">0.60.0"
   },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
   "devDependencies": {
     "@types/invariant": "^2.2.34",
     "@types/react-native": "^0.64.4",
+    "release-it": "^17.3.0",
     "typescript": "4.0.5"
   },
   "dependencies": {
     "color": "^3.2.1",
     "invariant": "^2.2.4"
+  },
+  "release-it": {
+    "github": {
+      "release": true
+    }
   }
 }

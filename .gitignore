@@ -53,3 +53,5 @@ buck-out/
 **/*.js
 **/*.d.ts
 !typings/*
+/ios/lib
+ios/lib
