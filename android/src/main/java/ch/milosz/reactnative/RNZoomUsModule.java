@@ -161,8 +161,9 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
           initParams.jwtToken = params.getString("jwtToken");
           initParams.domain = params.getString("domain");
           // initParams.enableLog = true;
-          // initParams.enableGenerateDump =true;
+          // initParams.enableGenerateDump = true;
           // initParams.logSize = 5;
+          // initParams.enableLogicalMultiCamera = false;
 
           // Save promise so that it can be resolved in onZoomSDKInitializeResult
           // after zoomSDK.initialize is called
