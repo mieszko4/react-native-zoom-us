@@ -1054,6 +1054,8 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   public void onMuteOnEntryStatusChange(boolean enable){}
   @Override
   public void onMeetingTopicChanged(String topic) {}
+  @Override
+  public void onMeetingFullToWatchLiveStream(String liveStreamUrl) {}
 
   // InMeetingShareListener event listeners
   // DEPRECATED: onShareActiveUser is just kept for now for backwards compatibility of events
