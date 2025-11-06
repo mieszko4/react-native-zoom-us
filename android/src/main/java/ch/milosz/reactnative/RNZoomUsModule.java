@@ -970,8 +970,6 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   @Override
   public void onMeetingFail(int errorCode, int internalErrorCode) {}
   @Override
-  public void onMeetingUserUpdated(long userId) {}
-  @Override
   public void onActiveVideoUserChanged(long userId) {}
   @Override
   public void onActiveSpeakerVideoUserChanged(long userId) {}
@@ -1244,7 +1242,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
   private String getAuthErrorName(final int errorCode) {
     switch (errorCode) {
-      case ZoomError.ZOOM_ERROR_AUTHRET_CLIENT_INCOMPATIBLEE: return "clientIncompatible";
+      case ZoomError.ZOOM_ERROR_AUTHRET_CLIENT_INCOMPATIBLE: return "clientIncompatible";
       case ZoomError.ZOOM_ERROR_SUCCESS: return "success";
       case ZoomError.ZOOM_ERROR_DEVICE_NOT_SUPPORTED: return "deviceNotSupported"; // Android only
       case ZoomError.ZOOM_ERROR_ILLEGAL_APP_KEY_OR_SECRET: return "illegalAppKeyOrSecret"; // Android only
@@ -1270,7 +1268,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
       case MeetingError.MEETING_ERROR_HOST_DENY_EMAIL_REGISTER_WEBINAR: return "registerWebinarDeniedEmail";
       case MeetingError.MEETING_ERROR_WEBINAR_ENFORCE_LOGIN: return "registerWebinarEnforceLogin";
       case MeetingError.MEETING_ERROR_REGISTER_WEBINAR_FULL: return "registerWebinarFull";
-      case MeetingError.MEETING_ERROR_DISALLOW_HOST_RESGISTER_WEBINAR: return "registerWebinarHostRegister";
+      case MeetingError.MEETING_ERROR_DISALLOW_HOST_REGISTER_WEBINAR: return "registerWebinarHostRegister";
       case MeetingError.MEETING_ERROR_DISALLOW_PANELIST_REGISTER_WEBINAR: return "registerWebinarPanelistRegister";
       case MeetingError.MEETING_ERROR_REMOVED_BY_HOST: return "removedByHost";
       case MeetingError.MEETING_ERROR_SESSION_ERROR: return "sessionError";
@@ -1292,9 +1290,9 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
       case MeetingEndReason.END_BY_SELF: return "endedBySelf";
       case MeetingEndReason.END_BY_SDK_CONNECTION_BROKEN: return "endedConnectBroken";
       case MeetingEndReason.END_FOR_FREEMEET_TIMEOUT: return "endedFreeMeetingTimeout";
-      case MeetingEndReason.END_FOR_JBHTIMEOUT: return "endedJBHTimeout";
+      case MeetingEndReason.END_FOR_JBH_TIMEOUT: return "endedJBHTimeout";
       case MeetingEndReason.KICK_BY_HOST: return "endedRemovedByHost";
-      case MeetingEndReason.END_FOR_NOATEENDEE: return "endedNoAttendee"; // Android only
+      case MeetingEndReason.END_FOR_NO_ATEENDEE: return "endedNoAttendee"; // Android only
       default: return "endedUnknownReason";
     }
   }
