@@ -152,12 +152,6 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
             return;
           }
 
-          String[] parts = settings.getString("language").split("-");
-          Locale locale = parts.length == 1
-            ? new Locale(parts[0])
-            : new Locale(parts[0], parts[1]);
-          zoomSDK.setSdkLocale(reactContext, locale);
-
           ZoomSDKInitParams initParams = new ZoomSDKInitParams();
           initParams.jwtToken = params.getString("jwtToken");
           initParams.domain = params.getString("domain");
@@ -170,6 +164,12 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
           // after zoomSDK.initialize is called
           initializePromise = promise;
           zoomSDK.initialize(reactContext.getCurrentActivity(), RNZoomUsModule.this, initParams);
+
+          String[] parts = settings.getString("language").split("-");
+          Locale locale = parts.length == 1
+            ? new Locale(parts[0])
+            : new Locale(parts[0], parts[1]);
+          zoomSDK.setSdkLocale(reactContext, locale);
         } catch (Exception ex) {
           promise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
           initializePromise = null;
