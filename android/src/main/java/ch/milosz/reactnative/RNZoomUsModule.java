@@ -49,6 +49,7 @@ import us.zoom.sdk.ZoomSDKInitializeListener;
 import us.zoom.sdk.ZoomSDKInitParams;
 import us.zoom.sdk.FreeMeetingNeedUpgradeType;
 import us.zoom.sdk.ShareSettingType;
+import us.zoom.sdk.ZoomSDKSharingSourceInfo;
 import us.zoom.sdk.IRequestLocalRecordingPrivilegeHandler;
 import us.zoom.sdk.LocalRecordingRequestPrivilegeStatus;
 import us.zoom.sdk.ZoomSDKFileReceiver;
@@ -1057,31 +1058,29 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   public void onMeetingTopicChanged(String topic) {}
   @Override
   public void onMeetingFullToWatchLiveStream(String liveStreamUrl) {}
+  // TODO: Are the overrides needed?
+  @Override
+  public void onRobotRelationChanged(long authorizeUserID);
+  @Override
+  public void onVirtualNameTagStatusChanged(boolean bOn, long userID);
+  @Override
+  public void onVirtualNameTagRosterInfoUpdated(long userID);
 
   // InMeetingShareListener event listeners
-  // DEPRECATED: onShareActiveUser is just kept for now for backwards compatibility of events
   @Override
-  public void onShareActiveUser(long userId) {
-    final InMeetingService inMeetingService = ZoomSDK.getInstance().getInMeetingService();
-
-    if (inMeetingService.isMyself(userId)) {
-      sendEvent("MeetingEvent", "screenShareStarted");
-    } else if (userId == 0) {
-      sendEvent("MeetingEvent", "screenShareStopped");
-    }
-  }
-
-  @Override
-  public void onShareContentChanged(MobileRTCShareContentType type) {}
+  public void onShareContentChanged(ZoomSDKSharingSourceInfo sharingSourceInfo) {}
 
   @Override
   public void onShareSettingTypeChanged(ShareSettingType type) {}
 
   @Override
-  public void onShareUserReceivingStatus(long userId) {}
+  public void onShareUserReceivingStatus(long shareSourceId) {}
 
   @Override
-  public void onSharingStatus(SharingStatus status, long userId) {
+  public void onSharingStatus(ZoomSDKSharingSourceInfo sharingSourceInfo) {
+    SharingStatus status = sharingSourceInfo.getStatus();
+    long userId = sharingSourceInfo.getUserID();
+
     sendEvent("MeetingEvent", getSharingStatusEventName(status), userId);
 
     if (status.equals(SharingStatus.Sharing_Self_Send_Begin)) {

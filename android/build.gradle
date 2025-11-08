@@ -18,12 +18,12 @@ buildscript {
 
 android {
     namespace = 'ch.milosz.reactnative'
-    compileSdkVersion 34
-    buildToolsVersion '34.0.0'
+    compileSdkVersion 35
+    buildToolsVersion '35.0.0'
 
     defaultConfig {
-        minSdkVersion 24
-        targetSdkVersion 34
+        minSdkVersion 26
+        targetSdkVersion 35
         versionCode 1
         versionName "1.0"
         vectorDrawables.useSupportLibrary = true
@@ -84,4 +84,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-runtime-compose:2.6.2'
     implementation 'androidx.navigation:navigation-compose:2.7.7'
     implementation 'io.coil-kt:coil-compose:2.3.0'
+    implementation 'org.jetbrains:annotations:23.0.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.7.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.7.1'
 }
