@@ -1276,7 +1276,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
       case MeetingError.MEETING_ERROR_RESTRICTED_JBH: return "meetingRestrictedJBH";
       case MeetingError.MEETING_ERROR_USER_FULL: return "meetingUserFull";
       case MeetingError.MEETING_ERROR_MMR_ERROR: return "mmrError";
-      case MeetingError.MEETING_ERROR_NETWORK_ERROR: return "networkError";
+      case MeetingError.MEETING_ERROR_CONNECTION_ERR: return "networkError";
       case MeetingError.MEETING_ERROR_NO_MMR: return "noMMR";
       case MeetingError.MEETING_ERROR_HOST_DENY_EMAIL_REGISTER_WEBINAR: return "registerWebinarDeniedEmail";
       case MeetingError.MEETING_ERROR_WEBINAR_ENFORCE_LOGIN: return "registerWebinarEnforceLogin";
@@ -1301,7 +1301,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
       case MeetingEndReason.END_BY_HOST: return "endedByHost";
       case MeetingEndReason.END_BY_HOST_START_ANOTHERMEETING: return "endedByHostForAnotherMeeting";
       case MeetingEndReason.END_BY_SELF: return "endedBySelf";
-      case MeetingEndReason.END_BY_SDK_CONNECTION_BROKEN: return "endedConnectBroken";
+      case MeetingEndReason.END_UNDEFINED: return "endedConnectBroken";
       case MeetingEndReason.END_FOR_FREEMEET_TIMEOUT: return "endedFreeMeetingTimeout";
       case MeetingEndReason.END_FOR_JBH_TIMEOUT: return "endedJBHTimeout";
       case MeetingEndReason.KICK_BY_HOST: return "endedRemovedByHost";
