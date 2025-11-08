@@ -1060,11 +1060,21 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   public void onMeetingFullToWatchLiveStream(String liveStreamUrl) {}
   // TODO: Are the overrides needed?
   @Override
-  public void onRobotRelationChanged(long authorizeUserID) {}
+  public void onBotAuthorizerRelationChanged(long authorizeUserID) {}
   @Override
   public void onVirtualNameTagStatusChanged(boolean bOn, long userID) {}
   @Override
   public void onVirtualNameTagRosterInfoUpdated(long userID) {}
+  @Override
+  public void onChatMessageEdited(InMeetingChatMessage msg) {}
+
+
+  // This is for InMeetingService. Remove?
+  @Override
+  public void onCreateCompanionRelation(long parentUserID, long childUserID) {}
+  @Override
+  public void onRemoveCompanionRelation(long childUserID) {}
+
 
   // InMeetingShareListener event listeners
   @Override
