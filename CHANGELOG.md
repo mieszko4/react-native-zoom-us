@@ -1,5 +1,10 @@
 ## Changelog
 
+### 11.0.0
+
+- BREAKING CHANGE: Removed support for Custom Video View which was used on Android (`enableCustomizedMeetingUI` and `ZoomUsVideoView`)
+- Lib now works with RN 0.77.3
+
 ### 10.0.0
 
 iOS:
