@@ -113,13 +113,6 @@ zoomEmitter.addListener('MeetingEvent', (meetingEvent) => {
   // {event: 'screenShareResume', userId: number}
   // {event: 'screenShareStarted'} // DEPRECATED
   // {event: 'screenShareStopped'} // DEPRECATED
-  
-  
-  // ANDROID ONLY EVENTS
-  // {event: 'askUnMuteAudio'}
-  // {event: 'askUnMuteVideo'}
-  // {event: 'screenShareSuccess'} called on custom ui when share screen is successful
-  // {event: 'screenShareError', error: string} called on custom ui when there was an error sharing screen
 });
 
 ```

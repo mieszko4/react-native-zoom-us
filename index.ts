@@ -42,7 +42,6 @@ export interface RNZoomUsInitializeParams
 
 type InitializeSettings = {
   language?: Language;
-  enableCustomizedMeetingUI?: boolean;
   disableShowVideoPreviewWhenJoinMeeting?: boolean;
   disableMinimizeMeeting?: boolean;
   disableClearWebKitCache?: boolean;
@@ -55,7 +54,6 @@ async function initialize(
   }: RNZoomUsInitializeParams,
   {
     language = "en",
-    enableCustomizedMeetingUI = false,
 
     // ios only
     // more details inside: https://github.com/mieszko4/react-native-zoom-us/issues/28
@@ -77,7 +75,6 @@ async function initialize(
 
   const mappedSettings = {
     language: applyLanguageMapping(language),
-    enableCustomizedMeetingUI,
 
     disableShowVideoPreviewWhenJoinMeeting,
 

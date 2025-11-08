@@ -1,10 +1,6 @@
 package ch.milosz.reactnative;
 
 import android.util.Log;
-import android.app.Activity;
-import android.content.Intent;
-import android.content.Context;
-import android.media.projection.MediaProjectionManager;
 import androidx.fragment.app.FragmentActivity;
 
 import com.facebook.react.bridge.Arguments;
@@ -12,9 +8,7 @@ import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
-import com.facebook.react.bridge.ActivityEventListener;
 import com.facebook.react.bridge.LifecycleEventListener;
-import com.facebook.react.bridge.BaseActivityEventListener;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableArray;
@@ -89,7 +83,6 @@ import us.zoom.sdk.MobileRTCFocusModeShareType;
 public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSDKInitializeListener, InMeetingServiceListener, MeetingServiceListener, InMeetingShareController.InMeetingShareListener, LifecycleEventListener {
 
   private final static String TAG = "RNZoomUs";
-  private final static int SCREEN_SHARE_REQUEST_CODE = 99;
   private final ReactApplicationContext reactContext;
 
   private Boolean shouldAutoConnectAudio;
@@ -97,32 +90,12 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   private Promise meetingPromise;
 
   private Boolean shouldDisablePreview = false;
-  private Boolean customizedMeetingUIEnabled = false;
   private Boolean disableClearWebKitCache = false;
-
-  private final ActivityEventListener mActivityEventListener = new BaseActivityEventListener() {
-    @Override
-    public void onActivityResult(Activity activity, int requestCode, int resultCode, final Intent intent) {
-      if (requestCode == SCREEN_SHARE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-        UiThreadUtil.runOnUiThread(new Runnable() {
-          @Override
-          public void run() {
-            try {
-              startZoomScreenShare(intent);
-            } catch (Exception ex) {
-              Log.e(TAG, ex.getMessage());
-            }
-          }
-        });
-      }
-    }
-  };
 
   public RNZoomUsModule(ReactApplicationContext reactContext) {
     super(reactContext);
     this.reactContext = reactContext;
     reactContext.addLifecycleEventListener(this);
-    reactContext.addActivityEventListener(mActivityEventListener);
   }
 
   @Override
@@ -159,10 +132,6 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
             shouldDisablePreview = settings.getBoolean("disableShowVideoPreviewWhenJoinMeeting");
           }
 
-          if (settings.hasKey("enableCustomizedMeetingUI")) {
-            customizedMeetingUIEnabled = settings.getBoolean("enableCustomizedMeetingUI");
-          }
-
           if (settings.hasKey("disableClearWebKitCache")) {
             disableClearWebKitCache = settings.getBoolean("disableClearWebKitCache");
           }
@@ -175,7 +144,6 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
             final MeetingSettingsHelper meetingSettingsHelper = ZoomSDK.getInstance().getMeetingSettingsHelper();
             if (meetingSettingsHelper != null) {
               meetingSettingsHelper.disableShowVideoPreviewWhenJoinMeeting(shouldDisablePreview);
-              meetingSettingsHelper.setCustomizedMeetingUIEnabled(customizedMeetingUIEnabled);
               meetingSettingsHelper.disableClearWebKitCache(disableClearWebKitCache);
             }
 
@@ -634,46 +602,20 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
             return;
           }
 
-          if (customizedMeetingUIEnabled) {
-            final MediaProjectionManager manager =
-              (MediaProjectionManager) reactContext.getCurrentActivity().getSystemService(Context.MEDIA_PROJECTION_SERVICE);
+          final InMeetingShareController shareController = zoomSDK.getInMeetingService().getInMeetingShareController();
 
-            if (manager != null) {
-              Intent intent = manager.createScreenCaptureIntent();
+          MobileRTCSDKError result = shareController.startShareScreenContent();
 
-              reactContext.getCurrentActivity().startActivityForResult(intent, SCREEN_SHARE_REQUEST_CODE);
-            }
-
+          if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
             promise.resolve(null);
           } else {
-            final InMeetingShareController shareController = zoomSDK.getInMeetingService().getInMeetingShareController();
-
-            MobileRTCSDKError result = shareController.startShareScreenContent();
-
-            if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
-              promise.resolve(null);
-            } else {
-              promise.reject("ERR_ZOOM_MEETING_CONTROL", "Start share screen error, status: " + result.name());
-            }
+            promise.reject("ERR_ZOOM_MEETING_CONTROL", "Start share screen error, status: " + result.name());
           }
         } catch (Exception ex) {
           promise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
         }
       }
     });
-  }
-
-  private void startZoomScreenShare(final Intent intent) {
-    final ZoomSDK zoomSDK = ZoomSDK.getInstance();
-    final InMeetingShareController shareController = zoomSDK.getInMeetingService().getInMeetingShareController();
-
-    MobileRTCSDKError result = shareController.startShareScreenSession(intent);
-
-    if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
-      sendEvent("MeetingEvent", "screenShareSuccess");
-    } else {
-      sendEvent("MeetingEvent", "screenShareError", result);
-    }
   }
 
   @ReactMethod
@@ -822,7 +764,6 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
       final MeetingSettingsHelper meetingSettingsHelper = ZoomSDK.getInstance().getMeetingSettingsHelper();
       if (meetingSettingsHelper != null) {
         meetingSettingsHelper.disableShowVideoPreviewWhenJoinMeeting(shouldDisablePreview);
-        meetingSettingsHelper.setCustomizedMeetingUIEnabled(customizedMeetingUIEnabled);
         meetingSettingsHelper.disableClearWebKitCache(disableClearWebKitCache);
       }
     }
@@ -1282,16 +1223,6 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
     params.putString("event", event);
     params.putArray("userList", users);
-
-    reactContext
-        .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-        .emit(name, params);
-  }
-
-  private void sendEvent(String name, String event, MobileRTCSDKError error) {
-    WritableMap params = Arguments.createMap();
-    params.putString("event", event);
-    params.putString("error", error.name());
 
     reactContext
         .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
