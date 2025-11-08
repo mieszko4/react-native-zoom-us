@@ -606,6 +606,9 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
           final InMeetingShareController shareController = zoomSDK.getInMeetingService().getInMeetingShareController();
 
+          promise.reject("ERR_ZOOM_MEETING_CONTROL", "startShareScreenContent is not implemented");
+          return;
+          /*
           MobileRTCSDKError result = shareController.startShareScreenContent();
 
           if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
@@ -613,6 +616,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
           } else {
             promise.reject("ERR_ZOOM_MEETING_CONTROL", "Start share screen error, status: " + result.name());
           }
+          */
         } catch (Exception ex) {
           promise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
         }
@@ -1105,7 +1109,8 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
       if (shareController.isSharingOut()) {
         if (shareController.isSharingScreen()) {
-            shareController.startShareScreenContent();
+          Log.e(TAG, "onSharingStatus: startShareScreenContent not implemented");
+          // shareController.startShareScreenContent();
         }
       }
     }
