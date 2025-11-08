@@ -994,7 +994,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   @Override
   public void onMeetingActiveVideo(long userId) {}
   @Override
-  public void onSinkAttendeeChatPriviledgeChanged(int privilege) {}
+  public void onSinkAttendeeChatPrivilegeChanged(int privilege) {}
   @Override
   public void onSinkAllowAttendeeChatNotification(int privilege) {}
   @Override
