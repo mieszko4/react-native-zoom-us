@@ -6,7 +6,6 @@
   BOOL isInitialized;
   BOOL shouldAutoConnectAudio;
   BOOL hasObservers;
-  BOOL enableCustomMeeting;
   BOOL disableShowVideoPreviewWhenJoinMeeting;
   BOOL disableMinimizeMeeting;
   BOOL disableClearWebKitCache;
@@ -25,7 +24,6 @@
   if (self = [super init]) {
     isInitialized = NO;
     shouldAutoConnectAudio = NO;
-    enableCustomMeeting = NO;
     disableShowVideoPreviewWhenJoinMeeting = YES;
     disableMinimizeMeeting = NO;
     disableClearWebKitCache = NO;
@@ -89,10 +87,6 @@ RCT_EXPORT_METHOD(
     //Note: This step is optional, Method is used for iOS Replaykit Screen share integration,if not,just ignore this step.
     context.appGroupId = data[@"iosAppGroupId"];
     BOOL initializeSuc = [[MobileRTC sharedRTC] initialize:context];
-
-    if (settings[@"enableCustomizedMeetingUI"]) {
-      enableCustomMeeting = [[settings objectForKey:@"enableCustomizedMeetingUI"] boolValue];
-    }
 
     if (settings[@"disableShowVideoPreviewWhenJoinMeeting"]) {
       disableShowVideoPreviewWhenJoinMeeting = [[settings objectForKey:@"disableShowVideoPreviewWhenJoinMeeting"] boolValue];

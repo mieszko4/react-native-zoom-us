@@ -115,7 +115,6 @@ await ZoomUs.initialize(
   },
   {
     disableShowVideoPreviewWhenJoinMeeting: true,
-    enableCustomizedMeetingUI: true,
   },
 );
 

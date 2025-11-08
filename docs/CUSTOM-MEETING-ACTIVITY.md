@@ -24,7 +24,7 @@ Steps:
   />
 ```
 
-See [docs](https://marketplace.zoom.us/docs/sdk/native-sdks/android/mastering-zoom-sdk/in-meeting-function/customized-meeting-ui/overview) for more details.
+See [more](https://developers.zoom.us/blog/extend-the-meetingactivity/).
 
 ## Backwards Button
 
