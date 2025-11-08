@@ -258,8 +258,6 @@ async function lowerMyHand() {
   return RNZoomUs.lowerMyHand();
 }
 
-export { default as ZoomUsVideoView } from "./video-view";
-
 export * from "./src/events";
 export default {
   initialize,
