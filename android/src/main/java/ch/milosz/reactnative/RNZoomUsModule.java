@@ -635,6 +635,12 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
           final InMeetingShareController shareController = zoomSDK.getInMeetingService().getInMeetingShareController();
 
+          if (!shareController.isSharingScreen()) {
+            Log.w(TAG, "stopShareScreen skipped because there was no sharing active");
+            promise.resolve(null);
+            return;
+          }
+
           MobileRTCSDKError result = shareController.stopShareScreen();
 
           if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
