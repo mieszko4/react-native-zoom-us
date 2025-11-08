@@ -73,11 +73,11 @@ import us.zoom.sdk.MeetingOptions;
 import us.zoom.sdk.MeetingViewsOptions;
 import us.zoom.sdk.JoinMeetingParam4WithoutLogin;
 
-
 import us.zoom.sdk.VideoQuality;
 import us.zoom.sdk.ChatMessageDeleteType;
 import us.zoom.sdk.InMeetingChatController;
 import us.zoom.sdk.MobileRTCFocusModeShareType;
+import us.zoom.sdk.IRecoverMeetingHandle;
 
 // Please note that SDK initialization and all API call must run in Main Thread.
 // See https://marketplace.zoom.us/docs/sdk/native-sdks/android/mastering-zoom-sdk/sdk-initialization/
@@ -1067,7 +1067,8 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   public void onVirtualNameTagRosterInfoUpdated(long userID) {}
   @Override
   public void onChatMessageEdited(InMeetingChatMessage msg) {}
-
+  @Override
+  public void onUserConfirmRecoverMeeting(IRecoverMeetingHandle handler) {}
 
   // This is for InMeetingService. Remove?
   @Override
