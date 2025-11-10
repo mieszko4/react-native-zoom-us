@@ -8,8 +8,8 @@ This is a bridge for [ZoomUS Meeting SDK](https://developers.zoom.us/docs/meetin
 
 | Platform | Version       |                                 SDK Url                                 |                                          Changelog                                          |
 | :------: | :------------ | :---------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------: |
-|   iOS    | 6.1.0.16235 |      [ZoomSDK](https://github.com/zoom-us-community/zoom-sdk-pods)      |  [marketplace.zoom.us](https://marketplace.zoom.us/docs/changelog#labels/client-sdk-i-os)   |
-| Android  | 6.1.5.23231 | [jitpack-zoom-us](https://github.com/zoom-us-community/jitpack-zoom-us) | [marketplace.zoom.us](https://marketplace.zoom.us/docs/changelog#labels/client-sdk-android) |
+|   iOS    | 6.1.0.16235   |      [ZoomSDK](https://github.com/zoom-us-community/zoom-sdk-pods)      |  [marketplace.zoom.us](https://developers.zoom.us/changelog/meeting-sdk/ios/)               |
+| Android  | 6.4.10        | [Zoom Meeting SDK](https://developers.zoom.us/docs/meeting-sdk/android/)|  [marketplace.zoom.us](https://developers.zoom.us/changelog/meeting-sdk/android/)           |
 
 Tested on Android and iOS: ([See details](https://github.com/mieszko4/react-native-zoom-us#testing))
 
@@ -177,14 +177,14 @@ If you need more events, take a look [Events](./docs/EVENTS.md)
 
 The plugin has been tested for `joinMeeting` and `startMeeting` using [smoke test procedure](https://github.com/mieszko4/react-native-zoom-us-test#smoke-test-procedure):
 
-- react-native-zoom-us: 11.0.0
+- react-native-zoom-us: 12.0.0
 - react-native: 0.77.3
 - node: 18.20.7
 - macOS: 26.0.1 M1
 - XCode: 26.0
 - iOS: 16.4 (simulator)
 - iOS: 16.7 (iPhone 8)
-- Android minSdkVersion: 24
+- Android minSdkVersion: 26
 
 ## FAQ
 

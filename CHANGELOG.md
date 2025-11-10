@@ -1,8 +1,17 @@
 ## Changelog
 
+### 12.0.0
+
+Android:
+
+- Updated ZoomSDK to 6.4.10 - we now use official android MeetingSDK lib `us.zoom.meetingsdk:zoomsdk`
+- BREAKING CHANGE: minSdkVersion=26, targetSdkVersion=35
+- BREAKING CHANGE: removed `ZoomSdk.startShareScreen`/`ZoomSdk.stopShareScreen`
+- BREAKING CHANGE: removed old deprecated share events `screenShareStarted`/`screenShareStopped`
+
 ### 11.0.0
 
-- BREAKING CHANGE: Removed support for Custom Video View which was used on Android (`enableCustomizedMeetingUI` and `ZoomUsVideoView`)
+- BREAKING CHANGE: removed support for Custom Video View which was used on Android (`enableCustomizedMeetingUI` and `ZoomUsVideoView`)
 - Lib now works with RN 0.77.3
 
 ### 10.0.0
