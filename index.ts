@@ -272,8 +272,11 @@ export default {
   muteMyAudio,
   muteAttendee,
   muteAllAttendee,
+  /*
+  TODO: Fix this, see https://github.com/mieszko4/react-native-zoom-us/issues/392
   startShareScreen,
   stopShareScreen,
+  */
   switchCamera,
   raiseMyHand,
   lowerMyHand,
