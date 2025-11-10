@@ -21,6 +21,11 @@ android {
     compileSdkVersion 35
     buildToolsVersion '35.0.0'
 
+    // viewBinding is needed for handling incoming screen share
+    viewBinding {
+        enabled = true
+    }
+
     defaultConfig {
         minSdkVersion 26
         targetSdkVersion 35
