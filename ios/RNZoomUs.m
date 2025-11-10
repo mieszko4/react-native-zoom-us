@@ -271,7 +271,7 @@ RCT_EXPORT_METHOD(muteMyAudio: (BOOL)muted resolver:(RCTPromiseResolveBlock)reso
     if (error == 0) {
       resolve(nil);
     } else {
-      reject(@"ERR_ZOOM_MEETING_CONTROL", [NSString stringWithFormat:@"Mute my video error, status: %lu", error], nil);
+      reject(@"ERR_ZOOM_MEETING_CONTROL", [NSString stringWithFormat:@"Mute my audio error, status: %lu", error], nil);
     }
   } @catch (NSError *ex) {
     reject(@"ERR_ZOOM_MEETING_CONTROL", @"Executing muteMyAudio", ex);
