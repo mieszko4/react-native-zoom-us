@@ -608,8 +608,16 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
           promise.reject("ERR_ZOOM_MEETING_CONTROL", "startShareScreenContent is not implemented");
           return;
+
           /*
-          MobileRTCSDKError result = shareController.startShareScreenContent();
+          TODO: Fix this, see https://github.com/mieszko4/react-native-zoom-us/issues/392
+          Object obj = this.getReactApplicationContext().getCurrentActivity().getSystemService(Context.MEDIA_PROJECTION_SERVICE);
+
+          Log.e(TAG, "isMediaProjectionManagerNull?: "+ (obj == null));
+          MediaProjectionManager mediaProjectionManager = (MediaProjectionManager) obj;
+          Intent mediaProjectionIntent = mediaProjectionManager.createScreenCaptureIntent();
+          Log.e(TAG, "isIntentNull?: "+ (mediaProjectionIntent == null))
+          MobileRTCSDKError result = shareController.startShareScreen(mediaProjectionIntent);
 
           if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
             promise.resolve(null);
@@ -1103,6 +1111,9 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
     sendEvent("MeetingEvent", getSharingStatusEventName(status), userId);
 
+    
+    /*
+    TODO: Fix this, see https://github.com/mieszko4/react-native-zoom-us/issues/392
     if (status.equals(SharingStatus.Sharing_Self_Send_Begin)) {
       final InMeetingService inMeetingService = ZoomSDK.getInstance().getInMeetingService();
       final InMeetingShareController shareController = inMeetingService.getInMeetingShareController();
@@ -1110,10 +1121,13 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
       if (shareController.isSharingOut()) {
         if (shareController.isSharingScreen()) {
           Log.e(TAG, "onSharingStatus: startShareScreenContent not implemented");
-          // shareController.startShareScreenContent();
+          // MediaProjectionManager mediaProjectionManager = (MediaProjectionManager) reactContext.getCurrentActivity().getSystemService(Context.MEDIA_PROJECTION_SERVICE);
+          // Intent mediaProjectionIntent = mediaProjectionManager.createScreenCaptureIntent();
+          // shareController.startShareScreen(mediaProjectionIntent);
         }
       }
     }
+    */
   }
 
   // React LifeCycle
