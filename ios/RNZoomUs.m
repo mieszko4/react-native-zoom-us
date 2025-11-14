@@ -785,7 +785,7 @@ RCT_EXPORT_METHOD(removeListeners : (NSInteger)count) {
     case MobileRTCAuthError_None: return @"none"; // iOS only
     case MobileRTCAuthError_OverTime: return @"overTime"; // iOS only
     case MobileRTCAuthError_ServiceBusy: return @"serviceBusy"; // iOS only
-    case MobileRTCAuthError_LimitExceededException : return @"limitExceeded";
+    case MobileRTCAuthError_LimitExceededException : return @"limitExceeded"; // iOS only
     default: return @"unknown";
   }
 }
@@ -801,7 +801,7 @@ RCT_EXPORT_METHOD(removeListeners : (NSInteger)count) {
     case MobileRTCMeetError_MeetingRestrictedJBH: return @"meetingRestrictedJBH";
     case MobileRTCMeetError_MeetingUserFull: return @"meetingUserFull";
     case MobileRTCMeetError_MMRError: return @"mmrError";
-    case MobileRTCMeetError_NetworkError: return @"networkError";
+    case MobileRTCMeetError_ConnectionError: return @"networkError";
     case MobileRTCMeetError_NoMMR: return @"noMMR";
     case MobileRTCMeetError_RegisterWebinarDeniedEmail: return @"registerWebinarDeniedEmail";
     case MobileRTCMeetError_RegisterWebinarEnforceLogin: return @"registerWebinarEnforceLogin";
@@ -838,11 +838,12 @@ RCT_EXPORT_METHOD(removeListeners : (NSInteger)count) {
   switch (reason) {
     case MobileRTCMeetingEndReason_EndByHost: return @"endedByHost";
     case MobileRTCMeetingEndReason_HostEndForAnotherMeeting: return @"endedByHostForAnotherMeeting";
-    case MobileRTCMeetingEndReason_SelfLeave: return @"endedBySelf";
-    case MobileRTCMeetingEndReason_ConnectBroken: return @"endedConnectBroken";
+    case MobileRTCMeetingEndReason_None: return @"endedBySelf";
+    case MobileRTCMeetingEndReason_Undefined: return @"endedConnectBroken";
     case MobileRTCMeetingEndReason_FreeMeetingTimeout: return @"endedFreeMeetingTimeout";
     case MobileRTCMeetingEndReason_JBHTimeout: return @"endedJBHTimeout";
     case MobileRTCMeetingEndReason_RemovedByHost: return @"endedRemovedByHost";
+    case MobileRTCMeetingEndReason_NoAteendee: return @"endedNoAttendee";
     default: return @"endedUnknownReason";
   }
 }
