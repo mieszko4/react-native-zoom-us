@@ -77,6 +77,8 @@ zoomEmitter.addListener('MeetingEvent', (meetingEvent) => {
   // {event: 'networkUnavailable'}
   // {event: 'timeout'}
   // {event: 'webServiceFailed'}
+  // {event: 'failNeedConfirmPlink'}
+  // {event: 'failNeedInputPlink'}
   
   // Will print one of the following ("ended*" events identify the reason for a meeting ending)
   // {event: 'endedByHost'}
