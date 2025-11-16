@@ -1,5 +1,11 @@
 ## Changelog
 
+### 13.0.0
+
+iOS:
+
+- Updated ZoomSDK to 6.4.10.25465
+
 ### 12.0.0
 
 Android:
