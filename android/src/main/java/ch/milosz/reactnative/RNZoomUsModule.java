@@ -1329,7 +1329,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
       case MeetingEndReason.END_FOR_FREEMEET_TIMEOUT: return "endedFreeMeetingTimeout";
       case MeetingEndReason.END_FOR_JBH_TIMEOUT: return "endedJBHTimeout";
       case MeetingEndReason.KICK_BY_HOST: return "endedRemovedByHost";
-      case MeetingEndReason.END_FOR_NO_ATEENDEE: return "endedNoAttendee"; // Android only
+      case MeetingEndReason.END_FOR_NO_ATEENDEE: return "endedNoAttendee";
       default: return "endedUnknownReason";
     }
   }
