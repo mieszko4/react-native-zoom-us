@@ -830,6 +830,8 @@ RCT_EXPORT_METHOD(removeListeners : (NSInteger)count) {
     case MobileRTCMeetError_VideoError: return @"videoError"; // iOS only
     case MobileRTCMeetError_WriteConfigFile: return @"writeConfigFile"; // iOS only
     case MobileRTCMeetError_ZCCertificateChanged: return @"zcCertificateChanged"; // iOS only
+    case MobileRTCMeetError_FailNeedConfirmPlink: return @"failNeedConfirmPlink"; // iOS only
+    case MobileRTCMeetError_FailNeedInputPlink: return @"failNeedInputPlink"; // iOS only
     default: return @"unknown";
   }
 }
