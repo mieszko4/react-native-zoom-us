@@ -1,5 +1,12 @@
 ## Changelog
 
+### 15.0.0
+
+Android:
+
+- Updated ZoomSDK to 6.5.10
+- BREAKING CHANGE: requires `android.permission.CHANGE_NETWORK_STATE` and `android.net.PROPERTY_SELF_CERTIFIED_NETWORK_CAPABILITIES`
+
 ### 14.0.0
 
 iOS:
