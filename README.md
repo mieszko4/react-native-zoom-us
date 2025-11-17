@@ -45,6 +45,7 @@ This is the minimum set of permissions you need to add in order to use audio and
   <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
   <uses-permission android:name="android.permission.CAMERA"/>
   <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+  <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" /> <!-- Needed since ZoomUS Meeting SDK@6.5.10 -->
 
   ...
 </manifest>
@@ -73,7 +74,20 @@ You may also need the following permissions:
 
 This is needed because ZoomSDK declares `android:networkSecurityConfig`
 
-3. `npm run android`
+3. Add `android/app/src/main/res/xml/network_capabilities.xml` (Needed since ZoomUS Meeting SDK@6.5.10):
+
+```xml
+<network-capabilities-declaration xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-network-capability android:name="NET_CAPABILITY_PRIORITIZE_LATENCY"/>
+</network-capabilities-declaration>
+```
+
+And reference it in `/android/app/src/main/AndroidManifest.xml` and `/android/app/src/debug/AndroidManifest.xml` under `manifest` -> `application`:
+```xml
+<property android:name="android.net.PROPERTY_SELF_CERTIFIED_NETWORK_CAPABILITIES" android:resource="@xml/network_capabilities" />
+```xml
+
+4. `npm run android`
 
 #### iOS
 
