@@ -1,5 +1,13 @@
 ## Changelog
 
+### 14.0.0
+
+iOS:
+
+- Updated ZoomSDK to 6.5.10.27930
+- Note that it includes `zoomcml.xcframework`
+- Note that you might need to set `ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES=yes`
+
 ### 13.0.0
 
 iOS:
