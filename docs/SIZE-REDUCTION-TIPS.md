@@ -55,9 +55,7 @@ android {
             ...
             shrinkResources true
         }
-        ...
     }
-    ...
 }
 ```
 
@@ -66,6 +64,7 @@ android {
 Go to `android/app/build.gradle` and set it:
 ```gradle
 android {
+    ...
     defaultConfig {
         ...
         resConfigs "en"
@@ -73,7 +72,7 @@ android {
 }
 ```
 
-See diff for the example app: https://github.com/mieszko4/react-native-zoom-us-test/pull/96
+See diff for the test app: https://github.com/mieszko4/react-native-zoom-us-test/pull/96
 
 ### Fix Android App crash after bundle release to Play Store
 If you're running `/gradlew bundleRelease` to release your app on Playstore then you need to disable progaurd
