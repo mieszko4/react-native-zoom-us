@@ -7,19 +7,8 @@
 1. First compress your asset files (png, jpg, gif), use any online free image compressor website to compress it.
 2. Enable [hermes engine](https://reactnative.dev/docs/hermes)
 3. Update you proguard rules -> `android/app/proguard-rules.pro`:
-* Apply react-native: https://github.com/facebook/react-native/blob/main/ReactAndroid/proguard-rules.pro
-* Apply hermes: https://reactnative.dev/docs/hermes
-* Apply Zoom SDK:
-
-```
--keep class  us.zoom.**{*;}
--keep class  com.zipow.**{*;}
--keep class  us.zipow.**{*;}
--keep class  org.webrtc.**{*;}
--keep class  us.google.protobuf.**{*;}
--keep class  com.google.crypto.tink.**{*;}
--keep class  androidx.security.crypto.**{*;}
-```
+* Apply react-native and hermes: https://github.com/facebook/react-native/blob/v0.79.7/packages/react-native/ReactAndroid/proguard-rules.pro (note: adjust react-native version in the link)
+* Apply Zoom SDK: android/proguard.cfg
 
 * Make sure to also apply proguard rules for `react-native-*` libs that you use, e.g. for `react-native-svg` -> `-keep public class com.horcrux.svg.** {*;}`
 
