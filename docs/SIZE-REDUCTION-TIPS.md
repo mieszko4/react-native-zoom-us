@@ -1,19 +1,35 @@
 
 ## Size Reduction Tips [Android]
 
-- Following the below steps will help you to reduce the app size by over 60%.
+Following the below steps will help you to reduce the app size by over 60%.
 
 
-1. First compress your asset files (png, jpg, gif), use any online free image compressor website to compress it.
-2. Enable [hermes engine](https://reactnative.dev/docs/hermes)
-3. Update you proguard rules -> `android/app/proguard-rules.pro`:
+1. Make sure you compressed your asset files (png, jpg, gif). Use any online free image compressor website to compress it
+2. Make sure you enabled [hermes engine](https://reactnative.dev/docs/hermes)
+3. Apply proguard
+
+Update the rules in `android/app/proguard-rules.pro`:
 * Apply react-native and hermes: https://github.com/facebook/react-native/blob/v0.79.7/packages/react-native/ReactAndroid/proguard-rules.pro (note: adjust react-native version in the link)
 * Apply Zoom SDK: [/android/proguard.cfg](/android/proguard.cfg)
-
 * Make sure to also apply proguard rules for `react-native-*` libs that you use, e.g. for `react-native-svg` -> `-keep public class com.horcrux.svg.** {*;}`
 
-4. Open `AndroidManifest.xml` and add inside `application` tag the following:
+Go to `android/app/build.gradle` and enable it:
+```gradle
+def enableProguardInReleaseBuilds = true
+```
 
+> Proguard shrinks, optimizes and obfuscates Java code. It is able to optimize bytecode as well as detect and remove unused instructions. 
+
+4. Apply separate build per CPU Architecture
+
+Go to `android/app/build.gradle` and enable it:
+```gradle
+def enableSeparateBuildPerCPUArchitecture = true
+```
+
+5. Extract native libs [deprecated](https://developer.android.com/build/releases/past-releases/agp-3-6-0-release-notes#extractNativeLibs)
+
+Open `AndroidManifest.xml` and add inside `application` tag the following:
 ```xml
 <application
  ...
@@ -23,47 +39,34 @@
  ...
 </application>
 ```
-5. Go to `android/app/build.gradle` and enable:
 
-```gradle
-def enableSeparateBuildPerCPUArchitecture = true
-def enableProguardInReleaseBuilds = true
-```
+6. Shrink resources
 
-> Proguard shrinks, optimizes and obfuscates Java code. It is able to optimize bytecode as well as detect and remove unused instructions. 
-
-Now add the lines wherever I've mentioned `//ADD THIS LINE`:
+Go to `android/app/build.gradle and enable it:
 ```gradle
 android {
     ...
-
-    defaultConfig {
-        applicationId "com.zoom"
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 18
-        resConfigs "en" //ADD THIS LINE 
-        versionName "1.1.7"
-        multiDexEnabled true
-    }
-
-    ...
-
     buildTypes {
-        debug {
-            signingConfig signingConfigs.debug
-        }
+        ...
         release {
-            // Caution! In production, you need to generate your own keystore file.
-            // see https://reactnative.dev/docs/signed-apk-android.
-            shrinkResources true //ADD THIS LINE
-            signingConfig signingConfigs.debug
-            signingConfig signingConfigs.release
-            minifyEnabled enableProguardInReleaseBuilds
-            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            ...
+            shrinkResources true
         }
+        ...
     }
     ...
+}
+```
+
+7. Specify the languages your app supports
+
+Go to `android/app/build.gradle and set it:
+```gradle
+android {
+    defaultConfig {
+        ...
+        resConfigs "en"
+    }
 }
 ```
 
