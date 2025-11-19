@@ -27,18 +27,21 @@ Go to `android/app/build.gradle` and enable it:
 def enableSeparateBuildPerCPUArchitecture = true
 ```
 
-5. Extract native libs [deprecated](https://developer.android.com/build/releases/past-releases/agp-3-6-0-release-notes#extractNativeLibs)
+5. Extract native libs
 
-Open `AndroidManifest.xml` and add inside `application` tag the following:
-```xml
-<application
- ...
- android:extractNativeLibs="true"
- ...
->
- ...
-</application>
+Go to `android/app/build.gradle` and enable it:
+```gradle
+android {
+    ...
+    packagingOptions {
+        jniLibs {
+            useLegacyPackaging true
+        }
+    }
+}
 ```
+
+Make sure that using this has a positive effect when used in Play Store. See more info: https://developer.android.com/build/releases/past-releases/agp-4-2-0-release-notes#compress-native-libs-dsl
 
 6. Shrink resources
 
