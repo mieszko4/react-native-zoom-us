@@ -1,84 +1,80 @@
 
 ## Size Reduction Tips [Android]
 
-- Following the below steps will help you to reduce the app size by over 60%.
+Following the below steps will help you to reduce the app size by over 60%.
 
 
-1. First compress your asset files (png, jpg, gif), use any online free image compressor website to compress it.
-2. Enable [hermes engine](https://reactnative.dev/docs/hermes)
-3. Update you proguard rules -> `android/app/proguard-rules.pro`:
-* Apply react-native: https://github.com/facebook/react-native/blob/main/ReactAndroid/proguard-rules.pro
-* Apply hermes: https://reactnative.dev/docs/hermes
-* Apply Zoom SDK:
+1. Make sure you compressed your asset files (png, jpg, gif). Use any online free image compressor website to compress it
+2. Make sure you enabled [hermes engine](https://reactnative.dev/docs/hermes)
+3. Apply proguard
 
-```
--keep class  us.zoom.**{*;}
--keep class  com.zipow.**{*;}
--keep class  us.zipow.**{*;}
--keep class  org.webrtc.**{*;}
--keep class  us.google.protobuf.**{*;}
--keep class  com.google.crypto.tink.**{*;}
--keep class  androidx.security.crypto.**{*;}
-```
-
+Update the rules in `android/app/proguard-rules.pro`:
+* Apply react-native and hermes: https://github.com/facebook/react-native/blob/v0.79.7/packages/react-native/ReactAndroid/proguard-rules.pro (note: adjust react-native version in the link)
+* Apply Zoom SDK: [/android/proguard.cfg](/android/proguard.cfg)
 * Make sure to also apply proguard rules for `react-native-*` libs that you use, e.g. for `react-native-svg` -> `-keep public class com.horcrux.svg.** {*;}`
 
-4. Open `AndroidManifest.xml` and add inside `application` tag the following:
-
-```xml
-<application
- ...
- android:extractNativeLibs="true"
- ...
->
- ...
-</application>
-```
-5. Go to `android/app/build.gradle` and enable:
-
+Go to `android/app/build.gradle` and enable it:
 ```gradle
-def enableSeparateBuildPerCPUArchitecture = true
 def enableProguardInReleaseBuilds = true
 ```
 
 > Proguard shrinks, optimizes and obfuscates Java code. It is able to optimize bytecode as well as detect and remove unused instructions. 
 
-Now add the lines wherever I've mentioned `//ADD THIS LINE`:
+4. Apply separate build per CPU Architecture
+
+Go to `android/app/build.gradle` and enable it:
+```gradle
+def enableSeparateBuildPerCPUArchitecture = true
+```
+
+5. Extract native libs
+
+Go to `android/app/build.gradle` and enable it:
 ```gradle
 android {
     ...
-
-    defaultConfig {
-        applicationId "com.zoom"
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 18
-        resConfigs "en" //ADD THIS LINE 
-        versionName "1.1.7"
-        multiDexEnabled true
-    }
-
-    ...
-
-    buildTypes {
-        debug {
-            signingConfig signingConfigs.debug
-        }
-        release {
-            // Caution! In production, you need to generate your own keystore file.
-            // see https://reactnative.dev/docs/signed-apk-android.
-            shrinkResources true //ADD THIS LINE
-            signingConfig signingConfigs.debug
-            signingConfig signingConfigs.release
-            minifyEnabled enableProguardInReleaseBuilds
-            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+    packagingOptions {
+        jniLibs {
+            useLegacyPackaging true
         }
     }
-    ...
 }
 ```
 
-## Fix Android App crash after bundle release to Play Store
+Make sure that using this has a positive effect when used in Play Store. See more info: https://developer.android.com/build/releases/past-releases/agp-4-2-0-release-notes#compress-native-libs-dsl
+
+6. Shrink resources
+
+Go to `android/app/build.gradle` and enable it:
+```gradle
+android {
+    ...
+    buildTypes {
+        ...
+        release {
+            ...
+            shrinkResources true
+        }
+    }
+}
+```
+
+7. Specify the languages your app supports
+
+Go to `android/app/build.gradle` and set it:
+```gradle
+android {
+    ...
+    defaultConfig {
+        ...
+        resConfigs "en"
+    }
+}
+```
+
+See diff for the test app: https://github.com/mieszko4/react-native-zoom-us-test/pull/96
+
+### Fix Android App crash after bundle release to Play Store
 If you're running `/gradlew bundleRelease` to release your app on Playstore then you need to disable progaurd
 ```js
 def enableProguardInReleaseBuilds = false
@@ -87,7 +83,6 @@ def enableProguardInReleaseBuilds = false
  
 > Google Play uses your app bundle to generate and serve optimized APKs for each device configuration, so only the code and resources that are needed for a specific device are downloaded to run your app. You no longer have to build, sign, and manage multiple APKs to optimize support for different devices, and users get smaller, more-optimized downloads.
 
-See diff for the example app: https://github.com/mieszko4/react-native-zoom-us-test/pull/33
 
 ## Size Reduction Tips [iOS]
 
