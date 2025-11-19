@@ -42,7 +42,7 @@ Open `AndroidManifest.xml` and add inside `application` tag the following:
 
 6. Shrink resources
 
-Go to `android/app/build.gradle and enable it:
+Go to `android/app/build.gradle` and enable it:
 ```gradle
 android {
     ...
@@ -60,7 +60,7 @@ android {
 
 7. Specify the languages your app supports
 
-Go to `android/app/build.gradle and set it:
+Go to `android/app/build.gradle` and set it:
 ```gradle
 android {
     defaultConfig {
@@ -70,6 +70,14 @@ android {
 }
 ```
 
+See diff for the example app: https://github.com/mieszko4/react-native-zoom-us-test/pull/33
+
+## Size Reduction Tips [iOS]
+
+For iOS follow this: [ios-reduce-your-app-size-with-app-thinning](https://agostini.tech/2019/06/02/reduce-your-app-size-with-app-thinning/)
+
+> Make sure to set `ENABLE_BITCODE = NO;` for both Debug and Release because bitcode is not supported by Zoom iOS SDK
+
 ## Fix Android App crash after bundle release to Play Store [Android]
 If you're running `/gradlew bundleRelease` to release your app on Playstore then you need to disable progaurd
 ```js
@@ -78,14 +86,6 @@ def enableProguardInReleaseBuilds = false
 & rest of the above settings will remain the same & once progaurd is disabled then rebuild the app and upload the bundle file to playstore again which will fix the crash.
  
 > Google Play uses your app bundle to generate and serve optimized APKs for each device configuration, so only the code and resources that are needed for a specific device are downloaded to run your app. You no longer have to build, sign, and manage multiple APKs to optimize support for different devices, and users get smaller, more-optimized downloads.
-
-See diff for the example app: https://github.com/mieszko4/react-native-zoom-us-test/pull/33
-
-## Size Reduction Tips [iOS]
-
-For iOS follow this: [ios-reduce-your-app-size-with-app-thinning](https://agostini.tech/2019/06/02/reduce-your-app-size-with-app-thinning/)
-
-> Make sure to set `ENABLE_BITCODE = NO;` for both Debug and Release because bitcode is not supported by Zoom iOS SDK
 
 
 ## References
