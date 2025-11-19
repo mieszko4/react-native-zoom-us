@@ -8,7 +8,7 @@
 2. Enable [hermes engine](https://reactnative.dev/docs/hermes)
 3. Update you proguard rules -> `android/app/proguard-rules.pro`:
 * Apply react-native and hermes: https://github.com/facebook/react-native/blob/v0.79.7/packages/react-native/ReactAndroid/proguard-rules.pro (note: adjust react-native version in the link)
-* Apply Zoom SDK: android/proguard.cfg
+* Apply Zoom SDK: [/android/proguard.cfg](/android/proguard.cfg)
 
 * Make sure to also apply proguard rules for `react-native-*` libs that you use, e.g. for `react-native-svg` -> `-keep public class com.horcrux.svg.** {*;}`
 
@@ -67,7 +67,7 @@ android {
 }
 ```
 
-## Fix Android App crash after bundle release to Play Store
+## Fix Android App crash after bundle release to Play Store [Android]
 If you're running `/gradlew bundleRelease` to release your app on Playstore then you need to disable progaurd
 ```js
 def enableProguardInReleaseBuilds = false
