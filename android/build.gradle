@@ -43,7 +43,7 @@ android {
 dependencies {
     implementation 'com.facebook.react:react-native:+' // From node_modules
 
-    implementation 'us.zoom.meetingsdk:zoomsdk:6.6.0'
+    implementation 'us.zoom.meetingsdk:zoomsdk:6.6.8'
 }
 
 // Copied from mobilertc-android-studio/mobilertc/build.gradle and change configurartion `default`->`implementation`
