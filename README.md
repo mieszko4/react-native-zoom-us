@@ -9,7 +9,7 @@ This is a bridge for [ZoomUS Meeting SDK](https://developers.zoom.us/docs/meetin
 | Platform | Version       |                                 SDK Url                                           |                                          Changelog                                          |
 | :------: | :------------ | :-------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------: |
 |   iOS    | 6.5.10.27930  | [ZoomSDK](https://github.com/zoom-us-community/zoom-sdk-pods)                     |  [marketplace.zoom.us](https://developers.zoom.us/changelog/meeting-sdk/ios/)               |
-| Android  | 6.5.10        | [Zoom Meeting SDK](https://mvnrepository.com/artifact/us.zoom.meetingsdk/zoomsdk) |  [marketplace.zoom.us](https://developers.zoom.us/changelog/meeting-sdk/android/)           |
+| Android  | 6.6.8         | [Zoom Meeting SDK](https://mvnrepository.com/artifact/us.zoom.meetingsdk/zoomsdk) |  [marketplace.zoom.us](https://developers.zoom.us/changelog/meeting-sdk/android/)           |
 
 Tested on Android and iOS: ([See details](https://github.com/mieszko4/react-native-zoom-us#testing))
 
@@ -178,14 +178,14 @@ If you need more events, take a look [Events](./docs/EVENTS.md)
 
 The plugin has been tested for `joinMeeting` and `startMeeting` using [smoke test procedure](https://github.com/mieszko4/react-native-zoom-us-test#smoke-test-procedure):
 
-- react-native-zoom-us: 15.0.0
+- react-native-zoom-us: 16.0.0
 - react-native: 0.79.7
 - node: 18.20.7
 - macOS: 26.0.1 M1
 - XCode: 26.0
 - iOS: 16.4 (simulator)
 - iOS: 16.7 (iPhone 8)
-- Android minSdkVersion: 26
+- Android minSdkVersion: 28
 
 ## FAQ
 

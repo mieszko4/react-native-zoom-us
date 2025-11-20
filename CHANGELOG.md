@@ -1,5 +1,14 @@
 ## Changelog
 
+### 16.0.0
+
+Android:
+
+- Updated ZoomSDK to 6.6.8
+- BREAKING CHANGE: minSdkVersion=28
+- BREAKING CHANGE: removes `android.net.PROPERTY_SELF_CERTIFIED_NETWORK_CAPABILITIES` because it is included now in ZoomSDK
+
+
 ### 15.0.0
 
 Android:
