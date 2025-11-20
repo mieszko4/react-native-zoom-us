@@ -1094,6 +1094,8 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   public void onRemoveCompanionRelation(long childUserID) {}
   @Override
   public void onGrantCoOwnerPrivilegeChanged(boolean canGrantOther) {}
+  @Override
+  public void onUserNetworkStatusChanged(EnumComponentType type, MobileRTCNetworkQuality level, long userID, boolean uplink);
 
   // InMeetingShareListener event listeners
   @Override
