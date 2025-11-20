@@ -178,7 +178,7 @@ If you need more events, take a look [Events](./docs/EVENTS.md)
 
 The plugin has been tested for `joinMeeting` and `startMeeting` using [smoke test procedure](https://github.com/mieszko4/react-native-zoom-us-test#smoke-test-procedure):
 
-- react-native-zoom-us: 16.0.0
+- react-native-zoom-us: 16.1.0
 - react-native: 0.79.7
 - node: 18.20.7
 - macOS: 26.0.1 M1
