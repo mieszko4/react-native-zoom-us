@@ -78,6 +78,8 @@ import us.zoom.sdk.ChatMessageDeleteType;
 import us.zoom.sdk.InMeetingChatController;
 import us.zoom.sdk.MobileRTCFocusModeShareType;
 import us.zoom.sdk.IRecoverMeetingHandle;
+import us.zoom.sdk.EnumComponentType;
+import us.zoom.sdk.MobileRTCNetworkQuality;
 
 // Please note that SDK initialization and all API call must run in Main Thread.
 // See https://marketplace.zoom.us/docs/sdk/native-sdks/android/mastering-zoom-sdk/sdk-initialization/
@@ -1095,7 +1097,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   @Override
   public void onGrantCoOwnerPrivilegeChanged(boolean canGrantOther) {}
   @Override
-  public void onUserNetworkStatusChanged(EnumComponentType type, MobileRTCNetworkQuality level, long userID, boolean uplink);
+  public void onUserNetworkStatusChanged(EnumComponentType type, MobileRTCNetworkQuality level, long userID, boolean uplink) {}
 
   // InMeetingShareListener event listeners
   @Override
