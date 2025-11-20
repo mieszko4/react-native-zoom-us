@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply from: 'zoom-meeting-sdk-versions.gradle'
 
 buildscript {
     repositories {
@@ -43,69 +44,69 @@ dependencies {
     implementation 'com.facebook.react:react-native:+' // From node_modules
 
     implementation 'us.zoom.meetingsdk:zoomsdk:6.6.0'
-
-    // Dependencies copied from mobilertc-android-studio/mobilertc/build.gradle
-    implementation 'androidx.security:security-crypto:1.1.0-alpha05'
-    implementation 'com.google.crypto.tink:tink-android:1.7.0'
-    implementation 'com.google.android.exoplayer:exoplayer-core:2.17.1'
-    implementation 'com.google.android.exoplayer:exoplayer-ui:2.17.1'
-    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
-
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
-    implementation 'com.google.android.material:material:1.11.0'
-    implementation 'androidx.multidex:multidex:2.0.1'
-    implementation 'com.google.code.gson:gson:2.11.0'
-    implementation 'com.github.bumptech.glide:annotations:4.11.0'
-    implementation 'com.github.bumptech.glide:glide:4.11.0'
-
-    implementation 'androidx.recyclerview:recyclerview:1.2.1'
-    implementation 'com.airbnb.android:lottie:4.0.0'
-
-    implementation 'androidx.window:window:1.1.0'
-    implementation 'androidx.window:window-java:1.1.0'
-
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.9.23'
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.23'
-
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2'
-    implementation 'androidx.core:core-ktx:1.8.0'
-    implementation 'androidx.core:core:1.13.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.1'
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.9.1'
-    implementation 'androidx.lifecycle:lifecycle-service:2.9.1'
-    implementation 'androidx.work:work-runtime:2.9.0'
-
-    implementation 'androidx.fragment:fragment-ktx:1.4.1'
-    implementation 'com.davemorrissey.labs:subsampling-scale-image-view:3.10.0'
-    implementation 'androidx.core:core-splashscreen:1.0.1'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.9.1'
-    implementation 'io.reactivex.rxjava3:rxandroid:3.0.2'
-
-    implementation 'androidx.compose.material3:material3:1.3.2'
-    implementation 'androidx.compose.material3:material3-window-size-class:1.3.2'
-    implementation 'androidx.compose.ui:ui-tooling-preview:1.8.3'
-    implementation 'androidx.constraintlayout:constraintlayout-compose:1.1.1'
-    implementation 'androidx.activity:activity-compose:1.10.1'
-    implementation 'androidx.lifecycle:lifecycle-runtime-compose:2.9.1'
-    implementation 'androidx.navigation:navigation-compose:2.9.1'
-    implementation 'io.coil-kt:coil-compose:2.3.0'
-
-    implementation 'androidx.webkit:webkit:1.9.0'
-    implementation 'org.jetbrains:annotations:23.0.0'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.7.1'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.7.1'
-
-    implementation 'androidx.camera:camera-core:1.4.1'
-    implementation 'androidx.camera:camera-camera2:1.4.1'
-    implementation 'androidx.camera:camera-lifecycle:1.4.1'
-    implementation 'androidx.camera:camera-view:1.4.1'
-
-    implementation 'com.google.mlkit:text-recognition:16.0.1'
-    implementation 'com.blueparrott:blueparrottsdk:4.8.2'
-
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.9.1'
-    implementation 'androidx.profileinstaller:profileinstaller:1.4.0'
-    implementation 'io.coil-kt:coil-gif:2.3.0'
 }
+
+// Copied from mobilertc-android-studio/mobilertc/build.gradle and change configurartion `default`->`implementation`
+dependencies.add("implementation", libraries.securityCrypto)
+dependencies.add("implementation", libraries.cryptoTink)
+dependencies.add("implementation", libraries.exoplayerCore)
+dependencies.add("implementation", libraries.exoplayerUI)
+dependencies.add("implementation", libraries.swiperefreshlayout)
+
+dependencies.add("implementation", libraries.supportAppcompat)
+dependencies.add("implementation", libraries.constraintlayout)
+dependencies.add("implementation", libraries.supportDesign)
+dependencies.add("implementation", libraries.multidex)
+dependencies.add("implementation", libraries.gson)
+dependencies.add("implementation", libraries.glideAnnotations)
+dependencies.add("implementation", libraries.glideGlide)
+
+dependencies.add("implementation", libraries.recyclerview)
+dependencies.add("implementation", libraries.lottie)
+
+dependencies.add("implementation", libraries.supportWindow)
+dependencies.add("implementation", libraries.windowJava)
+
+dependencies.add("implementation", libraries.jetbrainskotlin)
+dependencies.add("implementation", libraries.kotlinStdlibJdk)
+
+dependencies.add("implementation", libraries.kotlinxCoroutinesAndroid)
+dependencies.add("implementation", libraries.kotlinxCoroutinesCore)
+dependencies.add("implementation", libraries.androidxCoreKtx)
+dependencies.add("implementation", libraries.androidxCore)
+dependencies.add("implementation", libraries.viewmodelKtx)
+dependencies.add("implementation", libraries.lifecycleKtx)
+dependencies.add("implementation", libraries.lifecycleService)
+dependencies.add("implementation", libraries.workerManager)
+
+dependencies.add("implementation", libraries.fragmentKtx)
+dependencies.add("implementation", libraries.scaleImageView)
+dependencies.add("implementation", libraries.splashScreenLib)
+dependencies.add("implementation", libraries.livedataKtx)
+dependencies.add("implementation", libraries.rxAndroid)
+
+dependencies.add("implementation", libraries.composeMaterial3)
+dependencies.add("implementation", libraries.composeMaterial3WindowSize)
+dependencies.add("implementation", libraries.composeUIToolingPreview)
+dependencies.add("implementation", libraries.composeConstraintlayout)
+dependencies.add("implementation", libraries.composeActivity)
+dependencies.add("implementation", libraries.composeLifecycle)
+dependencies.add("implementation", libraries.composeNavigation)
+dependencies.add("implementation", libraries.coil)
+
+dependencies.add("implementation", libraries.androidxWebkitKtx)
+dependencies.add("implementation", libraries.jetbrainsAnnotations)
+dependencies.add("implementation", libraries.kotlinxCoroutinesCoreJvm)
+dependencies.add("implementation", libraries.kotlinxCoroutinesSwing)
+
+dependencies.add("implementation", libraries.cameraXCore)
+dependencies.add("implementation", libraries.cameraXCamera2)
+dependencies.add("implementation", libraries.cameraXLifecycle)
+dependencies.add("implementation", libraries.cameraXView)
+
+dependencies.add("implementation", libraries.mlkitTextRecognition)
+dependencies.add("implementation", libraries.blueparrottsdk)
+//6.6.0
+dependencies.add("implementation", libraries.composeLifecycleViewmodel)
+dependencies.add("implementation", libraries.profileinstaller)
+dependencies.add("implementation", libraries.coilGif)
