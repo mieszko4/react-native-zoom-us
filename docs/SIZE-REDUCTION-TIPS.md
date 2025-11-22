@@ -74,6 +74,9 @@ android {
 
 See diff for the test app: https://github.com/mieszko4/react-native-zoom-us-test/pull/96
 
+**Note**: When uploading to Play Store, you need to generate bundle file (.abb). Play Store uses [bundletool](https://github.com/google/bundletool) to generate split APKs.
+There is a [requirement of Play Store](https://support.google.com/googleplay/android-developer/answer/9859372#size_limits) to have size of every base APK lower than 200MB. In order to fulfill this requirement, you will have to apply `useLegacyPackaging true` as mentioned above.
+
 ### Fix Android App crash after bundle release to Play Store
 If you're running `/gradlew bundleRelease` to release your app on Playstore then you need to disable progaurd
 ```js
