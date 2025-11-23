@@ -8,7 +8,7 @@ This is a bridge for [ZoomUS Meeting SDK](https://developers.zoom.us/docs/meetin
 
 | Platform | Version       |                                 SDK Url                                           |                                          Changelog                                          |
 | :------: | :------------ | :-------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------: |
-|   iOS    | 6.5.10.27930  | [ZoomSDK](https://github.com/zoom-us-community/zoom-sdk-pods)                     |  [marketplace.zoom.us](https://developers.zoom.us/changelog/meeting-sdk/ios/)               |
+|   iOS    | 6.6.10.30439  | [ZoomSDK](https://github.com/zoom-us-community/zoom-sdk-pods)                     |  [marketplace.zoom.us](https://developers.zoom.us/changelog/meeting-sdk/ios/)               |
 | Android  | 6.6.8         | [Zoom Meeting SDK](https://mvnrepository.com/artifact/us.zoom.meetingsdk/zoomsdk) |  [marketplace.zoom.us](https://developers.zoom.us/changelog/meeting-sdk/android/)           |
 
 Tested on Android and iOS: ([See details](https://github.com/mieszko4/react-native-zoom-us#testing))
@@ -45,7 +45,6 @@ This is the minimum set of permissions you need to add in order to use audio and
   <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
   <uses-permission android:name="android.permission.CAMERA"/>
   <uses-permission android:name="android.permission.RECORD_AUDIO"/>
-  <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" /> <!-- Needed since ZoomUS Meeting SDK@6.5.10 -->
 
   ...
 </manifest>
