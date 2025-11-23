@@ -1,5 +1,12 @@
 ## Changelog
 
+### 17.0.0
+
+iOS:
+
+- Updated ZoomSDK to 6.6.10.30439
+- BREAKING CHANGE: Minimum supported iOS version is iOS 15
+
 ### 16.0.0
 
 Android:
